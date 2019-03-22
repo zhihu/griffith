@@ -2,7 +2,7 @@
   "name": "griffith-standalone",
   "version": "1.1.0",
   "description": "Zhihu Video Player",
-  "homepage": "https://github.com/zhihu/griffith/packages/griffith-standalone#readme",
+  "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-standalone",
   "license": "MIT",
   "files": [
     "dist/"

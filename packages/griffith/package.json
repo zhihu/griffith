@@ -2,7 +2,7 @@
   "name": "griffith",
   "version": "1.1.0",
   "description": "Zhihu Video Player",
-  "homepage": "https://github.com/zhihu/griffith/packages/griffith#readme",
+  "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith",
   "license": "MIT",
   "files": [
     "cjs",

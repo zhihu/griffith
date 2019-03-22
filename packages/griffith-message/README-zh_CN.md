@@ -96,6 +96,6 @@ dispatchMessage(targetWindow, messageName, data)
 | --------------------------------- | -------- | ------------------------------------------------- | ------ |
 | `ACTIONS.PLAYER.PLAY`             | 播放     | `{applyOnFullScreen: boolean}` 是否应用于全屏视频 | TODO   |
 | `ACTIONS.PLAYER.PAUSE`            | 暂停     | 同上                                              | 已支持 |
-| `ACTIONS.PLAYER.SET_VOLUME`       | 设置音量 | `{volume: number}` 音量值，0 到 1                 | TODO   |
+| `ACTIONS.PLAYER.SET_VOLUME`       | 设置音量 | `{volume: number}` 音量值，0 到 1                 | TODO   |
 | `ACTIONS.PLAYER.ENTER_FULLSCREEN` | 进入全屏 | 无                                                | TODO   |
 | `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | 退出全屏 | 无                                                | TODO   |

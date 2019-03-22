@@ -7,7 +7,7 @@
 ```bash
 yarn add griffith
 yarn add hls.js
-# Griffith 播放 M3U8 视频依赖 hls.js。如果不想安装 hls.js，请看 README 的「构建选项」部分。
+# Griffith 播放 M3U8 视频依赖 hls.js。如果不想安装 hls.js，请看 README 的「构建选项」部分。
 ```
 
 ```js
@@ -58,7 +58,7 @@ standalone 模式下的行为有：
 - 启用快捷键支持（监听 document 上的 keydown 事件）。
 - 会向父级页面发送 message，iframe 所在的页面可以监听这些事件，与播放器进行通信。
 
-###  与播放器进行跨窗口通信
+### 与播放器进行跨窗口通信
 
 使用 [griffith-message](../packages/griffith-message#README)
 

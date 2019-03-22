@@ -1,6 +1,6 @@
 {
   "name": "griffith-message",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "griffith message plugin",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-message",
   "license": "MIT",

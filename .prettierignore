@@ -4,3 +4,4 @@ lerna.json
 CHANGELOG.md
 **/dist
 **/es
+**/cjs

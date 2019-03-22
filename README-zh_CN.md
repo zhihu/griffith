@@ -26,7 +26,7 @@ $ yarn add griffith
 ```js
 import Player from 'Griffith'
 
-const playlist = {
+const sources = {
   hd: {
     play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
   },
@@ -35,7 +35,7 @@ const playlist = {
   },
 }
 
-render(<Player playlist={playlist} />)
+render(<Player sources={sources} />)
 ```
 
 [查看详细使用方法](./packages/griffith/README-zh_CN.md)
@@ -49,7 +49,7 @@ render(<Player playlist={playlist} />)
 ```
 
 ```javascript
-const playlist = {
+const sources = {
   hd: {
     play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
   },
@@ -58,7 +58,7 @@ const playlist = {
   },
 }
 
-Griffith.createPlayer(element).render({playlist})
+Griffith.createPlayer(element).render({sources})
 ```
 
 [查看 Standalone 模式详细使用方法](./packages/griffith-standalone/README-zh_CN.md)

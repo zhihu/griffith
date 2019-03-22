@@ -11,9 +11,9 @@ English | [简体中文](./README-zh_CN.md)
   <img src="https://zhstatic.zhihu.com/cfe/griffith/player.png"/>
 </p>
 
-- **Streaming:** griffith makes streaming easy. Whether your video format is mp4 or hls, griffith can use Media Source Extension (MSE) for segment loading.
-- **Extensibility:** griffith makes it simple to support video features in React apps. It also supports the UMD (Universal Module Definition) patterns for use directly in the browser if your application is not based on React.
-- **Reliability:** griffith has been widely used in the web and mobile web of zhihu.
+- **Streaming:** Griffith makes streaming easy. Whether your video format is mp4 or hls, Griffith can use Media Source Extension (MSE) for segment loading.
+- **Extensibility:** Griffith makes it simple to support video features in React apps. It also supports the UMD (Universal Module Definition) patterns for use directly in the browser if your application is not based on React.
+- **Reliability:** Griffith has been widely used in the web and mobile web of zhihu.
 
 ## Usage
 
@@ -113,7 +113,7 @@ Read below to learn how you can take part in improving griffith.
 
 ### [Contributing Guide](./CONTRIBUTING.md)
 
-Read our [contributing guide](./CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to griffith.
+Read our [contributing guide](./CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Griffith.
 
 ### Contributor
 

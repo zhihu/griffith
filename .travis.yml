@@ -14,6 +14,9 @@ script:
   - yarn run format
   - yarn run test:coverage
 
+after_success:
+  - npx codecov --file=./coverage/lcov.info
+
 notifications:
   email: false
 

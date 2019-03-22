@@ -7,7 +7,8 @@ English | [简体中文](./README-zh_CN.md)
 ```bash
 yarn add griffith
 yarn add hls.js
-# Griffith uses hls.js to play m3u8 format video. If you don't want to install hls.js, please ref the build part.
+# Griffith uses hls.js to play m3u8 format video.
+# If you don't want to install hls.js, please ref the build part.
 ```
 
 ```js
@@ -18,19 +19,19 @@ render(<Player {...props} />)
 
 ### `Props`
 
-| Name                  | Type                                                   | Default     | Description                                                              |
-| --------------------- | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------ |
-| `id`                  | `string`                                               |             | Unique identifier of the player instance                                 |
-| `title`               | `string`                                               |             | Video title                                                              |
-| `cover`               | `string`                                               |             | Video cover image                                                        |
-| `duration`            | `number`                                               |             | Initial video duration. Use actual values after video metadata is loaded |
-| `sources`             | `sources`                                              |             | Video playback data                                                      |
-| `standalone`          | `boolean`                                              | `false`     | Enable standalone mode                                                   |
-| `onBeforePlay`        | `function`                                             | `void`      | Callback function before video playback                                  |
-| `shouldObserveResize` | `boolean`                                              | `false`     | Listen to the window resize                                              |
-| `initialObjectFit`    | `'fill' | 'contain' | 'cover' | 'none' | 'scale-down'` | `'contain'` | object-fit                                                               |
-| `useMSE`              | `boolean`                                              | `false`     | Enable Media Source Extensions™                                          |
-| `locale`              | `'en'|'zh_cn'`                                         | `'en'`      | UI Locale                                                                |
+| Name                  | Type                                             | Default   | Description                                                              |
+| --------------------- | ------------------------------------------------ | --------- | ------------------------------------------------------------------------ |
+| `id`                  | `string`                                         |           | Unique identifier of the player instance                                 |
+| `title`               | `string`                                         |           | Video title                                                              |
+| `cover`               | `string`                                         |           | Video cover image                                                        |
+| `duration`            | `number`                                         |           | Initial video duration. Use actual values after video metadata is loaded |
+| `sources`             | `sources`                                        |           | Video playback data                                                      |
+| `standalone`          | `boolean`                                        | `false`   | Enable standalone mode                                                   |
+| `onBeforePlay`        | `function`                                       | `void`    | Callback function before video playback                                  |
+| `shouldObserveResize` | `boolean`                                        | `false`   | Listen to the window resize                                              |
+| `initialObjectFit`    | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                               |
+| `useMSE`              | `boolean`                                        | `false`   | Enable Media Source Extensions™                                          |
+| `locale`              | `en \| zh_cn`                                    | `en`      | UI Locale                                                                |
 
 `sources`:
 

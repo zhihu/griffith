@@ -22,11 +22,11 @@ const {subscribeMessage, dispatchMessage} = createMessageHelper(
 )
 ```
 
-| Name           | Type              | Description                                                                              |
-| -------------- | ----------------- | ---------------------------------------------------------------------------------------- |
-| `id`           | `string | number` | 唯一标识，每条消息都会带上这个 id，接收方可以用来验证。                                  |
-| `targetOrigin` | `object`          | 传出消息时的 targetOrigin 参数。另外，如果不为空，会检查传入消息的 origin 是否与之相同。 |
-| `validateId`   | `boolean`         | 如果为 true 会检查传入消息的 id 是否与第一个参数的 id 相同。                             |
+| Name           | Type               | Description                                                                              |
+| -------------- | ------------------ | ---------------------------------------------------------------------------------------- |
+| `id`           | `string \| number` | 唯一标识，每条消息都会带上这个 id，接收方可以用来验证。                                  |
+| `targetOrigin` | `object`           | 传出消息时的 targetOrigin 参数。另外，如果不为空，会检查传入消息的 origin 是否与之相同。 |
+| `validateId`   | `boolean`          | 如果为 true 会检查传入消息的 id 是否与第一个参数的 id 相同。                             |
 
 #### `subscribeMessage`
 

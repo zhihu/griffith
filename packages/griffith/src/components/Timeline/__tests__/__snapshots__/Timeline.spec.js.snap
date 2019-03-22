@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Timeline get Timeline component 1`] = `
+<div
+  className=""
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <Slider
+    buffered={7}
+    onBlur={[Function]}
+    onChange={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+    onFocus={[Function]}
+    onSeek={[MockFunction]}
+    orientation="horizontal"
+    reverse={false}
+    step={1}
+    styles={
+      Array [
+        Object {
+          "bar": Object {
+            "_definition": Object {
+              "backgroundColor": "#0f88eb",
+            },
+            "_len": 29,
+            "_name": "bar_1kvrquw",
+          },
+          "buffered": Object {
+            "_definition": Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.6)",
+              "borderRadius": "2px 0 0 2px",
+            },
+            "_len": 75,
+            "_name": "buffered_gsgvhl",
+          },
+          "root": Object {
+            "_definition": Object {
+              "height": 40,
+            },
+            "_len": 13,
+            "_name": "root_1pr59fm",
+          },
+          "thumb": Object {
+            "_definition": Object {
+              "transform": "scale(0)",
+              "transition": "transform 300ms",
+            },
+            "_len": 55,
+            "_name": "thumb_1omjhz8",
+          },
+          "track": Object {
+            "_definition": Object {
+              "transition": "transform 300ms",
+            },
+            "_len": 32,
+            "_name": "track_1q3h7g7",
+          },
+        },
+        false,
+      ]
+    }
+    total={182.234}
+    value={0.453}
+  />
+</div>
+`;

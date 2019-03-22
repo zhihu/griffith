@@ -1,0 +1,14 @@
+node_modules
+/coverage
+
+bin
+
+dist
+cjs
+es
+
+# Files
+package-lock.json
+.eslintcache
+*.log
+.DS_Store

@@ -1,0 +1,40 @@
+{
+  "name": "griffith",
+  "version": "1.0.1",
+  "description": "Zhihu Video Player",
+  "homepage": "https://github.com/zhihu/griffith/packages/griffith#readme",
+  "license": "MIT",
+  "files": [
+    "cjs",
+    "es/",
+    "index.d.ts"
+  ],
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "clean": "rm -rf es cjs",
+    "build:es": "NODE_ENV=production babel src --root-mode upward -d es --ignore 'src/**/*.spec.js','src/**/__tests__'",
+    "build:cjs": "BABEL_ENV=cjs NODE_ENV=production babel es --root-mode upward -d cjs"
+  },
+  "peerDependencies": {
+    "react": ">=16.3.0 <17.0.0",
+    "react-dom": ">=16.3.0 <17.0.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.1.5",
+    "aphrodite": "2.2.3",
+    "bigscreen": "2.0.5",
+    "element-resize-event": "^3.0.3",
+    "eventemitter3": "^3.1.0",
+    "griffith-message": "^1.0.1",
+    "griffith-utils": "^1.0.1",
+    "lodash": "4.17.11",
+    "prop-types": "^15.6.2",
+    "query-string": "^6.3.0"
+  },
+  "devDependencies": {
+    "jest-localstorage-mock": "^2.3.0"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,6 @@
+package.json
+package-lock.json
+lerna.json
+CHANGELOG.md
+**/dist
+**/es

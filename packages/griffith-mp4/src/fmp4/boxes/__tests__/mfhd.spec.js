@@ -1,0 +1,13 @@
+import mfhd from '../mfhd'
+
+describe('mfhd box', () => {
+  it('should be same', () => {
+    // prettier-ignore
+    expect(mfhd({sequenceNumber: 1})).toEqual(new Uint8Array([
+      0x00, 0x00, 0x00, 0x10,
+      0x6D, 0x66, 0x68, 0x64,
+      0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x01,
+    ]))
+  })
+})

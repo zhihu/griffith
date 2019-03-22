@@ -1,0 +1,13 @@
+import smhd from '../smhd'
+
+describe('smhd box', () => {
+  it('should be same', () => {
+    // prettier-ignore
+    expect(smhd()).toEqual(new Uint8Array([
+      0x00, 0x00, 0x00, 0x10,
+      0x73, 0x6D, 0x68, 0x64,
+      0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00,
+    ]))
+  })
+})

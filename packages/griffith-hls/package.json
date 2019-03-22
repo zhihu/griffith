@@ -1,0 +1,24 @@
+{
+  "name": "griffith-hls",
+  "version": "1.0.1",
+  "description": "griffith hls plugin",
+  "homepage": "https://github.com/zhihu/griffith/packages/griffith-hls",
+  "license": "MIT",
+  "files": [
+    "cjs",
+    "es",
+    "src"
+  ],
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "scripts": {
+    "clean": "rm -rf es cjs",
+    "build:es": "NODE_ENV=production babel src --root-mode upward -d es --ignore 'src/**/*.spec.js','src/**/__tests__'",
+    "build:cjs": "BABEL_ENV=cjs NODE_ENV=production babel es --root-mode upward -d cjs"
+  },
+  "peerDependencies": {
+    "hls.js": ">=0.7.11 <1.0.0",
+    "react": ">=16.3.0 <17.0.0",
+    "react-dom": ">=16.3.0 <17.0.0"
+  }
+}

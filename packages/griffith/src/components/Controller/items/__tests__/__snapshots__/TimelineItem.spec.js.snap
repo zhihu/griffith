@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimelineItem get TimelineItem component 1`] = `
+<div
+  className="timeline_bc4egv"
+>
+  <Timeline
+    buffered={12}
+    onChange={[MockFunction]}
+    onDragEnd={[MockFunction]}
+    onDragStart={[MockFunction]}
+    onSeek={[MockFunction]}
+    total={187}
+    value={7}
+  />
+</div>
+`;

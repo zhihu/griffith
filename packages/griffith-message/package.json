@@ -1,0 +1,16 @@
+{
+  "name": "griffith-message",
+  "version": "1.0.1",
+  "description": "griffith message plugin",
+  "homepage": "https://github.com/zhihu/griffith/packages/griffith-message",
+  "license": "MIT",
+  "files": [
+    "src",
+    "index.js",
+    "index.d.ts"
+  ],
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "sideEffects": false
+}

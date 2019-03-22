@@ -1,0 +1,30 @@
+{
+  "name": "griffith-mp4",
+  "version": "1.0.1",
+  "description": "griffith mp4 plugin",
+  "homepage": "https://github.com/zhihu/griffith/packages/griffith-mp4",
+  "license": "MIT",
+  "files": [
+    "cjs",
+    "es",
+    "src",
+    "index.js"
+  ],
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "scripts": {
+    "clean": "rm -rf es cjs",
+    "build:es": "NODE_ENV=production babel src --root-mode upward -d es --ignore 'src/**/*.spec.js','src/**/__tests__'",
+    "build:cjs": "BABEL_ENV=cjs NODE_ENV=production babel es --root-mode upward -d cjs"
+  },
+  "devDependencies": {
+    "read-chunk": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.3.0 <17.0.0",
+    "react-dom": ">=16.3.0 <17.0.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}

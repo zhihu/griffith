@@ -22,11 +22,11 @@ const {subscribeMessage, dispatchMessage} = createMessageHelper(
 )
 ```
 
-| Name         | Type              | Description                                                                                                                         |
-| ------------ | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| id           | `string | number` | Unique identifier, each message will contain this id, the receiver can be used to verify.                                           |
-| targetOrigin | `object`          | The targetOrigin parameter when sending a message. If it is not empty, it will check if the origin of the sent message is the same. |
-| validateId   | `boolean`         | Will check if the id of the incoming message is the same as the id of the first parameter.                                          |
+| Name         | Type               | Description                                                                                                                         |
+| ------------ | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| id           | `string \| number` | Unique identifier, each message will contain this id, the receiver can be used to verify.                                           |
+| targetOrigin | `object`           | The targetOrigin parameter when sending a message. If it is not empty, it will check if the origin of the sent message is the same. |
+| validateId   | `boolean`          | Will check if the id of the incoming message is the same as the id of the first parameter.                                          |
 
 #### subscribeMessage
 

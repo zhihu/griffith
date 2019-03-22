@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src="https://zhstatic.zhihu.com/cfe/griffith/griffith-banner.png" height="200" width="200"/>
-  <p align="center" style="font-size: 0.5em">React-based web video player</p>
+  <p align="center" style="font-size: 0.5em">A React-based web video player</p>
 </h1>
 
 English | [简体中文](./README-zh_CN.md)
@@ -65,7 +65,7 @@ Griffith.createPlayer(element).render({sources})
 
 ## Project Structure
 
-Griffith is a monorepo and use [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [monorepo](https://github.com/lerna/lerna).
+Griffith is a monorepo and use [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna).
 
 ### Core
 

@@ -1,30 +1,22 @@
 ---
-name: 🐛 Bug report
-about: Create a report to help us improve
+name: 🚀 Feature Proposal
+about: Submit a proposal for a new feature
 ---
 
-## 🐛 Bug Report
+<!-- Love jest-puppeteer? Please consider supporting our collective: 👉  https://opencollective.com/jest-puppeteer/donate -->
 
-A clear and concise description of what the bug is.
+## 🚀 Feature Proposal
 
-## To Reproduce
+A clear and concise description of what the feature is.
 
-Steps to reproduce the behavior:
+## Motivation
 
-## Expected behavior
+Please outline the motivation for the proposal.
 
-A clear and concise description of what you expected to happen.
+## Example
 
-## Link to repl or repo (highly encouraged)
+Please provide an example for how this feature would be used.
 
-Please provide a minimal repository on GitHub.
+## Pitch
 
-Issues without a reproduction link are likely to stall.
-
-## Run `npx envinfo --system --binaries --npmPackages griffith --markdown --clipboard`
-
-Paste the results here:
-
-```bash
-
-```
+Why does this feature belong in the SVGR ecosystem?

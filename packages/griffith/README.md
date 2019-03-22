@@ -167,4 +167,4 @@ yarn
 yarn start
 ```
 
-Open the player page: http://localhost:8080
+Open the player page: http://localhost:8000

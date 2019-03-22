@@ -162,8 +162,8 @@ The API returns multiple quality URLs, users can manually switch video quality, 
 ## Development
 
 ```bash
-$ yarn
-$ yarn start
+yarn
+yarn start
 ```
 
 Open the player page: http://localhost:8080

@@ -20,11 +20,11 @@
 ### React 应用
 
 ```bash
-$ yarn add griffith
+yarn add griffith
 ```
 
 ```js
-import Player from 'Griffith'
+import Player from 'griffith'
 
 const sources = {
   hd: {

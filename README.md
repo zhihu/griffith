@@ -20,11 +20,11 @@ English | [简体中文](./README-zh_CN.md)
 ### React application
 
 ```bash
-$ yarn add griffith
+yarn add griffith
 ```
 
 ```js
-import Player from 'Griffith'
+import Player from 'griffith'
 
 const sources = {
   hd: {
@@ -65,7 +65,7 @@ Griffith.createPlayer(element).render({sources})
 
 ## Project Structure
 
-Griffith is a mono-repo and use [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [monorepo](https://github.com/lerna/lerna).
+Griffith is a monorepo and use [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [monorepo](https://github.com/lerna/lerna).
 
 ### Core
 

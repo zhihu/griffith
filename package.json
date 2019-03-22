@@ -12,6 +12,23 @@
     "packages/*",
     "example"
   ],
+  "keywords": [
+    "zhihu",
+    "mp4",
+    "fmp4",
+    "hls",
+    "react",
+    "video",
+    "dash",
+    "player",
+    "mp4box",
+    "component",
+    "hls-player",
+    "html5-video",
+    "html5-video-player",
+    "react-component",
+    "zhihu-video-player"
+  ],
   "scripts": {
     "format": "prettier --write \"packages/**/*.{js,json,md}\" \"*.{js,json,md}\"",
     "lint": "eslint --fix \"packages/**/*.js\" \"*.js\"",

@@ -96,6 +96,6 @@ Event sent to the player
 | --------------------------------- | ---------------- | ----------------------------------------------------------- | ------ |
 | `ACTIONS.PLAYER.PLAY`             | Play             | `{applyOnFullScreen: boolean}` Applied to full screen video | TODO   |
 | `ACTIONS.PLAYER.PAUSE`            | Pause            | Applied to full screen video                                | ✅     |
-| `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | TODO   |
+| `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | TODO   |
 | `ACTIONS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen | null                                                        | TODO   |
 | `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen  | null                                                        | TODO   |

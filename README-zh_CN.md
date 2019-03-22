@@ -40,7 +40,7 @@ render(<Player sources={sources} />)
 
 [查看详细使用方法](./packages/griffith/README-zh_CN.md)
 
-**注意：暂不支持 SSR 应用**
+**注意：暂不支持 SSR 应用**
 
 ### 非 React 应用
 

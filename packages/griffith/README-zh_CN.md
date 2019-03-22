@@ -179,4 +179,4 @@ yarn
 yarn start
 ```
 
-打开播放器页面：http://localhost:8080
+打开播放器页面：http://localhost:8000

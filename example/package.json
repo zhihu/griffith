@@ -13,8 +13,8 @@
     "hls.js": "^0.12.4",
     "query-string": "^6.3.0",
     "raf": "^3.4.1",
-    "react": "16.4.1",
-    "react-dom": "16.4.1",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
     "react-hot-loader": "^4.3.12",
     "whatwg-fetch": "^3.0.0"
   }

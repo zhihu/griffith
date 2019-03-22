@@ -46,12 +46,16 @@ exports[`FullScreenButtonItem get FullScreenButtonItem component 1`] = `
         className="fullScreenTooltip_1dwq0yf-o_O-menu_1a7s4a3-o_O-fullScreenTooltipWide_10ybo3o"
       >
         <Tooltip
-          content="退出全屏"
+          content="action-exit-fullscreen"
         >
           <div
             className="root_r31oyg"
           >
-            退出全屏
+            <TranslatedText
+              name="action-exit-fullscreen"
+            >
+              Exit Fullscreen
+            </TranslatedText>
           </div>
         </Tooltip>
       </div>

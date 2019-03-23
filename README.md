@@ -3,6 +3,14 @@
   <p align="center" style="font-size: 0.5em">A React-based web video player</p>
 </h1>
 
+[![License](https://img.shields.io/npm/l/griffith.svg)](https://github.com/zhihu/griffith/blob/master/LICENSE)
+[![npm package](https://img.shields.io/npm/v/griffith/latest.svg)](https://www.npmjs.com/package/griffith)
+[![Build Status](https://img.shields.io/travis/zhihu/griffith.svg)](https://travis-ci.org/zhihu/griffith)
+![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+[![codecov](https://codecov.io/gh/zhihu/griffith/branch/master/graph/badge.svg)](https://codecov.io/gh/zhihu/griffith)
+![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zhihu/griffith/blob/master/CONTRIBUTING.md)
+
 English | [简体中文](./README-zh_CN.md)
 
 # Introduction

@@ -5777,6 +5777,13 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
+isomorphic-bigscreen@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/isomorphic-bigscreen/-/isomorphic-bigscreen-2.0.5.tgz#4e842a761759307df5dedbef0c442e32bbd3474f"
+  integrity sha512-Rt4mO9tAEa3MUFaf0/x0qeZ070IjYCLf8RzW4CdY54a3gyLxwjN0GfNtfWhDU2yRiW61L2JYhjn+sKcUmMiclg==
+  dependencies:
+    bigscreen "2.0.5"
+
 isomorphic-fetch@^2.1.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"

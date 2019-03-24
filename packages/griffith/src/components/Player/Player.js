@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
-import BigScreen from 'bigscreen'
+import BigScreen from 'isomorphic-bigscreen'
 import noop from 'lodash/noop'
 import {EVENTS, ACTIONS} from 'griffith-message'
 import {ua} from 'griffith-utils'

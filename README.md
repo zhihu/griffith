@@ -124,11 +124,11 @@ Read our [contributing guide](./CONTRIBUTING.md) to learn about our development 
 
 ### Contributor
 
-- Cheng Wang
-- Wuhao Liu
-- Xiaoyan Li
-- Tianxiao Wang
-- Xiaoshuang Bai (Designer)
+- [Cheng Wang](https://github.com/wangcheng678)
+- [Wuhao Liu](https://github.com/liuwuhaoo)
+- [Xiaoyan Li](https://github.com/lixiaoyan)
+- [Tianxiao Wang](https://github.com/xiaoyuhen)
+- [Xiaoshuang Bai (Designer)](https://www.behance.net/shawnpai)
 
 ## LICENSE
 

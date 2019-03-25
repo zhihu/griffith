@@ -134,7 +134,7 @@ export default class MSE {
     } = this.mp4Probe
 
     if (this.mediaSource.readyState === 'open') {
-      if (offsetInterVal[1] === videoSamplesLength) {
+      if (offsetInterVal[1] === videoSamplesLength && !this.mseUpdating) {
         this.mediaSource.endOfStream()
       } else if (this.shouldFetchNextSegment()) {
         this.seek()

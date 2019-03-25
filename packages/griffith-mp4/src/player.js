@@ -7,6 +7,7 @@ const {isSafari} = ua
 export default class Player extends Component {
   componentDidMount() {
     this.mse = new MSE(this.video, this.props.src)
+    this.mse.init()
   }
 
   componentDidUpdate(prevProps) {

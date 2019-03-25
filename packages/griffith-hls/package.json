@@ -6,15 +6,17 @@
   "license": "MIT",
   "files": [
     "cjs",
-    "es",
+    "esm",
     "src"
   ],
-  "main": "es/index.js",
-  "module": "es/index.js",
+  "source": "src/index.js",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf es cjs",
-    "build:es": "NODE_ENV=production babel src --root-mode upward -d es --ignore 'src/**/*.spec.js','src/**/__tests__'",
-    "build:cjs": "BABEL_ENV=cjs NODE_ENV=production babel es --root-mode upward -d cjs"
+    "prepare": "npm run build",
+    "prebuild": "rm -rf esm cjs",
+    "build": "rollup -c ../../rollup.config.js"
   },
   "peerDependencies": {
     "react": ">=16.3.0 <17.0.0",

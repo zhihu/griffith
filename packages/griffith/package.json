@@ -29,6 +29,8 @@
     "eventemitter3": "^3.1.0",
     "griffith-message": "^1.1.1",
     "griffith-utils": "^1.1.1",
+    "griffith-hls": "^1.1.1",
+    "griffith-mp4": "^1.1.1",
     "lodash": "4.17.11",
     "prop-types": "^15.6.2",
     "query-string": "^6.3.0"

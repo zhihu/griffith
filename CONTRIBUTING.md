@@ -53,7 +53,8 @@ _Before_ submitting a pull request, please make sure the following is done…
 6)  Ensure the linting is good via `yarn run lint:fix`.
 
     ```sh
-    npm run lint:fix
+    npm run format
+    npm run lint
     ```
 
 7)  Ensure the testing is good via `yarn run test`.

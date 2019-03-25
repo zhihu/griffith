@@ -31,12 +31,7 @@ const PlayerContainer = ({
       <MessageProvider id={id} enableCrossWindow={standalone}>
         <InternalContext.Consumer>
           {({emitEvent, subscribeAction}) => (
-            <VideoSourceProvider
-              onEvent={emitEvent}
-              sources={sources}
-              emitEvent={emitEvent}
-              id={id}
-            >
+            <VideoSourceProvider onEvent={emitEvent} sources={sources} id={id}>
               <LocaleContext.Provider value={locale}>
                 <VideoSourceContext.Consumer>
                   {({currentSrc}) => (

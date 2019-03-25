@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/zhihu/griffith/compare/v1.1.1...v1.1.3) (2019-03-25)
+
+
+### Bug Fixes
+
+* hls dependencies ([#30](https://github.com/zhihu/griffith/issues/30)) ([3e42ae8](https://github.com/zhihu/griffith/commit/3e42ae8))
+* Module not found ([#29](https://github.com/zhihu/griffith/issues/29)) ([f80b01e](https://github.com/zhihu/griffith/commit/f80b01e))
+
+
+
+
+
 ## [1.1.2](https://github.com/zhihu/griffith/compare/v1.1.1...v1.1.2) (2019-03-25)
 
 

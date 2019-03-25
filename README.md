@@ -19,8 +19,8 @@ English | [简体中文](./README-zh_CN.md)
 </p>
 
 - **Streaming:** Griffith makes streaming easy. Whether your video format is mp4 or hls, Griffith can use Media Source Extension (MSE) for segment loading.
-- **Extensibility:** Griffith makes it simple to support video features in React apps. It also supports the UMD (Universal Module Definition) patterns for use directly in the browser if your application is not based on React.
-- **Reliability:** Griffith has been widely used in the web and mobile web of zhihu.
+- **Extensibility:** Griffith makes it simple to support video features in React apps. It also supports the UMD (Universal Module Definition) patterns for direct use in the browser if your application is not based on React.
+- **Reliability:** Griffith has been widely used in the web and mobile web of Zhihu.
 
 ## Usage
 
@@ -47,7 +47,7 @@ render(<Player sources={sources} />)
 
 [Detailed usage](./packages/griffith/README.md)
 
-**Note: SSR application is not supported**
+**Note: Griffith is not supporting SSR application**
 
 ### non-React application
 
@@ -72,7 +72,7 @@ Griffith.createPlayer(element).render({sources})
 
 ## Project Structure
 
-Griffith is a monorepo and use [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna).
+Griffith is a monorepo and uses [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna).
 
 ### Core
 
@@ -95,7 +95,7 @@ Griffith is a monorepo and use [Yarn workspace](https://yarnpkg.com/lang/en/docs
 
 ## Custom Build
 
-Build tools like webpack will include `griffith-mp4` and `packages/griffith-hls` by default. You can make your bundle smaller by exluding a plugin with build-time globals.
+Build tools like webpack include `griffith-mp4` and `packages/griffith-hls` by default. You can make your bundle smaller by excluding a plugin with build-time globals.
 
 If you use webpack, do so with [DefinePlugin](https://webpack.js.org/plugins/define-plugin/):
 
@@ -116,7 +116,7 @@ Note that without `griffith-mp4` / `griffith-hls` Griffith can no longer play MP
 
 ## Contributing
 
-Read below to learn how you can take part in improving griffith.
+Read below to learn how you can take part in improving Griffith.
 
 ### [Contributing Guide](./CONTRIBUTING.md)
 

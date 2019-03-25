@@ -6,7 +6,6 @@ English | [简体中文](./README-zh_CN.md)
 
 ```bash
 yarn add griffith
-yarn add hls.js
 # Griffith uses hls.js to play m3u8 format video.
 # If you don't want to install hls.js, please ref the build part.
 ```

@@ -6,12 +6,15 @@ Griffith bundled with React, React DOM and other dependencies. You can use it by
 
 ```html
 <div id="player"></div>
-<script src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js" />
+<script
+  crossorigin
+  src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js"
+></script>
 <script>
   const target = document.getElementById('player')
 
   // create player instance
-  const player = Griffith.createPlayer(element, options)
+  const player = Griffith.createPlayer(element)
 
   // load video
   player.render(props)
@@ -21,4 +24,4 @@ Griffith bundled with React, React DOM and other dependencies. You can use it by
 </script>
 ```
 
-Read [Griffith docs](../packages/griffith#readme) to know about `options` and `props`.
+Read [Griffith docs](../packages/griffith#readme) to know about `props`.

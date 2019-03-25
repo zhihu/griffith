@@ -6,12 +6,15 @@
 
 ```html
 <div id="player"></div>
-<script src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js" />
+<script
+  crossorigin
+  src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js"
+></script>
 <script>
   const target = document.getElementById('player')
 
   // 创建播放器
-  const player = Griffith.createPlayer(element, options)
+  const player = Griffith.createPlayer(element)
 
   // 载入视频
   player.render(props)
@@ -21,4 +24,4 @@
 </script>
 ```
 
-options 和 props 的定义请看 [Griffith 的文档](../packages/griffith#readme)。
+`props` 的定义请看 [Griffith 的文档](../packages/griffith#readme)。

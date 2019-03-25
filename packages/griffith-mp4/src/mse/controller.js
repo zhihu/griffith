@@ -32,7 +32,6 @@ export default class MSE {
         this.handleTimeUpdate()
       }
     })
-    this.init()
   }
 
   init() {

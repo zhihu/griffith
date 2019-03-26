@@ -49,7 +49,7 @@ render(<Player sources={sources} />)
 
 **ノート: Griffith は SSR アプリを対応できません**
 
-### React に基づいていない場合
+### React を使用していない場合
 
 ```html
 <script src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js" /></script>
@@ -112,7 +112,7 @@ module.exports = {
 }
 ```
 
-要注意：`griffith-mp4` と `griffith-hls` がないと、ブラウザがネイティブにサポートしている限り、Griffith は MP4 と HLS メディアを再生できなくなります。
+ノート：`griffith-mp4` と `griffith-hls` がないと、ブラウザがネイティブにサポートしている限り、Griffith は MP4 と HLS メディアを再生できなくなります。
 
 ## 貢献
 

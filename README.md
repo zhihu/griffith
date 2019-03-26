@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src="https://zhstatic.zhihu.com/cfe/griffith/griffith-banner.png" height="200" width="200"/>
-  <p align="center" style="font-size: 0.5em">A React-based web video player</p>
+  <p align="center" style="font-size: 0.5em">A React-based Web video player</p>
 </h1>
 
 [![License](https://img.shields.io/npm/l/griffith.svg)](https://github.com/zhihu/griffith/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zhihu/griffith/blob/master/CONTRIBUTING.md)
 
-English | [简体中文](./README-zh_CN.md)
+[English](./README.md) | [简体中文](./README-zh_CN.md) | [日本語](./README-ja_JP.md)
 
 # Introduction
 
@@ -72,7 +72,7 @@ Griffith.createPlayer(element).render({sources})
 
 ## Project Structure
 
-Griffith is a monorepo and uses [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna).
+Griffith is a Monorepo and uses [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna).
 
 ### Core
 
@@ -118,7 +118,7 @@ Note that without `griffith-mp4` / `griffith-hls` Griffith can no longer play MP
 
 Read below to learn how you can take part in improving Griffith.
 
-### [Contributing Guide](./CONTRIBUTING.md)
+### Contributing Guide
 
 Read our [contributing guide](./CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Griffith.
 

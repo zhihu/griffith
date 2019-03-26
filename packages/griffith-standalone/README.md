@@ -1,6 +1,6 @@
 # griffith-standalone
 
-English | [简体中文](./README-zh_CN.md)
+English | [简体中文](./README-zh-Hans.md)
 
 Griffith bundled with React, React DOM and other dependencies. You can use it by add a `script` tag in your HTML file.
 

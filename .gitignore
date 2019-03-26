@@ -10,3 +10,6 @@ package-lock.json
 .eslintcache
 *.log
 .DS_Store
+
+# Editor
+.vscode

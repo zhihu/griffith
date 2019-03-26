@@ -26,7 +26,7 @@ interface PlayerContainerProps {
   shouldObserveResize?: boolean
   initialObjectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
   useMSE?: boolean
-  locale?: 'en' | 'zh_cn'
+  locale?: 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
 }
 
 interface Subscription {

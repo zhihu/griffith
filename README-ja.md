@@ -10,7 +10,7 @@
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zhihu/griffith/blob/master/CONTRIBUTING.md)
 
-[English](./README.md) | [简体中文](./README-zh_CN.md) | [日本語](./README-ja_JP.md)
+[English](./README.md) | [简体中文](./README-zh-Hans.md) | [日本語](./README-ja.md)
 
 # はじめに
 

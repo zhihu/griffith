@@ -1,4 +1,4 @@
-English | [简体中文](./CONTRIBUTING-zh_CN.md)
+English | [简体中文](./CONTRIBUTING-zh-Hans.md)
 
 # How to Contribute
 

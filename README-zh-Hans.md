@@ -10,7 +10,7 @@
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zhihu/griffith/blob/master/CONTRIBUTING.md)
 
-[English](./README.md) | [简体中文](./README-zh_CN.md) | [日本語](./README-ja_JP.md)
+[English](./README.md) | [简体中文](./README-zh-Hans.md) | [日本語](./README-ja.md)
 
 ## 简介
 
@@ -45,7 +45,7 @@ const sources = {
 render(<Player sources={sources} />)
 ```
 
-[查看详细使用方法](./packages/griffith/README-zh_CN.md)
+[查看详细使用方法](./packages/griffith/README-zh-Hans.md)
 
 **注意：暂不支持 SSR 应用**
 
@@ -68,7 +68,7 @@ const sources = {
 Griffith.createPlayer(element).render({sources})
 ```
 
-[查看 Standalone 模式详细使用方法](./packages/griffith-standalone/README-zh_CN.md)
+[查看 Standalone 模式详细使用方法](./packages/griffith-standalone/README-zh-Hans.md)
 
 ## 项目结构
 
@@ -120,7 +120,7 @@ module.exports = {
 
 ### 贡献指南
 
-查看我们的[贡献指南](./CONTRIBUTING-zh_CN.md)来了解我们的开发流程。
+查看我们的[贡献指南](./CONTRIBUTING-zh-Hans.md)来了解我们的开发流程。
 
 ### 贡献者
 

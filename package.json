@@ -38,6 +38,7 @@
     "build:lib": "lerna run build --parallel --ignore example --ignore griffith-standalone",
     "build:standalone": "lerna run --scope griffith-standalone build",
     "build": "yarn build:lib && yarn build:standalone",
+    "release": "yarn build && lerna publish",
     "start": "yarn workspace example run start"
   },
   "devDependencies": {

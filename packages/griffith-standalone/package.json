@@ -10,7 +10,6 @@
   "source": "src/index.js",
   "main": "dist/index.umd.min.js",
   "scripts": {
-    "prepare": "npm run build",
     "prebuild": "rm -rf dist",
     "build": "webpack -p"
   },

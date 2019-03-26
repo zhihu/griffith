@@ -15,7 +15,6 @@
   "sideEffects": false,
   "types": "index.d.ts",
   "scripts": {
-    "prepare": "npm run build",
     "prebuild": "rm -rf esm cjs",
     "build": "rollup -c ../../rollup.config.js"
   },

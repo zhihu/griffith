@@ -1,11 +1,9 @@
 node_modules
 /coverage
 
-bin
-
 dist
 cjs
-es
+esm
 
 # Files
 package-lock.json

@@ -6,7 +6,6 @@
 
 ```bash
 yarn add griffith
-yarn add hls.js
 # Griffith 播放 M3U8 视频依赖 hls.js。如果不想安装 hls.js，请看 README 的「构建选项」部分。
 ```
 

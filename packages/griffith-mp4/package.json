@@ -1,21 +1,21 @@
 {
   "name": "griffith-mp4",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "griffith mp4 plugin",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-mp4",
   "license": "MIT",
   "files": [
     "cjs",
-    "es",
-    "src",
-    "index.js"
+    "esm"
   ],
-  "main": "es/index.js",
-  "module": "es/index.js",
+  "source": "src/index.js",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf es cjs",
-    "build:es": "NODE_ENV=production babel src --root-mode upward -d es --ignore 'src/**/*.spec.js','src/**/__tests__'",
-    "build:cjs": "BABEL_ENV=cjs NODE_ENV=production babel es --root-mode upward -d cjs"
+    "prepare": "npm run build",
+    "prebuild": "rm -rf esm cjs",
+    "build": "rollup -c ../../rollup.config.js"
   },
   "devDependencies": {
     "read-chunk": "^3.0.0"

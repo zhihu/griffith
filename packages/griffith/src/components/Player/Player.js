@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
-import BigScreen from 'bigscreen'
-import noop from 'lodash/noop'
+import BigScreen from 'isomorphic-bigscreen'
 import {EVENTS, ACTIONS} from 'griffith-message'
 import {ua} from 'griffith-utils'
 
@@ -64,6 +63,7 @@ class Player extends Component {
   hideControllerTimeout = null
 
   // refs
+  playerRef = React.createRef()
   videoRef = React.createRef()
 
   static getDerivedStateFromProps = (props, state) => {
@@ -82,8 +82,6 @@ class Player extends Component {
     if (historyVolume) {
       this.setState({volume: historyVolume})
     }
-
-    this.fullScreenEventsSubscription = this.subscribeFullScreenEvents()
 
     this.pauseActionSubscription = this.props.subscribeAction(
       ACTIONS.PLAYER.PAUSE,
@@ -104,22 +102,7 @@ class Player extends Component {
   }
 
   componentWillUnmount() {
-    this.fullScreenEventsSubscription.unsubscribe()
     this.pauseActionSubscription.unsubscribe()
-  }
-
-  subscribeFullScreenEvents = () => {
-    const {onEvent} = this.props
-
-    BigScreen.onenter = () => onEvent(EVENTS.PLAYER.ENTER_FULLSCREEN)
-    BigScreen.onexit = () => onEvent(EVENTS.PLAYER.EXIT_FULLSCREEN)
-
-    return {
-      unsubscribe: () => {
-        BigScreen.onenter = noop
-        BigScreen.exit = noop
-      },
-    }
   }
 
   handlePauseAction = ({dontApplyOnFullScreen} = {}) => {
@@ -274,7 +257,10 @@ class Player extends Component {
 
   handleToggleFullScreen = () => {
     if (BigScreen.enabled) {
-      BigScreen.toggle(this.root)
+      const {onEvent} = this.props
+      const onEnter = () => onEvent(EVENTS.PLAYER.ENTER_FULLSCREEN)
+      const onExit = () => onEvent(EVENTS.PLAYER.EXIT_FULLSCREEN)
+      BigScreen.toggle(this.playerRef.current, onEnter, onExit)
     }
   }
 
@@ -386,6 +372,7 @@ class Player extends Component {
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}
         onMouseMove={this.handleShowController}
+        ref={this.playerRef}
       >
         <div className={css(styles.video)}>
           <Video

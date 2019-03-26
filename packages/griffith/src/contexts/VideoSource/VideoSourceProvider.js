@@ -12,7 +12,7 @@ export default class VideoSourceProvider extends React.Component {
   static propTypes = {
     onEvent: PropTypes.func.isRequired,
     sources: PropTypes.object,
-    emitEvent: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
   }
 
   state = {

@@ -1,40 +1,42 @@
 {
   "name": "griffith",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "Zhihu Video Player",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith",
   "license": "MIT",
   "files": [
     "cjs",
-    "es/",
+    "esm",
     "index.d.ts"
   ],
-  "main": "es/index.js",
-  "module": "es/index.js",
+  "source": "src/index.js",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "sideEffects": false,
   "types": "index.d.ts",
   "scripts": {
-    "clean": "rm -rf es cjs",
-    "build:es": "NODE_ENV=production babel src --root-mode upward -d es --ignore 'src/**/*.spec.js','src/**/__tests__'",
-    "build:cjs": "BABEL_ENV=cjs NODE_ENV=production babel es --root-mode upward -d cjs"
+    "prepare": "npm run build",
+    "prebuild": "rm -rf esm cjs",
+    "build": "rollup -c ../../rollup.config.js"
   },
   "peerDependencies": {
     "react": ">=16.3.0 <17.0.0",
     "react-dom": ">=16.3.0 <17.0.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
     "aphrodite": "2.2.3",
-    "bigscreen": "2.0.5",
     "element-resize-event": "^3.0.3",
     "eventemitter3": "^3.1.0",
-    "griffith-message": "^1.1.1",
-    "griffith-utils": "^1.1.1",
+    "griffith-hls": "^1.1.4",
+    "griffith-message": "^1.1.4",
+    "griffith-mp4": "^1.1.4",
+    "griffith-utils": "^1.1.4",
+    "isomorphic-bigscreen": "2.0.5",
     "lodash": "4.17.11",
     "prop-types": "^15.6.2",
     "query-string": "^6.3.0"
   },
   "devDependencies": {
     "jest-localstorage-mock": "^2.3.0"
-  },
-  "sideEffects": false
+  }
 }

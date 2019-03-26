@@ -53,7 +53,8 @@
 6.  确保能通过 lint 校验。
 
     ```sh
-    npm run lint:fix
+    npm run format
+    npm run lint
     ```
 
 7.  请确保能通过所有测试用例。

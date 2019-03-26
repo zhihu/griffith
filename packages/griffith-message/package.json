@@ -5,12 +5,18 @@
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-message",
   "license": "MIT",
   "files": [
-    "src",
-    "index.js",
+    "cjs",
+    "esm",
     "index.d.ts"
   ],
-  "main": "index.js",
-  "module": "index.js",
+  "source": "src/index.js",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
   "types": "index.d.ts",
-  "sideEffects": false
+  "sideEffects": false,
+  "scripts": {
+    "prepare": "npm run build",
+    "prebuild": "rm -rf esm cjs",
+    "build": "rollup -c ../../rollup.config.js"
+  }
 }

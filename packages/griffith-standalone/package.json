@@ -7,15 +7,18 @@
   "files": [
     "dist/"
   ],
+  "source": "src/index.js",
   "main": "dist/index.umd.min.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack"
+    "prepare": "npm run build",
+    "prebuild": "rm -rf dist",
+    "build": "webpack -p"
   },
-  "dependencies": {
-    "@babel/runtime": "^7.1.5",
+  "devDependencies": {
     "griffith": "^1.1.4",
-    "hls.js": "0.7.11",
     "react": "16.4.2",
-    "react-dom": "16.4.2"
+    "react-dom": "16.4.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }

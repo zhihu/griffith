@@ -21,22 +21,14 @@ module.exports = env => {
       proxy: {
         '/mp4': {
           target: 'https://zhstatic.zhihu.com/cfe/griffith/',
-          pathRewrite: {'^/mp4' : ''},
+          pathRewrite: {'^/mp4': ''},
           changeOrigin: true,
           secure: false,
         },
-      }
+      },
     },
 
     devtool: 'cheap-module-eval-source-map',
-
-    resolve: {
-      alias: {
-        griffith: 'griffith/src',
-        'griffith-mp4': 'griffith-mp4/src',
-        'griffith-hls': 'griffith-hls/src',
-      },
-    },
 
     module: {
       rules: [

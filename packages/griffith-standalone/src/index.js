@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom'
 import Player from 'griffith'
 
 export function createPlayer(target) {
+  function render(props) {
+    ReactDOM.render(<Player {...props} />, target)
+  }
+
+  render()
+
   return {
     render(props) {
-      ReactDOM.render(<Player {...props} />, target)
+      render(props)
+      return this
     },
 
     dispose() {
-      ReactDOM.unmountComponentAtNode(target)
+      ReactDOM.render(null, target)
+      return this
     },
   }
 }

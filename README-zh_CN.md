@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src="https://zhstatic.zhihu.com/cfe/griffith/griffith-banner.png" height="200" width="200"/>
-  <p align="center" style="font-size: 0.5em">知乎视频播放器</p>
+  <p align="center" style="font-size: 0.5em">基于 React 的 Web 视频播放器</p>
 </h1>
 
 [![License](https://img.shields.io/npm/l/griffith.svg)](https://github.com/zhihu/griffith/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zhihu/griffith/blob/master/CONTRIBUTING.md)
 
-[English](./README.md) | 简体中文
+[English](./README.md) | [简体中文](./README-zh_CN.md) | [日本語](./README-ja_JP.md)
 
 ## 简介
 
@@ -18,7 +18,7 @@
   <img src="https://zhstatic.zhihu.com/cfe/griffith/player.png"/>
 </p>
 
-- **流式播放:** Griffith 让流式播放变得简单。无论你视频格式是 mp4 还是 hls，Griffith 都能使用媒体源拓展（MSE）来实现分段加载等功能。
+- **流式播放:** Griffith 让流式播放变得简单。无论你的视频格式是 mp4 还是 hls，Griffith 都能使用媒体源拓展（MSE）来实现分段加载等功能。
 - **可扩展性:** Griffith 让 React 应用接入视频播放功能变得简单。如果你的应用不基于 React，Griffith 还提供支持 standalone 模式可以免构建工具直接在浏览器中使用。
 - **可靠性:** Griffith 已经大范围应用知乎的桌面和移动 web 应用中。
 
@@ -72,7 +72,7 @@ Griffith.createPlayer(element).render({sources})
 
 ## 项目结构
 
-Griffith 是一个 monorepo，使用了 [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) 和 [Lerna](https://github.com/lerna/lerna) 进行管理。
+Griffith 是一个 Monorepo，使用了 [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) 和 [Lerna](https://github.com/lerna/lerna) 进行管理。
 
 ### 核心
 
@@ -124,11 +124,11 @@ module.exports = {
 
 ### 贡献者
 
-- Cheng Wang
-- Wuhao Liu
-- Xiaoyan Li
-- Tianxiao Wang
-- Xiaoshuang Bai (Designer)
+- [Cheng Wang](https://github.com/wangcheng678)
+- [Wuhao Liu](https://github.com/liuwuhaoo)
+- [Xiaoyan Li](https://github.com/lixiaoyan)
+- [Tianxiao Wang](https://github.com/xiaoyuhen)
+- [Xiaoshuang Bai (Designer)](https://www.behance.net/shawnpai)
 
 ## 版权许可证
 

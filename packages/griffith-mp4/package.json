@@ -13,7 +13,6 @@
   "module": "esm/index.js",
   "sideEffects": false,
   "scripts": {
-    "prepare": "npm run build",
     "prebuild": "rm -rf esm cjs",
     "build": "rollup -c ../../rollup.config.js"
   },

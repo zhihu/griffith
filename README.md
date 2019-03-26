@@ -76,7 +76,7 @@ Griffith is a monorepo and uses [Yarn workspace](https://yarnpkg.com/lang/en/doc
 
 ### Core
 
-- `packages/griffith`: The core lirary
+- `packages/griffith`: The core library
 
 ### Utilities
 
@@ -105,8 +105,8 @@ const {DefinePlugin} = require('webpack')
 module.exports = {
   plugins: [
     new DefinePlugin({
-      __WITHOUT_HLSJS__: JSON.stringify(true), // exludes griffith-hls
-      __WITHOUT_MP4__: JSON.stringify(true), // exludes griffith-mp4
+      __WITHOUT_HLSJS__: JSON.stringify(true), // excludes griffith-hls
+      __WITHOUT_MP4__: JSON.stringify(true), // excludes griffith-mp4
     }),
   ],
 }

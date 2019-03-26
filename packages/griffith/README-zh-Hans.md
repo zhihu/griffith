@@ -29,7 +29,7 @@ render(<Player {...props} />)
 | `shouldObserveResize` | `boolean`                                         | `false`   | 是否监听窗口 resize                        |
 | `initialObjectFit`    | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                            |
 | `useMSE`              | `boolean`                                         | `false`   | 是否启用 MSE                               |
-| `locale`              | `en \| zh_cn`                                     | `en`      | 界面语言                                   |
+| `locale`              | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                   |
 
 `sources` 字段：
 

@@ -1,6 +1,6 @@
 # griffith
 
-English | [简体中文](./README-zh_CN.md)
+English | [简体中文](./README-zh-Hans.md)
 
 ## Usage
 
@@ -30,7 +30,7 @@ render(<Player {...props} />)
 | `shouldObserveResize` | `boolean`                                        | `false`   | Listen to the window resize                                              |
 | `initialObjectFit`    | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                               |
 | `useMSE`              | `boolean`                                        | `false`   | Enable Media Source Extensions™                                          |
-| `locale`              | `en \| zh_cn`                                    | `en`      | UI Locale                                                                |
+| `locale`              | `en \| ja \| zh-Hans \| zh-Hant`                 | `en`      | UI Locale                                                                |
 
 `sources`:
 

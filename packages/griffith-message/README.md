@@ -1,6 +1,6 @@
 # griffith-message
 
-English | [简体中文](./README-zh_CN.md)
+English | [简体中文](./README-zh-Hans.md)
 
 Griffith message communication plugin
 
@@ -92,10 +92,10 @@ Events received from the player
 
 Event sent to the player
 
-| `messageName`                     | Description      | `data`                                                      | Status |
-| --------------------------------- | ---------------- | ----------------------------------------------------------- | ------ |
-| `ACTIONS.PLAYER.PLAY`             | Play             | `{applyOnFullScreen: boolean}` Applied to full screen video | TODO   |
-| `ACTIONS.PLAYER.PAUSE`            | Pause            | Applied to full screen video                                | ✅     |
-| `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | TODO   |
-| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen | null                                                        | TODO   |
-| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen  | null                                                        | TODO   |
+| `messageName`                     | Description      | `data`                                                      | Status    |
+| --------------------------------- | ---------------- | ----------------------------------------------------------- | --------- |
+| `ACTIONS.PLAYER.PLAY`             | Play             | `{applyOnFullScreen: boolean}` Applied to full screen video | TODO      |
+| `ACTIONS.PLAYER.PAUSE`            | Pause            | Applied to full screen video                                | SUPPORTED |
+| `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | TODO      |
+| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen | null                                                        | TODO      |
+| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen  | null                                                        | TODO      |

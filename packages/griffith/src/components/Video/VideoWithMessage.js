@@ -1,7 +1,7 @@
 import React from 'react'
 import {EVENTS} from 'griffith-message'
-import mergeFunctions from 'griffith-utils/src/mergeFunctions'
-
+import {sequence} from 'griffith-utils'
+import noop from 'lodash/noop'
 import {InternalContext} from '../../contexts/Message'
 import {ObjectFitContext} from '../../contexts/ObjectFit'
 import {PositionContext} from '../../contexts/Position'
@@ -37,7 +37,7 @@ const VideoWithMessage = React.forwardRef((props, ref) => {
     eventMap.map(([eventName, key]) => {
       const handler = props[key]
       const emit = event => emitEvent(eventName, getMediaEventPayload(event))
-      newProps[key] = mergeFunctions(emit, handler)
+      newProps[key] = sequence(emit, handler || noop)
     })
 
     const updateVideoSizeOnLoadedMetadata = event => {
@@ -48,9 +48,9 @@ const VideoWithMessage = React.forwardRef((props, ref) => {
       }
     }
 
-    const newOnLoadedMetadata = mergeFunctions(
+    const newOnLoadedMetadata = sequence(
       updateVideoSizeOnLoadedMetadata,
-      props.onLoadedMetadata
+      props.onLoadedMetadata || noop
     )
 
     const {Video, ...otherProps} = props

@@ -1,5 +1,6 @@
 import React from 'react'
-import {mergeFunctions} from 'griffith-utils'
+import {sequence} from 'griffith-utils'
+import noop from 'lodash/noop'
 
 export default class Hover extends React.Component {
   state = {
@@ -20,8 +21,8 @@ export default class Hover extends React.Component {
     return (
       <div
         {...rest}
-        onMouseEnter={mergeFunctions(this.handlePointerEnter, onMouseEnter)}
-        onMouseLeave={mergeFunctions(this.handlePointerLeave, onMouseLeave)}
+        onMouseEnter={sequence(this.handlePointerEnter, onMouseEnter || noop)}
+        onMouseLeave={sequence(this.handlePointerLeave, onMouseLeave || noop)}
       >
         {children(isHovered)}
       </div>

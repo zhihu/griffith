@@ -14,7 +14,8 @@
   "sideEffects": false,
   "scripts": {
     "prebuild": "rm -rf esm cjs",
-    "build": "rollup -c ../../rollup.config.js"
+    "build": "rollup -c ../../rollup.config.js",
+    "build:watch": "yarn build -w"
   },
   "devDependencies": {
     "read-chunk": "^3.0.0"

@@ -9,7 +9,7 @@ import {
 import {MessageProvider, InternalContext} from '../../contexts/Message'
 import {PositionProvider} from '../../contexts/Position'
 import {ObjectFitProvider, VALID_FIT} from '../../contexts/ObjectFit'
-import {LocaleContext} from '../../contexts/Locale'
+import {LanguageContext} from '../../contexts/Language'
 
 const PlayerContainer = ({
   standalone,
@@ -24,7 +24,7 @@ const PlayerContainer = ({
   children,
   initialObjectFit = 'contain',
   useMSE,
-  locale = 'en',
+  language = 'en',
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
@@ -32,7 +32,7 @@ const PlayerContainer = ({
         <InternalContext.Consumer>
           {({emitEvent, subscribeAction}) => (
             <VideoSourceProvider onEvent={emitEvent} sources={sources} id={id}>
-              <LocaleContext.Provider value={locale}>
+              <LanguageContext.Provider value={language}>
                 <VideoSourceContext.Consumer>
                   {({currentSrc}) => (
                     <Player
@@ -49,7 +49,7 @@ const PlayerContainer = ({
                   )}
                 </VideoSourceContext.Consumer>
                 {children}
-              </LocaleContext.Provider>
+              </LanguageContext.Provider>
             </VideoSourceProvider>
           )}
         </InternalContext.Consumer>

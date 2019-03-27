@@ -3,5 +3,5 @@ package-lock.json
 lerna.json
 CHANGELOG.md
 **/dist
-**/es
+**/esm
 **/cjs

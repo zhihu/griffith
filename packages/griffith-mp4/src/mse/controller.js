@@ -83,11 +83,33 @@ export default class MSE {
       })
   }
 
+  hasBufferedCache = (time = 0) => {
+    const buffered = this.video.buffered
+
+    if (buffered) {
+      for (let i = 0; i < buffered.length; i++) {
+        if (time >= buffered.start(i) && time <= buffered.end(i)) {
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
   seek = time => {
     FragmentFetch.clear()
 
     const [start, end] = this.mp4Probe.getFragmentPosition(time)
     this.mseUpdating = true
+
+    // 对于已经请求的数据不再重复请求
+    // No need to repeat request video data
+    const timeRange = this.mp4Probe.timeRange || []
+    if (this.hasBufferedCache(timeRange[1])) {
+      return
+    }
+
     this.loadData(start, end).then(mdatBuffer => {
       if (!mdatBuffer) {
         return

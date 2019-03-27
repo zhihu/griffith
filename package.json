@@ -31,9 +31,7 @@
   ],
   "scripts": {
     "format": "prettier \"packages/**/*.{js,json,md}\" \"*.{js,json,md}\"",
-    "format:fix": "prettier --write \"packages/**/*.{js,json,md}\" \"*.{js,json,md}\"",
     "lint": "eslint 'packages/*/src/**/*.js' '*.js'",
-    "lint:fix": "eslint --fix 'packages/*/src/**/*.js' '*.js'",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --notify",
@@ -80,12 +78,12 @@
   },
   "lint-staged": {
     "*.{json,md,css}": [
-      "npm run format:fix",
+      "prettier --write",
       "git add"
     ],
     "*.{js,jsx}": [
-      "npm run format:fix",
-      "npm run lint:fix",
+      "prettier --write",
+      "eslint --fix",
       "git add"
     ]
   },

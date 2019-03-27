@@ -52,7 +52,7 @@ render(<Player sources={sources} />)
 ### React を使用していない場合
 
 ```html
-<script src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js" /></script>
+<script src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js"></script>
 ```
 
 ```js

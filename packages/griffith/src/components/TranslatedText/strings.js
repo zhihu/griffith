@@ -1,5 +1,7 @@
+import SUPPORTED_LANGUAGES from '../../contexts/Language/supportedLanguages'
+
 export default {
-  en: {
+  [SUPPORTED_LANGUAGES.EN]: {
     'quality-auto': 'Auto',
     'quality-ld': 'LD',
     'quality-sd': 'SD',
@@ -7,7 +9,7 @@ export default {
     'action-enter-fullscreen': 'Fullscreen',
     'action-exit-fullscreen': 'Exit Fullscreen',
   },
-  ja: {
+  [SUPPORTED_LANGUAGES.JA]: {
     'quality-auto': '自動',
     'quality-ld': '低画質',
     'quality-sd': '標準画質',
@@ -16,7 +18,7 @@ export default {
     'action-exit-fullscreen': '全画面終了',
   },
   // covers zh-Hans-CN and zh-Hans-SG
-  'zh-Hans': {
+  [SUPPORTED_LANGUAGES.ZH_HANS]: {
     'quality-auto': '自动',
     'quality-ld': '低清',
     'quality-sd': '标清',
@@ -25,7 +27,7 @@ export default {
     'action-exit-fullscreen': '退出全屏',
   },
   // covers zh-Hant-HK and zh-Hant-TW
-  'zh-Hant': {
+  [SUPPORTED_LANGUAGES.ZH_HANT]: {
     'quality-auto': '自動',
     'quality-ld': '低畫質',
     'quality-sd': '標準畫質',

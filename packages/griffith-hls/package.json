@@ -1,6 +1,6 @@
 {
   "name": "griffith-hls",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "griffith hls plugin",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-hls",
   "license": "MIT",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/zhihu/griffith/compare/v1.2.0...v1.2.1) (2019-03-27)
+
+
+### Bug Fixes
+
+* **griffith-utils:** rename `mergeFunctions` to `sequence` ([#41](https://github.com/zhihu/griffith/issues/41)) ([fbcd09e](https://github.com/zhihu/griffith/commit/fbcd09e))
+
+
+
+
+
 # [1.2.0](https://github.com/zhihu/griffith/compare/v1.1.4...v1.2.0) (2019-03-26)
 
 

@@ -20,8 +20,6 @@ export default class MSE {
   }
 
   handleSourceOpen = () => {
-    this.mediaSource.removeEventListener('sourceopen', this.handleSourceOpen)
-
     const mime = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
     this.sourceBuffer = this.mediaSource.addSourceBuffer(mime)
     this.sourceBuffer.addEventListener('updateend', () => {
@@ -79,7 +77,10 @@ export default class MSE {
           FMP4.ftyp(),
           FMP4.moov(this.mp4Probe.mp4Data)
         )
-        this.appendBuffer(rawData)
+
+        this.mediaSource.addEventListener('sourceopen', () => {
+          this.appendBuffer(rawData)
+        })
       })
   }
 
@@ -156,7 +157,7 @@ export default class MSE {
 
     if (this.mediaSource.readyState === 'open') {
       if (offsetInterVal[1] === videoSamplesLength && !this.mseUpdating) {
-        this.mediaSource.endOfStream()
+        this.destroy()
       } else if (this.shouldFetchNextSegment()) {
         this.seek()
       }

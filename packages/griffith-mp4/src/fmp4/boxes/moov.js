@@ -3,11 +3,10 @@ import mvhd from './mvhd'
 import trak from './trak'
 import mvex from './mvex'
 
-export default function moov(data) {
+export default function moov(data, type) {
   const content = concatTypedArray(
     mvhd(data),
-    trak({...data, type: 'video'}),
-    trak({...data, type: 'audio'}),
+    trak({...data, type}),
     mvex(data)
   )
   return generateBox('moov', content)

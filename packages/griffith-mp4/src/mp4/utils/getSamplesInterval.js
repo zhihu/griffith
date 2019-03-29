@@ -44,13 +44,16 @@ export function getAudioSamplesInterval(mp4BoxTree, videoInterval) {
   const {timescale: videoTimescale} = findBox(mp4BoxTree, 'videoMdhd')
   const videoStszBox = findBox(mp4BoxTree, 'videoStsz')
   const audioStszBox = findBox(mp4BoxTree, 'audioStsz')
+  const audioElstBox = findBox(mp4BoxTree, 'audioElst')
 
   const audioStartTime = (startTime / videoTimescale) * audioTimescale
   const audioEndTime = (endTime / videoTimescale) * audioTimescale
 
   let start = 0
   let end = 0
-  let startDuration = 0
+
+  const {mediaTime} = audioElstBox.entries[0]
+  let startDuration = mediaTime || 0
   let endDuration = 0
   for (let i = 0; i < sttsBox.samples.length; i++) {
     const {sampleCount, sampleDelta} = sttsBox.samples[i]

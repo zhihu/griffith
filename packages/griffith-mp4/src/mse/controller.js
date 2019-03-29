@@ -29,10 +29,10 @@ export default class MSE {
 
   handleSourceOpen = () => {
     this.sourceBuffers.video = this.mediaSource.addSourceBuffer(
-      'video/mp4; codecs="avc1.42E01E"'
+      this.mimeTypes.video
     )
     this.sourceBuffers.audio = this.mediaSource.addSourceBuffer(
-      'audio/mp4; codecs="mp4a.40.5"'
+      this.mimeTypes.audio
     )
     this.sourceBuffers.video.addEventListener('updateend', () => {
       this.mseUpdating = false

@@ -14,8 +14,12 @@ describe('fmp4Generator', () => {
     ]))
   })
 
-  it('should generator moov buffer size', () => {
-    expect(FMP4.moov(audioData).length).toBe(1154)
+  it('should generator audio moov buffer size', () => {
+    expect(FMP4.moov(audioData, 'audio').length).toBe(652)
+  })
+
+  it('should generator video moov buffer size', () => {
+    expect(FMP4.moov(audioData, 'video').length).toBe(718)
   })
 
   it('should generator moof buffer size', () => {

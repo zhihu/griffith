@@ -10,7 +10,12 @@ export default function elst(buffer) {
 
   for (let i = 0; i < entryCount; ++i) {
     const segmentDuration = stream.readByte(4)
-    const mediaTime = stream.readByte(4)
+    let mediaTime = stream.readByte(4)
+
+    // 0xffffffff -> -1
+    if (mediaTime === 4294967295) {
+      mediaTime = -1
+    }
     const mediaRateInteger = stream.readByte(2)
     const mediaRateFraction = stream.readByte(2)
 

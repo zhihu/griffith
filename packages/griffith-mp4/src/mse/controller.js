@@ -10,6 +10,14 @@ export default class MSE {
   constructor(video, src) {
     this.video = video
     this.src = src
+    this.sourceBuffers = {
+      video: null,
+      audio: null,
+    }
+    this.mimeTypes = {
+      video: 'video/mp4; codecs="avc1.42E01E"',
+      audio: 'audio/mp4; codecs="mp4a.40.2"',
+    }
     this.installSrc()
   }
 
@@ -20,9 +28,13 @@ export default class MSE {
   }
 
   handleSourceOpen = () => {
-    const mime = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
-    this.sourceBuffer = this.mediaSource.addSourceBuffer(mime)
-    this.sourceBuffer.addEventListener('updateend', () => {
+    this.sourceBuffers.video = this.mediaSource.addSourceBuffer(
+      this.mimeTypes.video
+    )
+    this.sourceBuffers.audio = this.mediaSource.addSourceBuffer(
+      this.mimeTypes.audio
+    )
+    this.sourceBuffers.video.addEventListener('updateend', () => {
       this.mseUpdating = false
 
       if (this.needUpdateTime) {
@@ -73,13 +85,19 @@ export default class MSE {
         this.mp4Probe = new MP4Probe(mp4BoxTreeObject)
         this.mp4BoxTreeObject = mp4BoxTreeObject
 
-        const rawData = concatTypedArray(
+        const videoRawData = concatTypedArray(
           FMP4.ftyp(),
-          FMP4.moov(this.mp4Probe.mp4Data)
+          FMP4.moov(this.mp4Probe.mp4Data, 'video')
+        )
+
+        const audioRawData = concatTypedArray(
+          FMP4.ftyp(),
+          FMP4.moov(this.mp4Probe.mp4Data, 'audio')
         )
 
         this.mediaSource.addEventListener('sourceopen', () => {
-          this.appendBuffer(rawData)
+          this.sourceBuffers.video.appendBuffer(videoRawData)
+          this.sourceBuffers.audio.appendBuffer(audioRawData)
         })
       })
   }
@@ -121,21 +139,22 @@ export default class MSE {
       const {videoInterval, audioInterval} = this.mp4Probe
       const videoBaseMediaDecodeTime = videoInterval.timeInterVal[0]
       const audioBaseMediaDecodeTime = audioInterval.timeInterVal[0]
-      const rawData = concatTypedArray(
+      const videoRawData = concatTypedArray(
         FMP4.moof(videoTrackInfo, videoBaseMediaDecodeTime),
-        FMP4.mdat(videoTrackInfo),
+        FMP4.mdat(videoTrackInfo)
+      )
+
+      const audioRawData = concatTypedArray(
         FMP4.moof(audioTrackInfo, audioBaseMediaDecodeTime),
         FMP4.mdat(audioTrackInfo)
       )
-      this.appendBuffer(rawData)
+
+      this.sourceBuffers.video.appendBuffer(videoRawData)
+      this.sourceBuffers.audio.appendBuffer(audioRawData)
       if (time) {
         this.needUpdateTime = true
       }
     })
-  }
-
-  appendBuffer(buffer) {
-    this.sourceBuffer.appendBuffer(buffer)
   }
 
   loadData(start = 0, end = MAGIC_NUMBER) {
@@ -154,7 +173,6 @@ export default class MSE {
       videoInterval: {offsetInterVal = []} = [],
       mp4Data: {videoSamplesLength},
     } = this.mp4Probe
-
     if (this.mediaSource.readyState === 'open') {
       if (offsetInterVal[1] === videoSamplesLength && !this.mseUpdating) {
         this.destroy()

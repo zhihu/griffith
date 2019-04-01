@@ -25,6 +25,12 @@ module.exports = env => {
           changeOrigin: true,
           secure: false,
         },
+        '/vzuu': {
+          target: 'https://vdn1.vzuu.com/',
+          pathRewrite: {'^/vzuu': ''},
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
 

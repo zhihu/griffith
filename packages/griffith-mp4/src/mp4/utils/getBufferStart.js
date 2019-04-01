@@ -52,5 +52,11 @@ function getChunkSize(mp4BoxTree, offsetStart, type) {
     type === 'video' ? 'videoStco' : 'audioStco'
   )
 
+  // 如果最后一个 GOP 没有音频轨，BufferStart 需要按照视频轨来计算。
+  // If the last GOP dont have audio track, we should ignore the audio chunk size.
+  if (chunkIndex >= stcoBox.samples.length) {
+    return Number.MAX_SAFE_INTEGER
+  }
+
   return stcoBox.samples[chunkIndex].chunkOffset + sampleSize
 }

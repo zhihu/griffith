@@ -144,13 +144,18 @@ export default class MSE {
         FMP4.mdat(videoTrackInfo)
       )
 
-      const audioRawData = concatTypedArray(
-        FMP4.moof(audioTrackInfo, audioBaseMediaDecodeTime),
-        FMP4.mdat(audioTrackInfo)
-      )
+      // maybe the last GOP dont have audio track
+      // 最后一个 GOP 序列可能没有音频轨
+      if (audioTrackInfo.samples.length !== 0) {
+        const audioRawData = concatTypedArray(
+          FMP4.moof(audioTrackInfo, audioBaseMediaDecodeTime),
+          FMP4.mdat(audioTrackInfo)
+        )
+        this.sourceBuffers.audio.appendBuffer(audioRawData)
+      }
 
       this.sourceBuffers.video.appendBuffer(videoRawData)
-      this.sourceBuffers.audio.appendBuffer(audioRawData)
+
       if (time) {
         this.needUpdateTime = true
       }

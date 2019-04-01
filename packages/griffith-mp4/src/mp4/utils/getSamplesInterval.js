@@ -11,6 +11,7 @@ export function getVideoSamplesInterval(mp4BoxTree, time = 0) {
   const timeInterval = intervalArray.map(interval =>
     getDuration(sttsBox, interval)
   )
+
   const interval = {
     offsetInterVal: [],
     timeInterVal: [],
@@ -52,8 +53,8 @@ export function getAudioSamplesInterval(mp4BoxTree, videoInterval) {
   let start = 0
   let end = 0
 
-  const {mediaTime} = audioElstBox.entries[0]
-  let startDuration = mediaTime || 0
+  const {mediaTime, segmentDuration} = audioElstBox.entries[0]
+  let startDuration = mediaTime !== -1 ? mediaTime : segmentDuration
   let endDuration = 0
   for (let i = 0; i < sttsBox.samples.length; i++) {
     const {sampleCount, sampleDelta} = sttsBox.samples[i]

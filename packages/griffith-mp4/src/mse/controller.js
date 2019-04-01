@@ -118,7 +118,6 @@ export default class MSE {
 
   seek = time => {
     FragmentFetch.clear()
-
     const [start, end] = this.mp4Probe.getFragmentPosition(time)
     this.mseUpdating = true
 

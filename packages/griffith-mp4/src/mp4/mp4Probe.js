@@ -69,6 +69,7 @@ export default class MP4Probe {
       videoSamples[videoSamples.length - 1].start +
         videoSamples[videoSamples.length - 1].bufferStart ===
       stcoBox.samples[stcoBox.samples.length - 1].chunkOffset
+
     return getFragmentPosition(
       videoSamples,
       audioSamples,

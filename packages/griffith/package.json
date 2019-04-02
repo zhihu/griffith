@@ -24,7 +24,7 @@
     "react-dom": ">=16.3.0 <17.0.0"
   },
   "dependencies": {
-    "aphrodite": "2.2.3",
+    "aphrodite": "2.3.1",
     "element-resize-event": "^3.0.3",
     "eventemitter3": "^3.1.0",
     "griffith-hls": "^1.2.1",
@@ -33,10 +33,10 @@
     "griffith-utils": "^1.2.1",
     "isomorphic-bigscreen": "2.0.5",
     "lodash": "4.17.11",
-    "prop-types": "^15.6.2",
-    "query-string": "^6.3.0"
+    "prop-types": "^15.7.2",
+    "query-string": "^6.4.2"
   },
   "devDependencies": {
-    "jest-localstorage-mock": "^2.3.0"
+    "jest-localstorage-mock": "^2.4.0"
   }
 }

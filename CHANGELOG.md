@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/zhihu/griffith/compare/v1.3.0...v1.3.1) (2019-04-03)
+
+
+### Bug Fixes
+
+*  Failed to execute appendBuffer on SourceBuffer ([#57](https://github.com/zhihu/griffith/issues/57)) ([f4c435f](https://github.com/zhihu/griffith/commit/f4c435f))
+* use xhr instead of the fetch api ([#56](https://github.com/zhihu/griffith/issues/56)) ([267b56a](https://github.com/zhihu/griffith/commit/267b56a))
+
+
+
+
+
 # [1.3.0](https://github.com/zhihu/griffith/compare/v1.2.1...v1.3.0) (2019-04-02)
 
 

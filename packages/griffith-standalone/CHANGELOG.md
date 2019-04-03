@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/zhihu/griffith/compare/v1.3.0...v1.3.1) (2019-04-03)
+
+**Note:** Version bump only for package griffith-standalone
+
+
+
+
+
 # [1.3.0](https://github.com/xiaoyuhen/griffith/compare/v1.2.1...v1.3.0) (2019-04-02)
 
 **Note:** Version bump only for package griffith-standalone

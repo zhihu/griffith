@@ -10,6 +10,8 @@ export default class MSE {
   constructor(video, src) {
     this.video = video
     this.src = src
+    this.videoQueue = []
+    this.audioQueue = []
     this.sourceBuffers = {
       video: null,
       audio: null,
@@ -37,11 +39,32 @@ export default class MSE {
     this.sourceBuffers.video.addEventListener('updateend', () => {
       this.mseUpdating = false
 
+      const buffer = this.videoQueue.shift()
+
+      if (buffer && this.mediaSource.readyState === 'open') {
+        this.handleAppendBuffer(buffer, 'video')
+      }
       if (this.needUpdateTime) {
         this.needUpdateTime = false
         this.handleTimeUpdate()
       }
     })
+
+    this.sourceBuffers.audio.addEventListener('updateend', () => {
+      const buffer = this.audioQueue.shift()
+
+      if (buffer && this.mediaSource.readyState === 'open') {
+        this.handleAppendBuffer(buffer, 'audio')
+      }
+    })
+  }
+
+  handleAppendBuffer = (buffer, type) => {
+    if (this.mediaSource.readyState === 'open') {
+      this.sourceBuffers[type].appendBuffer(buffer)
+    } else {
+      this[`${type}Queue`].push(buffer)
+    }
   }
 
   init() {
@@ -96,8 +119,8 @@ export default class MSE {
         )
 
         this.mediaSource.addEventListener('sourceopen', () => {
-          this.sourceBuffers.video.appendBuffer(videoRawData)
-          this.sourceBuffers.audio.appendBuffer(audioRawData)
+          this.handleAppendBuffer(videoRawData, 'video')
+          this.handleAppendBuffer(audioRawData, 'audio')
         })
       })
   }
@@ -150,10 +173,10 @@ export default class MSE {
           FMP4.moof(audioTrackInfo, audioBaseMediaDecodeTime),
           FMP4.mdat(audioTrackInfo)
         )
-        this.sourceBuffers.audio.appendBuffer(audioRawData)
+        this.handleAppendBuffer(audioRawData, 'audio')
       }
 
-      this.sourceBuffers.video.appendBuffer(videoRawData)
+      this.handleAppendBuffer(videoRawData, 'video')
 
       if (time) {
         this.needUpdateTime = true

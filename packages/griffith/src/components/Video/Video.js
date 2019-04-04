@@ -63,20 +63,25 @@ class Video extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {src, paused, volume} = this.props
+    const {src, paused, volume, format, useMSE} = this.props
 
     /**
      * 切换清晰度，如果是非 mse 视频（src 是 blob 类型）
      * data 变化的时候会 remount，所以 componentDidUpdate 中 src 变化一定是清晰度变了
      */
     if (prevProps.src && src !== prevProps.src) {
-      this.safeExecute(() => {
-        this.isMetadataLoaded = false
-        this.seek(snapshot.currentTime)
-        if (!snapshot.paused) {
-          this.play()
-        }
-      })
+      const {willHandleSrcChange} = selectVideo(format, useMSE)
+
+      // TODO 这一块逻辑需要 Video 自己处理
+      if (!willHandleSrcChange) {
+        this.safeExecute(() => {
+          this.isMetadataLoaded = false
+          this.seek(snapshot.currentTime)
+          if (!snapshot.paused) {
+            this.play()
+          }
+        })
+      }
     }
 
     if (paused !== prevProps.paused && paused !== this.root.paused) {
@@ -290,7 +295,7 @@ class Video extends Component {
       currentQuality,
     } = this.props
 
-    const Video = selectVideo(format, useMSE)
+    const {VideoComponent} = selectVideo(format, useMSE)
 
     return (
       <VideoWithMessage
@@ -323,7 +328,7 @@ class Video extends Component {
         paused={paused}
         sources={sources}
         currentQuality={currentQuality}
-        Video={Video}
+        Video={VideoComponent}
       />
     )
   }

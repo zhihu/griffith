@@ -151,6 +151,8 @@ export default class MSE {
       return
     }
 
+    this.handleReplayCase()
+
     this.loadData(start, end).then(mdatBuffer => {
       if (!mdatBuffer) {
         return
@@ -200,7 +202,8 @@ export default class MSE {
       videoInterval: {offsetInterVal = []} = [],
       mp4Data: {videoSamplesLength},
     } = this.mp4Probe
-    if (this.mediaSource.readyState === 'open') {
+
+    if (this.mediaSource.readyState !== 'closed') {
       if (offsetInterVal[1] === videoSamplesLength && !this.mseUpdating) {
         this.destroy()
       } else if (this.shouldFetchNextSegment()) {
@@ -209,7 +212,15 @@ export default class MSE {
     }
   }
 
+  handleReplayCase = () => {
+    if (this.mediaSource.readyState === 'ended') {
+      this.sourceBuffers.video.appendBuffer(new Uint8Array(0))
+    }
+  }
+
   shouldFetchNextSegment = () => {
+    this.handleReplayCase()
+
     if (!this.mseUpdating && this.mp4Probe.isDraining(this.video.currentTime)) {
       return true
     }

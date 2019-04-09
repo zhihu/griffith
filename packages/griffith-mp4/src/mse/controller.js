@@ -141,13 +141,13 @@ export default class MSE {
 
   seek = time => {
     FragmentFetch.clear()
+
     const [start, end] = this.mp4Probe.getFragmentPosition(time)
     this.mseUpdating = true
 
     // 对于已经请求的数据不再重复请求
     // No need to repeat request video data
-    const timeRange = this.mp4Probe.timeRange || []
-    if (this.hasBufferedCache(timeRange[1])) {
+    if (this.hasBufferedCache(this.video.currentTime)) {
       return
     }
 

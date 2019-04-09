@@ -43,8 +43,8 @@ export default class Player extends Component {
   }
 
   handlePlay = e => {
-    const {currentTime, buffered = []} = this.video
-    if (currentTime === 0 && !buffered.length) {
+    const {currentTime} = this.video
+    if (currentTime === 0) {
       this.mse.seek(0)
     }
 

@@ -37,8 +37,6 @@ export default class MSE {
       this.mimeTypes.audio
     )
     this.sourceBuffers.video.addEventListener('updateend', () => {
-      this.mseUpdating = false
-
       const buffer = this.videoQueue.shift()
 
       if (buffer && this.mediaSource.readyState === 'open') {
@@ -143,11 +141,10 @@ export default class MSE {
     FragmentFetch.clear()
 
     const [start, end] = this.mp4Probe.getFragmentPosition(time)
-    this.mseUpdating = true
 
     // 对于已经请求的数据不再重复请求
     // No need to repeat request video data
-    if (this.hasBufferedCache(this.video.currentTime)) {
+    if (time && this.hasBufferedCache(this.video.currentTime)) {
       return
     }
 
@@ -204,7 +201,7 @@ export default class MSE {
     } = this.mp4Probe
 
     if (this.mediaSource.readyState !== 'closed') {
-      if (offsetInterVal[1] === videoSamplesLength && !this.mseUpdating) {
+      if (offsetInterVal[1] === videoSamplesLength) {
         this.destroy()
       } else if (this.shouldFetchNextSegment()) {
         this.seek()
@@ -221,7 +218,7 @@ export default class MSE {
   shouldFetchNextSegment = () => {
     this.handleReplayCase()
 
-    if (!this.mseUpdating && this.mp4Probe.isDraining(this.video.currentTime)) {
+    if (this.mp4Probe.isDraining(this.video.currentTime)) {
       return true
     }
     return false

@@ -1,6 +1,11 @@
 import React from 'react'
 
 // eslint-disable-next-line
-export default ({onRef, paused, currentQuality, sources, ...props}) => (
+const NormalVideo = ({onRef, paused, currentQuality, sources, ...props}) => (
   <video {...props} ref={onRef} />
 )
+
+export default {
+  pluginName: 'native',
+  VideoComponent: NormalVideo,
+}

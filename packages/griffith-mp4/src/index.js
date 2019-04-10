@@ -1,3 +1,6 @@
-/* eslint-disable import/default */
-import Player from './player'
-export default Player
+import VideoComponent from './player'
+
+export default {
+  pluginName: 'griffith-mp4',
+  VideoComponent,
+}

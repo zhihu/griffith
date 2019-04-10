@@ -6,10 +6,7 @@ export default class Video extends Component {
   hasLoadStarted = false
 
   componentDidMount() {
-    const {autoStartLoad = false} = this.props
-    this.hls = new Hls({
-      autoStartLoad,
-    })
+    this.hls = new Hls({autoStartLoad: false})
     this.hls.attachMedia(this.video)
     const {sources} = this.props
     const master = getMasterM3U8Blob(sources)
@@ -38,11 +35,12 @@ export default class Video extends Component {
 
   componentWillUnmount() {
     this.hls.destroy()
+    URL.revokeObjectURL(this.src)
   }
 
   render() {
-    // eslint-disable-next-line
-    const {onRef, currentQuality, src, paused, ...props} = this.props
+    // eslint-disable-next-line no-unused-vars
+    const {onRef, currentQuality, src, sources, paused, ...props} = this.props
     return (
       <video
         ref={el => {

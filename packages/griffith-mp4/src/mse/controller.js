@@ -209,22 +209,9 @@ export default class MSE {
   removeBuffer() {
     for (const key in this.sourceBuffers) {
       const track = this.sourceBuffers[key]
-      const trackRange = [0, 0]
-
       const length = track.buffered.length
-      const currentTime = this.video.currentTime
 
-      for (let i = 0; i < length; i++) {
-        const start = track.buffered.start(i)
-        if (start < currentTime) {
-          trackRange[0] = start
-        }
-        const end = track.buffered.end(i)
-        if (end > currentTime) {
-          trackRange[1] = end
-        }
-      }
-      track.remove(trackRange[0], trackRange[1])
+      track.remove(track.buffered.start(0), track.buffered.end(length - 1))
     }
   }
 

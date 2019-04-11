@@ -1,7 +1,7 @@
 import VideoComponent from './Video'
 
 export default {
-  pluginName: 'griffith-mp4',
+  pluginName: 'griffith-hls',
   VideoComponent,
   willHandleSrcChange: true,
 }

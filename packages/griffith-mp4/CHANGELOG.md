@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/zhihu/griffith/compare/v1.3.1...v1.4.0) (2019-04-11)
+
+
+### Bug Fixes
+
+* cache data ([#61](https://github.com/zhihu/griffith/issues/61)) ([0b5e874](https://github.com/zhihu/griffith/commit/0b5e874))
+* Fix a hls bug when switching quality ([#59](https://github.com/zhihu/griffith/issues/59)) ([4a0e079](https://github.com/zhihu/griffith/commit/4a0e079))
+* remove mseUpdating flag ([#63](https://github.com/zhihu/griffith/issues/63)) ([93867af](https://github.com/zhihu/griffith/commit/93867af))
+* replay case ([#60](https://github.com/zhihu/griffith/issues/60)) ([e2693ad](https://github.com/zhihu/griffith/commit/e2693ad))
+
+
+### Features
+
+* adjust video quality ([#65](https://github.com/zhihu/griffith/issues/65)) ([f34077c](https://github.com/zhihu/griffith/commit/f34077c))
+
+
+
+
+
 ## [1.3.1](https://github.com/zhihu/griffith/compare/v1.3.0...v1.3.1) (2019-04-03)
 
 

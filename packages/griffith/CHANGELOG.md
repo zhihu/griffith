@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/zhihu/griffith/compare/v1.3.1...v1.4.0) (2019-04-11)
+
+
+### Bug Fixes
+
+* Fix a hls bug when switching quality ([#59](https://github.com/zhihu/griffith/issues/59)) ([4a0e079](https://github.com/zhihu/griffith/commit/4a0e079))
+
+
+
+
+
 ## [1.3.1](https://github.com/zhihu/griffith/compare/v1.3.0...v1.3.1) (2019-04-03)
 
 **Note:** Version bump only for package griffith

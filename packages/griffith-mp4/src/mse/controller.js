@@ -10,6 +10,7 @@ export default class MSE {
   constructor(video, src) {
     this.video = video
     this.src = src
+    this.qualityChangeFlag = false
     this.videoQueue = []
     this.audioQueue = []
     this.sourceBuffers = {
@@ -67,7 +68,7 @@ export default class MSE {
 
   init() {
     // 获取 mdat 外的数据
-    this.loadData()
+    return this.loadData()
       .then(res => {
         return new MP4Parse(new Uint8Array(res)).mp4BoxTreeObject
       })
@@ -116,10 +117,17 @@ export default class MSE {
           FMP4.moov(this.mp4Probe.mp4Data, 'audio')
         )
 
-        this.mediaSource.addEventListener('sourceopen', () => {
+        // 如果是切换清晰度，mediaSource 的 readyState 已经 open 了，可以直接 append 数据。
+        // mediaSource is already open when we switch video quality.
+        if (this.qualityChangeFlag) {
           this.handleAppendBuffer(videoRawData, 'video')
           this.handleAppendBuffer(audioRawData, 'audio')
-        })
+        } else {
+          this.mediaSource.addEventListener('sourceopen', () => {
+            this.handleAppendBuffer(videoRawData, 'video')
+            this.handleAppendBuffer(audioRawData, 'audio')
+          })
+        }
       })
   }
 
@@ -144,10 +152,13 @@ export default class MSE {
 
     // 对于已经请求的数据不再重复请求
     // No need to repeat request video data
-    if (time && this.hasBufferedCache(this.video.currentTime)) {
+    if (
+      time &&
+      this.hasBufferedCache(this.video.currentTime) &&
+      !this.qualityChangeFlag
+    ) {
       return
     }
-
     this.handleReplayCase()
 
     this.loadData(start, end).then(mdatBuffer => {
@@ -180,7 +191,28 @@ export default class MSE {
       if (time) {
         this.needUpdateTime = true
       }
+
+      this.qualityChangeFlag = false
     })
+  }
+
+  changeQuality(newSrc) {
+    this.src = newSrc
+    this.qualityChangeFlag = true
+    this.removeBuffer()
+
+    this.init().then(() => {
+      this.video.currentTime = this.video.currentTime
+    })
+  }
+
+  removeBuffer() {
+    for (const key in this.sourceBuffers) {
+      const track = this.sourceBuffers[key]
+      const length = track.buffered.length
+
+      track.remove(track.buffered.start(0), track.buffered.end(length - 1))
+    }
   }
 
   loadData(start = 0, end = MAGIC_NUMBER) {

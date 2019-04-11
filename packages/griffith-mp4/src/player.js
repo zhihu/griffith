@@ -12,7 +12,7 @@ export default class Player extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.src !== prevProps.src) {
-      this.mse = new MSE(this.video, this.props.src)
+      this.mse.changeQuality(this.props.src)
     }
   }
 

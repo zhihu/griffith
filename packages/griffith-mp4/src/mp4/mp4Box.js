@@ -59,7 +59,7 @@ export default class MP4Box {
       Box.readType(stream)
       Box.readBody(stream)
 
-      if (Box.type === 'trak') {
+      if (Box.type === 'trak' && Box.box.mdia) {
         const handlerType = Box.box.mdia.hdlr.handlerType
         if (handlerType === 'vide') {
           this.box.videoTrak = Box.box

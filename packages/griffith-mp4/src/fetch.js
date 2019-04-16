@@ -11,6 +11,7 @@ export default class FragmentFetch {
     xhr.responseType = 'arraybuffer'
     xhr.setRequestHeader('Range', `bytes=${start}-${end}`)
     xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, OPTIONS')
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
     xhr.onload = () => {
       if (xhr.status === 200 || xhr.status === 206) {
         callback(xhr.response)

@@ -261,7 +261,11 @@ export default class MSE {
   destroy = () => {
     this.mediaSource.removeEventListener('sourceopen', this.handleSourceOpen)
     URL.revokeObjectURL(this.video.src)
-    if (this.mediaSource.readyState === 'open') {
+    if (
+      this.mediaSource.readyState === 'open' &&
+      !this.sourceBuffers.video.updating &&
+      !this.sourceBuffers.audio.updating
+    ) {
       this.mediaSource.endOfStream()
     }
   }

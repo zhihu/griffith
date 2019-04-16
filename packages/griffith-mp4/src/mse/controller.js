@@ -131,7 +131,13 @@ export default class MSE {
       })
   }
 
-  hasBufferedCache = (time = 0) => {
+  hasBufferedCache = isSeek => {
+    const {
+      timeRange: [start, end],
+    } = this.mp4Probe
+
+    // handle seek case and normal case
+    const time = isSeek ? this.video.currentTime : Math.floor((start + end) / 2)
     const buffered = this.video.buffered
 
     if (buffered) {
@@ -149,16 +155,12 @@ export default class MSE {
     FragmentFetch.clear()
 
     const [start, end] = this.mp4Probe.getFragmentPosition(time)
-
     // 对于已经请求的数据不再重复请求
     // No need to repeat request video data
-    if (
-      time &&
-      this.hasBufferedCache(this.video.currentTime) &&
-      !this.qualityChangeFlag
-    ) {
+    if (this.hasBufferedCache(time) && !this.qualityChangeFlag) {
       return
     }
+
     this.handleReplayCase()
 
     this.loadData(start, end).then(mdatBuffer => {
@@ -231,7 +233,6 @@ export default class MSE {
       videoInterval: {offsetInterVal = []} = [],
       mp4Data: {videoSamplesLength},
     } = this.mp4Probe
-
     if (this.mediaSource.readyState !== 'closed') {
       if (offsetInterVal[1] === videoSamplesLength) {
         this.destroy()
@@ -243,13 +244,14 @@ export default class MSE {
 
   handleReplayCase = () => {
     if (this.mediaSource.readyState === 'ended') {
-      this.sourceBuffers.video.appendBuffer(new Uint8Array(0))
+      // If MediaSource.readyState value is ended,
+      // setting SourceBuffer.timestampOffset will cause this value to transition to open.
+      this.sourceBuffers.video.timestampOffset = 0
     }
   }
 
   shouldFetchNextSegment = () => {
     this.handleReplayCase()
-
     if (this.mp4Probe.isDraining(this.video.currentTime)) {
       return true
     }

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/zhihu/griffith/compare/v1.4.0...v1.4.1) (2019-04-16)
+
+
+### Bug Fixes
+
+* add Access-Control-Allow-Methods limit ([4049347](https://github.com/zhihu/griffith/commit/4049347))
+* cannot read property hdlr of undefined ([#66](https://github.com/zhihu/griffith/issues/66)) ([038ec8b](https://github.com/zhihu/griffith/commit/038ec8b))
+* add Access-Control-Allow-Origin option ([#68](https://github.com/zhihu/griffith/issues/68)) ([8efb682](https://github.com/zhihu/griffith/pull/68/commits/8efb682)))
+* failed to execute appendBuffer on SourceBuffer ([#68](https://github.com/zhihu/griffith/issues/68)) ([51e6602](https://github.com/zhihu/griffith/pull/68/commits/51e6602)))
+
+
+
+
 # [1.4.0](https://github.com/zhihu/griffith/compare/v1.3.1...v1.4.0) (2019-04-11)
 
 

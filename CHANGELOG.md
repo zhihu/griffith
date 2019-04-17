@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/zhihu/griffith/compare/v1.4.1...v1.4.2) (2019-04-17)
+
+
+### Bug Fixes
+
+* cannot read property handlerType of undefined ([#70](https://github.com/zhihu/griffith/issues/70)) ([3702079](https://github.com/zhihu/griffith/commit/3702079))
+* failed to execute endOfStream on MediaSource ([#69](https://github.com/zhihu/griffith/issues/69)) ([c8c91ff](https://github.com/zhihu/griffith/commit/c8c91ff))
+* failed to execute start on TimeRanges ([#71](https://github.com/zhihu/griffith/issues/71)) ([b59c4d0](https://github.com/zhihu/griffith/commit/b59c4d0))
+
+
+
+
+
 ## [1.4.1](https://github.com/zhihu/griffith/compare/v1.4.0...v1.4.1) (2019-04-16)
 
 

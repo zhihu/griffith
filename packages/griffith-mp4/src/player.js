@@ -29,7 +29,7 @@ export default class Player extends Component {
     const currentTime = this.video.currentTime
     const buffered = this.video.buffered
 
-    if (isSafari) {
+    if (isSafari && buffered && buffered.length > 0) {
       if (currentTime - 0.1 > buffered.start(0)) {
         this.mse.seek(this.video.currentTime)
       } else if (currentTime < buffered.start(0)) {
@@ -57,7 +57,12 @@ export default class Player extends Component {
   handleVideoProgress = e => {
     const buffered = this.video.buffered
     const currentTime = this.video.currentTime
-    if (isSafari && buffered.length > 0 && currentTime < buffered.start(0)) {
+    if (
+      isSafari &&
+      buffered &&
+      buffered.length > 0 &&
+      currentTime < buffered.start(0)
+    ) {
       this.handleVideoSeeking()
     }
     this.props.onProgress(e)

@@ -140,7 +140,7 @@ export default class MSE {
     const time = isSeek ? this.video.currentTime : Math.floor((start + end) / 2)
     const buffered = this.video.buffered
 
-    if (buffered) {
+    if (buffered && buffered.length > 0) {
       for (let i = 0; i < buffered.length; i++) {
         if (time >= buffered.start(i) && time <= buffered.end(i)) {
           return true
@@ -213,7 +213,9 @@ export default class MSE {
       const track = this.sourceBuffers[key]
       const length = track.buffered.length
 
-      track.remove(track.buffered.start(0), track.buffered.end(length - 1))
+      if (length > 0) {
+        track.remove(track.buffered.start(0), track.buffered.end(length - 1))
+      }
     }
   }
 

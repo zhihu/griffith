@@ -1,11 +1,11 @@
 import React from 'react'
-import {LocaleContext} from '../../contexts/Locale'
+import {LanguageContext} from '../../contexts/Language'
 import strings from './strings'
 
 const TranslatedText = ({name}) => (
-  <LocaleContext.Consumer>
+  <LanguageContext.Consumer>
     {locale => strings[locale][name]}
-  </LocaleContext.Consumer>
+  </LanguageContext.Consumer>
 )
 
 export default TranslatedText

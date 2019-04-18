@@ -63,7 +63,9 @@ export default class MSE {
   handleAppendBuffer = (buffer, type) => {
     if (this.mediaSource.readyState === 'open') {
       try {
-        this.sourceBuffers[type].appendBuffer(buffer)
+        if (this.sourceBuffers[type]) {
+          this.sourceBuffers[type].appendBuffer(buffer)
+        }
       } catch (error) {
         // see https://developers.google.com/web/updates/2017/10/quotaexceedederror
         if (error.name === 'QuotaExceededError') {

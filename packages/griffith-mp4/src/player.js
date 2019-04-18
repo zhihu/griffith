@@ -5,23 +5,35 @@ import MSE from './mse'
 const {isSafari} = ua
 
 export default class Player extends Component {
+  useMSE = true
+
   componentDidMount() {
     this.mse = new MSE(this.video, this.props.src)
-    this.mse.init()
+    this.mse.init().then(() => {
+      // don't use MSE If the video don't have a video track
+      if (!this.mse.mp4Probe.mp4Data.videoDuration) {
+        this.useMSE = false
+        this.video.src = this.props.src
+      }
+    })
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.src !== prevProps.src) {
+    if (this.props.src !== prevProps.src && this.useMSE) {
       this.mse.changeQuality(this.props.src)
     }
   }
 
   componentWillUnmount() {
-    this.mse.destroy()
+    if (this.useMSE) {
+      this.mse.destroy()
+    }
   }
 
   handleTimeUpdate = e => {
-    this.mse.handleTimeUpdate()
+    if (this.useMSE) {
+      this.mse.handleTimeUpdate()
+    }
     this.props.onTimeUpdate(e)
   }
 
@@ -31,20 +43,24 @@ export default class Player extends Component {
 
     if (isSafari && buffered && buffered.length > 0) {
       if (currentTime - 0.1 > buffered.start(0)) {
-        this.mse.seek(this.video.currentTime)
+        if (this.useMSE) {
+          this.mse.seek(this.video.currentTime)
+        }
       } else if (currentTime < buffered.start(0)) {
         this.handleSafariBug()
         return
       }
     } else {
-      this.mse.seek(this.video.currentTime)
+      if (this.useMSE) {
+        this.mse.seek(this.video.currentTime)
+      }
     }
     this.props.onSeeking(e)
   }
 
   handlePlay = e => {
     const {currentTime} = this.video
-    if (currentTime === 0) {
+    if (currentTime === 0 && this.useMSE) {
       this.mse.seek(0)
     }
 

@@ -60,7 +60,9 @@ export default class MSE {
 
   handleAppendBuffer = (buffer, type) => {
     if (this.mediaSource.readyState === 'open') {
-      this.sourceBuffers[type].appendBuffer(buffer)
+      if (this.sourceBuffers[type]) {
+        this.sourceBuffers[type].appendBuffer(buffer)
+      }
     } else {
       this[`${type}Queue`].push(buffer)
     }

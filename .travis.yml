@@ -1,14 +1,17 @@
 language: node_js
 
 node_js:
-  - 8
   - 10
 
-script:
-  - yarn run build
-  - yarn run lint
-  - yarn run format
-  - yarn run test:coverage
+jobs:
+  include:
+    - stage: lint
+      script: yarn run lint
+    - script: yarn run format
+    - stage: test
+      sctipt: run test:coverage
+    - stage: build
+      script: yarn run build
 
 after_success:
   - npx codecov --file=./coverage/lcov.info

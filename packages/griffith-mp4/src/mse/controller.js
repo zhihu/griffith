@@ -1,8 +1,10 @@
+import {ua} from 'griffith-utils'
 import FragmentFetch from '../fetch'
 import MP4Parse from '../mp4/mp4Parse'
 import MP4Probe from '../mp4/mp4Probe'
 import FMP4 from '../fmp4/fmp4Generator'
 import {concatTypedArray} from '../fmp4/utils'
+import {abortPolyfill} from './polyfill'
 
 const MAGIC_NUMBER = 20000
 
@@ -60,8 +62,17 @@ export default class MSE {
 
   handleAppendBuffer = (buffer, type) => {
     if (this.mediaSource.readyState === 'open') {
-      if (this.sourceBuffers[type]) {
-        this.sourceBuffers[type].appendBuffer(buffer)
+      try {
+        if (this.sourceBuffers[type]) {
+          this.sourceBuffers[type].appendBuffer(buffer)
+        }
+      } catch (error) {
+        // see https://developers.google.com/web/updates/2017/10/quotaexceedederror
+        if (error.name === 'QuotaExceededError') {
+          this.handleQuotaExceededError(buffer, type)
+        } else {
+          throw error
+        }
       }
     } else {
       this[`${type}Queue`].push(buffer)
@@ -203,22 +214,41 @@ export default class MSE {
   changeQuality(newSrc) {
     this.src = newSrc
     this.qualityChangeFlag = true
-    this.removeBuffer()
+
+    // remove old quality buffer before append new quality buffer
+    for (const key in this.sourceBuffers) {
+      const track = this.sourceBuffers[key]
+      const length = track.buffered.length
+
+      if (length > 0) {
+        this.removeBuffer(
+          track.buffered.start(0),
+          track.buffered.end(length - 1),
+          key
+        )
+      }
+    }
 
     this.init().then(() => {
       this.video.currentTime = this.video.currentTime
     })
   }
 
-  removeBuffer() {
-    for (const key in this.sourceBuffers) {
-      const track = this.sourceBuffers[key]
-      const length = track.buffered.length
+  removeBuffer(start, end, type) {
+    const track = this.sourceBuffers[type]
+    if (track.updating) {
+      const {isSafari} = ua
 
-      if (length > 0) {
-        track.remove(track.buffered.start(0), track.buffered.end(length - 1))
+      if (isSafari) {
+        // Safari 9/10/11/12 does not correctly implement abort() on SourceBuffer.
+        // Calling abort() before appending a segment causes that segment to be
+        // incomplete in buffer.
+        // Bug filed: https://bugs.webkit.org/show_bug.cgi?id=165342
+        abortPolyfill()
       }
+      track.abort()
     }
+    track.remove(start, end)
   }
 
   loadData(start = 0, end = MAGIC_NUMBER) {
@@ -272,5 +302,17 @@ export default class MSE {
     ) {
       this.mediaSource.endOfStream()
     }
+  }
+
+  handleQuotaExceededError = (buffer, type) => {
+    for (const key in this.sourceBuffers) {
+      const track = this.sourceBuffers[key]
+
+      const currentTime = this.video.currentTime
+      this.removeBuffer(track.buffered.start(0) + 10, currentTime - 10, key)
+    }
+
+    // re-append(maybe should lower the playback resolution)
+    this.handleAppendBuffer(buffer, type)
   }
 }

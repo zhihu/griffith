@@ -15,6 +15,13 @@ module.exports = env => {
       mp4: './mp4/index.js',
     },
 
+    resolve: {
+      alias: {
+        'react-dom': '@hot-loader/react-dom',
+      },
+      mainFields: ['source', 'browser', 'module', 'main'],
+    },
+
     devServer: {
       disableHostCheck: true,
       port: 8000,
@@ -22,6 +29,12 @@ module.exports = env => {
         '/mp4': {
           target: 'https://zhstatic.zhihu.com/cfe/griffith/',
           pathRewrite: {'^/mp4': ''},
+          changeOrigin: true,
+          secure: false,
+        },
+        '/vzuu': {
+          target: 'https://vdn1.vzuu.com/',
+          pathRewrite: {'^/vzuu': ''},
           changeOrigin: true,
           secure: false,
         },
@@ -40,16 +53,11 @@ module.exports = env => {
               loader: 'babel-loader',
               options: {
                 cacheDirectory: true,
-              },
-            },
-            {
-              exclude: /@babel\/runtime/,
-              loader: 'babel-loader',
-              options: {
-                cacheDirectory: true,
-                configFile: false,
-                presets: ['@zhihu/babel-preset/dependencies'],
-                compact: false,
+                presets: ['@babel/preset-env', '@babel/preset-react'],
+                plugins: [
+                  '@babel/plugin-proposal-class-properties',
+                  'react-hot-loader/babel',
+                ],
               },
             },
           ],

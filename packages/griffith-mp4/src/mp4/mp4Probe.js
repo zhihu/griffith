@@ -69,6 +69,7 @@ export default class MP4Probe {
       videoSamples[videoSamples.length - 1].start +
         videoSamples[videoSamples.length - 1].bufferStart ===
       stcoBox.samples[stcoBox.samples.length - 1].chunkOffset
+
     return getFragmentPosition(
       videoSamples,
       audioSamples,
@@ -113,18 +114,13 @@ export default class MP4Probe {
 
   getMP4Data() {
     const {duration, timescale} = findBox(this.mp4BoxTree, 'mvhd')
-    const {width, height} = findBox(this.mp4BoxTree, 'videoTkhd')
-    const {samples} = findBox(this.mp4BoxTree, 'videoStsz')
-    const {SPS, PPS} = findBox(this.mp4BoxTree, 'avcC')
+
     const {channelCount, sampleRate} = findBox(this.mp4BoxTree, 'mp4a')
     const {timescale: audioTimescale, duration: audioDuration} = findBox(
       this.mp4BoxTree,
       'audioMdhd'
     )
-    const {timescale: videoTimescale, duration: videoDuration} = findBox(
-      this.mp4BoxTree,
-      'videoMdhd'
-    )
+
     const {
       ESDescrTag: {
         DecSpecificDescrTag: {audioConfig},
@@ -134,18 +130,33 @@ export default class MP4Probe {
     this.mp4Data = {
       duration,
       timescale,
-      width,
-      height,
-      SPS,
-      PPS,
       channelCount,
       sampleRate,
       audioConfig,
       audioDuration,
-      videoDuration,
       audioTimescale,
-      videoTimescale,
-      videoSamplesLength: samples.length,
+    }
+
+    const hasVideoStream = findBox(this.mp4BoxTree, 'videoTrak')
+    if (hasVideoStream) {
+      const {width, height} = findBox(this.mp4BoxTree, 'videoTkhd')
+      const {samples} = findBox(this.mp4BoxTree, 'videoStsz')
+      const {SPS, PPS} = findBox(this.mp4BoxTree, 'avcC')
+      const {timescale: videoTimescale, duration: videoDuration} = findBox(
+        this.mp4BoxTree,
+        'videoMdhd'
+      )
+
+      this.mp4Data = {
+        ...this.mp4Data,
+        width,
+        height,
+        SPS,
+        PPS,
+        videoDuration,
+        videoTimescale,
+        videoSamplesLength: samples.length,
+      }
     }
   }
 }

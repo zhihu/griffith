@@ -11,8 +11,8 @@ export default class FMP4Generator {
     return ftyp()
   }
 
-  static moov(data) {
-    return moov(data)
+  static moov(data, type) {
+    return moov(data, type)
   }
 
   static moof(trackInfo, baseMediaDecodeTime) {

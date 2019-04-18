@@ -1,6 +1,6 @@
 {
   "name": "griffith-hls",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "griffith hls plugin",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-hls",
   "license": "MIT",
@@ -14,8 +14,7 @@
   "sideEffects": false,
   "scripts": {
     "prebuild": "rm -rf esm cjs",
-    "build": "rollup -c ../../rollup.config.js",
-    "build:watch": "yarn build -w"
+    "build": "rollup -c ../../rollup.config.js"
   },
   "peerDependencies": {
     "react": ">=16.3.0 <17.0.0",

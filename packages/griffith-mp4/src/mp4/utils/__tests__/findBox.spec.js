@@ -112,4 +112,12 @@ describe('findBox', () => {
   it('find empty', () => {
     expect(findBox(mp4BoxTree)).toEqual({})
   })
+
+  it('find audio elst', () => {
+    expect(findBox(mp4BoxTree, 'audioElst').entries[0].mediaTime).toBe(2048)
+  })
+
+  it('find video elst', () => {
+    expect(findBox(mp4BoxTree, 'videoElst').entries[0].mediaTime).toBe(2048)
+  })
 })

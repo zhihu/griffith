@@ -46,6 +46,10 @@ export default function findBox(mp4BoxTree, type) {
       return findAudioStszBox(mp4BoxTree)
     case 'mp4a':
       return findMp4aBox(mp4BoxTree)
+    case 'audioElst':
+      return findAudioElstBox(mp4BoxTree)
+    case 'videoElst':
+      return findVideoElstBox(mp4BoxTree)
 
     default:
       return {}
@@ -142,4 +146,12 @@ function findAudioStszBox(mp4BoxTree) {
 
 function findVideoCttsBox(mp4BoxTree) {
   return findVideoStblBox(mp4BoxTree)['ctts']
+}
+
+function findAudioElstBox(mp4BoxTree) {
+  return findAudioTrakBox(mp4BoxTree)['edts']['elst']
+}
+
+function findVideoElstBox(mp4BoxTree) {
+  return findAudioTrakBox(mp4BoxTree)['edts']['elst']
 }

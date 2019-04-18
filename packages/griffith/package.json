@@ -1,6 +1,6 @@
 {
   "name": "griffith",
-  "version": "1.2.0",
+  "version": "1.4.2",
   "description": "Zhihu Video Player",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith",
   "license": "MIT",
@@ -16,27 +16,26 @@
   "types": "index.d.ts",
   "scripts": {
     "prebuild": "rm -rf esm cjs",
-    "build": "rollup -c ../../rollup.config.js",
-    "build:watch": "yarn build -w"
+    "build": "rollup -c ../../rollup.config.js"
   },
   "peerDependencies": {
     "react": ">=16.3.0 <17.0.0",
     "react-dom": ">=16.3.0 <17.0.0"
   },
   "dependencies": {
-    "aphrodite": "2.2.3",
+    "aphrodite": "2.3.1",
     "element-resize-event": "^3.0.3",
     "eventemitter3": "^3.1.0",
-    "griffith-hls": "^1.2.0",
-    "griffith-message": "^1.2.0",
-    "griffith-mp4": "^1.2.0",
-    "griffith-utils": "^1.2.0",
+    "griffith-hls": "^1.4.0",
+    "griffith-message": "^1.2.1",
+    "griffith-mp4": "^1.4.2",
+    "griffith-utils": "^1.2.1",
     "isomorphic-bigscreen": "2.0.5",
     "lodash": "4.17.11",
-    "prop-types": "^15.6.2",
-    "query-string": "^6.3.0"
+    "prop-types": "^15.7.2",
+    "query-string": "^6.4.2"
   },
   "devDependencies": {
-    "jest-localstorage-mock": "^2.3.0"
+    "jest-localstorage-mock": "^2.4.0"
   }
 }

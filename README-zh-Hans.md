@@ -52,7 +52,7 @@ render(<Player sources={sources} />)
 ### 非 React 应用
 
 ```html
-<script src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js" /></script>
+<script src="https://unpkg.com/griffith-standalone/dist/index.umd.min.js"></script>
 ```
 
 ```javascript

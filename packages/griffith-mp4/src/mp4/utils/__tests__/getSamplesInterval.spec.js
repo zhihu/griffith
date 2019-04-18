@@ -27,7 +27,7 @@ describe('getSamplesInterval', () => {
       })
     ).toEqual({
       offsetInterVal: [0, 395],
-      timeInterVal: [0, 404480],
+      timeInterVal: [2048, 404480],
     })
   })
 

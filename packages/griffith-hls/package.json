@@ -14,8 +14,7 @@
   "sideEffects": false,
   "scripts": {
     "prebuild": "rm -rf esm cjs",
-    "build": "rollup -c ../../rollup.config.js",
-    "build:watch": "yarn build -w"
+    "build": "rollup -c ../../rollup.config.js"
   },
   "peerDependencies": {
     "react": ">=16.3.0 <17.0.0",

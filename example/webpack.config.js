@@ -15,6 +15,10 @@ module.exports = env => {
       mp4: './mp4/index.js',
     },
 
+    resolve: {
+      mainFields: ['source', 'browser', 'module', 'main'],
+    },
+
     devServer: {
       disableHostCheck: true,
       port: 8000,

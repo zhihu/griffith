@@ -41,7 +41,7 @@
     "build": "yarn build:lib && yarn build:standalone",
     "build:watch": "lerna run build:watch --stream --parallel",
     "release": "yarn build && lerna publish",
-    "start": "npm run build:watch & yarn workspace example run start"
+    "start": "yarn workspace example run start"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

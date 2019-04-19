@@ -6,8 +6,6 @@ module.exports = {
     library: 'Griffith',
   },
 
-  devtool: 'sourcemap',
-
   module: {
     rules: [
       {

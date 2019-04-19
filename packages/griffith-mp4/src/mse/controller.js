@@ -266,9 +266,13 @@ export default class MSE {
     const {
       videoInterval: {offsetInterVal = []} = [],
       mp4Data: {videoSamplesLength},
+      timeRange = [],
     } = this.mp4Probe
     if (this.mediaSource.readyState !== 'closed') {
-      if (offsetInterVal[1] === videoSamplesLength) {
+      if (
+        offsetInterVal[1] === videoSamplesLength &&
+        this.video.currentTime > timeRange[0]
+      ) {
         this.destroy()
       } else if (this.shouldFetchNextSegment()) {
         this.seek()

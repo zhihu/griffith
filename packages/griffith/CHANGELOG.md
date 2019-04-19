@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/zhihu/griffith/compare/v1.4.2...v1.4.3) (2019-04-19)
+
+
+### Bug Fixes
+
+* dont show Controller component when first frame is not ready ([#74](https://github.com/zhihu/griffith/issues/74)) ([5f3c621](https://github.com/zhihu/griffith/commit/5f3c621))
+
+
+
+
+
 ## [1.4.2](https://github.com/zhihu/griffith/compare/v1.4.1...v1.4.2) (2019-04-17)
 
 **Note:** Version bump only for package griffith

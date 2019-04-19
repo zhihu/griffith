@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/zhihu/griffith/compare/v1.4.2...v1.4.3) (2019-04-19)
+
+
+### Bug Fixes
+
+* don't use MSE If the video don't have a video track ([#78](https://github.com/zhihu/griffith/issues/78)) ([0261ddb](https://github.com/zhihu/griffith/commit/0261ddb))
+* end of stream when last GOP is played ([#83](https://github.com/zhihu/griffith/issues/83)) ([1aaf240](https://github.com/zhihu/griffith/commit/1aaf240))
+* exceeding the buffering quota ([#75](https://github.com/zhihu/griffith/issues/75)) ([01134f1](https://github.com/zhihu/griffith/commit/01134f1))
+
+
+
+
+
 ## [1.4.2](https://github.com/zhihu/griffith/compare/v1.4.1...v1.4.2) (2019-04-17)
 
 

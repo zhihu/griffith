@@ -1,4 +1,5 @@
 import {
+  getIntervalArray,
   getVideoSamplesInterval,
   getAudioSamplesInterval,
   getNextVideoSamplesInterval,
@@ -41,5 +42,30 @@ describe('getSamplesInterval', () => {
       offsetInterVal: [56, 86],
       timeInterVal: [56056, 86086],
     })
+  })
+
+  it('should get the sample interval array when video has B/P frame', () => {
+    const mockStssBox = {
+      samples: [
+        {
+          sampleNumber: 1,
+        },
+        {
+          sampleNumber: 251,
+        },
+        {
+          sampleNumber: 501,
+        },
+      ],
+    }
+    expect(getIntervalArray(mockStssBox)).toEqual([0, 250, 500])
+  })
+
+  it('should get the sample interval array when video has B/P frame', () => {
+    const mockStszBox = {
+      samples: [],
+    }
+    mockStszBox.samples.length = 21
+    expect(getIntervalArray(undefined, mockStszBox)).toEqual([0, 5, 10, 15, 20])
   })
 })

@@ -5,6 +5,7 @@ import getFragmentPosition from './getFragmentPosition'
 import getBufferStart from './getBufferStart'
 import {getVideoSamples, getAudioSamples} from './getSamples'
 import {
+  getIntervalArray,
   getAudioSamplesInterval,
   getVideoSamplesInterval,
   getNextVideoSamplesInterval,
@@ -15,6 +16,7 @@ import getDuration from './getDuration'
 export {
   findBox,
   getDuration,
+  getIntervalArray,
   getSamplesOffset,
   getPerChunkArray,
   getFragmentPosition,

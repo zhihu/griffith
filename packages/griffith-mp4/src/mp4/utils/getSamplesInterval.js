@@ -7,7 +7,7 @@ export function getVideoSamplesInterval(mp4BoxTree, time = 0) {
   const stszBox = findBox(mp4BoxTree, 'videoStsz')
   const duration = getDuration(sttsBox, stszBox.samples.length)
 
-  const intervalArray = stssBox.samples.map(sample => sample.sampleNumber - 1)
+  const intervalArray = getIntervalArray(stssBox, stszBox)
   const timeInterval = intervalArray.map(interval =>
     getDuration(sttsBox, interval)
   )
@@ -87,11 +87,12 @@ export function getAudioSamplesInterval(mp4BoxTree, videoInterval) {
 
 export function getNextVideoSamplesInterval(mp4BoxTree, sample) {
   const stssBox = cloneDeep(findBox(mp4BoxTree, 'videoStss'))
-  const intervalArray = stssBox.samples.map(sample => sample.sampleNumber - 1)
   const sttsBox = cloneDeep(findBox(mp4BoxTree, 'videoStts'))
   const stszBox = findBox(mp4BoxTree, 'videoStsz')
   const sampleCount = stszBox.samples.length
   const duration = getDuration(sttsBox, sampleCount)
+
+  const intervalArray = getIntervalArray(stssBox, stszBox)
 
   const timeInterval = intervalArray.map(interval =>
     getDuration(sttsBox, interval)
@@ -113,4 +114,18 @@ export function getNextVideoSamplesInterval(mp4BoxTree, sample) {
     }
   }
   return result
+}
+
+export function getIntervalArray(stssBox, stszBox) {
+  let intervalArray = []
+  if (stssBox) {
+    intervalArray = stssBox.samples.map(sample => sample.sampleNumber - 1)
+  } else {
+    // make a fake GOP when video dont have B/P frame
+    for (let i = 0; i <= Math.floor(stszBox.samples.length / 5); i++) {
+      intervalArray.push(i * 5)
+    }
+  }
+
+  return intervalArray
 }

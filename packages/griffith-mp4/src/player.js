@@ -87,7 +87,11 @@ export default class Player extends Component {
   // 如果当前时间为 0，safari 浏览器需要把 currentTime 设置成 buffered.start(0) 右边一点点的位置
   // 否则 MSE 无法正常播放，会卡在 loading 状态。
   handleSafariBug = () => {
-    const start = this.video.buffered.start(0)
+    let start = 0
+
+    if (this.video.buffered.length > 0) {
+      start = this.video.buffered.start(0)
+    }
     this.video.currentTime = start + 0.1
   }
 

@@ -65,9 +65,13 @@ export default class MP4Probe {
 
     const {videoSamples, audioSamples} = this.getSamples()
     const stcoBox = findBox(this.mp4BoxTree, 'videoStco')
+
+    let videoSamplesStart = 0
+    if (videoSamples.length > 0) {
+      videoSamplesStart = videoSamples[videoSamples.length - 1].start
+    }
     const isLastFragmentPosition =
-      videoSamples[videoSamples.length - 1].start +
-        videoSamples[videoSamples.length - 1].bufferStart ===
+      videoSamplesStart + videoSamples[videoSamples.length - 1].bufferStart ===
       stcoBox.samples[stcoBox.samples.length - 1].chunkOffset
 
     return getFragmentPosition(

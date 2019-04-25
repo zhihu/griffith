@@ -5,7 +5,11 @@ export default function getFragmentPosition(
   isLastFragmentPosition
 ) {
   const videoSamplesEnd = videoSamples[videoSamples.length - 1].end
-  const videoSamplesStart = videoSamples[0].start
+  let videoSamplesStart = 0
+
+  if (videoSamples.length > 0) {
+    videoSamplesStart = videoSamples[0].start
+  }
 
   // maybe the last GOP dont have audio track
   // 最后一个 GOP 序列可能没有音频轨

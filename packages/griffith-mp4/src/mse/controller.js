@@ -68,7 +68,7 @@ export default class MSE {
         }
       } catch (error) {
         // see https://developers.google.com/web/updates/2017/10/quotaexceedederror
-        if (error.name === 'QuotaExceededError') {
+        if (error.code === 22) {
           this.handleQuotaExceededError(buffer, type)
         } else {
           throw error
@@ -313,7 +313,13 @@ export default class MSE {
       const track = this.sourceBuffers[key]
 
       const currentTime = this.video.currentTime
-      this.removeBuffer(track.buffered.start(0) + 10, currentTime - 10, key)
+
+      let removeStart = 0
+
+      if (track.buffered.length > 0) {
+        removeStart = track.buffered.start(0) + 10
+      }
+      this.removeBuffer(removeStart, currentTime - 10, key)
     }
 
     // re-append(maybe should lower the playback resolution)

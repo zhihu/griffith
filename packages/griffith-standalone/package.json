@@ -14,6 +14,7 @@
     "build": "webpack -p"
   },
   "devDependencies": {
+    "babel-loader": "^8.0.5",
     "griffith": "^1.4.4",
     "react": "16.4.2",
     "react-dom": "16.4.2",

@@ -8,6 +8,7 @@ script:
   - yarn run lint
   - yarn run build
   - yarn run test:coverage
+  - yarn run build:website
 
 after_success:
   - npx codecov --file=./coverage/lcov.info

@@ -1,0 +1,12 @@
+.features-grid {
+  display: flex;
+}
+
+.features-grid > div {
+  flex: 1;
+  margin-left: 1em;
+}
+
+.features-grid > div:first-child {
+  margin-left: 0;
+}

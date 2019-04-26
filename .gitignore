@@ -13,3 +13,7 @@ package-lock.json
 
 # Editor
 .vscode
+
+# gatsby
+.cache
+website/public

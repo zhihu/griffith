@@ -10,7 +10,8 @@
   "license": "MIT",
   "workspaces": [
     "packages/*",
-    "example"
+    "example",
+    "website"
   ],
   "keywords": [
     "zhihu",

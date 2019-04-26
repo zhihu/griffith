@@ -30,7 +30,7 @@
     "zhihu-video-player"
   ],
   "scripts": {
-    "format": "prettier \"packages/**/*.{js,json,md}\" \"*.{js,json,md}\"",
+    "format": "prettier --check \"packages/**/*.{js,json,md}\" \"*.{js,json,md}\"",
     "format:fix": "prettier --write \"packages/**/*.{js,json,md}\" \"*.{js,json,md}\"",
     "lint": "eslint 'packages/*/src/**/*.js' '*.js'",
     "test": "jest",

@@ -57,6 +57,11 @@ module.exports = {
     react: {
       version: '16',
     },
-    'import/core-modules': ['griffith', 'griffith-mp4'],
+    'import/core-modules': [
+      'griffith',
+      'griffith-mp4',
+      'griffith-utils',
+      'griffith-message',
+    ],
   },
 }

@@ -1,13 +1,12 @@
 language: node_js
 
 node_js:
-  - 8
   - 10
 
 script:
-  - yarn run build
-  - yarn run lint
   - yarn run format
+  - yarn run lint
+  - yarn run build
   - yarn run test:coverage
 
 after_success:
@@ -19,4 +18,4 @@ notifications:
 cache:
   yarn: true
   directories:
-    - "node_modules"
+    - 'node_modules'

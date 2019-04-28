@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production webpack --env production",
@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "@hot-loader/react-dom": "^16.8.6",
-    "griffith": "^1.4.4",
+    "griffith": "^1.4.5",
     "query-string": "^6.3.0",
     "raf": "^3.4.1",
     "react": "16.4.2",

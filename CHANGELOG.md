@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.5](https://github.com/zhihu/griffith/compare/v1.4.4...v1.4.5) (2019-04-28)
+
+
+### Bug Fixes
+
+* cannot read property start of undefined ([#86](https://github.com/zhihu/griffith/issues/86)) ([9e2740a](https://github.com/zhihu/griffith/commit/9e2740a))
+
+
+
+
+
 ## [1.4.4](https://github.com/zhihu/griffith/compare/v1.4.3...v1.4.4) (2019-04-23)
 
 

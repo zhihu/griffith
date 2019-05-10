@@ -6,8 +6,9 @@ node_js:
 script:
   - yarn run format
   - yarn run lint
-  - yarn run build
+  - yarn run build:lib
   - yarn run test:coverage
+  - yarn workspace website run build
 
 after_success:
   - npx codecov --file=./coverage/lcov.info

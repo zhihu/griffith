@@ -1,12 +1,12 @@
 language: node_js
 
 node_js:
-  - 11
+  - 10
 
 script:
   - yarn run format
   - yarn run lint
-  - yarn run build
+  - yarn run build:lib
   - yarn run test:coverage
   - yarn workspace website run build
 

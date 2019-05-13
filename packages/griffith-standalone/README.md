@@ -13,11 +13,20 @@ Griffith bundled with React, React DOM and other dependencies. You can use it by
 <script>
   const target = document.getElementById('player')
 
+  const sources = {
+    hd: {
+      play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
+    },
+    sd: {
+      play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
+    },
+  }
+
   // create player instance
-  const player = Griffith.createPlayer(element)
+  const player = Griffith.createPlayer(target)
 
   // load video
-  player.render(props)
+  player.render({sources})
 
   // dispose video
   player.dispose()

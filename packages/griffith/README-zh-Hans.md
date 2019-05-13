@@ -30,6 +30,7 @@ render(<Player {...props} />)
 | `initialObjectFit`    | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                            |
 | `useMSE`              | `boolean`                                         | `false`   | 是否启用 MSE                               |
 | `locale`              | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                   |
+| `autoplay`            | `boolean`                                         | `false`   | 自动播放（自动播放时会静音）               |
 
 `sources` 字段：
 

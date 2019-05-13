@@ -31,6 +31,7 @@ render(<Player {...props} />)
 | `initialObjectFit`    | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                               |
 | `useMSE`              | `boolean`                                        | `false`   | Enable Media Source Extensions™                                          |
 | `locale`              | `en \| ja \| zh-Hans \| zh-Hant`                 | `en`      | UI Locale                                                                |
+| `autoplay`            | `boolean`                                        | `false`   | Muted Autoplay                                                           |
 
 `sources`:
 

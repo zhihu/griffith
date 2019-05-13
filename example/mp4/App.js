@@ -33,6 +33,7 @@ const props = {
   cover: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018.jpg',
   duration,
   sources,
+  autoplay: true,
   shouldObserveResize: true,
   src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
 }

@@ -13,8 +13,8 @@
     "gatsby-transformer-remark": "^2.3.11",
     "griffith": "1.4.3",
     "normalize.css": "^8.0.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
     "react-helmet": "^5.2.0"
   }
 }

@@ -25,6 +25,7 @@ const PlayerContainer = ({
   initialObjectFit = 'contain',
   useMSE,
   locale = 'en',
+  autoplay,
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
@@ -37,6 +38,7 @@ const PlayerContainer = ({
                   {({currentSrc}) => (
                     <Player
                       useMSE={useMSE}
+                      autoplay={autoplay}
                       standalone={standalone}
                       cover={cover}
                       title={title}

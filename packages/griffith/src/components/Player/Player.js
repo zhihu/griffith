@@ -37,6 +37,7 @@ class Player extends Component {
   static defaultProps = {
     standalone: false,
     duration: 0,
+    autoplay: false,
   }
 
   state = {
@@ -87,6 +88,16 @@ class Player extends Component {
       ACTIONS.PLAYER.PAUSE,
       this.handlePauseAction
     )
+
+    const {autoplay} = this.props
+    if (autoplay && this.videoRef.current.root) {
+      if (!this.videoRef.current.root.muted) {
+        // Muted autoplay is always allowed
+        this.handleVideoVolumeChange(0)
+      }
+
+      this.handlePlay('video')
+    }
   }
 
   componentDidUpdate() {

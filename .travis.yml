@@ -6,12 +6,12 @@ node_js:
 script:
   - yarn run format
   - yarn run lint
-  - yarn run build:lib
+  - yarn run build
   - yarn run test:coverage
-  - yarn workspace website run build
 
 after_success:
   - npx codecov --file=./coverage/lcov.info
+  - yarn workspace website run deploy
 
 notifications:
   email: false
@@ -20,3 +20,12 @@ cache:
   yarn: true
   directories:
     - 'node_modules'
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local_dir: website/public
+  keep-history: true
+  on:
+    branch: gh-pages

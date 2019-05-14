@@ -24,9 +24,8 @@ cache:
 deploy:
   provider: pages
   skip-cleanup: true
-  email: xiaoyuhen1994@gmail.com
   github-token: $GITHUB_TOKEN
-  local_dir: public
+  local_dir: website/public
   keep-history: true
   on:
     branch: gh-pages

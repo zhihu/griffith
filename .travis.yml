@@ -25,7 +25,7 @@ deploy:
   provider: pages
   skip-cleanup: true
   email: xiaoyuhen1994@gmail.com
-  github-token: 586ac12fc2af6aa7b0480ba60d9b98b289c1a52d
+  github-token: $GITHUB_TOKEN
   local_dir: public
   keep-history: true
   on:

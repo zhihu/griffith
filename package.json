@@ -39,7 +39,7 @@
     "test:watch": "jest --watch --notify",
     "build:lib": "lerna run build --parallel --ignore example --ignore website --ignore griffith-standalone",
     "build:standalone": "lerna run --scope griffith-standalone build",
-    "build:website": "lerna run --scope website build",
+    "deploy:website": "lerna run --scope website deploy",
     "build": "yarn build:lib && yarn build:standalone",
     "build:watch": "lerna run build:watch --stream --parallel",
     "release": "yarn build && lerna publish",

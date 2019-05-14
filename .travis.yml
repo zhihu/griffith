@@ -8,10 +8,10 @@ script:
   - yarn run lint
   - yarn run build
   - yarn run test:coverage
-  - yarn workspace website run deploy
 
 after_success:
   - npx codecov --file=./coverage/lcov.info
+  - yarn workspace website run deploy
 
 notifications:
   email: false
@@ -20,3 +20,13 @@ cache:
   yarn: true
   directories:
     - 'node_modules'
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  email: xiaoyuhen1994@gmail.com
+  github-token: 586ac12fc2af6aa7b0480ba60d9b98b289c1a52d
+  local_dir: public
+  keep-history: true
+  on:
+    branch: gh-pages

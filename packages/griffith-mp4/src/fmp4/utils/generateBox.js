@@ -1,4 +1,6 @@
-import {num2FourBytes, str2TypedArray, concatTypedArray} from './'
+import {num2FourBytes} from './num2Bytes'
+import str2TypedArray from './str2TypedArray'
+import concatTypedArray from './concatTypedArray'
 
 export default function generateBox(type, content) {
   return concatTypedArray(

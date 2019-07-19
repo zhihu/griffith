@@ -24,6 +24,7 @@
     "react-dom": ">=16.3.0 <17.0.0"
   },
   "dependencies": {
+    "griffith-utils": "^1.4.4",
     "lodash": "^4.17.11"
   }
 }

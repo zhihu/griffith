@@ -1,5 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
-import {findBox, getPerChunkArray, getSamplesOffset} from '.'
+import findBox from './findBox'
+import getPerChunkArray from './getPerChunkArray'
+import getSamplesOffset from './getSamplesOffset'
 
 export function getVideoSamples(mp4BoxTree, bufferStart, offsetInterVal) {
   const cttsBox = cloneDeep(findBox(mp4BoxTree, 'videoCtts'))

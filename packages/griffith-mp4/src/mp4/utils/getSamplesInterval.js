@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
-import {findBox, getDuration} from '.'
+import findBox from './findBox'
+import getDuration from './getDuration'
 
 export function getVideoSamplesInterval(mp4BoxTree, time = 0) {
   const stssBox = cloneDeep(findBox(mp4BoxTree, 'videoStss'))

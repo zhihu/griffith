@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
-import {findBox, getPerChunkArray} from '.'
+import findBox from './findBox'
+import getPerChunkArray from './getPerChunkArray'
 
 export default function getBufferStart(
   mp4BoxTree,

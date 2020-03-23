@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/zhihu/griffith/compare/v1.5.0...v1.5.1) (2020-03-23)
+
+
+### Bug Fixes
+
+* export controller component ([4918a95](https://github.com/zhihu/griffith/commit/4918a95))
+
+
+
+
+
 # [1.5.0](https://github.com/zhihu/griffith/compare/v1.4.5...v1.5.0) (2019-05-13)
 
 

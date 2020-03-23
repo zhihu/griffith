@@ -32,6 +32,8 @@ class Controller extends Component {
     onVolumeChange: PropTypes.func,
     onToggleFullScreen: PropTypes.func,
     show: PropTypes.bool,
+    hiddenQualityMenu: PropTypes.bool,
+    hiddenVolumeItem: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -42,6 +44,8 @@ class Controller extends Component {
     volume: 0.5,
     buffered: 0,
     isFullScreen: false,
+    hiddenVolumeItem: false,
+    hiddenQualityMenu: false,
   }
 
   state = {
@@ -256,6 +260,8 @@ class Controller extends Component {
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
+      hiddenVolumeItem,
+      hiddenQualityMenu,
     } = this.props
     const {
       isVolumeHovered,
@@ -285,17 +291,19 @@ class Controller extends Component {
           currentTime={displayedCurrentTime}
           duration={duration}
         />
-        <QualityMenuItem />
-        <VolumeItem
-          volume={volume}
-          menuShown={isVolumeHovered || isVolumeDragging || isVolumeKeyboard}
-          onMouseEnter={this.handleVolumePointerEnter}
-          onMouseLeave={this.handleVolumePointerLeave}
-          onToggleMuted={this.handleToggleMuted}
-          onDragStart={this.handleVolumeDragStart}
-          onDragEnd={this.handleVolumeDragEnd}
-          onChange={this.handleVolumeChange}
-        />
+        {!hiddenQualityMenu && <QualityMenuItem />}
+        {!hiddenVolumeItem && (
+          <VolumeItem
+            volume={volume}
+            menuShown={isVolumeHovered || isVolumeDragging || isVolumeKeyboard}
+            onMouseEnter={this.handleVolumePointerEnter}
+            onMouseLeave={this.handleVolumePointerLeave}
+            onToggleMuted={this.handleToggleMuted}
+            onDragStart={this.handleVolumeDragStart}
+            onDragEnd={this.handleVolumeDragEnd}
+            onChange={this.handleVolumeChange}
+          />
+        )}
         <FullScreenButtonItem
           isFullScreen={isFullScreen}
           onClick={onToggleFullScreen}

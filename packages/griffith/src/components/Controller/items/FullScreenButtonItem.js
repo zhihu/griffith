@@ -1,10 +1,13 @@
 import React from 'react'
 import {css} from 'aphrodite/no-important'
+import {ua} from 'griffith-utils'
 import styles from '../styles'
 import Icon from '../../Icon'
 import * as icons from '../../Icon/icons/controller'
 import Tooltip from '../../Tooltip'
 import Hover from '../../Hover'
+
+const {isMobile} = ua
 
 const FullScreenButtonItem = ({isFullScreen, onClick}) => (
   <Hover className={css(styles.menuContainer)}>
@@ -21,13 +24,15 @@ const FullScreenButtonItem = ({isFullScreen, onClick}) => (
             isFullScreen && styles.fullScreenTooltipWide
           )}
         >
-          <Tooltip
-            content={
-              isFullScreen
-                ? 'action-exit-fullscreen'
-                : 'action-enter-fullscreen'
-            }
-          />
+          {!isMobile && (
+            <Tooltip
+              content={
+                isFullScreen
+                  ? 'action-exit-fullscreen'
+                  : 'action-enter-fullscreen'
+              }
+            />
+          )}
         </div>
       </React.Fragment>
     )}

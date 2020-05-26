@@ -32,7 +32,6 @@ class Video extends Component {
     onPlaying: PropTypes.func,
     onSeeking: PropTypes.func,
     onSeeked: PropTypes.func,
-    onVolumeChange: PropTypes.func,
     onProgress: PropTypes.func,
     onError: PropTypes.func.isRequired,
     onEvent: PropTypes.func.isRequired,
@@ -92,7 +91,7 @@ class Video extends Component {
       }
     }
 
-    if (this.root.volume !== volume ** 2) {
+    if (this.root.volume !== volume ** 2 && !isMobile) {
       this.root.volume = volume ** 2
     }
   }
@@ -234,13 +233,6 @@ class Video extends Component {
     }
   }
 
-  handleVolumeChange = () => {
-    const {onVolumeChange} = this.props
-    if (onVolumeChange) {
-      onVolumeChange(this.root.muted ? 0 : Math.sqrt(this.root.volume))
-    }
-  }
-
   handleProgress = () => {
     const {onProgress} = this.props
     const buffered = this.root.buffered
@@ -321,7 +313,6 @@ class Video extends Component {
         onError={this.handleError}
         onDurationChange={this.handleDurationChange}
         onTimeUpdate={this.handleTimeUpdate}
-        onVolumeChange={this.handleVolumeChange}
         onProgress={this.handleProgress}
         onWaiting={this.handleWaiting}
         onPlaying={this.handlePlaying}

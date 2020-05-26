@@ -402,7 +402,6 @@ class Player extends Component {
             onPlaying={this.handleVideoPlaying}
             onSeeking={this.handleVideoSeeking}
             onSeeked={this.handleVideoSeeked}
-            onVolumeChange={this.handleVideoVolumeChange}
             onProgress={this.handleVideoProgress}
             onEvent={onEvent}
             useMSE={useMSE}

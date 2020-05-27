@@ -1,6 +1,6 @@
 {
   "name": "griffith-standalone",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Zhihu Video Player",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-standalone",
   "license": "MIT",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "babel-loader": "^8.0.5",
-    "griffith": "^1.5.2",
+    "griffith": "^1.5.3",
     "react": "16.4.2",
     "react-dom": "16.4.2"
   }

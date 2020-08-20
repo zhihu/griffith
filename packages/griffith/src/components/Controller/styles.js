@@ -117,4 +117,8 @@ export default StyleSheet.create({
   fullScreenTooltipWide: {
     left: '30%',
   },
+
+  pipTooltip: {
+    pointerEvents: 'none',
+  },
 })

@@ -77,6 +77,8 @@ dispatchMessage(targetWindow, messageName, data)
 | `EVENTS.PLAYER.PLAY_FAILED`      | 播放失败               | `{currentTime: number}`                  |
 | `EVENTS.PLAYER.ENTER_FULLSCREEN` | 进入全屏               | 无                                       |
 | `EVENTS.PLAYER.EXIT_FULLSCREEN`  | 退出全屏               | 无                                       |
+| `EVENTS.PLAYER.ENTER_PIP`        | 进入画中画             | 无                                       |
+| `EVENTS.PLAYER.EXIT_PIP`         | 退出画中画             | 无                                       |
 
 #### DOM 类 data
 

@@ -5,6 +5,8 @@ declare const ACTIONS: {
     SET_VOLUME: string
     ENTER_FULLSCREEN: string
     EXIT_FULLSCREEN: string
+    ENTER_PIP: string
+    EXIT_PIP: string
   }
 }
 
@@ -27,6 +29,8 @@ declare const EVENTS: {
     PLAY_FAILED: string
     ENTER_FULLSCREEN: string
     EXIT_FULLSCREEN: string
+    ENTER_PIP: string
+    EXIT_PIP: string
   }
 }
 

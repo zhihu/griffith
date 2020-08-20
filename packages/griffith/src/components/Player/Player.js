@@ -14,6 +14,7 @@ import Controller from '../Controller'
 import {MinimalTimeline} from '../Timeline'
 import getBufferedTime from '../../utils/getBufferedTime'
 import storage from '../../utils/storage'
+import Pip from '../../utils/pip'
 import {ObjectFitContext} from '../../contexts/ObjectFit'
 
 import styles, {hiddenOrShownStyle} from './styles'
@@ -32,12 +33,15 @@ class Player extends Component {
     duration: PropTypes.number,
     onEvent: PropTypes.func.isRequired,
     onBeforePlay: PropTypes.func.isRequired,
+    autoplay: PropTypes.bool,
+    disablePictureInPicture: PropTypes.bool,
   }
 
   static defaultProps = {
     standalone: false,
     duration: 0,
     autoplay: false,
+    disablePictureInPicture: false,
   }
 
   state = {
@@ -78,6 +82,7 @@ class Player extends Component {
 
   componentDidMount() {
     this.setDocumentTitle()
+    this.initPip()
 
     const historyVolume = storage.get('@griffith/history-volume')
     if (historyVolume) {
@@ -89,8 +94,7 @@ class Player extends Component {
       this.handlePauseAction
     )
 
-    const {autoplay} = this.props
-    if (autoplay && this.videoRef.current.root) {
+    if (this.props.autoplay && this.videoRef.current.root) {
       if (!this.videoRef.current.root.muted) {
         // Muted autoplay is always allowed
         this.handleVideoVolumeChange(0)
@@ -102,6 +106,7 @@ class Player extends Component {
 
   componentDidUpdate() {
     this.setDocumentTitle()
+    this.initPip()
   }
 
   setDocumentTitle = () => {
@@ -109,6 +114,20 @@ class Player extends Component {
 
     if (standalone && typeof title === 'string' && title !== document.title) {
       document.title = title
+    }
+  }
+
+  initPip = () => {
+    if (
+      !this.props.disablePictureInPicture &&
+      this.videoRef.current.root &&
+      !Pip.inited
+    ) {
+      Pip.init(
+        this.videoRef.current.root,
+        () => this.props.onEvent(EVENTS.PLAYER.ENTER_PIP),
+        () => this.props.onEvent(EVENTS.PLAYER.EXIT_PIP)
+      )
     }
   }
 
@@ -275,6 +294,10 @@ class Player extends Component {
     }
   }
 
+  handleTogglePip = () => {
+    Pip.toggle()
+  }
+
   handleShowController = () => {
     if (!this.state.isControllerShown) {
       this.setState({isControllerShown: true})
@@ -340,7 +363,16 @@ class Player extends Component {
   }
 
   render() {
-    const {error, title, cover, standalone, onEvent, useMSE} = this.props
+    const {
+      error,
+      title,
+      cover,
+      standalone,
+      onEvent,
+      useMSE,
+      disablePictureInPicture,
+    } = this.props
+
     const {
       isPlaybackStarted,
       lastAction,
@@ -359,7 +391,9 @@ class Player extends Component {
       pressed,
     } = this.state
 
-    const isFullScreen = Boolean(BigScreen.element)
+    const isPip = Boolean(Pip.pictureInPictureElement)
+    // Safari 会将 pip 状态视为全屏
+    const isFullScreen = Boolean(BigScreen.element) && !isPip
 
     // 未播放时不展示 Controller
     // 播放中暂停时展示 Controller
@@ -538,6 +572,7 @@ class Player extends Component {
                   volume={volume}
                   buffered={bufferedTime}
                   isFullScreen={isFullScreen}
+                  isPip={isPip}
                   onDragStart={this.handleControllerDragStart}
                   onDragEnd={this.handleControllerDragEnd}
                   onPlay={this.handlePlay}
@@ -545,7 +580,9 @@ class Player extends Component {
                   onSeek={this.handleSeek}
                   onVolumeChange={this.handleVideoVolumeChange}
                   onToggleFullScreen={this.handleToggleFullScreen}
+                  onTogglePip={this.handleTogglePip}
                   show={showController}
+                  showPip={Pip.supported && !disablePictureInPicture}
                 />
               </div>
             )}

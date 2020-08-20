@@ -4,4 +4,6 @@ export const PLAYER = {
   SET_VOLUME: 'action/player/set-volume',
   ENTER_FULLSCREEN: 'action/player/enter-fullscreen',
   EXIT_FULLSCREEN: 'action/player/exit-fullscreen',
+  ENTER_PIP: 'action/player/enter-pip',
+  EXIT_PIP: 'action/player/exit-pip',
 }

@@ -75,8 +75,10 @@ Events received from the player
 | `EVENTS.PLAYER.QUALITY_CHANGE`   | Play quality switching               | `{quality: string, prevQuality: string}` |
 | `EVENTS.PLAYER.PLAY_COUNT`       | Playback                             | null                                     |
 | `EVENTS.PLAYER.PLAY_FAILED`      | Play failed                          | `{currentTime: number}`                  |
-| `EVENTS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen                     | null                                     |
-| `EVENTS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen                      | null                                     |
+| `EVENTS.PLAYER.ENTER_FULLSCREEN` | Enter Fullscreen                     | null                                     |
+| `EVENTS.PLAYER.EXIT_FULLSCREEN`  | Exit Fullscreen                      | null                                     |
+| `EVENTS.PLAYER.ENTER_PIP`        | Enter Picture in Picture             | null                                     |
+| `EVENTS.PLAYER.EXIT_PIP`         | Exit Picture in Picture              | null                                     |
 
 #### DOM type data
 

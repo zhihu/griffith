@@ -1,3 +1,7 @@
+// Refer to:
+// https://w3c.github.io/picture-in-picture/
+// https://css-tricks.com/an-introduction-to-the-picture-in-picture-web-api/
+
 const pip = {
   inited: false,
   init(element, onEnter, onExit) {

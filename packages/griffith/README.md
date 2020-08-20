@@ -18,20 +18,21 @@ render(<Player {...props} />)
 
 ### `Props`
 
-| Name                  | Type                                             | Default   | Description                                                              |
-| --------------------- | ------------------------------------------------ | --------- | ------------------------------------------------------------------------ |
-| `id`                  | `string`                                         |           | Unique identifier of the player instance                                 |
-| `title`               | `string`                                         |           | Video title                                                              |
-| `cover`               | `string`                                         |           | Video cover image                                                        |
-| `duration`            | `number`                                         |           | Initial video duration. Use actual values after video metadata is loaded |
-| `sources`             | `sources`                                        |           | Video playback data                                                      |
-| `standalone`          | `boolean`                                        | `false`   | Enable standalone mode                                                   |
-| `onBeforePlay`        | `function`                                       | `void`    | Callback function before video playback                                  |
-| `shouldObserveResize` | `boolean`                                        | `false`   | Listen to the window resize                                              |
-| `initialObjectFit`    | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                               |
-| `useMSE`              | `boolean`                                        | `false`   | Enable Media Source Extensions™                                          |
-| `locale`              | `en \| ja \| zh-Hans \| zh-Hant`                 | `en`      | UI Locale                                                                |
-| `autoplay`            | `boolean`                                        | `false`   | Muted Autoplay                                                           |
+| Name                      | Type                                             | Default   | Description                                                              |
+| ------------------------- | ------------------------------------------------ | --------- | ------------------------------------------------------------------------ |
+| `id`                      | `string`                                         |           | Unique identifier of the player instance                                 |
+| `title`                   | `string`                                         |           | Video title                                                              |
+| `cover`                   | `string`                                         |           | Video cover image                                                        |
+| `duration`                | `number`                                         |           | Initial video duration. Use actual values after video metadata is loaded |
+| `sources`                 | `sources`                                        |           | Video playback data                                                      |
+| `standalone`              | `boolean`                                        | `false`   | Enable standalone mode                                                   |
+| `onBeforePlay`            | `function`                                       | `void`    | Callback function before video playback                                  |
+| `shouldObserveResize`     | `boolean`                                        | `false`   | Listen to the window resize                                              |
+| `initialObjectFit`        | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                               |
+| `useMSE`                  | `boolean`                                        | `false`   | Enable Media Source Extensions™                                          |
+| `locale`                  | `en \| ja \| zh-Hans \| zh-Hant`                 | `en`      | UI Locale                                                                |
+| `autoplay`                | `boolean`                                        | `false`   | Muted Autoplay                                                           |
+| `disablePictureInPicture` | `boolean`                                        | `false`   | Disable Picture in Picture feature                                       |
 
 `sources`:
 

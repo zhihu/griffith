@@ -17,20 +17,21 @@ render(<Player {...props} />)
 
 ### `props`
 
-| 字段                  | 类型                                              | 默认值    | 说明                                       |
-| --------------------- | ------------------------------------------------- | --------- | ------------------------------------------ |
-| `id`                  | `string`                                          |           | 播放器实例唯一标识                         |
-| `title`               | `string`                                          |           | 视频标题                                   |
-| `cover`               | `string`                                          |           | 视频封面图片 URL                           |
-| `duration`            | `number`                                          |           | 初始视频时长。在视频元数据载入后使用实际值 |
-| `sources`             | `sources`                                         |           | 视频播放数据。具体见下,                    |
-| `standalone`          | `boolean`                                         | `false`   | 是否启用 standalone 模式                   |
-| `onBeforePlay`        | `function`                                        | `void`    | 视频播放之前回调函数                       |
-| `shouldObserveResize` | `boolean`                                         | `false`   | 是否监听窗口 resize                        |
-| `initialObjectFit`    | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                            |
-| `useMSE`              | `boolean`                                         | `false`   | 是否启用 MSE                               |
-| `locale`              | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                   |
-| `autoplay`            | `boolean`                                         | `false`   | 自动播放（自动播放时会静音）               |
+| 字段                      | 类型                                              | 默认值    | 说明                                       |
+| ------------------------- | ------------------------------------------------- | --------- | ------------------------------------------ |
+| `id`                      | `string`                                          |           | 播放器实例唯一标识                         |
+| `title`                   | `string`                                          |           | 视频标题                                   |
+| `cover`                   | `string`                                          |           | 视频封面图片 URL                           |
+| `duration`                | `number`                                          |           | 初始视频时长。在视频元数据载入后使用实际值 |
+| `sources`                 | `sources`                                         |           | 视频播放数据。具体见下,                    |
+| `standalone`              | `boolean`                                         | `false`   | 是否启用 standalone 模式                   |
+| `onBeforePlay`            | `function`                                        | `void`    | 视频播放之前回调函数                       |
+| `shouldObserveResize`     | `boolean`                                         | `false`   | 是否监听窗口 resize                        |
+| `initialObjectFit`        | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                            |
+| `useMSE`                  | `boolean`                                         | `false`   | 是否启用 MSE                               |
+| `locale`                  | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                   |
+| `autoplay`                | `boolean`                                         | `false`   | 自动播放（自动播放时会静音）               |
+| `disablePictureInPicture` | `boolean`                                         | `false`   | 禁用画中画功能                             |
 
 `sources` 字段：
 

@@ -26,6 +26,7 @@ const PlayerContainer = ({
   useMSE,
   locale = 'en',
   autoplay,
+  disablePictureInPicture,
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
@@ -39,6 +40,7 @@ const PlayerContainer = ({
                     <Player
                       useMSE={useMSE}
                       autoplay={autoplay}
+                      disablePictureInPicture={disablePictureInPicture}
                       standalone={standalone}
                       cover={cover}
                       title={title}

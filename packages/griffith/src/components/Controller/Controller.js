@@ -11,6 +11,7 @@ import CombinedTimeItem from './items/CombinedTimeItem'
 import QualityMenuItem from './items/QualityMenuItem'
 import VolumeItem from './items/VolumeItem'
 import FullScreenButtonItem from './items/FullScreenButtonItem'
+import PipButtonItem from './items/PipButtonItem'
 
 import styles from './styles'
 
@@ -32,6 +33,7 @@ class Controller extends Component {
     onVolumeChange: PropTypes.func,
     onToggleFullScreen: PropTypes.func,
     show: PropTypes.bool,
+    showPip: PropTypes.bool,
     hiddenQualityMenu: PropTypes.bool,
     hiddenVolumeItem: PropTypes.bool,
   }
@@ -44,6 +46,7 @@ class Controller extends Component {
     volume: 0.5,
     buffered: 0,
     isFullScreen: false,
+    showPip: false,
     hiddenVolumeItem: false,
     hiddenQualityMenu: false,
   }
@@ -257,9 +260,12 @@ class Controller extends Component {
       currentTime,
       volume,
       isFullScreen,
+      isPip,
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
+      onTogglePip,
+      showPip,
       hiddenVolumeItem,
       hiddenQualityMenu,
     } = this.props
@@ -304,6 +310,7 @@ class Controller extends Component {
             onChange={this.handleVolumeChange}
           />
         )}
+        {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
         <FullScreenButtonItem
           isFullScreen={isFullScreen}
           onClick={onToggleFullScreen}

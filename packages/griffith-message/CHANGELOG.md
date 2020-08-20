@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/xiaoyuhen/griffith/compare/v1.5.2...v1.6.0) (2020-08-20)
+
+
+### Features
+
+* picture in picture ([#136](https://github.com/xiaoyuhen/griffith/issues/136)) ([f4cc4e5](https://github.com/xiaoyuhen/griffith/commit/f4cc4e5))
+
+
+
+
+
 ## [1.4.4](https://github.com/xiaoyuhen/griffith/compare/v1.4.3...v1.4.4) (2019-04-23)
 
 **Note:** Version bump only for package griffith-message

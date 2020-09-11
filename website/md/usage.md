@@ -30,7 +30,7 @@ render(<Player {...props} />)
 
 ```ts
 interface sources {
-  [key in ('ld' | 'sd' | 'hd')]: {
+  [key in ('ld' | 'sd' | 'hd' | 'fhd')]: {
     bitrate?: number
     duration?: number
     format?: string

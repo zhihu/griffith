@@ -12,6 +12,7 @@ const QUALITIES = {
   ld: 'quality-ld',
   sd: 'quality-sd',
   hd: 'quality-hd',
+  fhd: 'quality-fhd',
 }
 
 class QualityMenuItem extends React.PureComponent {

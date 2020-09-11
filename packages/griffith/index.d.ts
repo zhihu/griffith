@@ -1,6 +1,6 @@
 import React from 'react'
 
-type RealQuality = 'ld' | 'sd' | 'hd'
+type RealQuality = 'ld' | 'sd' | 'hd' | 'fhd'
 
 interface PlaySource {
   bitrate: number

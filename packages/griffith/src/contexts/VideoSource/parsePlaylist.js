@@ -1,4 +1,4 @@
-const QUALITY_ORDER = ['ld', 'sd', 'hd']
+const QUALITY_ORDER = ['ld', 'sd', 'hd', 'fhd']
 
 export const getQualities = (sources, isMobile) => {
   const qualities = Object.keys(sources).sort(

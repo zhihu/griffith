@@ -24,6 +24,7 @@ render(<Player {...props} />)
 | `cover`                   | `string`                                          |           | 视频封面图片 URL                           |
 | `duration`                | `number`                                          |           | 初始视频时长。在视频元数据载入后使用实际值 |
 | `sources`                 | `sources`                                         |           | 视频播放数据。具体见下,                    |
+| `defaultQuality`          | `ld \| sd \| hd \| fhd`                           |           | 视频默认播放清晰度                         |
 | `standalone`              | `boolean`                                         | `false`   | 是否启用 standalone 模式                   |
 | `onBeforePlay`            | `function`                                        | `void`    | 视频播放之前回调函数                       |
 | `shouldObserveResize`     | `boolean`                                         | `false`   | 是否监听窗口 resize                        |

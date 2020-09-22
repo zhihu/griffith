@@ -27,13 +27,19 @@ const PlayerContainer = ({
   locale = 'en',
   autoplay,
   disablePictureInPicture,
+  defaultQuality,
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
       <MessageProvider id={id} enableCrossWindow={standalone}>
         <InternalContext.Consumer>
           {({emitEvent, subscribeAction}) => (
-            <VideoSourceProvider onEvent={emitEvent} sources={sources} id={id}>
+            <VideoSourceProvider
+              onEvent={emitEvent}
+              sources={sources}
+              id={id}
+              defaultQuality={defaultQuality}
+            >
               <LocaleContext.Provider value={locale}>
                 <VideoSourceContext.Consumer>
                   {({currentSrc}) => (
@@ -85,6 +91,7 @@ PlayerContainer.propTypes = {
   onBeforePlay: PropTypes.func,
   initialObjectFit: PropTypes.oneOf(VALID_FIT),
   useMSE: PropTypes.bool,
+  defaultQuality: PropTypes.oneOf(['ld', 'sd', 'hd', 'fhd']),
 }
 
 export default PlayerContainer

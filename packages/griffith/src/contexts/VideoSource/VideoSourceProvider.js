@@ -24,7 +24,10 @@ export default class VideoSourceProvider extends React.Component {
     dataKey: null,
   }
 
-  static getDerivedStateFromProps = ({sources: videoSources, id}, state) => {
+  static getDerivedStateFromProps = (
+    {sources: videoSources, id, defaultQuality},
+    state
+  ) => {
     if (!videoSources) return null
     const {format, play_url} = Object.values(videoSources)[0]
     const {expiration} = parse(play_url)
@@ -39,7 +42,9 @@ export default class VideoSourceProvider extends React.Component {
     if (!isMobile && format === 'm3u8') {
       qualities.unshift('auto')
     }
-    const currentQuality = state.currentQuality || qualities[0]
+
+    const defaultCurrentQuality = defaultQuality || qualities[0]
+    const currentQuality = state.currentQuality || defaultCurrentQuality
 
     return {
       currentQuality,

@@ -27,6 +27,7 @@ interface PlayerContainerProps {
   initialObjectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
   useMSE?: boolean
   locale?: 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
+  defaultQuality?: RealQuality[]
 }
 
 interface Subscription {

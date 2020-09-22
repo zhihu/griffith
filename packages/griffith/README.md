@@ -25,6 +25,7 @@ render(<Player {...props} />)
 | `cover`                   | `string`                                         |           | Video cover image                                                        |
 | `duration`                | `number`                                         |           | Initial video duration. Use actual values after video metadata is loaded |
 | `sources`                 | `sources`                                        |           | Video playback data                                                      |
+| `defaultQuality`          | `ld \| sd \| hd \| fhd`                          |           | video default quality                                                    |
 | `standalone`              | `boolean`                                        | `false`   | Enable standalone mode                                                   |
 | `onBeforePlay`            | `function`                                       | `void`    | Callback function before video playback                                  |
 | `shouldObserveResize`     | `boolean`                                        | `false`   | Listen to the window resize                                              |

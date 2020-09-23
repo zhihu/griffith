@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/zhihu/griffith/compare/v1.7.0...v1.8.0) (2020-09-23)
+
+
+### Features
+
+* add defaultQuality prop ([#141](https://github.com/zhihu/griffith/issues/141)) ([084f2fa](https://github.com/zhihu/griffith/commit/084f2fa))
+
+
+
+
+
 # [1.7.0](https://github.com/zhihu/griffith/compare/v1.6.0...v1.7.0) (2020-09-11)
 
 

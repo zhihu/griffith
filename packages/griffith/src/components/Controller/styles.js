@@ -59,6 +59,7 @@ export default StyleSheet.create({
   time: {
     padding: '0 0.5em',
     width: '100px',
+    whiteSpace: 'nowrap',
     textAlign: 'center',
     fontSize: '0.875em',
     lineHeight: 2.5,

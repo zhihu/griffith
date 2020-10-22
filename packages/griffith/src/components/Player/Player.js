@@ -94,6 +94,11 @@ class Player extends Component {
       this.handlePauseAction
     )
 
+    this.timeUpdateActionSubscription = this.props.subscribeAction(
+      ACTIONS.PLAYER.TIME_UPDATE,
+      ({currentTime}) => this.handleSeek(currentTime)
+    )
+
     if (this.props.autoplay && this.videoRef.current.root) {
       if (!this.videoRef.current.root.muted) {
         // Muted autoplay is always allowed

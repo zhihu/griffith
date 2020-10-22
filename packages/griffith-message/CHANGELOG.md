@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/zhihu/griffith/compare/v1.8.1...v1.9.0) (2020-10-22)
+
+
+### Features
+
+* update action message ([#144](https://github.com/zhihu/griffith/issues/144)) ([833c0f4](https://github.com/zhihu/griffith/commit/833c0f4))
+
+
+
+
+
 # [1.6.0](https://github.com/xiaoyuhen/griffith/compare/v1.5.2...v1.6.0) (2020-08-20)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "griffith",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "description": "Zhihu Video Player",
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "element-resize-event": "^3.0.3",
     "eventemitter3": "^3.1.0",
     "griffith-hls": "^1.4.4",
-    "griffith-message": "^1.6.0",
+    "griffith-message": "^1.9.0",
     "griffith-mp4": "^1.6.0",
     "griffith-utils": "^1.4.4",
     "isomorphic-bigscreen": "2.0.5",

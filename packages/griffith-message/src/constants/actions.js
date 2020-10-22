@@ -6,4 +6,5 @@ export const PLAYER = {
   EXIT_FULLSCREEN: 'action/player/exit-fullscreen',
   ENTER_PIP: 'action/player/enter-pip',
   EXIT_PIP: 'action/player/exit-pip',
+  TIME_UPDATE: 'action/player/time-update',
 }

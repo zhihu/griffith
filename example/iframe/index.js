@@ -20,3 +20,10 @@ const firstVideoWindow = document.getElementById('video-1').contentWindow
 document.getElementById('button').addEventListener('click', () => {
   dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.PAUSE)
 })
+
+document.getElementById('input_button').addEventListener('click', () => {
+  const currentTime = Number(document.getElementById('time').value)
+  dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.TIME_UPDATE, {
+    currentTime,
+  })
+})

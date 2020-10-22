@@ -101,3 +101,4 @@ Event sent to the player
 | `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | TODO      |
 | `ACTIONS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen | null                                                        | TODO      |
 | `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen  | null                                                        | TODO      |
+| `ACTIONS.PLAYER.TIME_UPDATE`      | 设置视频播放进度 | `{currentTime: number} Set the currentTime`                 | SUPPORTED |

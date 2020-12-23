@@ -28,6 +28,7 @@ const PlayerContainer = ({
   autoplay,
   disablePictureInPicture,
   defaultQuality,
+  useAutoQuality = false,
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
@@ -39,12 +40,14 @@ const PlayerContainer = ({
               sources={sources}
               id={id}
               defaultQuality={defaultQuality}
+              useAutoQuality={useAutoQuality}
             >
               <LocaleContext.Provider value={locale}>
                 <VideoSourceContext.Consumer>
                   {({currentSrc}) => (
                     <Player
                       useMSE={useMSE}
+                      useAutoQuality={useAutoQuality}
                       autoplay={autoplay}
                       disablePictureInPicture={disablePictureInPicture}
                       standalone={standalone}
@@ -72,17 +75,17 @@ PlayerContainer.propTypes = {
   standalone: PropTypes.bool,
   id: PropTypes.string.isRequired,
   title: PropTypes.string,
-  cover: PropTypes.string.isRequired,
-  duration: PropTypes.number.isRequired,
+  cover: PropTypes.string,
+  duration: PropTypes.number,
   sources: PropTypes.objectOf(
     PropTypes.shape({
-      bitrate: PropTypes.number.isRequired,
-      duration: PropTypes.number.isRequired,
+      bitrate: PropTypes.number,
+      duration: PropTypes.number,
       format: PropTypes.string.isRequired,
-      height: PropTypes.number.isRequired,
+      height: PropTypes.number,
       play_url: PropTypes.string.isRequired,
-      size: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
+      size: PropTypes.number,
+      width: PropTypes.number,
     })
   ).isRequired,
   error: PropTypes.shape({

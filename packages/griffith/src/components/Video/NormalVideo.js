@@ -1,9 +1,18 @@
 import React from 'react'
 
-// eslint-disable-next-line
-const NormalVideo = ({onRef, paused, currentQuality, sources, ...props}) => (
-  <video {...props} ref={onRef} />
-)
+const NormalVideo = props => {
+  const {
+    onRef,
+    /* eslint-disable no-unused-vars */
+    paused,
+    currentQuality,
+    useAutoQuality,
+    sources,
+    /* eslint-disable no-unused-vars */
+    ...restProps
+  } = props
+  return <video {...restProps} ref={onRef} />
+}
 
 export default {
   pluginName: 'native',

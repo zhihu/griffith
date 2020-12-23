@@ -375,6 +375,7 @@ class Player extends Component {
       standalone,
       onEvent,
       useMSE,
+      useAutoQuality,
       disablePictureInPicture,
     } = this.props
 
@@ -444,6 +445,7 @@ class Player extends Component {
             onProgress={this.handleVideoProgress}
             onEvent={onEvent}
             useMSE={useMSE}
+            useAutoQuality={useAutoQuality}
           />
         </div>
         <div

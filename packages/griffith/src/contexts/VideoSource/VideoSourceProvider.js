@@ -13,6 +13,7 @@ export default class VideoSourceProvider extends React.Component {
     onEvent: PropTypes.func.isRequired,
     sources: PropTypes.object,
     id: PropTypes.string.isRequired,
+    useAutoQuality: PropTypes.bool,
   }
 
   state = {
@@ -25,7 +26,7 @@ export default class VideoSourceProvider extends React.Component {
   }
 
   static getDerivedStateFromProps = (
-    {sources: videoSources, id, defaultQuality},
+    {sources: videoSources, id, defaultQuality, useAutoQuality},
     state
   ) => {
     if (!videoSources) return null
@@ -39,7 +40,13 @@ export default class VideoSourceProvider extends React.Component {
 
     const sources = getSources(qualities, videoSources)
 
-    if (!isMobile && format === 'm3u8') {
+    // 目前只有直播流实现了手动拼接 auto 清晰度的功能
+    if (
+      useAutoQuality &&
+      !isMobile &&
+      format === 'm3u8' &&
+      !qualities.includes('auto')
+    ) {
       qualities.unshift('auto')
     }
 

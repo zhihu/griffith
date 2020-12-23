@@ -26,7 +26,7 @@ describe('create master m3u8', () => {
     expect(createMasterM3U8(list)).toMatchSnapshot()
   })
 
-  it('palylist wihtout resolution', () => {
+  it('palylist without resolution', () => {
     const list = [
       {
         bandwidth: 1029120,

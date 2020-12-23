@@ -96,19 +96,20 @@ export default class Player extends Component {
   }
 
   render() {
-    /* eslint-disable no-unused-vars */
     const {
+      /* eslint-disable no-unused-vars */
       src,
       onRef,
       currentQuality,
+      useAutoQuality,
       onSeeking,
       onPlay,
       paused,
       onTimeUpdate,
       onProgress,
+      /* eslint-enable no-unused-vars */
       ...props
     } = this.props
-    /* eslint-enable no-unused-vars */
     return (
       <video
         ref={el => {

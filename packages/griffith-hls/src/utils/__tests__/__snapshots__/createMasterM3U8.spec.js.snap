@@ -8,7 +8,7 @@ http://zhihu-video-output.oss-cn-hangzhou.aliyuncs.com/test/sd-m3u8/999f95fc-034
 http://zhihu-video-output.oss-cn-hangzhou.aliyuncs.com/test/hd-m3u8/999f95fc-0346-11e9-b494-0a580a44d740.m3u8"
 `;
 
-exports[`create master m3u8 palylist wihtout resolution 1`] = `
+exports[`create master m3u8 palylist without resolution 1`] = `
 "#EXTM3U
 #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1029120
 http://zhihu-video-output.oss-cn-hangzhou.aliyuncs.com/test/sd-m3u8/999f95fc-0346-11e9-b494-0a580a44d740.m3u8

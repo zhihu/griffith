@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.10.0) (2020-12-23)
+
+
+### Bug Fixes
+
+* export controller component ([#117](https://github.com/zhihu/griffith/issues/117)) ([a99512b](https://github.com/zhihu/griffith/commit/a99512b))
+
+
+### Features
+
+* hidden ui ([#148](https://github.com/zhihu/griffith/issues/148)) ([f620271](https://github.com/zhihu/griffith/commit/f620271))
+* update action message ([#144](https://github.com/zhihu/griffith/issues/144)) ([833c0f4](https://github.com/zhihu/griffith/commit/833c0f4))
+* use auto quality ([#147](https://github.com/zhihu/griffith/issues/147)) ([6798882](https://github.com/zhihu/griffith/commit/6798882))
+
+
+
+
+
 # [1.9.0](https://github.com/zhihu/griffith/compare/v1.8.1...v1.9.0) (2020-10-22)
 
 

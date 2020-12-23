@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.10.0) (2020-12-23)
+
+
+### Bug Fixes
+
+* export controller component ([#117](https://github.com/zhihu/griffith/issues/117)) ([a99512b](https://github.com/zhihu/griffith/commit/a99512b))
+
+
+
+
+
 # [1.9.0](https://github.com/zhihu/griffith/compare/v1.8.1...v1.9.0) (2020-10-22)
 
 **Note:** Version bump only for package griffith-standalone

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.10.0) (2020-12-23)
+
+
+### Bug Fixes
+
+* export controller component ([#117](https://github.com/zhihu/griffith/issues/117)) ([a99512b](https://github.com/zhihu/griffith/commit/a99512b))
+
+
+### Features
+
+* add fhd text support ([#140](https://github.com/zhihu/griffith/issues/140)) ([4fb817b](https://github.com/zhihu/griffith/commit/4fb817b))
+
+
+
+
+
 # [1.7.0](https://github.com/zhihu/griffith/compare/v1.6.0...v1.7.0) (2020-09-11)
 
 

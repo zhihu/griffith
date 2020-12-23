@@ -56,6 +56,10 @@ export default StyleSheet.create({
     flex: 1,
   },
 
+  timelineHolder: {
+    flex: 1,
+  },
+
   time: {
     padding: '0 0.5em',
     width: '100px',

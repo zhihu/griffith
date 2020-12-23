@@ -34,6 +34,12 @@ render(<Player {...props} />)
 | `locale`                  | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                   |
 | `autoplay`                | `boolean`                                         | `false`   | 自动播放（自动播放时会静音）               |
 | `disablePictureInPicture` | `boolean`                                         | `false`   | 禁用画中画功能                             |
+| `hiddenPlayButton`        | `boolean`                                         | `false`   | 隐藏播放按钮                               |
+| `hiddenTimeline`          | `boolean`                                         | `false`   | 隐藏进度条                                 |
+| `hiddenTime`              | `boolean`                                         | `false`   | 隐藏播放时间                               |
+| `hiddenQualityMenu`       | `boolean`                                         | `false`   | 隐藏质量选择菜单（如果展示的话）           |
+| `hiddenVolume`            | `boolean`                                         | `false`   | 隐藏音量调节                               |
+| `hiddenFullScreenButton`  | `boolean`                                         | `false`   | 隐藏全屏按钮                               |
 
 `sources` 字段：
 

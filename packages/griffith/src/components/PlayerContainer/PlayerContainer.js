@@ -27,6 +27,12 @@ const PlayerContainer = ({
   locale = 'en',
   autoplay,
   disablePictureInPicture,
+  hiddenPlayButton,
+  hiddenTimeline,
+  hiddenTime,
+  hiddenQualityMenu,
+  hiddenVolume,
+  hiddenFullScreenButton,
   defaultQuality,
   useAutoQuality = false,
 }) => (
@@ -50,6 +56,12 @@ const PlayerContainer = ({
                       useAutoQuality={useAutoQuality}
                       autoplay={autoplay}
                       disablePictureInPicture={disablePictureInPicture}
+                      hiddenPlayButton={hiddenPlayButton}
+                      hiddenTimeline={hiddenTimeline}
+                      hiddenTime={hiddenTime}
+                      hiddenQualityMenu={hiddenQualityMenu}
+                      hiddenVolumeItem={hiddenVolume}
+                      hiddenFullScreenButton={hiddenFullScreenButton}
                       standalone={standalone}
                       cover={cover}
                       title={title}

@@ -35,6 +35,12 @@ class Player extends Component {
     onBeforePlay: PropTypes.func.isRequired,
     autoplay: PropTypes.bool,
     disablePictureInPicture: PropTypes.bool,
+    hiddenPlayButton: PropTypes.bool,
+    hiddenTimeline: PropTypes.bool,
+    hiddenTime: PropTypes.bool,
+    hiddenQualityMenu: PropTypes.bool,
+    hiddenVolume: PropTypes.bool,
+    hiddenFullScreenButton: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -377,6 +383,12 @@ class Player extends Component {
       useMSE,
       useAutoQuality,
       disablePictureInPicture,
+      hiddenPlayButton,
+      hiddenTimeline,
+      hiddenTime,
+      hiddenQualityMenu,
+      hiddenVolume,
+      hiddenFullScreenButton,
     } = this.props
 
     const {
@@ -541,7 +553,7 @@ class Player extends Component {
               </div>
             )}
             {/*首帧已加载完成时展示 MinimalTimeline 组件*/}
-            {isPlaying && (!isLoading || currentTime !== 0) && (
+            {!hiddenTimeline && isPlaying && (!isLoading || currentTime !== 0) && (
               <div
                 className={css(
                   hiddenOrShownStyle.base,
@@ -590,6 +602,12 @@ class Player extends Component {
                   onTogglePip={this.handleTogglePip}
                   show={showController}
                   showPip={Pip.supported && !disablePictureInPicture}
+                  hiddenPlayButton={hiddenPlayButton}
+                  hiddenTimeline={hiddenTimeline}
+                  hiddenTime={hiddenTime}
+                  hiddenQualityMenu={hiddenQualityMenu}
+                  hiddenVolumeItem={hiddenVolume}
+                  hiddenFullScreenButton={hiddenFullScreenButton}
                 />
               </div>
             )}

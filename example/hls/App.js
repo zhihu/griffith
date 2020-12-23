@@ -23,6 +23,8 @@ const props = {
   sources,
   shouldObserveResize: true,
   autoplay: true,
+  hiddenTimeline: true,
+  hiddenTime: true,
 }
 
 const App = () => <PlayerContainer {...props} />

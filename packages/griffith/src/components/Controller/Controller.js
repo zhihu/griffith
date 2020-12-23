@@ -34,8 +34,12 @@ class Controller extends Component {
     onToggleFullScreen: PropTypes.func,
     show: PropTypes.bool,
     showPip: PropTypes.bool,
+    hiddenPlayButton: PropTypes.bool,
+    hiddenTimeline: PropTypes.bool,
+    hiddenTime: PropTypes.bool,
     hiddenQualityMenu: PropTypes.bool,
     hiddenVolumeItem: PropTypes.bool,
+    hiddenFullScreenButton: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -47,8 +51,12 @@ class Controller extends Component {
     buffered: 0,
     isFullScreen: false,
     showPip: false,
-    hiddenVolumeItem: false,
+    hiddenPlayButton: false,
+    hiddenTimeline: false,
+    hiddenTime: false,
     hiddenQualityMenu: false,
+    hiddenVolumeItem: false,
+    hiddenFullScreenButton: false,
   }
 
   state = {
@@ -266,8 +274,12 @@ class Controller extends Component {
       onToggleFullScreen,
       onTogglePip,
       showPip,
-      hiddenVolumeItem,
+      hiddenPlayButton,
+      hiddenTimeline,
+      hiddenTime,
       hiddenQualityMenu,
+      hiddenVolumeItem,
+      hiddenFullScreenButton,
     } = this.props
     const {
       isVolumeHovered,
@@ -277,26 +289,34 @@ class Controller extends Component {
     } = this.state
 
     const displayedCurrentTime = slideTime || currentTime
+
     return (
       <div className={css(styles.root, isFullScreen && styles.fullScreened)}>
-        <PlayButtonItem
-          isPlaying={isPlaying}
-          onClick={() => this.handleToggle('button')}
-        />
-        <TimelineItem
-          value={currentTime}
-          total={duration}
-          buffered={buffered}
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-          onChange={this.onDragMove}
-          onSeek={this.handleSeek}
-        />
-        <CombinedTimeItem
-          isFullScreen={isFullScreen}
-          currentTime={displayedCurrentTime}
-          duration={duration}
-        />
+        {!hiddenPlayButton && (
+          <PlayButtonItem
+            isPlaying={isPlaying}
+            onClick={() => this.handleToggle('button')}
+          />
+        )}
+        {!hiddenTimeline && (
+          <TimelineItem
+            value={currentTime}
+            total={duration}
+            buffered={buffered}
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            onChange={this.onDragMove}
+            onSeek={this.handleSeek}
+          />
+        )}
+        {hiddenTimeline && <div className={css(styles.timelineHolder)} />}
+        {!hiddenTime && (
+          <CombinedTimeItem
+            isFullScreen={isFullScreen}
+            currentTime={displayedCurrentTime}
+            duration={duration}
+          />
+        )}
         {!hiddenQualityMenu && <QualityMenuItem />}
         {!hiddenVolumeItem && (
           <VolumeItem
@@ -311,10 +331,12 @@ class Controller extends Component {
           />
         )}
         {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
-        <FullScreenButtonItem
-          isFullScreen={isFullScreen}
-          onClick={onToggleFullScreen}
-        />
+        {!hiddenFullScreenButton && (
+          <FullScreenButtonItem
+            isFullScreen={isFullScreen}
+            onClick={onToggleFullScreen}
+          />
+        )}
       </div>
     )
   }

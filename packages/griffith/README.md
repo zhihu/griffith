@@ -35,6 +35,12 @@ render(<Player {...props} />)
 | `locale`                  | `en \| ja \| zh-Hans \| zh-Hant`                 | `en`      | UI Locale                                                                |
 | `autoplay`                | `boolean`                                        | `false`   | Muted Autoplay                                                           |
 | `disablePictureInPicture` | `boolean`                                        | `false`   | Disable Picture in Picture feature                                       |
+| `hiddenPlayButton`        | `boolean`                                        | `false`   | Hide play button                                                         |
+| `hiddenTimeline`          | `boolean`                                        | `false`   | Hide progress bar                                                        |
+| `hiddenTime`              | `boolean`                                        | `false`   | Hide duration and total time                                             |
+| `hiddenQualityMenu`       | `boolean`                                        | `false`   | Hide quality menu (if it is shown)                                       |
+| `hiddenVolume`            | `boolean`                                        | `false`   | Hide volume                                                              |
+| `hiddenFullScreenButton`  | `boolean`                                        | `false`   | Hide full screen button                                                  |
 
 `sources`:
 

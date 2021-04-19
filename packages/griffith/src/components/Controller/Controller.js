@@ -34,7 +34,7 @@ class Controller extends Component {
     onToggleFullScreen: PropTypes.func,
     show: PropTypes.bool,
     showPip: PropTypes.bool,
-    progressDot: PropTypes.arrayOf(
+    progressDots: PropTypes.arrayOf(
       PropTypes.shape({
         startTime: PropTypes.number.isRequired,
       })
@@ -62,6 +62,7 @@ class Controller extends Component {
     hiddenQualityMenu: false,
     hiddenVolumeItem: false,
     hiddenFullScreenButton: false,
+    progressDots: [],
   }
 
   state = {
@@ -279,7 +280,7 @@ class Controller extends Component {
       onToggleFullScreen,
       onTogglePip,
       showPip,
-      progressDot,
+      progressDots,
       hiddenPlayButton,
       hiddenTimeline,
       hiddenTime,
@@ -309,7 +310,7 @@ class Controller extends Component {
             value={currentTime}
             total={duration}
             buffered={buffered}
-            progressDot={progressDot}
+            progressDots={progressDots}
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
             onChange={this.onDragMove}

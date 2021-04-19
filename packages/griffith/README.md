@@ -41,7 +41,7 @@ render(<Player {...props} />)
 | `hiddenQualityMenu`       | `boolean`                                        | `false`   | Hide quality menu (if it is shown)                                       |
 | `hiddenVolume`            | `boolean`                                        | `false`   | Hide volume                                                              |
 | `hiddenFullScreenButton`  | `boolean`                                        | `false`   | Hide full screen button                                                  |
-| `progressDot`             | `ProgressDotItem[]`                              |           | Node information on the progress bar                                     |
+| `progressDots`            | `ProgressDotItem[]`                              | `[]`      | Node information on the progress bar                                     |
 
 `sources`:
 
@@ -59,10 +59,10 @@ interface sources {
 }
 ```
 
-`progressDot`:
+`progressDots`:
 
 ```ts
-type ProgressDot = ProgressDotItem[]
+type ProgressDots = ProgressDotItem[]
 
 interface ProgressDotItem {
   startTime: number (second)

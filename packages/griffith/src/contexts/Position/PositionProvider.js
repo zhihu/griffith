@@ -74,8 +74,11 @@ export default class PositionProvider extends React.PureComponent {
     const canvas = document.createElement('canvas')
     canvas.width = width
     canvas.height = height
-    const helperImageSrc = canvas.toDataURL()
-    this.setState({helperImageSrc})
+    canvas.toBlob(blob => {
+      URL.revokeObjectURL(this.state.helperImageSrc)
+      const helperImageSrc = URL.createObjectURL(blob)
+      this.setState({helperImageSrc})
+    }, 'image/jpeg')
   }
 
   updateIsFullWidth = () => {

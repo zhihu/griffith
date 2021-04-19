@@ -15,6 +15,7 @@ exports[`Timeline get Timeline component 1`] = `
     onFocus={[Function]}
     onSeek={[MockFunction]}
     orientation="horizontal"
+    progressDots={Array []}
     reverse={false}
     step={1}
     styles={

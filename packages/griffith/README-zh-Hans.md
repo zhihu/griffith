@@ -40,6 +40,7 @@ render(<Player {...props} />)
 | `hiddenQualityMenu`       | `boolean`                                         | `false`   | 隐藏质量选择菜单（如果展示的话）           |
 | `hiddenVolume`            | `boolean`                                         | `false`   | 隐藏音量调节                               |
 | `hiddenFullScreenButton`  | `boolean`                                         | `false`   | 隐藏全屏按钮                               |
+| `progressDots`            | `ProgressDotItem[]`                               | `[]`      | 进度条节点信息                             |
 
 `sources` 字段：
 
@@ -54,6 +55,16 @@ interface sources {
     play_url: string
     size?: number
   }
+}
+```
+
+`progressDots` 字段：
+
+```ts
+type ProgressDots = ProgressDotItem[]
+
+interface ProgressDotItem {
+  startTime: number (second)
 }
 ```
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
+import ProgressDot from '../ProgressDot'
 
 import formatPercent from '../../utils/formatPercent'
 import KeyCode from '../../constants/KeyCode'
@@ -25,8 +26,12 @@ class Slider extends Component {
     onDragEnd: PropTypes.func,
     onChange: PropTypes.func,
     noInteraction: PropTypes.bool, // 不可交互
+    progressDots: PropTypes.arrayOf(
+      PropTypes.shape({
+        startTime: PropTypes.number.isRequired,
+      })
+    ),
   }
-
   static defaultProps = {
     orientation: 'horizontal',
     reverse: false,
@@ -34,6 +39,7 @@ class Slider extends Component {
     buffered: 0,
     total: 0,
     step: 1,
+    progressDots: [],
   }
 
   state = {
@@ -205,7 +211,14 @@ class Slider extends Component {
   }
 
   render() {
-    const {buffered, onFocus, onBlur, noInteraction} = this.props
+    const {
+      buffered,
+      onFocus,
+      onBlur,
+      noInteraction,
+      progressDots,
+      total,
+    } = this.props
     const {isSlideActive} = this.state
     const interactionProps = noInteraction
       ? {}
@@ -236,6 +249,9 @@ class Slider extends Component {
                 [this.getSizeKey()]: this.getPercentage(),
               }}
             />
+            {!!progressDots.length && (
+              <ProgressDot progressDots={progressDots} total={total} />
+            )}
           </div>
           {!noInteraction && (
             <div

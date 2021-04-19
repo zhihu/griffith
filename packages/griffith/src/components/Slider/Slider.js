@@ -26,13 +26,12 @@ class Slider extends Component {
     onDragEnd: PropTypes.func,
     onChange: PropTypes.func,
     noInteraction: PropTypes.bool, // 不可交互
-    progressDot: PropTypes.arrayOf(
+    progressDots: PropTypes.arrayOf(
       PropTypes.shape({
         startTime: PropTypes.number.isRequired,
       })
     ),
   }
-
   static defaultProps = {
     orientation: 'horizontal',
     reverse: false,
@@ -40,6 +39,7 @@ class Slider extends Component {
     buffered: 0,
     total: 0,
     step: 1,
+    progressDots: [],
   }
 
   state = {
@@ -211,7 +211,14 @@ class Slider extends Component {
   }
 
   render() {
-    const {buffered, onFocus, onBlur, noInteraction, progressDot} = this.props
+    const {
+      buffered,
+      onFocus,
+      onBlur,
+      noInteraction,
+      progressDots,
+      total,
+    } = this.props
     const {isSlideActive} = this.state
     const interactionProps = noInteraction
       ? {}
@@ -242,8 +249,8 @@ class Slider extends Component {
                 [this.getSizeKey()]: this.getPercentage(),
               }}
             />
-            {!!progressDot && (
-              <ProgressDot progressDot={progressDot} total={this.props.total} />
+            {!!progressDots.length && (
+              <ProgressDot progressDots={progressDots} total={total} />
             )}
           </div>
           {!noInteraction && (

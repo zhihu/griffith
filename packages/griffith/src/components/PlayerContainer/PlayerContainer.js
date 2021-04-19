@@ -35,6 +35,7 @@ const PlayerContainer = ({
   hiddenFullScreenButton,
   defaultQuality,
   useAutoQuality = false,
+  progressDots = [],
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
@@ -62,6 +63,7 @@ const PlayerContainer = ({
                       hiddenQualityMenu={hiddenQualityMenu}
                       hiddenVolumeItem={hiddenVolume}
                       hiddenFullScreenButton={hiddenFullScreenButton}
+                      progressDots={progressDots}
                       standalone={standalone}
                       cover={cover}
                       title={title}

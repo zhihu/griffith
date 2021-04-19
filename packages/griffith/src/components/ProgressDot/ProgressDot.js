@@ -13,13 +13,13 @@ const ProgressDotItem = ({startTime, total}) => {
     />
   )
 }
-const ProgressDot = ({progressDot = [], total}) => {
+const ProgressDots = ({progressDots = [], total}) => {
   return (
     <div className={css(styles.root)}>
-      {progressDot.map((i, index) => (
+      {progressDots.map((i, index) => (
         <ProgressDotItem key={index} startTime={i.startTime} total={total} />
       ))}
     </div>
   )
 }
-export default ProgressDot
+export default ProgressDots

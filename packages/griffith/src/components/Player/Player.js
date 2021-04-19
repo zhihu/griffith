@@ -31,6 +31,11 @@ class Player extends Component {
     title: PropTypes.string,
     cover: PropTypes.string,
     duration: PropTypes.number,
+    progressDot: PropTypes.arrayOf(
+      PropTypes.shape({
+        startTime: PropTypes.number.isRequired,
+      })
+    ),
     onEvent: PropTypes.func.isRequired,
     onBeforePlay: PropTypes.func.isRequired,
     autoplay: PropTypes.bool,
@@ -383,6 +388,7 @@ class Player extends Component {
       useMSE,
       useAutoQuality,
       disablePictureInPicture,
+      progressDot,
       hiddenPlayButton,
       hiddenTimeline,
       hiddenTime,
@@ -589,6 +595,7 @@ class Player extends Component {
                   duration={duration}
                   currentTime={currentTime}
                   volume={volume}
+                  progressDot={progressDot}
                   buffered={bufferedTime}
                   isFullScreen={isFullScreen}
                   isPip={isPip}

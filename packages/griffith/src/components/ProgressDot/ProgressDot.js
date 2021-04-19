@@ -8,7 +8,7 @@ const ProgressDotItem = ({startTime, total}) => {
     <div
       className={css(styles.item)}
       style={{
-        left: formatPercent(startTime, total),
+        left: `calc(${formatPercent(startTime, total)} - 3px)`,
       }}
     />
   )

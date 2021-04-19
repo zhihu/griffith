@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.11.0) (2021-04-19)
+
+
+### Bug Fixes
+
+* add tooltip limit ([#118](https://github.com/zhihu/griffith/issues/118)) ([af8dbf8](https://github.com/zhihu/griffith/commit/af8dbf8))
+* export controller component ([#117](https://github.com/zhihu/griffith/issues/117)) ([a99512b](https://github.com/zhihu/griffith/commit/a99512b))
+* kind-of bug ([#120](https://github.com/zhihu/griffith/issues/120)) ([e374afb](https://github.com/zhihu/griffith/commit/e374afb))
+* mobile muted ([#128](https://github.com/zhihu/griffith/issues/128)) ([fa3a8fd](https://github.com/zhihu/griffith/commit/fa3a8fd))
+* time wrap ([#143](https://github.com/zhihu/griffith/issues/143)) ([7fc4e76](https://github.com/zhihu/griffith/commit/7fc4e76))
+
+
+### Features
+
+* add defaultQuality prop ([#141](https://github.com/zhihu/griffith/issues/141)) ([084f2fa](https://github.com/zhihu/griffith/commit/084f2fa))
+* add fhd text support ([#140](https://github.com/zhihu/griffith/issues/140)) ([4fb817b](https://github.com/zhihu/griffith/commit/4fb817b))
+* add node information on the progress bar ([#154](https://github.com/zhihu/griffith/issues/154)) ([48a2f95](https://github.com/zhihu/griffith/commit/48a2f95))
+* hidden ui ([#148](https://github.com/zhihu/griffith/issues/148)) ([f620271](https://github.com/zhihu/griffith/commit/f620271))
+* picture in picture ([#136](https://github.com/zhihu/griffith/issues/136)) ([f4cc4e5](https://github.com/zhihu/griffith/commit/f4cc4e5))
+* update action message ([#144](https://github.com/zhihu/griffith/issues/144)) ([833c0f4](https://github.com/zhihu/griffith/commit/833c0f4))
+* use auto quality ([#147](https://github.com/zhihu/griffith/issues/147)) ([6798882](https://github.com/zhihu/griffith/commit/6798882))
+
+
+
+
+
 # [1.10.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.10.0) (2020-12-23)
 
 

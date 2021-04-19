@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.11.0) (2021-04-19)
+
+
+### Features
+
+* picture in picture ([#136](https://github.com/zhihu/griffith/issues/136)) ([f4cc4e5](https://github.com/zhihu/griffith/commit/f4cc4e5))
+* update action message ([#144](https://github.com/zhihu/griffith/issues/144)) ([833c0f4](https://github.com/zhihu/griffith/commit/833c0f4))
+
+
+
+
+
 # [1.10.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.10.0) (2020-12-23)
 
 

@@ -13,5 +13,6 @@ export default StyleSheet.create({
     backgroundColor: '#ff9607',
     width: '6px',
     height: '100%',
+    transform: 'translate(-50%)',
   },
 })

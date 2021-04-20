@@ -11,12 +11,18 @@ class MinimalTimeline extends Component {
     currentTime: PropTypes.number.isRequired,
     buffered: PropTypes.number.isRequired,
     show: PropTypes.bool,
+    progressDots: PropTypes.arrayOf(
+      PropTypes.shape({
+        startTime: PropTypes.number.isRequired,
+      })
+    ),
   }
 
   static defaultProps = {
     duration: 0,
     currentTime: 0,
     buffered: 0,
+    progressDots: [],
   }
 
   shouldComponentUpdate(nextProps) {
@@ -24,12 +30,13 @@ class MinimalTimeline extends Component {
   }
 
   render() {
-    const {duration, currentTime, buffered} = this.props
+    const {duration, currentTime, buffered, progressDots} = this.props
     return (
       <Slider
         value={currentTime}
         total={duration}
         buffered={buffered}
+        progressDots={progressDots}
         styles={[slider, minimal]}
         noInteraction
       />

@@ -569,6 +569,7 @@ class Player extends Component {
                 )}
               >
                 <MinimalTimeline
+                  progressDots={progressDots}
                   buffered={bufferedTime}
                   duration={duration}
                   currentTime={currentTime}

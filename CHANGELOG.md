@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://github.com/zhihu/griffith/compare/v1.11.0...v1.11.1) (2021-04-20)
+
+
+### Bug Fixes
+
+* fix the position of the node & add progressDots in minimalTimeline ([#157](https://github.com/zhihu/griffith/issues/157)) ([afa2ae8](https://github.com/zhihu/griffith/commit/afa2ae8))
+
+
+
+
+
 # [1.11.0](https://github.com/zhihu/griffith/compare/v1.5.0...v1.11.0) (2021-04-19)
 
 

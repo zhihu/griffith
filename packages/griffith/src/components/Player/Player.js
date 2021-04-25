@@ -15,6 +15,7 @@ import {MinimalTimeline} from '../Timeline'
 import getBufferedTime from '../../utils/getBufferedTime'
 import storage from '../../utils/storage'
 import Pip from '../../utils/pip'
+import isIE from '../../utils/isIE'
 import {ObjectFitContext} from '../../contexts/ObjectFit'
 
 import styles, {hiddenOrShownStyle} from './styles'
@@ -179,7 +180,7 @@ class Player extends Component {
             this.setState({isLoading: true})
           }
           // workaround a bug in IE about replaying a video.
-          if (this.state.currentTime !== 0) {
+          if (isIE && this.state.currentTime !== 0) {
             this.handleSeek(0)
           }
         } else {

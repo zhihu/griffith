@@ -26,6 +26,7 @@ const PlayerContainer = ({
   useMSE,
   locale = 'en',
   autoplay,
+  muted,
   disablePictureInPicture,
   hiddenPlayButton,
   hiddenTimeline,
@@ -56,6 +57,7 @@ const PlayerContainer = ({
                       useMSE={useMSE}
                       useAutoQuality={useAutoQuality}
                       autoplay={autoplay}
+                      muted={muted}
                       disablePictureInPicture={disablePictureInPicture}
                       hiddenPlayButton={hiddenPlayButton}
                       hiddenTimeline={hiddenTimeline}

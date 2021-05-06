@@ -39,6 +39,7 @@ class Player extends Component {
     onEvent: PropTypes.func.isRequired,
     onBeforePlay: PropTypes.func.isRequired,
     autoplay: PropTypes.bool,
+    muted: PropTypes.bool,
     disablePictureInPicture: PropTypes.bool,
     hiddenPlayButton: PropTypes.bool,
     hiddenTimeline: PropTypes.bool,
@@ -52,6 +53,7 @@ class Player extends Component {
     standalone: false,
     duration: 0,
     autoplay: false,
+    muted: false,
     disablePictureInPicture: false,
   }
 
@@ -110,13 +112,13 @@ class Player extends Component {
       ({currentTime}) => this.handleSeek(currentTime)
     )
 
-    if (this.props.autoplay && this.videoRef.current.root) {
-      if (!this.videoRef.current.root.muted) {
-        // Muted autoplay is always allowed
+    if (this.videoRef.current.root) {
+      if (this.props.muted) {
         this.handleVideoVolumeChange(0)
       }
-
-      this.handlePlay('video')
+      if (this.props.autoplay) {
+        this.handlePlay('video')
+      }
     }
   }
 

@@ -32,7 +32,8 @@ render(<Player {...props} />)
 | `initialObjectFit`        | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                            |
 | `useMSE`                  | `boolean`                                         | `false`   | 是否启用 MSE                               |
 | `locale`                  | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                   |
-| `autoplay`                | `boolean`                                         | `false`   | 自动播放（自动播放时会静音）               |
+| `autoplay`                | `boolean`                                         | `false`   | 自动播放                                   |
+| `muted`                   | `boolean`                                         | `false`   | 静音                                       |
 | `disablePictureInPicture` | `boolean`                                         | `false`   | 禁用画中画功能                             |
 | `hiddenPlayButton`        | `boolean`                                         | `false`   | 隐藏播放按钮                               |
 | `hiddenTimeline`          | `boolean`                                         | `false`   | 隐藏进度条                                 |

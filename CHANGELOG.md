@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/zhihu/griffith/compare/v1.11.1...v1.12.0) (2021-05-06)
+
+
+### Features
+
+* allow autoplay with sound ([#159](https://github.com/zhihu/griffith/issues/159)) ([7c6bab2](https://github.com/zhihu/griffith/commit/7c6bab2))
+
+
+
+
+
 ## [1.11.1](https://github.com/zhihu/griffith/compare/v1.11.0...v1.11.1) (2021-04-20)
 
 

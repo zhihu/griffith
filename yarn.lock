@@ -6858,23 +6858,6 @@ gray-matter@^4.0.0:
     section-matter "^1.0.0"
     strip-bom-string "^1.0.0"
 
-griffith@1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/griffith/-/griffith-1.4.3.tgz#8c1b87c44a07499e0d26fc163f5db83864333964"
-  integrity sha512-Tpq+seTtTlRKFmWcfPnKlVAju4CaFW7jdIjuZPweu/Pi8YzDP5FLXoq7bLm+oYCRDMMGuNKxxG0s5fV2xdQhHQ==
-  dependencies:
-    aphrodite "2.3.1"
-    element-resize-event "^3.0.3"
-    eventemitter3 "^3.1.0"
-    griffith-hls "^1.4.3"
-    griffith-message "^1.4.3"
-    griffith-mp4 "^1.4.3"
-    griffith-utils "^1.4.3"
-    isomorphic-bigscreen "2.0.5"
-    lodash "4.17.11"
-    prop-types "^15.7.2"
-    query-string "^6.4.2"
-
 growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"

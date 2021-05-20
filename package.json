@@ -8,11 +8,16 @@
   },
   "private": true,
   "license": "MIT",
-  "workspaces": [
-    "packages/*",
-    "example",
-    "website"
-  ],
+  "workspaces": {
+    "nohoist": [
+      "website/**/eslint-config-react-app/**"
+    ],
+    "packages": [
+      "packages/*",
+      "example",
+      "website"
+    ]
+  },
   "keywords": [
     "zhihu",
     "mp4",
@@ -46,7 +51,6 @@
     "start": "yarn workspace example run start"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "^7.4.2",

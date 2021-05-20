@@ -9,9 +9,6 @@
   "private": true,
   "license": "MIT",
   "workspaces": {
-    "nohoist": [
-      "website/**/eslint-config-react-app/**"
-    ],
     "packages": [
       "packages/*",
       "example",

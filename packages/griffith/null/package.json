@@ -1,0 +1,7 @@
+{
+  "name": "null",
+  "version": "1.0.0",
+  "main": "null.cjs.js",
+  "module": "null.esm.js",
+  "license": "MIT"
+}

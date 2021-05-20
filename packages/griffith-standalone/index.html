@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo</title>
+  </head>
+  <body>
+    <div id="player"></div>
+    <script src="../dist/index.umd.min.js"></script>
+    <script>
+      const target = document.getElementById('player')
+      const sources = {
+        hd: {
+          play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
+        },
+        sd: {
+          play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
+        },
+      }
+      // 创建播放器
+      const player = Griffith.createPlayer(target)
+      // 载入视频
+      player.render({sources})
+    </script>
+  </body>
+</html>

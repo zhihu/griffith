@@ -95,20 +95,29 @@ Griffith は [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) と 
 
 ## カスタムビルド
 
-webpack のようなビルドツールはデフォルトで `griffith-mp4` と `packages/griffith-hls` を含みます。ビルド時に環境値を設定して、プラグインを除外することで、バンドルを小さくすることができます。
+webpack のようなビルドツールはデフォルトで `griffith-mp4` と `griffith-hls` を含みます。ビルド時にエイリアスを挿入することでプラグインを削除できるため、パッケージサイズを縮小できます。
 
-webpack を使いる場合, [DefinePlugin](https://webpack.js.org/plugins/define-plugin/) が使えます。
+webpack を使いる場合, [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) が使えます。
 
 ```javascript
-const {DefinePlugin} = require('webpack')
-
+// webpack v5+
 module.exports = {
-  plugins: [
-    new DefinePlugin({
-      __WITHOUT_HLSJS__: JSON.stringify(true), // griffith-hls を抜く
-      __WITHOUT_MP4__: JSON.stringify(true), // griffith-mp4 を抜く
-    }),
-  ],
+  resolve: {
+    alias: {
+      'griffith-hls': false,
+      'griffith-mp4': false,
+    },
+  },
+}
+
+// webpack v4
+module.exports = {
+  resolve: {
+    alias: {
+      'griffith-hls': 'griffith/null',
+      'griffith-mp4': 'griffith/null',
+    },
+  },
 }
 ```
 

@@ -95,20 +95,29 @@ Griffith 是一个 Monorepo，使用了 [Yarn workspace](https://yarnpkg.com/lan
 
 ## 自定义构建
 
-默认情况下，webpack 等构建工具会将 `griffith-mp4` 和 `packages/griffith-hls` 打包。你可以通过构建时注入全局变量来除去插件，从而减小打包大小。
+默认情况下，webpack 等构建工具会将 `griffith-mp4` 和 `griffith-hls` 打包。你可以通过构建时注入别名来除去插件，从而减小打包大小。
 
-如果你使用 webpack，可以使用 [DefinePlugin](https://webpack.js.org/plugins/define-plugin/)：
+如果你使用 webpack，可以使用 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias)：
 
 ```javascript
-const {DefinePlugin} = require('webpack')
-
+// webpack v5+
 module.exports = {
-  plugins: [
-    new DefinePlugin({
-      __WITHOUT_HLSJS__: JSON.stringify(true), // 除去 griffith-hls
-      __WITHOUT_MP4__: JSON.stringify(true), // 除去 griffith-mp4
-    }),
-  ],
+  resolve: {
+    alias: {
+      'griffith-hls': false,
+      'griffith-mp4': false,
+    },
+  },
+}
+
+// webpack v4
+module.exports = {
+  resolve: {
+    alias: {
+      'griffith-hls': 'griffith/null',
+      'griffith-mp4': 'griffith/null',
+    },
+  },
 }
 ```
 

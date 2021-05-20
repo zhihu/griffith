@@ -11,7 +11,7 @@
   "main": "dist/index.umd.min.js",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "webpack -p"
+    "build": "rollup -c"
   },
   "devDependencies": {
     "babel-loader": "^8.0.5",

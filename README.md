@@ -95,20 +95,29 @@ Griffith is a Monorepo and uses [Yarn workspace](https://yarnpkg.com/lang/en/doc
 
 ## Custom Build
 
-Build tools like webpack include `griffith-mp4` and `packages/griffith-hls` by default. You can make your bundle smaller by excluding a plugin with build-time globals.
+Build tools like webpack include `griffith-mp4` and `griffith-hls` by default. You can make your bundle smaller by injecting aliases at build-time.
 
-If you use webpack, do so with [DefinePlugin](https://webpack.js.org/plugins/define-plugin/):
+If you use webpack, do so with [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias):
 
 ```javascript
-const {DefinePlugin} = require('webpack')
-
+// webpack v5+
 module.exports = {
-  plugins: [
-    new DefinePlugin({
-      __WITHOUT_HLSJS__: JSON.stringify(true), // excludes griffith-hls
-      __WITHOUT_MP4__: JSON.stringify(true), // excludes griffith-mp4
-    }),
-  ],
+  resolve: {
+    alias: {
+      'griffith-hls': false,
+      'griffith-mp4': false,
+    },
+  },
+}
+
+// webpack v4
+module.exports = {
+  resolve: {
+    alias: {
+      'griffith-hls': 'griffith/null',
+      'griffith-mp4': 'griffith/null',
+    },
+  },
 }
 ```
 

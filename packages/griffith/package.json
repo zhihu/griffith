@@ -20,8 +20,8 @@
     "build": "rollup -c ../../rollup.config.js"
   },
   "peerDependencies": {
-    "react": ">=16.3.0 <17.0.0",
-    "react-dom": ">=16.3.0 <17.0.0"
+    "react": "^16.8 || ^17",
+    "react-dom": "^16.8 || ^17"
   },
   "dependencies": {
     "aphrodite": "2.3.1",

@@ -16,7 +16,7 @@
   "devDependencies": {
     "babel-loader": "^8.0.5",
     "griffith": "^1.12.0",
-    "react": "16.4.2",
-    "react-dom": "16.4.2"
+    "react": "^16.8",
+    "react-dom": "^16.8"
   }
 }

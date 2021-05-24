@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
 import {reduce} from 'griffith-utils'
-import elementResizeEvent from 'element-resize-event'
+import listenResize from '../../utils/listenResize'
 import PositionContext from './PositionContext'
 import styles from './styles'
 
@@ -24,7 +24,6 @@ export default class PositionProvider extends React.PureComponent {
     if (this.props.shouldObserveResize) {
       this.startObservingResize()
     }
-    this.triggerUpdateIsFullWidth()
     this.updateHelperImageSrc()
   }
 
@@ -54,14 +53,13 @@ export default class PositionProvider extends React.PureComponent {
   startObservingResize = () => {
     const root = this.ref.current
     if (root) {
-      elementResizeEvent(root, this.updateIsFullWidth)
+      this.unlistenResize_ = listenResize(root, this.updateIsFullWidth)
     }
   }
 
   stopObservingResize() {
-    const root = this.ref.current
-    if (root) {
-      elementResizeEvent.unbind(root)
+    if (this.unlistenResize_) {
+      this.unlistenResize_()
     }
   }
 

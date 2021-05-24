@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "aphrodite": "2.3.1",
-    "element-resize-event": "^3.0.3",
     "eventemitter3": "^3.1.0",
     "griffith-hls": "^1.11.0",
     "griffith-message": "^1.11.0",

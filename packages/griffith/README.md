@@ -29,6 +29,7 @@ render(<Player {...props} />)
 | `useAutoQuality`          | `boolean`                                        | `false`   | Enable auto quality                                                      |
 | `standalone`              | `boolean`                                        | `false`   | Enable standalone mode                                                   |
 | `onBeforePlay`            | `function`                                       | `void`    | Callback function before video playback                                  |
+| `onFullScreenChange`      | `function`                                       | `void`    | Callback function when fullScreen change                                 |
 | `shouldObserveResize`     | `boolean`                                        | `false`   | Listen to the window resize                                              |
 | `initialObjectFit`        | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                               |
 | `useMSE`                  | `boolean`                                        | `false`   | Enable Media Source Extensions™                                          |

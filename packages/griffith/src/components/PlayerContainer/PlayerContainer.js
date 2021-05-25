@@ -20,7 +20,7 @@ const PlayerContainer = ({
   sources,
   error,
   onBeforePlay = () => Promise.resolve(),
-  onFullScreenChange = () => null,
+  onFullScreenChange = () => {},
   shouldObserveResize,
   children,
   initialObjectFit = 'contain',

@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {parse} from 'query-string'
 import {StyleSheet, css} from 'aphrodite/no-important'
 import {Layer} from 'griffith'
 import {EVENTS} from 'griffith-message'
@@ -21,8 +20,8 @@ class LayerTest extends Component {
   }
 
   componentDidMount() {
-    const {logo} = parse(location.search)
-    if (logo) {
+    const usp = new URLSearchParams(location.search)
+    if (usp.has('logo')) {
       this.subscription = this.props.subscribeEvent(
         EVENTS.PLAYER.PLAY_COUNT,
         () => {

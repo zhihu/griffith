@@ -24,7 +24,7 @@
     "react-dom": "^16.8 || ^17"
   },
   "dependencies": {
-    "aphrodite": "2.3.1",
+    "aphrodite": "^2.4.0",
     "eventemitter3": "^3.1.0",
     "griffith-hls": "^1.11.0",
     "griffith-message": "^1.11.0",

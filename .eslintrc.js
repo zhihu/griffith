@@ -57,6 +57,11 @@ module.exports = {
     react: {
       version: '16',
     },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
     'import/core-modules': [
       'griffith',
       'griffith-mp4',

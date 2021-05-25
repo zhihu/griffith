@@ -1,5 +1,4 @@
 import React from 'react'
-import {hot} from 'react-hot-loader'
 import PlayerContainer from 'griffith'
 
 const sources = {
@@ -29,4 +28,4 @@ const props = {
 
 const App = () => <PlayerContainer {...props} />
 
-export default hot(module)(App)
+export default App

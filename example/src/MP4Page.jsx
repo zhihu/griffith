@@ -1,5 +1,4 @@
 import React from 'react'
-import {hot} from 'react-hot-loader'
 import PlayerContainer, {MessageContext} from 'griffith'
 import LayerTest from './LayerTest'
 
@@ -46,4 +45,4 @@ const App = () => (
   </PlayerContainer>
 )
 
-export default hot(module)(App)
+export default App

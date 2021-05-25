@@ -1,5 +1,4 @@
 import React from 'react'
-import {hot} from 'react-hot-loader'
 import PlayerContainer from 'griffith'
 
 const duration = 182
@@ -12,7 +11,7 @@ const sources = {
     format: 'mp4',
     width: 1280,
     height: 720,
-    play_url: 'mp4/zhihu2018_hd.mp4',
+    play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_hd.mp4',
   },
   sd: {
     bitrate: 900.49,
@@ -21,7 +20,7 @@ const sources = {
     format: 'mp4',
     width: 320,
     height: 240,
-    play_url: 'mp4/zhihu2018_sd.mp4',
+    play_url: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
   },
 }
 
@@ -33,10 +32,9 @@ const props = {
   duration,
   sources,
   shouldObserveResize: true,
-  src: 'mp4/zhihu2018_sd.mp4',
+  src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
   useMSE: true,
 }
 
 const App = () => <PlayerContainer {...props} />
-
-export default hot(module)(App)
+export default App

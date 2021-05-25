@@ -1,5 +1,4 @@
 import React from 'react'
-import {hot} from 'react-hot-loader'
 import PlayerContainer, {Layer} from 'griffith'
 
 const watermarkStyle = {
@@ -59,7 +58,7 @@ class App extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <div style={{maxWidth: 600, margin: '0 auto'}}>
         <h1>行内视频示例</h1>
         <p>视频原始比例为 16:9</p>
         <p>暂时只支持 contain 和 cover 两种情况</p>
@@ -89,9 +88,9 @@ class App extends React.Component {
           <p>预期：高度自适应</p>
           <VideoCard data={data} />
         </section>
-      </React.Fragment>
+      </div>
     )
   }
 }
 
-export default hot(module)(App)
+export default App

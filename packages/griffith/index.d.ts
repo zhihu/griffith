@@ -22,7 +22,8 @@ interface PlayerContainerProps {
   error: {
     message: string
   }
-  onBeforePlay?: (src: string) => Promise<void>
+  onBeforePlay?: (src: string) => Promise<void>,
+  onFullScreenChange?: (status: boolean) => void,
   shouldObserveResize?: boolean
   initialObjectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
   useMSE?: boolean

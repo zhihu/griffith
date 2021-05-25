@@ -20,6 +20,7 @@ const PlayerContainer = ({
   sources,
   error,
   onBeforePlay = () => Promise.resolve(),
+  onFullScreenChange = () => null,
   shouldObserveResize,
   children,
   initialObjectFit = 'contain',
@@ -74,6 +75,7 @@ const PlayerContainer = ({
                       onEvent={emitEvent}
                       subscribeAction={subscribeAction}
                       onBeforePlay={() => onBeforePlay(currentSrc)}
+                      onFullScreenChange={onFullScreenChange}
                     />
                   )}
                 </VideoSourceContext.Consumer>
@@ -108,6 +110,7 @@ PlayerContainer.propTypes = {
     message: PropTypes.string,
   }),
   onBeforePlay: PropTypes.func,
+  onFullScreenChange: PropTypes.func,
   initialObjectFit: PropTypes.oneOf(VALID_FIT),
   useMSE: PropTypes.bool,
   defaultQuality: PropTypes.oneOf(['ld', 'sd', 'hd', 'fhd']),

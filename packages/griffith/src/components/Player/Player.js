@@ -38,7 +38,6 @@ class Player extends Component {
     ),
     onEvent: PropTypes.func.isRequired,
     onBeforePlay: PropTypes.func.isRequired,
-    onFullScreenChange: PropTypes.func.isRequired,
     autoplay: PropTypes.bool,
     muted: PropTypes.bool,
     disablePictureInPicture: PropTypes.bool,
@@ -306,13 +305,11 @@ class Player extends Component {
 
   handleToggleFullScreen = () => {
     if (BigScreen.enabled) {
-      const {onEvent, onFullScreenChange} = this.props
+      const {onEvent} = this.props
       const onEnter = () => {
-        onFullScreenChange(true)
         return onEvent(EVENTS.PLAYER.ENTER_FULLSCREEN)
       }
       const onExit = () => {
-        onFullScreenChange(false)
         return onEvent(EVENTS.PLAYER.EXIT_FULLSCREEN)
       }
       BigScreen.toggle(this.playerRef.current, onEnter, onExit)

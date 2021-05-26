@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import noop from 'lodash/noop'
+import {sequence} from 'griffith-utils'
 import Player from '../Player'
 import {
   VideoSourceProvider,
@@ -20,7 +21,7 @@ const PlayerContainer = ({
   sources,
   error,
   onBeforePlay = () => Promise.resolve(),
-  onFullScreenChange = () => {},
+  onEvent,
   shouldObserveResize,
   children,
   initialObjectFit = 'contain',
@@ -45,7 +46,7 @@ const PlayerContainer = ({
         <InternalContext.Consumer>
           {({emitEvent, subscribeAction}) => (
             <VideoSourceProvider
-              onEvent={emitEvent}
+              onEvent={sequence(emitEvent, onEvent || noop)}
               sources={sources}
               id={id}
               defaultQuality={defaultQuality}
@@ -72,10 +73,9 @@ const PlayerContainer = ({
                       title={title}
                       duration={duration}
                       error={error}
-                      onEvent={emitEvent}
+                      onEvent={sequence(emitEvent, onEvent || noop)}
                       subscribeAction={subscribeAction}
                       onBeforePlay={() => onBeforePlay(currentSrc)}
-                      onFullScreenChange={onFullScreenChange}
                     />
                   )}
                 </VideoSourceContext.Consumer>
@@ -110,7 +110,7 @@ PlayerContainer.propTypes = {
     message: PropTypes.string,
   }),
   onBeforePlay: PropTypes.func,
-  onFullScreenChange: PropTypes.func,
+  onEvent: PropTypes.func,
   initialObjectFit: PropTypes.oneOf(VALID_FIT),
   useMSE: PropTypes.bool,
   defaultQuality: PropTypes.oneOf(['ld', 'sd', 'hd', 'fhd']),

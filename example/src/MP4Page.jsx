@@ -1,6 +1,6 @@
-import React from 'react'
-import PlayerContainer, {MessageContext} from 'griffith'
-import LayerTest from './LayerTest'
+import React, {useState, useLayoutEffect, useContext} from 'react'
+import PlayerContainer, {MessageContext, EVENTS} from 'griffith'
+import Logo from './Logo'
 
 const duration = 182
 
@@ -35,13 +35,26 @@ const props = {
   autoplay: true,
   shouldObserveResize: true,
   src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
+  // eslint-disable-next-line no-console
+  onEvent: console.log.bind(null, 'onEvent:'),
+}
+
+const canShowLogo = new URLSearchParams(location.search).has('logo')
+/** 常规通讯方式，建议直接使用 `onEvent` 替代 */
+const LogoListener = () => {
+  const [isLogoVisible, setIsLogoVisible] = useState(false)
+  const {subscribeEvent} = useContext(MessageContext)
+  useLayoutEffect(() => {
+    return subscribeEvent(EVENTS.PLAYER.PLAY_COUNT, () => {
+      setIsLogoVisible(true)
+    }).unsubscribe
+  }, [])
+  return canShowLogo && isLogoVisible ? <Logo /> : null
 }
 
 const App = () => (
   <PlayerContainer {...props}>
-    <MessageContext.Consumer>
-      {({subscribeEvent}) => <LayerTest subscribeEvent={subscribeEvent} />}
-    </MessageContext.Consumer>
+    <LogoListener />
   </PlayerContainer>
 )
 

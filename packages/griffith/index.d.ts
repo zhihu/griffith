@@ -1,4 +1,5 @@
 import React from 'react'
+import {EVENTS} from 'griffith-message'
 
 type RealQuality = 'ld' | 'sd' | 'hd' | 'fhd'
 
@@ -23,7 +24,7 @@ interface PlayerContainerProps {
     message: string
   }
   onBeforePlay?: (src: string) => Promise<void>
-  onFullScreenChange?: (status: boolean) => void
+  onEvent?: (type: string) => void
   shouldObserveResize?: boolean
   initialObjectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
   useMSE?: boolean
@@ -73,4 +74,4 @@ declare const Layer: React.ComponentType
 
 export default PlayerContainer
 
-export {VideoSourceContext, MessageContext, Layer}
+export {VideoSourceContext, MessageContext, Layer, EVENTS}

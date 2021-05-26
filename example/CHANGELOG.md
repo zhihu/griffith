@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/zhihu/griffith/compare/v1.12.0...v1.13.0) (2021-05-26)
+
+
+### Features
+
+* replace `onFullScreenChange` with `onEvent` ([#175](https://github.com/zhihu/griffith/issues/175)) ([9567337](https://github.com/zhihu/griffith/commit/9567337))
+* use pure ESM format ([#167](https://github.com/zhihu/griffith/issues/167)) ([e54d061](https://github.com/zhihu/griffith/commit/e54d061))
+
+
+
+
+
 # [1.12.0](https://github.com/zhihu/griffith/compare/v1.11.1...v1.12.0) (2021-05-06)
 
 **Note:** Version bump only for package example

@@ -28,6 +28,7 @@ render(<Player {...props} />)
 | `useAutoQuality`          | `boolean`                                         | `false`   | 是否启用自动清晰度功能                     |
 | `standalone`              | `boolean`                                         | `false`   | 是否启用 standalone 模式                   |
 | `onBeforePlay`            | `function`                                        | `void`    | 视频播放之前回调函数                       |
+| `onEvent`                 | `(type: string) => void`                          | `void`    | 公共事件的回调函数                         |
 | `shouldObserveResize`     | `boolean`                                         | `false`   | 是否监听窗口 resize                        |
 | `initialObjectFit`        | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                            |
 | `useMSE`                  | `boolean`                                         | `false`   | 是否启用 MSE                               |

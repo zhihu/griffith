@@ -25,6 +25,8 @@ class Slider extends Component {
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
     onChange: PropTypes.func,
+    onProgressDotHover: PropTypes.func,
+    onProgressDotLeave: PropTypes.func,
     noInteraction: PropTypes.bool, // 不可交互
     progressDots: PropTypes.arrayOf(
       PropTypes.shape({
@@ -218,6 +220,8 @@ class Slider extends Component {
       noInteraction,
       progressDots,
       total,
+      onProgressDotHover,
+      onProgressDotLeave,
     } = this.props
     const {isSlideActive} = this.state
     const interactionProps = noInteraction
@@ -249,8 +253,13 @@ class Slider extends Component {
                 [this.getSizeKey()]: this.getPercentage(),
               }}
             />
-            {!!progressDots.length && (
-              <ProgressDot progressDots={progressDots} total={total} />
+            {Boolean(progressDots.length) && (
+              <ProgressDot
+                progressDots={progressDots}
+                total={total}
+                onProgressDotHover={onProgressDotHover}
+                onProgressDotLeave={onProgressDotLeave}
+              />
             )}
           </div>
           {!noInteraction && (

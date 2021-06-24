@@ -19,4 +19,8 @@ export const PLAYER = {
   EXIT_FULLSCREEN: 'event/player/exit-fullscreen',
   ENTER_PIP: 'event/player/enter-pip',
   EXIT_PIP: 'event/player/exit-pip',
+  SHOW_CONTROLLER: 'event/player/show-controller',
+  HIDE_CONTROLLER: 'event/player/hide-controller',
+  HOVER_PROGRESS_DOT: 'event/player/hover-progress-dot',
+  LEAVE_PROGRESS_DOT: 'event/player/leave-progress-dot',
 }

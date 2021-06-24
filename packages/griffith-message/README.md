@@ -62,23 +62,27 @@ dispatchMessage(targetWindow, messageName, data)
 
 Events received from the player
 
-| `messageName`                    | Description                          | `data`                                   |
-| -------------------------------- | ------------------------------------ | ---------------------------------------- |
-| `EVENTS.DOM.PLAY`                | Play                                 | see DOM type data table                  |
-| `EVENTS.DOM.PLAYING`             | Resume playback from pause or buffer | see DOM type data table                  |
-| `EVENTS.DOM.PAUSE`               | Pause                                | see DOM type data table                  |
-| `EVENTS.DOM.ENDED`               | Ended                                | see DOM type data table                  |
-| `EVENTS.DOM.TIMEUPDATE`          | Timeupdate                           | see DOM type data table                  |
-| `EVENTS.DOM.ERROR`               | Error                                | see DOM type data table                  |
-| `EVENTS.DOM.WAITING`             | Buffer                               | see DOM type data table                  |
-| `EVENTS.PLAYER.REQUEST_PLAY`     | User starts playback                 | null                                     |
-| `EVENTS.PLAYER.QUALITY_CHANGE`   | Play quality switching               | `{quality: string, prevQuality: string}` |
-| `EVENTS.PLAYER.PLAY_COUNT`       | Playback                             | null                                     |
-| `EVENTS.PLAYER.PLAY_FAILED`      | Play failed                          | `{currentTime: number}`                  |
-| `EVENTS.PLAYER.ENTER_FULLSCREEN` | Enter Fullscreen                     | null                                     |
-| `EVENTS.PLAYER.EXIT_FULLSCREEN`  | Exit Fullscreen                      | null                                     |
-| `EVENTS.PLAYER.ENTER_PIP`        | Enter Picture in Picture             | null                                     |
-| `EVENTS.PLAYER.EXIT_PIP`         | Exit Picture in Picture              | null                                     |
+| `messageName`                      | Description                          | `data`                                           |
+| ---------------------------------- | ------------------------------------ | ------------------------------------------------ |
+| `EVENTS.DOM.PLAY`                  | Play                                 | see DOM type data table                          |
+| `EVENTS.DOM.PLAYING`               | Resume playback from pause or buffer | see DOM type data table                          |
+| `EVENTS.DOM.PAUSE`                 | Pause                                | see DOM type data table                          |
+| `EVENTS.DOM.ENDED`                 | Ended                                | see DOM type data table                          |
+| `EVENTS.DOM.TIMEUPDATE`            | Timeupdate                           | see DOM type data table                          |
+| `EVENTS.DOM.ERROR`                 | Error                                | see DOM type data table                          |
+| `EVENTS.DOM.WAITING`               | Buffer                               | see DOM type data table                          |
+| `EVENTS.PLAYER.REQUEST_PLAY`       | User starts playback                 | null                                             |
+| `EVENTS.PLAYER.QUALITY_CHANGE`     | Play quality switching               | `{quality: string, prevQuality: string}`         |
+| `EVENTS.PLAYER.PLAY_COUNT`         | Playback                             | null                                             |
+| `EVENTS.PLAYER.PLAY_FAILED`        | Play failed                          | `{currentTime: number}`                          |
+| `EVENTS.PLAYER.ENTER_FULLSCREEN`   | Enter Fullscreen                     | null                                             |
+| `EVENTS.PLAYER.EXIT_FULLSCREEN`    | Exit Fullscreen                      | null                                             |
+| `EVENTS.PLAYER.ENTER_PIP`          | Enter Picture in Picture             | null                                             |
+| `EVENTS.PLAYER.EXIT_PIP`           | Exit Picture in Picture              | null                                             |
+| `EVENTS.PLAYER.SHOW_CONTROLLER`    | Show Controller                      | null                                             |
+| `EVENTS.PLAYER.HIDE_CONTROLLER`    | Hide Controller                      | null                                             |
+| `EVENTS.PLAYER.HOVER_PROGRESS_DOT` | Mouse hover progress dot             | `{startTime: number, left: number, top: number}` |
+| `EVENTS.PLAYER.LEAVE_PROGRESS_DOT` | Mouse leave progress dot             | null                                             |
 
 #### DOM type data
 
@@ -99,6 +103,7 @@ Event sent to the player
 | `ACTIONS.PLAYER.PLAY`             | Play             | `{applyOnFullScreen: boolean}` Applied to full screen video | TODO      |
 | `ACTIONS.PLAYER.PAUSE`            | Pause            | Applied to full screen video                                | SUPPORTED |
 | `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | TODO      |
-| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen | null                                                        | TODO      |
-| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen  | null                                                        | TODO      |
-| `ACTIONS.PLAYER.TIME_UPDATE`      | 设置视频播放进度 | `{currentTime: number} Set the currentTime`                 | SUPPORTED |
+| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen | null                                                        | SUPPORTED |
+| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen  | null                                                        | SUPPORTED |
+| `ACTIONS.PLAYER.TIME_UPDATE`      | Set current time | `{currentTime: number} Set the currentTime`                 | SUPPORTED |
+| `ACTIONS.PLAYER.SHOW_CONTROLLER`  | Show Controller  | null                                                        | SUPPORTED |

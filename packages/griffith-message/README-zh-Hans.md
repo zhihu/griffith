@@ -62,23 +62,27 @@ dispatchMessage(targetWindow, messageName, data)
 
 从播放器接收到的事件
 
-| `messageName`                    | 说明                   | `data`                                   |
-| -------------------------------- | ---------------------- | ---------------------------------------- |
-| `EVENTS.DOM.PLAY`                | 播放                   | 见下表                                   |
-| `EVENTS.DOM.PLAYING`             | 从暂停或缓冲中恢复播放 | 见下表                                   |
-| `EVENTS.DOM.PAUSE`               | 暂停                   | 见下表                                   |
-| `EVENTS.DOM.ENDED`               | 停止                   | 见下表                                   |
-| `EVENTS.DOM.TIMEUPDATE`          | 进度更新               | 见下表                                   |
-| `EVENTS.DOM.ERROR`               | 错误                   | 见下表                                   |
-| `EVENTS.DOM.WAITING`             | 缓冲                   | 见下表                                   |
-| `EVENTS.PLAYER.REQUEST_PLAY`     | 用户触发播放           | 无                                       |
-| `EVENTS.PLAYER.QUALITY_CHANGE`   | 清晰度切换             | `{quality: string, prevQuality: string}` |
-| `EVENTS.PLAYER.PLAY_COUNT`       | 播放一次               | 无                                       |
-| `EVENTS.PLAYER.PLAY_FAILED`      | 播放失败               | `{currentTime: number}`                  |
-| `EVENTS.PLAYER.ENTER_FULLSCREEN` | 进入全屏               | 无                                       |
-| `EVENTS.PLAYER.EXIT_FULLSCREEN`  | 退出全屏               | 无                                       |
-| `EVENTS.PLAYER.ENTER_PIP`        | 进入画中画             | 无                                       |
-| `EVENTS.PLAYER.EXIT_PIP`         | 退出画中画             | 无                                       |
+| `messageName`                      | 说明                   | `data`                                           |
+| ---------------------------------- | ---------------------- | ------------------------------------------------ |
+| `EVENTS.DOM.PLAY`                  | 播放                   | 见下表                                           |
+| `EVENTS.DOM.PLAYING`               | 从暂停或缓冲中恢复播放 | 见下表                                           |
+| `EVENTS.DOM.PAUSE`                 | 暂停                   | 见下表                                           |
+| `EVENTS.DOM.ENDED`                 | 停止                   | 见下表                                           |
+| `EVENTS.DOM.TIMEUPDATE`            | 进度更新               | 见下表                                           |
+| `EVENTS.DOM.ERROR`                 | 错误                   | 见下表                                           |
+| `EVENTS.DOM.WAITING`               | 缓冲                   | 见下表                                           |
+| `EVENTS.PLAYER.REQUEST_PLAY`       | 用户触发播放           | 无                                               |
+| `EVENTS.PLAYER.QUALITY_CHANGE`     | 清晰度切换             | `{quality: string, prevQuality: string}`         |
+| `EVENTS.PLAYER.PLAY_COUNT`         | 播放一次               | 无                                               |
+| `EVENTS.PLAYER.PLAY_FAILED`        | 播放失败               | `{currentTime: number}`                          |
+| `EVENTS.PLAYER.ENTER_FULLSCREEN`   | 进入全屏               | 无                                               |
+| `EVENTS.PLAYER.EXIT_FULLSCREEN`    | 退出全屏               | 无                                               |
+| `EVENTS.PLAYER.ENTER_PIP`          | 进入画中画             | 无                                               |
+| `EVENTS.PLAYER.EXIT_PIP`           | 退出画中画             | 无                                               |
+| `EVENTS.PLAYER.SHOW_CONTROLLER`    | 显示播放器进度条控件   | 无                                               |
+| `EVENTS.PLAYER.HIDE_CONTROLLER`    | 隐藏播放器进度条控件   | 无                                               |
+| `EVENTS.PLAYER.HOVER_PROGRESS_DOT` | 鼠标 hover 播放节点    | `{startTime: number, left: number, top: number}` |
+| `EVENTS.PLAYER.LEAVE_PROGRESS_DOT` | 鼠标离开播放节点       | 无                                               |
 
 #### DOM 类 data
 
@@ -94,11 +98,12 @@ dispatchMessage(targetWindow, messageName, data)
 
 往播放器发送的事件
 
-| `messageName`                     | 说明             | `data`                                            | 状态   |
-| --------------------------------- | ---------------- | ------------------------------------------------- | ------ |
-| `ACTIONS.PLAYER.PLAY`             | 播放             | `{applyOnFullScreen: boolean}` 是否应用于全屏视频 | TODO   |
-| `ACTIONS.PLAYER.PAUSE`            | 暂停             | 同上                                              | 已支持 |
-| `ACTIONS.PLAYER.SET_VOLUME`       | 设置音量         | `{volume: number}` 音量值，0 到 1                 | TODO   |
-| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | 进入全屏         | 无                                                | TODO   |
-| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | 退出全屏         | 无                                                | TODO   |
-| `ACTIONS.PLAYER.TIME_UPDATE`      | 设置视频播放进度 | `{currentTime: number} 设置视频当前的进度`        | 已支持 |
+| `messageName`                     | 说明                 | `data`                                            | 状态   |
+| --------------------------------- | -------------------- | ------------------------------------------------- | ------ |
+| `ACTIONS.PLAYER.PLAY`             | 播放                 | `{applyOnFullScreen: boolean}` 是否应用于全屏视频 | TODO   |
+| `ACTIONS.PLAYER.PAUSE`            | 暂停                 | 同上                                              | 已支持 |
+| `ACTIONS.PLAYER.SET_VOLUME`       | 设置音量             | `{volume: number}` 音量值，0 到 1                 | TODO   |
+| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | 进入全屏             | 无                                                | 已支持 |
+| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | 退出全屏             | 无                                                | 已支持 |
+| `ACTIONS.PLAYER.TIME_UPDATE`      | 设置视频播放进度     | `{currentTime: number} 设置视频当前的进度`        | 已支持 |
+| `ACTIONS.PLAYER.SHOW_CONTROLLER`  | 显示播放器进度条控件 | 无                                                | 已支持 |

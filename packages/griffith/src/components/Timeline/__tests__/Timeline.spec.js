@@ -8,6 +8,8 @@ describe('Timeline', () => {
     const onChange = jest.fn()
     const onDragEnd = jest.fn()
     const onDragStart = jest.fn()
+    const onProgressDotHover = jest.fn()
+    const onProgressDotLeave = jest.fn()
     const wrapper = shallow(
       <Timeline
         buffered={7}
@@ -17,10 +19,14 @@ describe('Timeline', () => {
         onDragEnd={onDragEnd}
         onDragStart={onDragStart}
         onSeek={onSeek}
+        onProgressDotHover={onProgressDotHover}
+        onProgressDotLeave={onProgressDotLeave}
       />
     )
 
     expect(wrapper).toMatchSnapshot()
+
+    expect(wrapper.state().progressDotHovered).toBeFalsy()
 
     expect(wrapper.state().isHovered).toBeFalsy()
 

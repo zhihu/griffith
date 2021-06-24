@@ -97,6 +97,10 @@ class Player extends Component {
     this.setDocumentTitle()
     this.initPip()
 
+    if (this.getShowController(this.state)) {
+      this.props.onEvent(EVENTS.PLAYER.SHOW_CONTROLLER)
+    }
+
     const historyVolume = storage.get('@griffith/history-volume')
     if (historyVolume) {
       this.setState({volume: historyVolume})
@@ -112,6 +116,11 @@ class Player extends Component {
       ({currentTime}) => this.handleSeek(currentTime)
     )
 
+    this.showControllerActionSubscription = this.props.subscribeAction(
+      ACTIONS.PLAYER.SHOW_CONTROLLER,
+      this.handleShowController
+    )
+
     if (this.videoRef.current.root) {
       if (this.props.muted) {
         this.handleVideoVolumeChange(0)
@@ -122,9 +131,41 @@ class Player extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(preProps, preState) {
     this.setDocumentTitle()
     this.initPip()
+
+    const preShowController = this.getShowController(preState)
+    const showController = this.getShowController(this.state)
+
+    if (preShowController !== showController) {
+      if (showController) {
+        this.props.onEvent(EVENTS.PLAYER.SHOW_CONTROLLER)
+      } else {
+        this.props.onEvent(EVENTS.PLAYER.HIDE_CONTROLLER)
+      }
+    }
+  }
+
+  getShowController = ({
+    isPlaybackStarted,
+    isPlaying,
+    isControllerShown,
+    isControllerHovered,
+    isControllerDragging,
+    currentTime,
+  }) => {
+    // 播放中：暂停 或 Controller shown/hovered/dragging 时展示 Controller
+    if (isPlaybackStarted) {
+      return (
+        !isPlaying ||
+        isControllerShown ||
+        isControllerHovered ||
+        isControllerDragging
+      )
+    }
+    // 非播放中：播放结束时展示 Controller（未播放时不展示）
+    return currentTime !== 0
   }
 
   setDocumentTitle = () => {
@@ -151,6 +192,8 @@ class Player extends Component {
 
   componentWillUnmount() {
     this.pauseActionSubscription.unsubscribe()
+    this.timeUpdateActionSubscription.unsubscribe()
+    this.showControllerActionSubscription.unsubscribe()
   }
 
   handlePauseAction = ({dontApplyOnFullScreen} = {}) => {
@@ -384,6 +427,14 @@ class Player extends Component {
     this.handleShowController()
   }
 
+  handleProgressDotHover = info => {
+    this.props.onEvent(EVENTS.PLAYER.HOVER_PROGRESS_DOT, info)
+  }
+
+  handleProgressDotLeave = () => {
+    this.props.onEvent(EVENTS.PLAYER.LEAVE_PROGRESS_DOT)
+  }
+
   render() {
     const {
       error,
@@ -409,9 +460,6 @@ class Player extends Component {
       isPlaying,
       isLoading,
       duration,
-      isControllerShown,
-      isControllerHovered,
-      isControllerDragging,
       currentTime,
       isNeverPlayed,
       volume,
@@ -424,19 +472,7 @@ class Player extends Component {
     const isPip = Boolean(Pip.pictureInPictureElement)
     // Safari 会将 pip 状态视为全屏
     const isFullScreen = Boolean(BigScreen.element) && !isPip
-
-    // 未播放时不展示 Controller
-    // 播放中暂停时展示 Controller
-    // 播放中 Controller shown/hovered/dragging 时展示 Controller
-    // 播放结束展示 Controller
-    const showController =
-      (isPlaybackStarted &&
-        (!isPlaying ||
-          isControllerShown ||
-          isControllerHovered ||
-          isControllerDragging)) ||
-      (!isPlaybackStarted && currentTime !== 0)
-
+    const showController = this.getShowController(this.state)
     const bufferedTime = getBufferedTime(currentTime, buffered)
 
     return (
@@ -614,6 +650,8 @@ class Player extends Component {
                   onVolumeChange={this.handleVideoVolumeChange}
                   onToggleFullScreen={this.handleToggleFullScreen}
                   onTogglePip={this.handleTogglePip}
+                  onProgressDotHover={this.handleProgressDotHover}
+                  onProgressDotLeave={this.handleProgressDotLeave}
                   show={showController}
                   showPip={Pip.supported && !disablePictureInPicture}
                   hiddenPlayButton={hiddenPlayButton}

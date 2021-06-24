@@ -7,6 +7,7 @@ import Slider from '../Slider'
 import styles, {
   slider as sliderStyles,
   hoveredSlider as hoveredSliderStyles,
+  dotHoveredSlider as dotHoveredSliderStyles,
 } from './styles'
 
 class Timeline extends Component {
@@ -15,12 +16,15 @@ class Timeline extends Component {
     onDragEnd: PropTypes.func,
     onChange: PropTypes.func,
     onSeek: PropTypes.func,
+    onProgressDotHover: PropTypes.func,
+    onProgressDotLeave: PropTypes.func,
   }
 
   state = {
     isHovered: false,
     isFocused: false,
     isDragging: false,
+    progressDotHovered: false,
   }
 
   // refs
@@ -71,8 +75,18 @@ class Timeline extends Component {
     }
   }
 
+  handleProgressDotHover = (...args) => {
+    this.setState({progressDotHovered: true})
+    this.props.onProgressDotHover?.(...args)
+  }
+
+  handleProgressDotLeave = (...args) => {
+    this.setState({progressDotHovered: false})
+    this.props.onProgressDotLeave?.(...args)
+  }
+
   render() {
-    const {isHovered, isFocused, isDragging} = this.state
+    const {isHovered, isFocused, isDragging, progressDotHovered} = this.state
     return (
       <div
         className={css(styles.root)}
@@ -84,12 +98,15 @@ class Timeline extends Component {
           styles={[
             sliderStyles,
             (isHovered || isFocused || isDragging) && hoveredSliderStyles,
+            progressDotHovered && dotHoveredSliderStyles,
           ]}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onDragStart={this.handleDragStart}
           onDragEnd={this.handleDragEnd}
           onChange={this.handleChange}
+          onProgressDotHover={this.handleProgressDotHover}
+          onProgressDotLeave={this.handleProgressDotLeave}
         />
       </div>
     )

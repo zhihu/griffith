@@ -7,6 +7,7 @@ declare const ACTIONS: {
     EXIT_FULLSCREEN: string
     ENTER_PIP: string
     EXIT_PIP: string
+    SHOW_CONTROLLER: string
   }
 }
 
@@ -31,6 +32,10 @@ declare const EVENTS: {
     EXIT_FULLSCREEN: string
     ENTER_PIP: string
     EXIT_PIP: string
+    SHOW_CONTROLLER: string
+    HIDE_CONTROLLER: string
+    HOVER_PROGRESS_DOT: string
+    LEAVE_PROGRESS_DOT: string
   }
 }
 

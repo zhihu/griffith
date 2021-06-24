@@ -32,6 +32,12 @@ export const hoveredSlider = StyleSheet.create({
   },
 })
 
+export const dotHoveredSlider = StyleSheet.create({
+  track: {
+    height: 6,
+  },
+})
+
 export const minimal = StyleSheet.create({
   root: {
     position: 'absolute',

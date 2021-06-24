@@ -7,4 +7,5 @@ export const PLAYER = {
   ENTER_PIP: 'action/player/enter-pip',
   EXIT_PIP: 'action/player/exit-pip',
   TIME_UPDATE: 'action/player/time-update',
+  SHOW_CONTROLLER: 'action/player/show-controller',
 }

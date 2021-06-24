@@ -32,6 +32,8 @@ class Controller extends Component {
     onQualityChange: PropTypes.func,
     onVolumeChange: PropTypes.func,
     onToggleFullScreen: PropTypes.func,
+    onProgressDotHover: PropTypes.func,
+    onProgressDotLeave: PropTypes.func,
     show: PropTypes.bool,
     showPip: PropTypes.bool,
     progressDots: PropTypes.arrayOf(
@@ -287,6 +289,8 @@ class Controller extends Component {
       hiddenQualityMenu,
       hiddenVolumeItem,
       hiddenFullScreenButton,
+      onProgressDotHover,
+      onProgressDotLeave,
     } = this.props
     const {
       isVolumeHovered,
@@ -315,6 +319,8 @@ class Controller extends Component {
             onDragEnd={onDragEnd}
             onChange={this.onDragMove}
             onSeek={this.handleSeek}
+            onProgressDotHover={onProgressDotHover}
+            onProgressDotLeave={onProgressDotLeave}
           />
         )}
         {hiddenTimeline && <div className={css(styles.timelineHolder)} />}

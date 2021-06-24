@@ -13,6 +13,8 @@ exports[`Timeline get Timeline component 1`] = `
     onDragEnd={[Function]}
     onDragStart={[Function]}
     onFocus={[Function]}
+    onProgressDotHover={[Function]}
+    onProgressDotLeave={[Function]}
     onSeek={[MockFunction]}
     orientation="horizontal"
     progressDots={Array []}
@@ -59,6 +61,7 @@ exports[`Timeline get Timeline component 1`] = `
             "_name": "track_1q3h7g7",
           },
         },
+        false,
         false,
       ]
     }

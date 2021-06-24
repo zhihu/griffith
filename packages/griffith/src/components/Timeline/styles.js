@@ -34,7 +34,7 @@ export const hoveredSlider = StyleSheet.create({
 
 export const dotHoveredSlider = StyleSheet.create({
   track: {
-    height: 6,
+    overflow: 'visible',
   },
 })
 

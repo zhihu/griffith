@@ -12,19 +12,20 @@ const ProgressDotItem = ({
   const ref = useRef()
   const handleMouseEnter = () => {
     const {left, top} = ref.current.getBoundingClientRect()
-    onProgressDotHover({startTime, left, top})
+    onProgressDotHover?.({startTime, left, top})
   }
 
   return (
     <div
-      ref={ref}
       className={css(styles.item)}
       style={{
         left: formatPercent(startTime, total),
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onProgressDotLeave}
-    />
+    >
+      <div ref={ref} className={css(styles.innerItem)} />
+    </div>
   )
 }
 const ProgressDots = ({

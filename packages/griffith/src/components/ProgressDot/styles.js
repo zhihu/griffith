@@ -10,9 +10,18 @@ export default StyleSheet.create({
   },
   item: {
     position: 'absolute',
-    backgroundColor: '#ff9607',
-    width: '6px',
+    width: 12,
     height: '100%',
     transform: 'translate(-50%)',
+    ':hover': {
+      height: 6,
+      top: -1,
+    },
+  },
+  innerItem: {
+    width: 6,
+    backgroundColor: '#ff9607',
+    height: '100%',
+    margin: '0 auto',
   },
 })

@@ -111,11 +111,11 @@ externals: {
 在 webpack 配置中添加如下选项：
 
 ```javascript
-plugins: [
-  new webpack.DefinePlugin({
-    __WITHOUT_HLSJS__: JSON.stringify(true),
-  }),
-],
+resolve: {
+  alias: {
+    'griffith-hls': false,
+  },
+},
 ```
 
 注意：在这种情况下，如果试图播放 M3U8 视频，会发出错误警告。

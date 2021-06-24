@@ -23,11 +23,11 @@ If you are sure that you will not support M3U8 video, you may not use hls.js.
 Add the following options to your webpack configuration:
 
 ```js
-plugins: [
-  new webpack.DefinePlugin({
-    __WITHOUT_HLSJS__: JSON.stringify(true),
-  }),
-],
+resolve: {
+  alias: {
+    'griffith-hls': false,
+  },
+},
 ```
 
 Note: In this case, an error warning is issued if an attempt is made to play an M3U8 video.

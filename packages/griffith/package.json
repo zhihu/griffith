@@ -32,8 +32,7 @@
     "griffith-utils": "^1.11.0",
     "isomorphic-bigscreen": "2.0.5",
     "lodash": "^4.17.15",
-    "prop-types": "^15.7.2",
-    "query-string": "^6.4.2"
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "jest-localstorage-mock": "^2.4.0"

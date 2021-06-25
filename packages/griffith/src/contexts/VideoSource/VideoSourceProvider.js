@@ -1,12 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {parse} from 'query-string'
 import VideoSourceContext from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
 import {ua} from 'griffith-utils'
 
 const {isMobile} = ua
+
+const getQuery = (url, key) => {
+  const [, value] = url.match(new RegExp(`\\b${key}=([^&]+)`)) || []
+  return value
+}
 
 export default class VideoSourceProvider extends React.Component {
   static propTypes = {
@@ -31,7 +35,7 @@ export default class VideoSourceProvider extends React.Component {
   ) => {
     if (!videoSources) return null
     const {format, play_url} = Object.values(videoSources)[0]
-    const {expiration} = parse(play_url)
+    const expiration = getQuery(play_url, 'expiration')
     const dataKey = `${id}-${expiration}` // expiration 和 id 组合可以唯一标识一次请求的数据
 
     if (dataKey == state.dataKey) return null

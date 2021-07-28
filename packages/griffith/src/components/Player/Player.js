@@ -18,6 +18,7 @@ import Pip from '../../utils/pip'
 import {ObjectFitContext} from '../../contexts/ObjectFit'
 
 import styles, {hiddenOrShownStyle} from './styles'
+import {SPEEDS} from '../../constants/Speeds'
 
 const CONTROLLER_HIDE_DELAY = 3000
 const {isMobile} = ua
@@ -74,6 +75,7 @@ class Player extends Component {
     type: null,
     hovered: false,
     pressed: false,
+    speed: SPEEDS.ONE_X,
   }
 
   isSeeking = false
@@ -435,6 +437,13 @@ class Player extends Component {
     this.props.onEvent(EVENTS.PLAYER.LEAVE_PROGRESS_DOT)
   }
 
+  handleSpeedChange = value => {
+    this.setState({
+      speed: value,
+    })
+    this.videoRef.current.root.playbackRate = value
+  }
+
   render() {
     const {
       error,
@@ -467,6 +476,7 @@ class Player extends Component {
       type,
       hovered,
       pressed,
+      speed,
     } = this.state
 
     const isPip = Boolean(Pip.pictureInPictureElement)
@@ -642,6 +652,7 @@ class Player extends Component {
                   buffered={bufferedTime}
                   isFullScreen={isFullScreen}
                   isPip={isPip}
+                  speed={speed}
                   onDragStart={this.handleControllerDragStart}
                   onDragEnd={this.handleControllerDragEnd}
                   onPlay={this.handlePlay}
@@ -652,6 +663,7 @@ class Player extends Component {
                   onTogglePip={this.handleTogglePip}
                   onProgressDotHover={this.handleProgressDotHover}
                   onProgressDotLeave={this.handleProgressDotLeave}
+                  onSpeedChange={this.handleSpeedChange}
                   show={showController}
                   showPip={Pip.supported && !disablePictureInPicture}
                   hiddenPlayButton={hiddenPlayButton}

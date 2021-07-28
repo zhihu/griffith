@@ -12,6 +12,7 @@ import QualityMenuItem from './items/QualityMenuItem'
 import VolumeItem from './items/VolumeItem'
 import FullScreenButtonItem from './items/FullScreenButtonItem'
 import PipButtonItem from './items/PipButtonItem'
+import SpeedButtonItem from './items/SpeedButtonItem'
 
 import styles from './styles'
 
@@ -24,6 +25,7 @@ class Controller extends Component {
     volume: PropTypes.number,
     buffered: PropTypes.number,
     isFullScreen: PropTypes.bool,
+    speed: PropTypes.number,
     onDragStart: PropTypes.func,
     onDragEnd: PropTypes.func,
     onPlay: PropTypes.func,
@@ -34,6 +36,7 @@ class Controller extends Component {
     onToggleFullScreen: PropTypes.func,
     onProgressDotHover: PropTypes.func,
     onProgressDotLeave: PropTypes.func,
+    onSpeedChange: PropTypes.func,
     show: PropTypes.bool,
     showPip: PropTypes.bool,
     progressDots: PropTypes.arrayOf(
@@ -277,6 +280,7 @@ class Controller extends Component {
       volume,
       isFullScreen,
       isPip,
+      speed,
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
@@ -291,6 +295,7 @@ class Controller extends Component {
       hiddenFullScreenButton,
       onProgressDotHover,
       onProgressDotLeave,
+      onSpeedChange,
     } = this.props
     const {
       isVolumeHovered,
@@ -332,6 +337,7 @@ class Controller extends Component {
           />
         )}
         {!hiddenQualityMenu && <QualityMenuItem />}
+        <SpeedButtonItem speed={speed} onChange={onSpeedChange} />
         {!hiddenVolumeItem && (
           <VolumeItem
             volume={volume}

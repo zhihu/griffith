@@ -126,4 +126,37 @@ export default StyleSheet.create({
   pipTooltip: {
     pointerEvents: 'none',
   },
+
+  speedMenu: {
+    width: '4em',
+  },
+
+  speedMenuItem: {
+    display: 'block',
+    height: '2em',
+    margin: 0,
+    textAlign: 'center',
+    border: 'none',
+    width: '100%',
+    borderRadius: 0,
+    fontSize: '0.875em',
+    lineHeight: 2,
+    whiteSpace: 'nowrap',
+    color: 'rgba(255, 255, 255, 0.5)',
+    background: 'none',
+    cursor: 'pointer',
+    transition: 'color 300ms, background-color 300ms',
+
+    ':hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    },
+
+    ':focus': {
+      outline: 'none',
+    },
+  },
+
+  speedMenuActiveItem: {
+    color: '#fff',
+  },
 })

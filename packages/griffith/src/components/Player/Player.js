@@ -39,6 +39,7 @@ class Player extends Component {
     onEvent: PropTypes.func.isRequired,
     onBeforePlay: PropTypes.func.isRequired,
     autoplay: PropTypes.bool,
+    loop: PropTypes.bool,
     muted: PropTypes.bool,
     disablePictureInPicture: PropTypes.bool,
     hiddenPlayButton: PropTypes.bool,
@@ -436,6 +437,7 @@ class Player extends Component {
       title,
       cover,
       standalone,
+      loop,
       onEvent,
       useMSE,
       useAutoQuality,
@@ -486,6 +488,7 @@ class Player extends Component {
             controls={isMobile && isPlaybackStarted}
             paused={!isPlaying}
             volume={volume}
+            loop={loop}
             onPlay={this.handleVideoPlay}
             onPause={this.handleVideoPause}
             onEnded={this.handleVideoEnded}

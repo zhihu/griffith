@@ -20,6 +20,7 @@ const isNotAllowedError = error => error && error.name === 'NotAllowedError'
 class Video extends Component {
   static propTypes = {
     controls: PropTypes.bool,
+    loop: PropTypes.bool,
     paused: PropTypes.bool,
     volume: PropTypes.number,
     onPlay: PropTypes.func,
@@ -273,6 +274,7 @@ class Video extends Component {
     const {
       src,
       controls,
+      loop,
       paused,
       volume,
       onPlay,
@@ -301,6 +303,7 @@ class Video extends Component {
         x-webkit-airplay="deny"
         muted={!volume}
         controls={controls}
+        loop={loop}
         src={src}
         onPlay={onPlay}
         onPause={onPause}

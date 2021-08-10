@@ -1,5 +1,10 @@
-import React, {useState, useLayoutEffect, useContext} from 'react'
-import PlayerContainer, {MessageContext, EVENTS} from 'griffith'
+import React, {
+  useRef,
+  useState,
+  useLayoutEffect,
+  useContext,
+} from 'react'
+import PlayerContainer, {MessageContext, ACTIONS, EVENTS} from 'griffith'
 import Logo from './Logo'
 import {logEvent} from './utils'
 
@@ -36,10 +41,11 @@ const props = {
   autoplay: true,
   shouldObserveResize: true,
   src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
-  onEvent: logEvent,
 }
 
+const shouldLoop = new URLSearchParams(location.search).has('loop')
 const canShowLogo = new URLSearchParams(location.search).has('logo')
+
 /** 常规通讯方式，建议直接使用 `onEvent` 替代 */
 const LogoListener = () => {
   const [isLogoVisible, setIsLogoVisible] = useState(false)
@@ -52,10 +58,24 @@ const LogoListener = () => {
   return canShowLogo && isLogoVisible ? <Logo /> : null
 }
 
-const App = () => (
-  <PlayerContainer {...props}>
-    <LogoListener />
-  </PlayerContainer>
-)
+const App = () => {
+  const dispatchRef = useRef()
+  return (
+    <PlayerContainer
+      {...props}
+      dispatchRef={dispatchRef}
+      onEvent={(e, data) => {
+        if (shouldLoop && e === EVENTS.DOM.ENDED) {
+          dispatchRef.current?.(ACTIONS.PLAYER.PLAY)
+        }
+        logEvent(e, data)
+      }}
+    >
+      <LogoListener />
+      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PLAY)}>Play</button>
+      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PAUSE)}>Pause</button>
+    </PlayerContainer>
+  )
+}
 
 export default App

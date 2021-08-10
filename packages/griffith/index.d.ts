@@ -1,5 +1,5 @@
 import React from 'react'
-import {EVENTS} from 'griffith-message'
+import {EVENTS, ACTIONS} from 'griffith-message'
 
 type RealQuality = 'ld' | 'sd' | 'hd' | 'fhd'
 
@@ -24,7 +24,8 @@ interface PlayerContainerProps {
     message: string
   }
   onBeforePlay?: (src: string) => Promise<void>
-  onEvent?: (type: string) => void
+  onEvent?: (type: string, data?: any) => void
+  dispatchRef?: React.Ref<MessageContextValue['dispatchAction']>,
   shouldObserveResize?: boolean
   initialObjectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
   useMSE?: boolean
@@ -41,7 +42,7 @@ interface MessageContextValue {
     eventName: string,
     eventHandler: (data: any) => void
   ) => Subscription
-  dispatchAction: (actionName: string, data: any) => void
+  dispatchAction: (actionName: string, data?: any) => void
 }
 
 type Quality = 'auto' | RealQuality
@@ -74,4 +75,4 @@ declare const Layer: React.ComponentType
 
 export default PlayerContainer
 
-export {VideoSourceContext, MessageContext, Layer, EVENTS}
+export {VideoSourceContext, MessageContext, Layer, EVENTS, ACTIONS}

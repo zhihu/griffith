@@ -20,6 +20,7 @@ const PlayerContainer = ({
   error,
   onBeforePlay = () => Promise.resolve(),
   onEvent,
+  dispatchRef,
   shouldObserveResize,
   children,
   initialObjectFit = 'contain',
@@ -40,7 +41,12 @@ const PlayerContainer = ({
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
-      <MessageProvider id={id} enableCrossWindow={standalone} onEvent={onEvent}>
+      <MessageProvider
+        id={id}
+        enableCrossWindow={standalone}
+        onEvent={onEvent}
+        dispatchRef={dispatchRef}
+      >
         <InternalContext.Consumer>
           {({emitEvent, subscribeAction}) => (
             <VideoSourceProvider
@@ -109,6 +115,9 @@ PlayerContainer.propTypes = {
   }),
   onBeforePlay: PropTypes.func,
   onEvent: PropTypes.func,
+  dispatchRef: PropTypes.shape({
+    current: PropTypes.func,
+  }),
   initialObjectFit: PropTypes.oneOf(VALID_FIT),
   useMSE: PropTypes.bool,
   defaultQuality: PropTypes.oneOf(['ld', 'sd', 'hd', 'fhd']),

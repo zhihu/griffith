@@ -106,20 +106,17 @@ class Player extends Component {
       this.setState({volume: historyVolume})
     }
 
-    this.pauseActionSubscription = this.props.subscribeAction(
-      ACTIONS.PLAYER.PAUSE,
-      this.handlePauseAction
-    )
-
-    this.timeUpdateActionSubscription = this.props.subscribeAction(
-      ACTIONS.PLAYER.TIME_UPDATE,
-      ({currentTime}) => this.handleSeek(currentTime)
-    )
-
-    this.showControllerActionSubscription = this.props.subscribeAction(
-      ACTIONS.PLAYER.SHOW_CONTROLLER,
-      this.handleShowController
-    )
+    this.actionSubscriptions_ = [
+      this.props.subscribeAction(ACTIONS.PLAYER.PLAY, this.handlePlay),
+      this.props.subscribeAction(ACTIONS.PLAYER.PAUSE, this.handlePauseAction),
+      this.props.subscribeAction(ACTIONS.PLAYER.TIME_UPDATE, ({currentTime}) =>
+        this.handleSeek(currentTime)
+      ),
+      this.props.subscribeAction(
+        ACTIONS.PLAYER.SHOW_CONTROLLER,
+        this.handleShowController
+      ),
+    ]
 
     if (this.videoRef.current.root) {
       if (this.props.muted) {
@@ -191,9 +188,7 @@ class Player extends Component {
   }
 
   componentWillUnmount() {
-    this.pauseActionSubscription.unsubscribe()
-    this.timeUpdateActionSubscription.unsubscribe()
-    this.showControllerActionSubscription.unsubscribe()
+    this.actionSubscriptions_.forEach(s => s.unsubscribe())
   }
 
   handlePauseAction = ({dontApplyOnFullScreen} = {}) => {

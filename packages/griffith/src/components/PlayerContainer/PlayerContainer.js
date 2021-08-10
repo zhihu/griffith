@@ -27,6 +27,7 @@ const PlayerContainer = ({
   useMSE,
   locale = 'en',
   autoplay,
+  loop,
   muted,
   disablePictureInPicture,
   hiddenPlayButton,
@@ -63,6 +64,7 @@ const PlayerContainer = ({
                       useMSE={useMSE}
                       useAutoQuality={useAutoQuality}
                       autoplay={autoplay}
+                      loop={loop}
                       muted={muted}
                       disablePictureInPicture={disablePictureInPicture}
                       hiddenPlayButton={hiddenPlayButton}
@@ -95,6 +97,8 @@ const PlayerContainer = ({
 
 PlayerContainer.propTypes = {
   standalone: PropTypes.bool,
+  autoplay: PropTypes.bool,
+  loop: PropTypes.bool,
   id: PropTypes.string.isRequired,
   title: PropTypes.string,
   cover: PropTypes.string,

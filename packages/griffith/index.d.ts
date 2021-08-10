@@ -16,6 +16,8 @@ interface PlaySource {
 interface PlayerContainerProps {
   id: string
   standalone?: boolean
+  autoplay?: boolean
+  loop?: boolean
   title?: string
   cover: string
   duration: number

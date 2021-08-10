@@ -1,5 +1,6 @@
 import React from 'react'
 import PlayerContainer from 'griffith'
+import {logEvent} from './utils'
 
 const sources = {
   // 注意，这里手动提供了 auto 品质的 source，因此会无视 useAutoQuality 的配置
@@ -24,6 +25,7 @@ const props = {
   autoplay: true,
   hiddenTimeline: true,
   hiddenTime: true,
+  onEvent: logEvent,
 }
 
 const App = () => <PlayerContainer {...props} />

@@ -7,6 +7,7 @@ declare const ACTIONS: {
     EXIT_FULLSCREEN: string
     ENTER_PIP: string
     EXIT_PIP: string
+    TIME_UPDATE: string
     SHOW_CONTROLLER: string
   }
 }

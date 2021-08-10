@@ -31,6 +31,7 @@ function getMediaEventPayload(event) {
   }
 }
 
+// TODO：这个文件只是做了一层方法拦截，触发播放事件，删除这些封装，简化逻辑
 const VideoWithMessage = React.forwardRef((props, ref) => {
   const renderChildren = (emitEvent, objectFit, updateVideoSize) => {
     const newProps = {}

@@ -19,8 +19,8 @@ interface PlayerContainerProps {
   title?: string
   cover: string
   duration: number
-  sources: {[key in RealQuality]: PlaySource}
-  error: {
+  sources: {[key in RealQuality]?: PlaySource}
+  error?: {
     message: string
   }
   onBeforePlay?: (src: string) => Promise<void>

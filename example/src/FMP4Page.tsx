@@ -1,5 +1,6 @@
 import React from 'react'
 import PlayerContainer from 'griffith'
+import {logEvent} from './utils'
 
 const duration = 182
 
@@ -34,6 +35,7 @@ const props = {
   shouldObserveResize: true,
   src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
   useMSE: true,
+  onEvent: logEvent,
 }
 
 const App = () => <PlayerContainer {...props} />

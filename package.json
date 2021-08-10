@@ -42,9 +42,10 @@
     "build:lib": "lerna run build --ignore example --ignore website",
     "deploy:website": "lerna run --scope website deploy",
     "build": "yarn build:lib",
-    "build:watch": "lerna run build:watch --stream --parallel",
+    "build:watch": "lerna run build --parallel --ignore example --ignore website --ignore griffith-standalone -- --watch",
     "release": "yarn build && lerna publish",
-    "start": "yarn workspace example run start"
+    "start": "yarn workspace example run start",
+    "dev": "yarn build:watch & yarn start"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

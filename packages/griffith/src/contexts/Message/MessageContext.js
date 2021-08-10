@@ -23,6 +23,10 @@ export class MessageProvider extends React.PureComponent {
     id: PropTypes.string.isRequired,
     enableCrossWindow: PropTypes.bool,
     targetOrigin: PropTypes.string.isRequired,
+    onEvent: PropTypes.func,
+    dispatchRef: PropTypes.shape({
+      current: PropTypes.func,
+    }),
   }
 
   static defaultProps = {
@@ -40,6 +44,9 @@ export class MessageProvider extends React.PureComponent {
 
     this.subscribeCrossWindowMessage = subscribeMessage
     this.dispatchCrossWindowMessage = dispatchMessage
+    if (this.props.dispatchRef) {
+      this.props.dispatchRef.current = this.externalContextValue.dispatchAction
+    }
   }
 
   componentDidMount() {

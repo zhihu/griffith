@@ -12,6 +12,7 @@ declare const ACTIONS: {
   }
 }
 
+// TODO：合并这两项，与 ACTIONS 不对称
 declare const EVENTS: {
   DOM: {
     PLAY: string

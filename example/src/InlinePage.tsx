@@ -1,5 +1,6 @@
 import React from 'react'
 import PlayerContainer, {Layer} from 'griffith'
+import {logEvent} from './utils'
 
 const watermarkStyle = {
   backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -10,12 +11,16 @@ const watermarkStyle = {
   display: 'inline-block',
 }
 
-const VideoCard = ({data, height = 'auto', objectFit}) => (
+const VideoCard = ({
+  data,
+  height = 'auto',
+  objectFit,
+}: Partial<{data: any; height: number | string; objectFit: string}>) => (
   <div
     className="VideoCard"
     style={{height, width: '320px', margin: '20px auto'}}
   >
-    <PlayerContainer {...data} initialObjectFit={objectFit}>
+    <PlayerContainer {...data} initialObjectFit={objectFit} onEvent={logEvent}>
       <Layer>
         <span style={watermarkStyle}>水印示例</span>
       </Layer>

@@ -1,6 +1,7 @@
 import React, {useState, useLayoutEffect, useContext} from 'react'
 import PlayerContainer, {MessageContext, EVENTS} from 'griffith'
 import Logo from './Logo'
+import {logEvent} from './utils'
 
 const duration = 182
 
@@ -35,8 +36,7 @@ const props = {
   autoplay: true,
   shouldObserveResize: true,
   src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
-  // eslint-disable-next-line no-console
-  onEvent: console.log.bind(null, 'onEvent:'),
+  onEvent: logEvent,
 }
 
 const canShowLogo = new URLSearchParams(location.search).has('logo')

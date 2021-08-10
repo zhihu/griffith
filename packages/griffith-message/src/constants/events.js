@@ -1,3 +1,4 @@
+// pair to native DOM events, see https://mdn.io/video
 export const DOM = {
   PLAY: 'event/dom/play',
   PLAYING: 'event/dom/playing',
@@ -8,6 +9,7 @@ export const DOM = {
   WAITING: 'event/dom/waiting',
 }
 
+// custom events
 export const PLAYER = {
   QUALITY_CHANGE: 'event/player/quality-change',
   REQUEST_PLAY: 'event/player/request-play',

@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/noop'
-import {sequence} from 'griffith-utils'
 import Player from '../Player'
 import {
   VideoSourceProvider,
@@ -42,11 +40,11 @@ const PlayerContainer = ({
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
-      <MessageProvider id={id} enableCrossWindow={standalone}>
+      <MessageProvider id={id} enableCrossWindow={standalone} onEvent={onEvent}>
         <InternalContext.Consumer>
           {({emitEvent, subscribeAction}) => (
             <VideoSourceProvider
-              onEvent={sequence(emitEvent, onEvent || noop)}
+              onEvent={emitEvent}
               sources={sources}
               id={id}
               defaultQuality={defaultQuality}
@@ -73,7 +71,7 @@ const PlayerContainer = ({
                       title={title}
                       duration={duration}
                       error={error}
-                      onEvent={sequence(emitEvent, onEvent || noop)}
+                      onEvent={emitEvent}
                       subscribeAction={subscribeAction}
                       onBeforePlay={() => onBeforePlay(currentSrc)}
                     />

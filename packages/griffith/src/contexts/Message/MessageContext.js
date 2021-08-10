@@ -58,21 +58,22 @@ export class MessageProvider extends React.PureComponent {
 
   emitEvent = (eventName, data) => {
     this.emitter.emit(eventName, {__type__: EVENT_TYPE, data})
+    this.props.onEvent?.(eventName, data)
     if (this.props.enableCrossWindow) {
       this.dispatchCrossWindowMessage(window.parent, eventName, data)
     }
   }
 
   subscribeEvent = (eventName, listener) => {
-    const realLisener = ({__type__, data} = {}) => {
+    const realListener = ({__type__, data} = {}) => {
       if (__type__ === EVENT_TYPE) {
         listener(data)
       }
     }
-    this.emitter.on(eventName, realLisener)
+    this.emitter.on(eventName, realListener)
 
     return {
-      unsubscribe: () => this.emitter.off(eventName, realLisener),
+      unsubscribe: () => this.emitter.off(eventName, realListener),
     }
   }
 
@@ -81,32 +82,32 @@ export class MessageProvider extends React.PureComponent {
   }
 
   subscribeAction = (eventName, listener) => {
-    const realLisener = ({__type__, data}) => {
+    const realListener = ({__type__, data}) => {
       if (__type__ === ACTION_TYPE) {
         listener(data)
       }
     }
-    this.emitter.on(eventName, realLisener)
+    this.emitter.on(eventName, realListener)
 
     return {
-      unsubscribe: () => this.emitter.off(eventName, realLisener),
+      unsubscribe: () => this.emitter.off(eventName, realListener),
     }
+  }
+
+  internalContextValue = {
+    emitEvent: this.emitEvent,
+    subscribeAction: this.subscribeAction,
+  }
+
+  externalContextValue = {
+    dispatchAction: this.dispatchAction,
+    subscribeEvent: this.subscribeEvent,
   }
 
   render() {
     return (
-      <InternalContext.Provider
-        value={{
-          emitEvent: this.emitEvent,
-          subscribeAction: this.subscribeAction,
-        }}
-      >
-        <ExternalContext.Provider
-          value={{
-            dispatchAction: this.dispatchAction,
-            subscribeEvent: this.subscribeEvent,
-          }}
-        >
+      <InternalContext.Provider value={this.internalContextValue}>
+        <ExternalContext.Provider value={this.externalContextValue}>
           {this.props.children}
         </ExternalContext.Provider>
       </InternalContext.Provider>

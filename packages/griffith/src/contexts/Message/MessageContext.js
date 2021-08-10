@@ -64,15 +64,15 @@ export class MessageProvider extends React.PureComponent {
   }
 
   subscribeEvent = (eventName, listener) => {
-    const realLisener = ({__type__, data} = {}) => {
+    const realListener = ({__type__, data} = {}) => {
       if (__type__ === EVENT_TYPE) {
         listener(data)
       }
     }
-    this.emitter.on(eventName, realLisener)
+    this.emitter.on(eventName, realListener)
 
     return {
-      unsubscribe: () => this.emitter.off(eventName, realLisener),
+      unsubscribe: () => this.emitter.off(eventName, realListener),
     }
   }
 
@@ -81,15 +81,15 @@ export class MessageProvider extends React.PureComponent {
   }
 
   subscribeAction = (eventName, listener) => {
-    const realLisener = ({__type__, data}) => {
+    const realListener = ({__type__, data}) => {
       if (__type__ === ACTION_TYPE) {
         listener(data)
       }
     }
-    this.emitter.on(eventName, realLisener)
+    this.emitter.on(eventName, realListener)
 
     return {
-      unsubscribe: () => this.emitter.off(eventName, realLisener),
+      unsubscribe: () => this.emitter.off(eventName, realListener),
     }
   }
 

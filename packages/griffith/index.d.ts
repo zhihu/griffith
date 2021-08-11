@@ -4,13 +4,13 @@ import {EVENTS, ACTIONS} from 'griffith-message'
 type RealQuality = 'ld' | 'sd' | 'hd' | 'fhd'
 
 interface PlaySource {
-  bitrate: number
-  duration: number
-  format: string
-  height: number
+  bitrate?: number
+  duration?: number
+  format?: string
+  height?: number
   play_url: string
-  size: number
-  width: number
+  size?: number
+  width?: number
 }
 
 interface PlayerContainerProps {
@@ -19,15 +19,15 @@ interface PlayerContainerProps {
   autoplay?: boolean
   loop?: boolean
   title?: string
-  cover: string
-  duration: number
+  cover?: string
+  duration?: number
   sources: {[key in RealQuality]?: PlaySource}
   error?: {
     message: string
   }
   onBeforePlay?: (src: string) => Promise<void>
   onEvent?: (type: string, data?: any) => void
-  dispatchRef?: React.Ref<MessageContextValue['dispatchAction']>,
+  dispatchRef?: React.Ref<MessageContextValue['dispatchAction']>
   shouldObserveResize?: boolean
   initialObjectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
   useMSE?: boolean

@@ -144,6 +144,12 @@ export default StyleSheet.create({
       'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3))',
   },
 
+  volumeButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 8,
+  },
+
   cover: {
     position: 'absolute',
     left: 0,

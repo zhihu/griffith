@@ -11,6 +11,7 @@ import * as icons from '../Icon/icons/display'
 import Loader from '../Loader'
 import Video from '../Video'
 import Controller from '../Controller'
+import VolumeItem from '../Controller/items/VolumeItem'
 import {MinimalTimeline} from '../Timeline'
 import getBufferedTime from '../../utils/getBufferedTime'
 import storage from '../../utils/storage'
@@ -444,6 +445,7 @@ class Player extends Component {
       onEvent,
       useMSE,
       useAutoQuality,
+      alwaysShowVolumeButton,
       disablePictureInPicture,
       progressDots,
       hiddenPlayButton,
@@ -474,6 +476,8 @@ class Player extends Component {
     const isFullScreen = Boolean(BigScreen.element) && !isPip
     const showController = this.getShowController(this.state)
     const bufferedTime = getBufferedTime(currentTime, buffered)
+    const videoDataLoaded = !isLoading || currentTime !== 0
+    const renderController = videoDataLoaded && isPlaybackStarted
 
     return (
       <div
@@ -601,7 +605,7 @@ class Player extends Component {
               </div>
             )}
             {/*首帧已加载完成时展示 MinimalTimeline 组件*/}
-            {!hiddenTimeline && isPlaying && (!isLoading || currentTime !== 0) && (
+            {!hiddenTimeline && isPlaying && videoDataLoaded && (
               <div
                 className={css(
                   hiddenOrShownStyle.base,
@@ -619,8 +623,22 @@ class Player extends Component {
                 />
               </div>
             )}
+            {/* 右下角外显常驻音量按钮控件，与 Controller 互斥展示 */}
+            {alwaysShowVolumeButton && renderController && (
+              <div
+                className={css(
+                  styles.volumeButton,
+                  hiddenOrShownStyle.base,
+                  showController
+                    ? hiddenOrShownStyle.hidden
+                    : hiddenOrShownStyle.shown
+                )}
+              >
+                <VolumeItem volume={volume} />
+              </div>
+            )}
             {/*首帧已加载完成时展示 Controller 组件*/}
-            {isPlaybackStarted && (!isLoading || currentTime !== 0) && (
+            {renderController && (
               <div
                 className={css(
                   styles.controller,

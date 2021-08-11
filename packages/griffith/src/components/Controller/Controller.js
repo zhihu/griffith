@@ -332,6 +332,13 @@ class Controller extends Component {
           />
         )}
         {!hiddenQualityMenu && <QualityMenuItem />}
+        {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
+        {!hiddenFullScreenButton && (
+          <FullScreenButtonItem
+            isFullScreen={isFullScreen}
+            onClick={onToggleFullScreen}
+          />
+        )}
         {!hiddenVolumeItem && (
           <VolumeItem
             volume={volume}
@@ -342,13 +349,6 @@ class Controller extends Component {
             onDragStart={this.handleVolumeDragStart}
             onDragEnd={this.handleVolumeDragEnd}
             onChange={this.handleVolumeChange}
-          />
-        )}
-        {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
-        {!hiddenFullScreenButton && (
-          <FullScreenButtonItem
-            isFullScreen={isFullScreen}
-            onClick={onToggleFullScreen}
           />
         )}
       </div>

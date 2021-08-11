@@ -39,6 +39,7 @@ const PlayerContainer = ({
   defaultQuality,
   useAutoQuality = false,
   progressDots = [],
+  alwaysShowVolumeButton,
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
@@ -73,6 +74,7 @@ const PlayerContainer = ({
                       hiddenQualityMenu={hiddenQualityMenu}
                       hiddenVolumeItem={hiddenVolume}
                       hiddenFullScreenButton={hiddenFullScreenButton}
+                      alwaysShowVolumeButton={alwaysShowVolumeButton}
                       progressDots={progressDots}
                       standalone={standalone}
                       cover={cover}

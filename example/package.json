@@ -1,13 +1,13 @@
 {
   "name": "example",
-  "version": "1.14.2",
+  "version": "1.15.0",
   "private": true,
   "scripts": {
     "build": "vite build",
     "start": "vite"
   },
   "dependencies": {
-    "griffith": "^1.14.2",
+    "griffith": "^1.15.0",
     "react": "^16.8",
     "react-dom": "^16.8",
     "react-router-dom": "^5.2.0"

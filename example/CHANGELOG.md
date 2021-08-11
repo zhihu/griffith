@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/zhihu/griffith/compare/v1.14.2...v1.15.0) (2021-08-11)
+
+
+### Bug Fixes
+
+* pass EVENTS.DOM to onEvent ([#185](https://github.com/zhihu/griffith/issues/185)) ([8f10e6b](https://github.com/zhihu/griffith/commit/8f10e6b))
+
+
+### Features
+
+* add dispatchRef, respond `ACTIONS.PLAYER.PLAY` ([f59531d](https://github.com/zhihu/griffith/commit/f59531d))
+* support action set_volume & update readme ([7b2f25f](https://github.com/zhihu/griffith/commit/7b2f25f))
+
+
+
+
+
 ## [1.14.2](https://github.com/zhihu/griffith/compare/v1.14.1...v1.14.2) (2021-07-16)
 
 **Note:** Version bump only for package example

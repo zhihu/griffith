@@ -100,9 +100,9 @@ Event sent to the player
 
 | `messageName`                     | Description      | `data`                                                      | Status    |
 | --------------------------------- | ---------------- | ----------------------------------------------------------- | --------- |
-| `ACTIONS.PLAYER.PLAY`             | Play             | `{applyOnFullScreen: boolean}` Applied to full screen video | TODO      |
+| `ACTIONS.PLAYER.PLAY`             | Play             | `{applyOnFullScreen: boolean}` Applied to full screen video | SUPPORTED |
 | `ACTIONS.PLAYER.PAUSE`            | Pause            | Applied to full screen video                                | SUPPORTED |
-| `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | TODO      |
+| `ACTIONS.PLAYER.SET_VOLUME`       | Set the volume   | `{volume: number}` Volume value from 0 to 1                 | SUPPORTED |
 | `ACTIONS.PLAYER.ENTER_FULLSCREEN` | Enter fullScreen | null                                                        | SUPPORTED |
 | `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | Exit fullscreen  | null                                                        | SUPPORTED |
 | `ACTIONS.PLAYER.TIME_UPDATE`      | Set current time | `{currentTime: number} Set the currentTime`                 | SUPPORTED |

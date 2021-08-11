@@ -24,6 +24,10 @@ export default function IframePage() {
       dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.PAUSE)
     })
 
+    document.getElementById('jsPlayFirst').addEventListener('click', () => {
+      dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.PLAY)
+    })
+
     document.getElementById('jsSeekFirst').addEventListener('click', () => {
       const currentTime = Number(document.getElementById('time').value)
       dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.TIME_UPDATE, {
@@ -37,6 +41,14 @@ export default function IframePage() {
         dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.SHOW_CONTROLLER)
       })
 
+    document
+      .getElementById('jsSetVolumeFirst')
+      .addEventListener('click', () => {
+        dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.SET_VOLUME, {
+          volume: 0,
+        })
+      })
+
     return () => {
       disposer.unsubscribe()
     }
@@ -45,10 +57,11 @@ export default function IframePage() {
   return (
     <>
       <p>本页面可以测试播放器在 iframe 中的效果，还可以测试跨窗口消息接口</p>
-      <p>场景 1：向一个视频发出暂停指令</p>
+      <p>场景 1：向一个视频发出暂停 / 播放指令</p>
       <p>场景 2：一个视频开始播放时，暂停其他视频</p>
       <p>场景 3：手动 seek</p>
       <p>场景 4：显示进度条</p>
+      <p>场景 5：设置视频的音量</p>
       <div>
         <iframe src="/mp4?nonav" allowFullScreen frameBorder="0" />
         <iframe src="/mp4?nonav" allowFullScreen frameBorder="0" />
@@ -57,12 +70,16 @@ export default function IframePage() {
       </div>
       <br />
       <button id="jsPauseFirst">暂停第一个视频</button>
+      <br />
+      <button id="jsPlayFirst">播放第一个视频</button>
+      <br />
       <div>
         <input id="time" />
         <button id="jsSeekFirst">手动 seek 第一个视频</button>
       </div>
-      <br />
       <button id="jsShowControllerFirst">让第一个视频显示进度条</button>
+      <br />
+      <button id="jsSetVolumeFirst">让第一个视频静音</button>
     </>
   )
 }

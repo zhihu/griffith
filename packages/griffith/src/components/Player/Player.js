@@ -117,6 +117,9 @@ class Player extends Component {
         ACTIONS.PLAYER.SHOW_CONTROLLER,
         this.handleShowController
       ),
+      this.props.subscribeAction(ACTIONS.PLAYER.SET_VOLUME, ({volume}) =>
+        this.handleVideoVolumeChange(volume)
+      ),
     ]
 
     if (this.videoRef.current.root) {

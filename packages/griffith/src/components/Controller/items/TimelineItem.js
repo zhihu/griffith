@@ -3,10 +3,12 @@ import {css} from 'aphrodite/no-important'
 import styles from '../styles'
 import Timeline from '../../Timeline'
 
-const TimelineItem = props => (
-  <div className={css(styles.timeline)}>
-    <Timeline {...props} />
-  </div>
-)
+const TimelineItem = props => {
+  return (
+    <div className={css(styles.timeline)}>
+      <Timeline {...props} />
+    </div>
+  )
+}
 
 export default TimelineItem

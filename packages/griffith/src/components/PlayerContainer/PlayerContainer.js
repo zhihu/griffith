@@ -8,7 +8,8 @@ import {
 import {MessageProvider, InternalContext} from '../../contexts/Message'
 import {PositionProvider} from '../../contexts/Position'
 import {ObjectFitProvider, VALID_FIT} from '../../contexts/ObjectFit'
-import {LocaleContext} from '../../contexts/Locale'
+import LocaleProvider from '../../contexts/Locale/LocaleProvider'
+import {DEFAULT_PLAYBACK_RATE} from '../../constants/DefaultPlaybackRate'
 
 const PlayerContainer = ({
   standalone,
@@ -26,6 +27,7 @@ const PlayerContainer = ({
   initialObjectFit = 'contain',
   useMSE,
   locale = 'en',
+  localeConfig = {},
   autoplay,
   loop,
   muted,
@@ -35,11 +37,14 @@ const PlayerContainer = ({
   hiddenTime,
   hiddenQualityMenu,
   hiddenVolume,
+  hiddenPlaybackRateItem,
   hiddenFullScreenButton,
   defaultQuality,
+  defaultPlaybackRate = {value: 1.0, text: '1.0x'},
   useAutoQuality = false,
   progressDots = [],
   alwaysShowVolumeButton,
+  playbackRates = DEFAULT_PLAYBACK_RATE,
 }) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
@@ -57,8 +62,10 @@ const PlayerContainer = ({
               id={id}
               defaultQuality={defaultQuality}
               useAutoQuality={useAutoQuality}
+              defaultPlaybackRate={defaultPlaybackRate}
+              playbackRates={playbackRates}
             >
-              <LocaleContext.Provider value={locale}>
+              <LocaleProvider locale={locale} localeConfig={localeConfig}>
                 <VideoSourceContext.Consumer>
                   {({currentSrc}) => (
                     <Player
@@ -73,6 +80,7 @@ const PlayerContainer = ({
                       hiddenTime={hiddenTime}
                       hiddenQualityMenu={hiddenQualityMenu}
                       hiddenVolumeItem={hiddenVolume}
+                      hiddenPlaybackRateItem={hiddenPlaybackRateItem}
                       hiddenFullScreenButton={hiddenFullScreenButton}
                       alwaysShowVolumeButton={alwaysShowVolumeButton}
                       progressDots={progressDots}
@@ -84,11 +92,12 @@ const PlayerContainer = ({
                       onEvent={emitEvent}
                       subscribeAction={subscribeAction}
                       onBeforePlay={() => onBeforePlay(currentSrc)}
-                    />
+                    >
+                      {children}
+                    </Player>
                   )}
                 </VideoSourceContext.Consumer>
-                {children}
-              </LocaleContext.Provider>
+              </LocaleProvider>
             </VideoSourceProvider>
           )}
         </InternalContext.Consumer>
@@ -127,6 +136,12 @@ PlayerContainer.propTypes = {
   initialObjectFit: PropTypes.oneOf(VALID_FIT),
   useMSE: PropTypes.bool,
   defaultQuality: PropTypes.oneOf(['ld', 'sd', 'hd', 'fhd']),
+  playbackRates: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      value: PropTypes.number,
+    })
+  ),
 }
 
 export default PlayerContainer

@@ -18,6 +18,8 @@ export default class VideoSourceProvider extends React.Component {
     sources: PropTypes.object,
     id: PropTypes.string.isRequired,
     useAutoQuality: PropTypes.bool,
+    playbackRates: PropTypes.arrayOf(PropTypes.object),
+    defaultPlaybackRate: PropTypes.object,
   }
 
   state = {
@@ -27,10 +29,17 @@ export default class VideoSourceProvider extends React.Component {
     sources: [],
     expiration: 0,
     dataKey: null,
+    currentPlaybackRate: null,
   }
 
   static getDerivedStateFromProps = (
-    {sources: videoSources, id, defaultQuality, useAutoQuality},
+    {
+      sources: videoSources,
+      id,
+      defaultQuality,
+      useAutoQuality,
+      defaultPlaybackRate,
+    },
     state
   ) => {
     if (!videoSources) return null
@@ -56,9 +65,10 @@ export default class VideoSourceProvider extends React.Component {
 
     const defaultCurrentQuality = defaultQuality || qualities[0]
     const currentQuality = state.currentQuality || defaultCurrentQuality
-
+    const currentPlaybackRate = state.currentPlaybackRate || defaultPlaybackRate
     return {
       currentQuality,
+      currentPlaybackRate,
       qualities,
       sources,
       format,
@@ -78,6 +88,17 @@ export default class VideoSourceProvider extends React.Component {
     }
   }
 
+  setCurrentPlaybackRate = rate => {
+    const prevRate = this.state.currentPlaybackRate
+    if (prevRate !== rate) {
+      this.setState({currentPlaybackRate: rate})
+      this.props.onEvent(EVENTS.PLAYER.PLAYBACK_RATE_CHANGE, {
+        prevRate,
+        rate,
+      })
+    }
+  }
+
   /**
    * 获得当前 src, 根据当前清晰度返回对应的 src
    */
@@ -93,18 +114,28 @@ export default class VideoSourceProvider extends React.Component {
   }
 
   render() {
-    const {qualities, currentQuality, format, dataKey, sources} = this.state
-
+    const {
+      qualities,
+      currentQuality,
+      format,
+      dataKey,
+      sources,
+      currentPlaybackRate,
+    } = this.state
+    const {playbackRates} = this.props
     return (
       <VideoSourceContext.Provider
         value={{
           dataKey,
           qualities,
+          playbackRates,
           format,
           sources,
           currentQuality,
+          currentPlaybackRate,
           currentSrc: this.getCurrentSrc(),
           setCurrentQuality: this.setCurrentQuality,
+          setCurrentPlaybackRate: this.setCurrentPlaybackRate,
         }}
       >
         {this.props.children}

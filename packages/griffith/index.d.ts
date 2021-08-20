@@ -2,7 +2,14 @@ import React from 'react'
 import {EVENTS, ACTIONS} from 'griffith-message'
 
 type RealQuality = 'ld' | 'sd' | 'hd' | 'fhd'
-
+type Lans =  'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
+type LocaleKey = 'quality-auto' |  'quality-ld' | 'quality-sd' | 'quality-hd' | 'quality-fhd'
+type LocaleObject =Partial<Record<LocaleKey,string>>
+type LocaleConfig=Partial<Record<Lans,LocaleObject>>
+interface IPlaybackRate{
+  value: number,
+  text: string
+}
 interface PlaySource {
   bitrate?: number
   duration?: number
@@ -32,7 +39,11 @@ interface PlayerContainerProps {
   initialObjectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
   useMSE?: boolean
   locale?: 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
+  localeConfig?: LocaleConfig
   defaultQuality?: RealQuality[]
+  defaultPlaybackRate?: IPlaybackRate
+  playbackRates?:Array<IPlaybackRate>
+  hiddenPlaybackRateItem?: boolean
 }
 
 interface Subscription {
@@ -68,13 +79,11 @@ interface VideoSourceContextValue {
   currentQuality: Quality
   currentSrc: string
   setCurrentQuality: (q: Quality) => void
+  setCurrentPlaybackRate: (q: IPlaybackRate) => void
 }
-
 declare const PlayerContainer: React.ComponentType<PlayerContainerProps>
 declare const MessageContext: React.Context<MessageContextValue>
 declare const VideoSourceContext: React.Context<VideoSourceContextValue>
 declare const Layer: React.ComponentType
-
 export default PlayerContainer
-
 export {VideoSourceContext, MessageContext, Layer, EVENTS, ACTIONS}

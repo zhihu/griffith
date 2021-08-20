@@ -49,6 +49,7 @@ class Player extends Component {
     hiddenQualityMenu: PropTypes.bool,
     hiddenVolume: PropTypes.bool,
     hiddenFullScreenButton: PropTypes.bool,
+    hiddenPlaybackRateItem: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -76,6 +77,7 @@ class Player extends Component {
     type: null,
     hovered: false,
     pressed: false,
+    isEnterPageFullScreen: false,
   }
 
   isSeeking = false
@@ -359,6 +361,17 @@ class Player extends Component {
     }
   }
 
+  handleTogglePageFullScreen = () => {
+    const {onEvent} = this.props
+    if (this.state.isEnterPageFullScreen) {
+      this.setState({isEnterPageFullScreen: false})
+      onEvent(EVENTS.PLAYER.EXIT_PAGE_FULLSCREEN)
+    } else {
+      this.setState({isEnterPageFullScreen: true})
+      onEvent(EVENTS.PLAYER.ENTER_PAGE_FULLSCREEN)
+    }
+  }
+
   handleTogglePip = () => {
     Pip.toggle()
   }
@@ -454,6 +467,8 @@ class Player extends Component {
       hiddenQualityMenu,
       hiddenVolume,
       hiddenFullScreenButton,
+      children,
+      hiddenPlaybackRateItem,
     } = this.props
 
     const {
@@ -469,6 +484,7 @@ class Player extends Component {
       type,
       hovered,
       pressed,
+      isEnterPageFullScreen,
     } = this.state
 
     const isPip = Boolean(Pip.pictureInPictureElement)
@@ -481,7 +497,11 @@ class Player extends Component {
 
     return (
       <div
-        className={css(styles.root, isFullScreen && styles.fullScreened)}
+        className={css(
+          styles.root,
+          isFullScreen && styles.fullScreened,
+          isEnterPageFullScreen && styles.pageFullScreen
+        )}
         onMouseLeave={this.handleMouseLeave}
         onMouseEnter={this.handleMouseEnter}
         onMouseDown={this.handleMouseDown}
@@ -660,6 +680,7 @@ class Player extends Component {
                   progressDots={progressDots}
                   buffered={bufferedTime}
                   isFullScreen={isFullScreen}
+                  isPageFullScreen={isEnterPageFullScreen}
                   isPip={isPip}
                   onDragStart={this.handleControllerDragStart}
                   onDragEnd={this.handleControllerDragEnd}
@@ -668,6 +689,7 @@ class Player extends Component {
                   onSeek={this.handleSeek}
                   onVolumeChange={this.handleVideoVolumeChange}
                   onToggleFullScreen={this.handleToggleFullScreen}
+                  onTogglePageFullScreen={this.handleTogglePageFullScreen}
                   onTogglePip={this.handleTogglePip}
                   onProgressDotHover={this.handleProgressDotHover}
                   onProgressDotLeave={this.handleProgressDotLeave}
@@ -678,6 +700,7 @@ class Player extends Component {
                   hiddenTime={hiddenTime}
                   hiddenQualityMenu={hiddenQualityMenu}
                   hiddenVolumeItem={hiddenVolume}
+                  hiddenPlaybackRateItem={hiddenPlaybackRateItem}
                   hiddenFullScreenButton={hiddenFullScreenButton}
                 />
               </div>
@@ -692,6 +715,7 @@ class Player extends Component {
             )}
           </div>
         )}
+        {children}
       </div>
     )
   }

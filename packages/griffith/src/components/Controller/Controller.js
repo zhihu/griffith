@@ -11,9 +11,10 @@ import CombinedTimeItem from './items/CombinedTimeItem'
 import QualityMenuItem from './items/QualityMenuItem'
 import VolumeItem from './items/VolumeItem'
 import FullScreenButtonItem from './items/FullScreenButtonItem'
+import PageFullScreenButtonItem from './items/PageFullScreenButtonItem'
 import PipButtonItem from './items/PipButtonItem'
-
 import styles from './styles'
+import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
 
 class Controller extends Component {
   static propTypes = {
@@ -47,6 +48,7 @@ class Controller extends Component {
     hiddenQualityMenu: PropTypes.bool,
     hiddenVolumeItem: PropTypes.bool,
     hiddenFullScreenButton: PropTypes.bool,
+    hiddenPlaybackRateItem: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -62,6 +64,7 @@ class Controller extends Component {
     hiddenTimeline: false,
     hiddenTime: false,
     hiddenQualityMenu: false,
+    hiddenPlaybackRateItem: false,
     hiddenVolumeItem: false,
     hiddenFullScreenButton: false,
     progressDots: [],
@@ -276,10 +279,12 @@ class Controller extends Component {
       currentTime,
       volume,
       isFullScreen,
+      isPageFullScreen,
       isPip,
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
+      onTogglePageFullScreen,
       onTogglePip,
       showPip,
       progressDots,
@@ -288,6 +293,7 @@ class Controller extends Component {
       hiddenTime,
       hiddenQualityMenu,
       hiddenVolumeItem,
+      hiddenPlaybackRateItem,
       hiddenFullScreenButton,
       onProgressDotHover,
       onProgressDotLeave,
@@ -303,12 +309,6 @@ class Controller extends Component {
 
     return (
       <div className={css(styles.root, isFullScreen && styles.fullScreened)}>
-        {!hiddenPlayButton && (
-          <PlayButtonItem
-            isPlaying={isPlaying}
-            onClick={() => this.handleToggle('button')}
-          />
-        )}
         {!hiddenTimeline && (
           <TimelineItem
             value={currentTime}
@@ -323,34 +323,55 @@ class Controller extends Component {
             onProgressDotLeave={onProgressDotLeave}
           />
         )}
-        {hiddenTimeline && <div className={css(styles.timelineHolder)} />}
-        {!hiddenTime && (
-          <CombinedTimeItem
-            isFullScreen={isFullScreen}
-            currentTime={displayedCurrentTime}
-            duration={duration}
-          />
-        )}
-        {!hiddenQualityMenu && <QualityMenuItem />}
-        {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
-        {!hiddenFullScreenButton && (
-          <FullScreenButtonItem
-            isFullScreen={isFullScreen}
-            onClick={onToggleFullScreen}
-          />
-        )}
-        {!hiddenVolumeItem && (
-          <VolumeItem
-            volume={volume}
-            menuShown={isVolumeHovered || isVolumeDragging || isVolumeKeyboard}
-            onMouseEnter={this.handleVolumePointerEnter}
-            onMouseLeave={this.handleVolumePointerLeave}
-            onToggleMuted={this.handleToggleMuted}
-            onDragStart={this.handleVolumeDragStart}
-            onDragEnd={this.handleVolumeDragEnd}
-            onChange={this.handleVolumeChange}
-          />
-        )}
+        <div className={css(styles.rootBottom)}>
+          <div className={css(styles.rootBottomLeft)}>
+            {!hiddenPlayButton && (
+              <PlayButtonItem
+                isPlaying={isPlaying}
+                onClick={() => this.handleToggle('button')}
+              />
+            )}
+            {hiddenTimeline && <div className={css(styles.timelineHolder)} />}
+            {!hiddenTime && (
+              <CombinedTimeItem
+                isFullScreen={isFullScreen}
+                currentTime={displayedCurrentTime}
+                duration={duration}
+              />
+            )}
+          </div>
+          <div className={css(styles.rootBottomRight)}>
+            {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />}
+            {!hiddenQualityMenu && <QualityMenuItem />}
+            {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
+            {!hiddenFullScreenButton && (
+              <PageFullScreenButtonItem
+                isFullScreen={isPageFullScreen}
+                onClick={onTogglePageFullScreen}
+              />
+            )}
+            {!hiddenFullScreenButton && (
+              <FullScreenButtonItem
+                isFullScreen={isFullScreen}
+                onClick={onToggleFullScreen}
+              />
+            )}
+            {!hiddenVolumeItem && (
+              <VolumeItem
+                volume={volume}
+                menuShown={
+                  isVolumeHovered || isVolumeDragging || isVolumeKeyboard
+                }
+                onMouseEnter={this.handleVolumePointerEnter}
+                onMouseLeave={this.handleVolumePointerLeave}
+                onToggleMuted={this.handleToggleMuted}
+                onDragStart={this.handleVolumeDragStart}
+                onDragEnd={this.handleVolumeDragEnd}
+                onChange={this.handleVolumeChange}
+              />
+            )}
+          </div>
+        </div>
       </div>
     )
   }

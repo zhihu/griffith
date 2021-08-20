@@ -36,6 +36,10 @@ class Video extends Component {
     onProgress: PropTypes.func,
     onError: PropTypes.func.isRequired,
     onEvent: PropTypes.func.isRequired,
+    currentPlaybackRate: PropTypes.shape({
+      text: PropTypes.string,
+      value: PropTypes.number,
+    }),
   }
 
   static defaultProps = {
@@ -47,7 +51,7 @@ class Video extends Component {
   isMetadataLoaded = false
   pendingAction = null
   loading = false
-
+  isSwitchDefinition = false
   // refs
   root = null
 
@@ -63,15 +67,25 @@ class Video extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {src, paused, volume, format, useMSE} = this.props
+    const {
+      src,
+      paused,
+      volume,
+      format,
+      useMSE,
+      currentPlaybackRate,
+      currentQuality,
+      onEvent,
+    } = this.props
 
     /**
      * 切换清晰度，如果是非 mse 视频（src 是 blob 类型）
      * data 变化的时候会 remount，所以 componentDidUpdate 中 src 变化一定是清晰度变了
      */
     if (prevProps.src && src !== prevProps.src) {
+      this.isSwitchDefinition = true
+      onEvent(EVENTS.PLAYER.CHANGE_QUALITY_START, currentQuality)
       const {willHandleSrcChange} = selectVideo(format, useMSE)
-
       // TODO 这一块逻辑需要 Video 自己处理
       if (!willHandleSrcChange) {
         this.safeExecute(() => {
@@ -94,6 +108,10 @@ class Video extends Component {
 
     if (this.root.volume !== volume ** 2 && !isMobile) {
       this.root.volume = volume ** 2
+    }
+
+    if (prevProps.currentPlaybackRate.value !== currentPlaybackRate.value) {
+      this.setRate(currentPlaybackRate)
     }
   }
 
@@ -136,6 +154,15 @@ class Video extends Component {
     } else {
       fn()
     }
+  }
+
+  setRate(rate) {
+    if (!isMobile && !this.isMetadataLoaded) {
+      this.pending({paused: true})
+      return
+    }
+
+    this.safeExecute(() => (this.root.playbackRate = Number(rate.value)))
   }
 
   play() {
@@ -185,10 +212,24 @@ class Video extends Component {
   handleMetadataLoaded = () => {
     this.isMetadataLoaded = true
     this.applyPendingAction()
+    if (this.isSwitchDefinition) {
+      this.isSwitchDefinition = false
+      this.props.onEvent(
+        EVENTS.PLAYER.CHANGE_QUALITY_SUCCESS,
+        this.props.currentQuality
+      )
+    }
   }
 
   handleError = () => {
     const {onError} = this.props
+    if (this.isSwitchDefinition) {
+      this.isSwitchDefinition = false
+      this.props.onEvent(
+        EVENTS.PLAYER.CHANGE_QUALITY_FAIL,
+        this.props.currentQuality
+      )
+    }
     if (onError) {
       onError(this.root.error)
     }
@@ -199,6 +240,11 @@ class Video extends Component {
     if (onDurationChange) {
       onDurationChange(this.root.duration)
     }
+  }
+
+  handleLoadedData = () => {
+    const {onLoadedData} = this.props
+    onLoadedData && onLoadedData()
   }
 
   handleWaiting = () => {
@@ -330,7 +376,7 @@ class Video extends Component {
 
 export default React.forwardRef((props, ref) => (
   <VideoSourceContext.Consumer>
-    {({currentSrc, sources, currentQuality, format}) => (
+    {({currentSrc, sources, currentQuality, format, currentPlaybackRate}) => (
       <Video
         ref={ref}
         {...props}
@@ -338,6 +384,7 @@ export default React.forwardRef((props, ref) => (
         format={format}
         sources={sources}
         currentQuality={currentQuality}
+        currentPlaybackRate={currentPlaybackRate}
       />
     )}
   </VideoSourceContext.Consumer>

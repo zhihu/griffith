@@ -25,7 +25,11 @@ declare const EVENTS: {
   }
 
   PLAYER: {
-    QUALITY_CHANGE: string
+    QUALITY_CHANGE: string,
+    CHANGE_QUALITY_START: string,
+    CHANGE_QUALITY_SUCCESS:string,
+    CHANGE_QUALITY_FAIL: string,
+    PLAYBACK_RATE_CHANGE: string
     REQUEST_PLAY: string
     REQUEST_PAUSE: string
     PLAY_COUNT: string
@@ -37,8 +41,9 @@ declare const EVENTS: {
     SHOW_CONTROLLER: string
     HIDE_CONTROLLER: string
     HOVER_PROGRESS_DOT: string
-    LEAVE_PROGRESS_DOT: string
-    SUBSCRIPTION_READY: string
+    LEAVE_PROGRESS_DOT: string,
+    ENTER_PAGE_FULLSCREEN: string,
+    EXIT_PAGE_FULLSCREEN: string
   }
 }
 

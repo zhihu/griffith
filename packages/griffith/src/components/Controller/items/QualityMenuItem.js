@@ -28,6 +28,11 @@ class QualityMenuItem extends React.PureComponent {
     this.setState({isQualityHovered: false})
   }
 
+  handleClickItem = (q, handler) => {
+    this.handleQualityPointerLeave()
+    handler(q)
+  }
+
   render() {
     const {isQualityHovered} = this.state
     return (
@@ -58,7 +63,7 @@ class QualityMenuItem extends React.PureComponent {
                         styles.qualityMenuItem,
                         currentQuality === q && styles.qualityMenuActiveItem
                       )}
-                      onClick={() => setCurrentQuality(q)}
+                      onClick={() => this.handleClickItem(q, setCurrentQuality)}
                     >
                       <TranslatedText name={QUALITIES[q]} />
                     </button>

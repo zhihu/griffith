@@ -2,12 +2,24 @@ import {StyleSheet} from 'aphrodite/no-important'
 
 export default StyleSheet.create({
   root: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '2.5em',
+    height: '5em',
     padding: '0 0.5em',
   },
-
+  rootTop: {
+    height: '2em',
+  },
+  rootBottom: {
+    height: '2.5em',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  rootBottomLeft: {
+    display: 'flex',
+  },
+  rootBottomRight: {
+    display: 'flex',
+  },
   button: {
     display: 'block',
     width: '2.5em',
@@ -85,6 +97,8 @@ export default StyleSheet.create({
 
   qualityMenuItem: {
     display: 'block',
+    width: '100%',
+    boxSizing: 'border-box',
     height: '2em',
     margin: 0,
     padding: '0 0.75em',

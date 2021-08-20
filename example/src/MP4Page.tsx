@@ -63,6 +63,15 @@ const App = () => {
   return (
     <PlayerContainer
       {...props}
+      localeConfig={{
+        'zh-Hans': {
+          'quality-ld': '流畅 360P',
+          'quality-sd': '清晰 480P',
+          'quality-hd': '高清 720P',
+          'quality-fhd': '超清 1080P',
+        },
+      }}
+      locale={'ja'}
       dispatchRef={dispatchRef}
       onEvent={(e, data) => {
         if (shouldLoop && e === EVENTS.DOM.ENDED) {

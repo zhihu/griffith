@@ -3,7 +3,7 @@
  * @param {number} a
  * @param {number} b
  */
-export function getGCD(a, b) {
+export function getGCD(a: number, b: number): number {
   if (!Number.isInteger(a) || !Number.isInteger(b)) {
     throw new Error('params must be interger number')
   }
@@ -21,7 +21,7 @@ export function getGCD(a, b) {
  * @param {number} a
  * @param {number} b
  */
-export function reduce(a, b) {
+export function reduce(a: number, b: number) {
   if (a === 0 || b === 0) {
     throw new Error('params must not be zero')
   }

@@ -1,30 +1,32 @@
-const logger = {
-  DEBUG: 'debug',
-  INFO: 'info',
-  WARN: 'warn',
-  ERROR: 'error',
+enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error',
+}
 
-  log(level, message, ...params) {
+const logger = {
+  log(level: LogLevel, ...params: any[]) {
     /* eslint-disable no-console */
     const method = console[level] ? level : 'log'
-    console[method]('[griffith] ' + message, ...params)
+    console[method].bind(console, '[griffith]')(...params)
     /* eslint-enable no-console */
   },
 
-  debug(...args) {
-    this.log(this.DEBUG, ...args)
+  debug(...args: any[]) {
+    this.log(LogLevel.DEBUG, ...args)
   },
 
-  info(...args) {
-    this.log(this.INFO, ...args)
+  info(...args: any[]) {
+    this.log(LogLevel.INFO, ...args)
   },
 
-  warn(...args) {
-    this.log(this.WARN, ...args)
+  warn(...args: any[]) {
+    this.log(LogLevel.WARN, ...args)
   },
 
-  error(...args) {
-    this.log(this.ERROR, ...args)
+  error(...args: any[]) {
+    this.log(LogLevel.ERROR, ...args)
   },
 }
 

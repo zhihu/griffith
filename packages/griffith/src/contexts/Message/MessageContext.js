@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
-import {createMessageHelper} from 'griffith-message'
+import {EVENTS, createMessageHelper} from 'griffith-message'
 
 const EVENT_TYPE = 'event'
 const ACTION_TYPE = 'action'
@@ -47,6 +47,10 @@ export class MessageProvider extends React.PureComponent {
     if (this.props.dispatchRef) {
       this.props.dispatchRef.current = this.externalContextValue.dispatchAction
     }
+
+    Promise.resolve().then(() =>
+      props.onEvent(EVENTS.PLAYER.SUBSCRIPTION_READY)
+    )
   }
 
   componentDidMount() {

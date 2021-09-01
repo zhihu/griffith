@@ -62,27 +62,28 @@ dispatchMessage(targetWindow, messageName, data)
 
 从播放器接收到的事件
 
-| `messageName`                      | 说明                   | `data`                                           |
-| ---------------------------------- | ---------------------- | ------------------------------------------------ |
-| `EVENTS.DOM.PLAY`                  | 播放                   | 见下表                                           |
-| `EVENTS.DOM.PLAYING`               | 从暂停或缓冲中恢复播放 | 见下表                                           |
-| `EVENTS.DOM.PAUSE`                 | 暂停                   | 见下表                                           |
-| `EVENTS.DOM.ENDED`                 | 停止                   | 见下表                                           |
-| `EVENTS.DOM.TIMEUPDATE`            | 进度更新               | 见下表                                           |
-| `EVENTS.DOM.ERROR`                 | 错误                   | 见下表                                           |
-| `EVENTS.DOM.WAITING`               | 缓冲                   | 见下表                                           |
-| `EVENTS.PLAYER.REQUEST_PLAY`       | 用户触发播放           | 无                                               |
-| `EVENTS.PLAYER.QUALITY_CHANGE`     | 清晰度切换             | `{quality: string, prevQuality: string}`         |
-| `EVENTS.PLAYER.PLAY_COUNT`         | 播放一次               | 无                                               |
-| `EVENTS.PLAYER.PLAY_FAILED`        | 播放失败               | `{currentTime: number}`                          |
-| `EVENTS.PLAYER.ENTER_FULLSCREEN`   | 进入全屏               | 无                                               |
-| `EVENTS.PLAYER.EXIT_FULLSCREEN`    | 退出全屏               | 无                                               |
-| `EVENTS.PLAYER.ENTER_PIP`          | 进入画中画             | 无                                               |
-| `EVENTS.PLAYER.EXIT_PIP`           | 退出画中画             | 无                                               |
-| `EVENTS.PLAYER.SHOW_CONTROLLER`    | 显示播放器进度条控件   | 无                                               |
-| `EVENTS.PLAYER.HIDE_CONTROLLER`    | 隐藏播放器进度条控件   | 无                                               |
-| `EVENTS.PLAYER.HOVER_PROGRESS_DOT` | 鼠标 hover 播放节点    | `{startTime: number, left: number, top: number}` |
-| `EVENTS.PLAYER.LEAVE_PROGRESS_DOT` | 鼠标离开播放节点       | 无                                               |
+| `messageName`                      | 说明                               | `data`                                           |
+| ---------------------------------- | ---------------------------------- | ------------------------------------------------ |
+| `EVENTS.DOM.PLAY`                  | 播放                               | 见下表                                           |
+| `EVENTS.DOM.PLAYING`               | 从暂停或缓冲中恢复播放             | 见下表                                           |
+| `EVENTS.DOM.PAUSE`                 | 暂停                               | 见下表                                           |
+| `EVENTS.DOM.ENDED`                 | 停止                               | 见下表                                           |
+| `EVENTS.DOM.TIMEUPDATE`            | 进度更新                           | 见下表                                           |
+| `EVENTS.DOM.ERROR`                 | 错误                               | 见下表                                           |
+| `EVENTS.DOM.WAITING`               | 缓冲                               | 见下表                                           |
+| `EVENTS.PLAYER.REQUEST_PLAY`       | 用户触发播放                       | 无                                               |
+| `EVENTS.PLAYER.QUALITY_CHANGE`     | 清晰度切换                         | `{quality: string, prevQuality: string}`         |
+| `EVENTS.PLAYER.PLAY_COUNT`         | 播放一次                           | 无                                               |
+| `EVENTS.PLAYER.PLAY_FAILED`        | 播放失败                           | `{currentTime: number}`                          |
+| `EVENTS.PLAYER.ENTER_FULLSCREEN`   | 进入全屏                           | 无                                               |
+| `EVENTS.PLAYER.EXIT_FULLSCREEN`    | 退出全屏                           | 无                                               |
+| `EVENTS.PLAYER.ENTER_PIP`          | 进入画中画                         | 无                                               |
+| `EVENTS.PLAYER.EXIT_PIP`           | 退出画中画                         | 无                                               |
+| `EVENTS.PLAYER.SHOW_CONTROLLER`    | 显示播放器进度条控件               | 无                                               |
+| `EVENTS.PLAYER.HIDE_CONTROLLER`    | 隐藏播放器进度条控件               | 无                                               |
+| `EVENTS.PLAYER.HOVER_PROGRESS_DOT` | 鼠标 hover 播放节点                | `{startTime: number, left: number, top: number}` |
+| `EVENTS.PLAYER.LEAVE_PROGRESS_DOT` | 鼠标离开播放节点                   | 无                                               |
+| `EVENTS.PLAYER.SUBSCRIPTION_READY` | 播放器事件注册完成，可监听 ACTIONS | 无                                               |
 
 #### DOM 类 data
 

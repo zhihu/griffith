@@ -38,6 +38,7 @@ declare const EVENTS: {
     HIDE_CONTROLLER: string
     HOVER_PROGRESS_DOT: string
     LEAVE_PROGRESS_DOT: string
+    SUBSCRIPTION_READY: string
   }
 }
 

@@ -25,4 +25,5 @@ export const PLAYER = {
   HIDE_CONTROLLER: 'event/player/hide-controller',
   HOVER_PROGRESS_DOT: 'event/player/hover-progress-dot',
   LEAVE_PROGRESS_DOT: 'event/player/leave-progress-dot',
+  SUBSCRIPTION_READY: 'event/player/subscription-ready',
 }

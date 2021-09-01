@@ -12,9 +12,9 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
+  "browserslist": ["maintained node versions"],
   "scripts": {
     "prebuild": "rm -rf dist/**",
-    "build:rollup": "rollup -c ../../rollup.config.js",
     "build": "microbundle -f cjs,esm --no-sourcemap --no-compress"
   }
 }

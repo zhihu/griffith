@@ -1,3 +1,3 @@
-export default function sequence(...fns) {
-  return (...args) => fns.reduce((_, fn) => fn(...args), null)
+export default function sequence(...fns: any[]) {
+  return (...args: any[]) => fns.reduce((_, fn) => fn(...args), null)
 }

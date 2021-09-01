@@ -2,6 +2,7 @@ import logger from '../logger'
 
 describe('logger', () => {
   beforeAll(() => {
+    // @ts-expect-error ts-migrate(2740) FIXME: Type '{ warn: Mock<any, any>; log: Mock<any, any>;... Remove this comment to see the full error message
     global.console = {
       warn: jest.fn(),
       log: jest.fn(),

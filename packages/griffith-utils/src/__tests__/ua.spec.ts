@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 test('ua', () => {
   Object.defineProperty(window.navigator, 'userAgent', {
     value:

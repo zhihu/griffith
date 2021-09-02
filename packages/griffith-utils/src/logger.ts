@@ -1,4 +1,5 @@
 enum LogLevel {
+  LOG = 'log',
   DEBUG = 'debug',
   INFO = 'info',
   WARN = 'warn',
@@ -6,10 +7,10 @@ enum LogLevel {
 }
 
 const logger = {
-  log(level: LogLevel, ...params: any[]) {
+  log(level: `${LogLevel}`, ...params: any[]) {
     /* eslint-disable no-console */
     const method = console[level] ? level : 'log'
-    console[method].bind(console, '[griffith]')(...params)
+    console[method]('[griffith]', ...params)
     /* eslint-enable no-console */
   },
 

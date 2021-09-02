@@ -5,25 +5,25 @@
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith",
   "license": "MIT",
   "files": [
-    "cjs",
-    "esm",
-    "null",
-    "index.d.ts"
+    "dist",
+    "null"
   ],
-  "source": "src/index.js",
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
-  "types": "index.d.ts",
+  "browserslist": ["maintained node versions"],
   "scripts": {
-    "prebuild": "rm -rf esm cjs",
-    "build": "rollup -c ../../rollup.config.js"
+    "prebuild": "rm -rf dist/**",
+    "build": "microbundle -f cjs,esm --no-sourcemap --no-compress --jsx React.createElement"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17",
     "react-dom": "^16.8 || ^17"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.172",
     "aphrodite": "^2.4.0",
     "eventemitter3": "^3.1.0",
     "griffith-hls": "^1.13.0",

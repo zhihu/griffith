@@ -1,7 +1,5 @@
 /**
  * 获得最大公约数
- * @param {number} a
- * @param {number} b
  */
 export function getGCD(a: number, b: number): number {
   if (!Number.isInteger(a) || !Number.isInteger(b)) {
@@ -18,8 +16,6 @@ export function getGCD(a: number, b: number): number {
 
 /**
  * 约分
- * @param {number} a
- * @param {number} b
  */
 export function reduce(a: number, b: number) {
   if (a === 0 || b === 0) {

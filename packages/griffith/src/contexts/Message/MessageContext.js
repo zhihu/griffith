@@ -49,7 +49,7 @@ export class MessageProvider extends React.PureComponent {
     }
 
     Promise.resolve().then(() =>
-      props.onEvent(EVENTS.PLAYER.SUBSCRIPTION_READY)
+      this.emitEvent(EVENTS.PLAYER.SUBSCRIPTION_READY)
     )
   }
 

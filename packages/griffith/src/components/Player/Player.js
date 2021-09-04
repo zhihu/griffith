@@ -16,7 +16,7 @@ import {MinimalTimeline} from '../Timeline'
 import getBufferedTime from '../../utils/getBufferedTime'
 import storage from '../../utils/storage'
 import Pip from '../../utils/pip'
-import {ObjectFitContext} from '../../contexts/ObjectFit'
+import ObjectFitContext from '../../contexts/ObjectFitContext'
 
 import styles, {hiddenOrShownStyle} from './styles'
 

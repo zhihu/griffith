@@ -1,7 +1,7 @@
 import React from 'react'
 import {css} from 'aphrodite/no-important'
 
-import {VideoSourceContext} from '../../../contexts/VideoSource'
+import VideoSourceContext from '../../../contexts/VideoSourceContext'
 import reverseArray from '../../../utils/reverseArray'
 
 import styles from '../styles'

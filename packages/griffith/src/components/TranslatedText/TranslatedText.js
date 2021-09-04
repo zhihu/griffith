@@ -1,5 +1,5 @@
 import React from 'react'
-import {LocaleContext} from '../../contexts/Locale'
+import LocaleContext from '../../contexts/LocaleContext'
 
 const TranslatedText = ({name}) => {
   return (

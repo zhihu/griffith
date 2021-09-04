@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
 import {reduce} from 'griffith-utils'
-import listenResize from '../../utils/listenResize'
+import listenResize from '../utils/listenResize'
 import PositionContext from './PositionContext'
-import styles from './styles'
+import styles from './PositionProvider.styles'
 
 export default class PositionProvider extends React.PureComponent {
   static propTypes = {

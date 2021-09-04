@@ -1,3 +1,6 @@
+export const defaultLocal = 'en'
+
+// TODO: 应该提供 tree-shaking 的方式加载
 export default {
   en: {
     'quality-auto': 'Auto',

@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react'
 import LocaleContext from './LocaleContext'
-import locales from '../../constants/locales'
+import locales from '../constants/locales'
 
 const getLocalConfig = (locale, userLocals) => {
   const defaultConfig = locales[locale]

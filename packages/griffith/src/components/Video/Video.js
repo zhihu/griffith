@@ -4,7 +4,7 @@ import {css} from 'aphrodite/no-important'
 import {EVENTS} from 'griffith-message'
 import {logger, ua} from 'griffith-utils'
 
-import {VideoSourceContext} from '../../contexts/VideoSource'
+import VideoSourceContext from '../../contexts/VideoSourceContext'
 import VideoWithMessage from './VideoWithMessage'
 import selectVideo from './selectVideo'
 import styles from './styles'

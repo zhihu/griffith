@@ -2,14 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {defaultLocal} from '../../constants/locales'
 import Player from '../Player'
-import {
-  VideoSourceProvider,
-  VideoSourceContext,
-} from '../../contexts/VideoSource'
-import {MessageProvider, InternalContext} from '../../contexts/Message'
-import {PositionProvider} from '../../contexts/Position'
-import {ObjectFitProvider, VALID_FIT} from '../../contexts/ObjectFit'
-import LocaleProvider from '../../contexts/Locale/LocaleProvider'
+import VideoSourceProvider from '../../contexts/VideoSourceProvider'
+import VideoSourceContext from '../../contexts/VideoSourceContext'
+import {MessageProvider, InternalContext} from '../../contexts/MessageContext'
+import PositionProvider from '../../contexts/PositionProvider'
+import ObjectFitProvider, {VALID_FIT} from '../../contexts/ObjectFitProvider'
+import LocaleProvider from '../../contexts/LocaleProvider'
 import {DEFAULT_PLAYBACK_RATE} from '../../constants/DefaultPlaybackRate'
 
 const PlayerContainer = ({

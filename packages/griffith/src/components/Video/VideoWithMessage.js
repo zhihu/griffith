@@ -2,9 +2,9 @@ import React from 'react'
 import {EVENTS} from 'griffith-message'
 import {sequence} from 'griffith-utils'
 import noop from 'lodash/noop'
-import {InternalContext} from '../../contexts/Message'
-import {ObjectFitContext} from '../../contexts/ObjectFit'
-import {PositionContext} from '../../contexts/Position'
+import {InternalContext} from '../../contexts/MessageContext'
+import ObjectFitContext from '../../contexts/ObjectFitContext'
+import PositionContext from '../../contexts/PositionContext'
 
 const eventMap = [
   [EVENTS.DOM.PLAY, 'onPlay'],

@@ -1,22 +1,21 @@
-import React from 'react'
+import React, {useMemo} from 'react'
 import LocaleContext from './LocaleContext'
-import strings from '../../components/TranslatedText/strings'
-const mergeLocal = (locale, strings, option) => {
-  const defaultString = strings[locale]
-  const optionString = option[locale]
-  if (!optionString) return defaultString
-  return Object.assign({}, defaultString, optionString)
+import locales from '../../constants/locales'
+
+const getLocalConfig = (locale, userLocals) => {
+  const defaultConfig = locales[locale]
+  const userConfig = userLocals[locale]
+  return userConfig
+    ? Object.assign({}, defaultConfig, userConfig)
+    : defaultConfig
 }
 
-export default class LocaleProvider extends React.PureComponent {
-  state = {
-    value: mergeLocal(this.props.locale, strings, this.props.localeConfig),
-  }
-  render() {
-    return (
-      <LocaleContext.Provider value={this.state.value}>
-        {this.props.children}
-      </LocaleContext.Provider>
-    )
-  }
+export default function LocaleProvider({locale, localeConfig, children}) {
+  const value = useMemo(() => getLocalConfig(locale, localeConfig), [
+    locale,
+    localeConfig,
+  ])
+  return (
+    <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
+  )
 }

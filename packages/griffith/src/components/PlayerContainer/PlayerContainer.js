@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {defaultLocal} from '../../constants/locales'
 import Player from '../Player'
 import {
   VideoSourceProvider,
@@ -26,7 +27,7 @@ const PlayerContainer = ({
   children,
   initialObjectFit = 'contain',
   useMSE,
-  locale = 'en',
+  locale = defaultLocal,
   localeConfig = {},
   autoplay,
   loop,

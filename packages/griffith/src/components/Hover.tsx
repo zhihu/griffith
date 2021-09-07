@@ -2,9 +2,15 @@ import React from 'react'
 import {sequence} from 'griffith-utils'
 import noop from 'lodash/noop'
 
-type State = any
+type Props = React.HTMLAttributes<HTMLDivElement> & {
+  children: (isHover: boolean) => React.ReactElement
+}
 
-export default class Hover extends React.Component<{}, State> {
+type State = {
+  isHovered: boolean
+}
+
+export default class Hover extends React.Component<Props, State> {
   state = {
     isHovered: false,
   }
@@ -18,7 +24,6 @@ export default class Hover extends React.Component<{}, State> {
   }
 
   render() {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'onMouseEnter' does not exist on type 'Re... Remove this comment to see the full error message
     const {onMouseEnter, onMouseLeave, children, ...rest} = this.props
     const {isHovered} = this.state
     return (
@@ -27,7 +32,6 @@ export default class Hover extends React.Component<{}, State> {
         onMouseEnter={sequence(this.handlePointerEnter, onMouseEnter || noop)}
         onMouseLeave={sequence(this.handlePointerLeave, onMouseLeave || noop)}
       >
-        {/* @ts-expect-error ts-migrate(2349) FIXME: This expression is not callable. */}
         {children(isHovered)}
       </div>
     )

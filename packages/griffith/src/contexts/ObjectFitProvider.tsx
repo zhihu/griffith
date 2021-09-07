@@ -2,15 +2,16 @@ import React from 'react'
 import ObjectFitContext from './ObjectFitContext'
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
-export const VALID_FIT = ['fill', 'contain', 'cover', 'none', 'scale-down']
+const VALID_FIT = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
+export type ObjectFit = typeof VALID_FIT[number]
 
-type OwnProps = {
-  initialObjectFit: any // TODO: PropTypes.oneOf(VALID_FIT)
+type Props = {
+  initialObjectFit: ObjectFit
 }
 
-type State = any
-
-type Props = OwnProps & typeof ObjectFitProvider.defaultProps
+type State = {
+  objectFit: ObjectFit
+}
 
 export default class ObjectFitProvider extends React.Component<Props, State> {
   static defaultProps = {

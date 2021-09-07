@@ -10,9 +10,8 @@ import Hover from '../Hover'
 const {isMobile} = ua
 
 const PageFullScreenButtonItem = ({isFullScreen, onClick}: any) => (
-  // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
   <Hover className={css(styles.menuContainer)}>
-    {(isFullScreenHovered: any) => (
+    {(isFullScreenHovered) => (
       <React.Fragment>
         <button className={css(styles.button)} onClick={onClick}>
           <Icon

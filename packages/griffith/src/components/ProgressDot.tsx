@@ -1,17 +1,34 @@
 import React, {useRef} from 'react'
 import {css} from 'aphrodite/no-important'
+import {ProgressDot as ProgressDotType} from '../types'
 import formatPercent from '../utils/formatPercent'
 import styles from './ProgressDot.styles'
 
-const ProgressDotItem = ({
+interface SharedProps {
+  total: number
+  onProgressDotHover?: (opts: {
+    startTime: number
+    left: number
+    top: number
+  }) => void
+  onProgressDotLeave?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+}
+
+interface ProgressDotItemProps extends SharedProps {
+  startTime: number
+}
+
+const ProgressDotItem: React.FC<ProgressDotItemProps> = ({
   startTime,
   total,
   onProgressDotHover,
   onProgressDotLeave,
-}: any) => {
-  const ref = useRef()
+}) => {
+  const ref = useRef<HTMLDivElement>(null)
   const handleMouseEnter = () => {
-    // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
+    if (!ref.current) {
+      return
+    }
     const {left, top} = ref.current.getBoundingClientRect()
     onProgressDotHover?.({startTime, left, top})
   }
@@ -25,20 +42,23 @@ const ProgressDotItem = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onProgressDotLeave}
     >
-      {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message */}
       <div ref={ref} className={css(styles.innerItem)} />
     </div>
   )
 }
-const ProgressDots = ({
+
+export interface ProgressDotsProps extends SharedProps {
+  progressDots: ProgressDotType[]
+}
+
+const ProgressDots: React.FC<ProgressDotsProps> = ({
   progressDots = [],
   total,
   onProgressDotHover,
   onProgressDotLeave,
-}: any) => {
+}) => {
   return (
     <div className={css(styles.root)}>
-      {/* @ts-expect-error ts-migrate(7006) FIXME: Parameter 'i' implicitly has an 'any' type. */}
       {progressDots.map((i, index) => (
         <ProgressDotItem
           key={index}

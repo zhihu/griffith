@@ -1,9 +1,11 @@
 import React, {useMemo} from 'react'
 import LocaleContext from './LocaleContext'
-import locales from '../constants/locales'
+import locales, {LocaleCode, PartialLocaleConfigMap} from '../constants/locales'
 
-const getLocalConfig = (locale: any, userLocals: any) => {
-  // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+const getLocalConfig = (
+  locale: LocaleCode,
+  userLocals: PartialLocaleConfigMap
+) => {
   const defaultConfig = locales[locale]
   const userConfig = userLocals[locale]
   return userConfig
@@ -11,7 +13,17 @@ const getLocalConfig = (locale: any, userLocals: any) => {
     : defaultConfig
 }
 
-export default function LocaleProvider({locale, localeConfig, children}: any) {
+type Props = {
+  locale: LocaleCode
+  localeConfig: PartialLocaleConfigMap
+  children: React.ReactNode
+}
+
+export default function LocaleProvider({
+  locale,
+  localeConfig,
+  children,
+}: Props) {
   const value = useMemo(
     () => getLocalConfig(locale, localeConfig),
     [locale, localeConfig]

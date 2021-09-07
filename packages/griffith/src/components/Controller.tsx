@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {css} from 'aphrodite/no-important'
 import debounce from 'lodash/debounce'
 import clamp from 'lodash/clamp'
+import {ProgressDot} from '../types'
 import KeyCode from '../constants/KeyCode'
 import PlayButtonItem from './items/PlayButtonItem'
 import TimelineItem from './items/TimelineItem'
@@ -22,6 +23,8 @@ type OwnProps = {
   volume?: number
   buffered?: number
   isFullScreen?: boolean
+  isPageFullScreen: boolean
+  isPip: boolean
   onDragStart?: (...args: any[]) => any
   onDragEnd?: (...args: any[]) => any
   onPlay?: (...args: any[]) => any
@@ -29,14 +32,14 @@ type OwnProps = {
   onSeek?: (...args: any[]) => any
   onQualityChange?: (...args: any[]) => any
   onVolumeChange?: (...args: any[]) => any
-  onToggleFullScreen?: (...args: any[]) => any
+  onToggleFullScreen?: (...args: void[]) => void
+  onTogglePageFullScreen: (...args: void[]) => void
+  onTogglePip?: (...args: void[]) => void
   onProgressDotHover?: (...args: any[]) => any
   onProgressDotLeave?: (...args: any[]) => any
   show?: boolean
   showPip?: boolean
-  progressDots?: {
-    startTime: number
-  }[]
+  progressDots?: ProgressDot[]
   hiddenPlayButton?: boolean
   hiddenTimeline?: boolean
   hiddenTime?: boolean
@@ -52,6 +55,7 @@ type Props = OwnProps & typeof Controller.defaultProps
 
 class Controller extends Component<Props, State> {
   static defaultProps = {
+    show: false,
     standalone: false,
     isPlaying: false,
     duration: 0,
@@ -67,10 +71,11 @@ class Controller extends Component<Props, State> {
     hiddenPlaybackRateItem: false,
     hiddenVolumeItem: false,
     hiddenFullScreenButton: false,
-    progressDots: [],
+    progressDots: [] as ProgressDot[],
   }
 
   state = {
+    slideTime: undefined,
     isVolumeHovered: false,
     isVolumeDragging: false,
     isVolumeKeyboard: false,
@@ -86,7 +91,6 @@ class Controller extends Component<Props, State> {
     }
   }
 
-  // @ts-expect-error ts-migrate(2416) FIXME: Property 'shouldComponentUpdate' in type 'Controll... Remove this comment to see the full error message
   shouldComponentUpdate(nextProps: Props) {
     return this.props.show || nextProps.show
   }
@@ -184,8 +188,7 @@ class Controller extends Component<Props, State> {
       case KeyCode.ENTER:
       case KeyCode.F:
         if (this.firstKey) {
-          // @ts-expect-error ts-migrate(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-          onToggleFullScreen()
+          onToggleFullScreen?.()
         }
         break
 
@@ -281,16 +284,12 @@ class Controller extends Component<Props, State> {
       currentTime,
       volume,
       isFullScreen,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'isPageFullScreen' does not exist on type... Remove this comment to see the full error message
       isPageFullScreen,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'isPip' does not exist on type 'Readonly<... Remove this comment to see the full error message
       isPip,
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onTogglePageFullScreen' does not exist o... Remove this comment to see the full error message
       onTogglePageFullScreen,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onTogglePip' does not exist on type 'Rea... Remove this comment to see the full error message
       onTogglePip,
       showPip,
       progressDots,
@@ -304,7 +303,6 @@ class Controller extends Component<Props, State> {
       onProgressDotHover,
       onProgressDotLeave,
     } = this.props
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'slideTime' does not exist on type '{ isV... Remove this comment to see the full error message
     const {isVolumeHovered, isVolumeDragging, isVolumeKeyboard, slideTime} =
       this.state
 

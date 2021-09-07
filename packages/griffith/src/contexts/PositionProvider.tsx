@@ -9,7 +9,12 @@ type Props = {
   shouldObserveResize?: boolean
 }
 
-type State = any
+type State = {
+  videoWidth: number
+  videoHeight: number
+  isFullWidth: boolean
+  helperImageSrc?: string | null
+}
 
 export default class PositionProvider extends React.PureComponent<
   Props,
@@ -24,7 +29,7 @@ export default class PositionProvider extends React.PureComponent<
     helperImageSrc: null,
   }
 
-  ref = React.createRef()
+  ref = React.createRef<HTMLDivElement>()
 
   componentDidMount() {
     if (this.props.shouldObserveResize) {
@@ -112,12 +117,10 @@ export default class PositionProvider extends React.PureComponent<
       <PositionContext.Provider
         value={{
           isFullWidth,
-          // @ts-expect-error ts-migrate(2322) FIXME: Type '{ isFullWidth: boolean; helperImageSrc: null... Remove this comment to see the full error message
           helperImageSrc,
           updateVideoSize: this.updateVideoSize,
         }}
       >
-        {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'RefObject<unknown>' is not assignable to typ... Remove this comment to see the full error message */}
         <div className={css(styles.root)} ref={this.ref}>
           {children}
         </div>

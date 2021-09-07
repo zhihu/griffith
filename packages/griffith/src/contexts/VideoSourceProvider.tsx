@@ -1,5 +1,6 @@
 import React from 'react'
-import VideoSourceContext from './VideoSourceContext'
+import {PlaySourceMap, PlaybackRate, RealQuality} from '../types'
+import VideoSourceContext, {VideoSourceContextValue} from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
 import {ua} from 'griffith-utils'
@@ -13,14 +14,15 @@ const getQuery = (url: any, key: any) => {
 
 type VideoSourceProviderProps = {
   onEvent: (...args: any[]) => any
-  sources?: any
+  sources: PlaySourceMap
   id: string
+  defaultQuality?: RealQuality
   useAutoQuality?: boolean
-  playbackRates?: any[]
-  defaultPlaybackRate?: any
+  playbackRates: PlaybackRate[]
+  defaultPlaybackRate?: PlaybackRate
 }
 
-type VideoSourceProviderState = any
+type VideoSourceProviderState = Partial<VideoSourceContextValue>
 
 export default class VideoSourceProvider extends React.Component<
   VideoSourceProviderProps,
@@ -28,12 +30,12 @@ export default class VideoSourceProvider extends React.Component<
 > {
   state = {
     qualities: [],
-    currentQuality: null,
-    format: null,
+    currentQuality: undefined,
+    format: undefined,
     sources: [],
     expiration: 0,
-    dataKey: null,
-    currentPlaybackRate: null,
+    dataKey: undefined,
+    currentPlaybackRate: undefined,
   }
 
   static getDerivedStateFromProps = (
@@ -43,12 +45,11 @@ export default class VideoSourceProvider extends React.Component<
       defaultQuality,
       useAutoQuality,
       defaultPlaybackRate,
-    }: any,
-    state: any
+    }: VideoSourceProviderProps,
+    state: VideoSourceProviderState
   ) => {
     if (!videoSources) return null
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'format' does not exist on type 'unknown'... Remove this comment to see the full error message
-    const {format, play_url} = Object.values(videoSources)[0]
+    const {format, play_url} = Object.values(videoSources)[0]!
     const expiration = getQuery(play_url, 'expiration')
     const dataKey = `${id}-${expiration}` // expiration 和 id 组合可以唯一标识一次请求的数据
 
@@ -135,10 +136,10 @@ export default class VideoSourceProvider extends React.Component<
           dataKey,
           qualities,
           playbackRates,
-          format,
+          format: format!,
           sources,
-          currentQuality,
-          currentPlaybackRate,
+          currentQuality: currentQuality!,
+          currentPlaybackRate: currentPlaybackRate!,
           currentSrc: this.getCurrentSrc(),
           setCurrentQuality: this.setCurrentQuality,
           setCurrentPlaybackRate: this.setCurrentPlaybackRate,

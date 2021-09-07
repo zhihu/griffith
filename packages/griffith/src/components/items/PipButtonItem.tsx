@@ -10,9 +10,8 @@ import Hover from '../Hover'
 const {isMobile} = ua
 
 const PipButtonItem = ({isPip, onClick}: any) => (
-  // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
   <Hover className={css(styles.menuContainer)}>
-    {(isPipHovered: any) => (
+    {(isPipHovered) => (
       <React.Fragment>
         <button className={css(styles.button)} onClick={onClick}>
           <Icon icon={isPip ? icons.exitPip : icons.pip} />

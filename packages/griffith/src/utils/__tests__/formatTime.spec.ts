@@ -2,8 +2,7 @@ import formatTime from '../formatTime'
 
 describe('format time', () => {
   it('undefined', () => {
-    // @ts-expect-error ts-migrate(2554) FIXME: Expected 1 arguments, but got 0.
-    expect(formatTime()).toBe('')
+    expect(formatTime(undefined)).toBe('')
   })
 
   it('infinity', () => {

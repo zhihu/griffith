@@ -1,6 +1,6 @@
 import clamp from 'lodash/clamp'
 
-export default function calculatePercentage(value: any, total: any) {
+export default function calculatePercentage(value: number, total?: number) {
   if (!total) {
     return `0%`
   }

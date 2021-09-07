@@ -59,7 +59,7 @@ const LogoListener = () => {
 }
 
 const App = () => {
-  const dispatchRef = useRef()
+  const dispatchRef = useRef(null)
   return (
     <PlayerContainer
       {...props}

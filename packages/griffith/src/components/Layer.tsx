@@ -18,7 +18,6 @@ const getImageClassName = (isFullWidth: any) =>
 
 const Positioned = ({children}: any) => (
   <PositionContext.Consumer>
-    {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'helperImageSrc' does not exist on type '... Remove this comment to see the full error message */}
     {({isFullWidth, helperImageSrc}) =>
       helperImageSrc && (
         <div className={getContainerClassName(isFullWidth)}>
@@ -41,7 +40,6 @@ export default function Layer({children}: any) {
   // 暂时先只考虑 cover
   return (
     <ObjectFitContext.Consumer>
-      {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'objectFit' does not exist on type '{}'. */}
       {({objectFit}) =>
         objectFit === 'cover' ? layer : <Positioned>{layer}</Positioned>
       }

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {css} from 'aphrodite/no-important'
 import {EVENTS} from 'griffith-message'
 import {logger, ua} from 'griffith-utils'
-
+import {PlaybackRate, Quality, PlaySource} from '../types'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 import VideoWithMessage from './VideoWithMessage'
 import selectVideo from './selectVideo'
@@ -18,34 +18,35 @@ const isNotAllowedError = (error: any) =>
   error && error.name === 'NotAllowedError'
 
 type OwnVideoProps = {
+  src: string
+  format: string
   controls?: boolean
   loop?: boolean
   paused?: boolean
+  useMSE?: boolean
   volume?: number
+  currentQuality?: Quality
+  sources?: PlaySource[]
   onPlay?: (...args: any[]) => any
   onPause?: (...args: any[]) => any
   onEnded?: (...args: any[]) => any
   onLoadedData?: (...args: any[]) => any
   onDurationChange?: (...args: any[]) => any
   onTimeUpdate?: (...args: any[]) => any
-  onWaiting?: (...args: any[]) => any
-  onPlaying?: (...args: any[]) => any
+  onWaiting: (...args: any[]) => any
+  onPlaying: (...args: any[]) => any
   onSeeking?: (...args: any[]) => any
   onSeeked?: (...args: any[]) => any
   onProgress?: (...args: any[]) => any
   onError: (...args: any[]) => any
   onEvent: (...args: any[]) => any
-  currentPlaybackRate?: {
-    text?: string
-    value?: number
-  }
+  currentPlaybackRate: PlaybackRate
 }
 
 type VideoProps = OwnVideoProps & typeof Video.defaultProps
 
 class Video extends Component<VideoProps> {
   static defaultProps = {
-    src: null,
     paused: true,
     volume: 0.5,
   }
@@ -55,23 +56,20 @@ class Video extends Component<VideoProps> {
   playPromise: any
 
   isMetadataLoaded = false
-  pendingAction = null
+  pendingAction: {paused: boolean; currentTime: number} | null = null
   loading = false
   isSwitchDefinition = false
   // refs
-  root = null
+  root: HTMLVideoElement | null = null
 
   componentDidMount() {
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    this.root.volume = this.props.volume ** 2
+    this.root!.volume = this.props.volume ** 2
   }
 
   getSnapshotBeforeUpdate() {
     return {
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-      paused: this.root.paused,
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-      currentTime: this.root.currentTime,
+      paused: this.root!.paused,
+      currentTime: this.root!.currentTime,
     }
   }
 
@@ -80,12 +78,9 @@ class Video extends Component<VideoProps> {
       src,
       paused,
       volume,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'format' does not exist on type 'Readonly... Remove this comment to see the full error message
       format,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'useMSE' does not exist on type 'Readonly... Remove this comment to see the full error message
       useMSE,
       currentPlaybackRate,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'currentQuality' does not exist on type '... Remove this comment to see the full error message
       currentQuality,
       onEvent,
     } = this.props
@@ -110,8 +105,11 @@ class Video extends Component<VideoProps> {
       }
     }
 
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    if (paused !== prevProps.paused && paused !== this.root.paused) {
+    if (
+      paused !== prevProps.paused &&
+      this.root &&
+      paused !== this.root.paused
+    ) {
       if (paused) {
         this.pause()
       } else {
@@ -119,13 +117,10 @@ class Video extends Component<VideoProps> {
       }
     }
 
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    if (this.root.volume !== volume ** 2 && !isMobile) {
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
+    if (this.root && this.root.volume !== volume ** 2 && !isMobile) {
       this.root.volume = volume ** 2
     }
 
-    // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
     if (prevProps.currentPlaybackRate.value !== currentPlaybackRate.value) {
       this.setRate(currentPlaybackRate)
     }
@@ -133,7 +128,6 @@ class Video extends Component<VideoProps> {
 
   pending(action: any) {
     this.pendingAction = {
-      // @ts-expect-error ts-migrate(2698) FIXME: Spread types may only be created from object types... Remove this comment to see the full error message
       ...this.pendingAction,
       ...action,
     }
@@ -147,15 +141,15 @@ class Video extends Component<VideoProps> {
     const action = this.pendingAction
     this.pendingAction = null
 
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
     if (action.currentTime !== undefined) {
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
       this.seek(action.currentTime)
     }
 
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    if (action.paused !== undefined && action.paused !== this.root.paused) {
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
+    if (
+      action.paused !== undefined &&
+      this.root &&
+      action.paused !== this.root.paused
+    ) {
       if (action.paused) {
         this.pause()
       } else {
@@ -183,26 +177,21 @@ class Video extends Component<VideoProps> {
       return
     }
 
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    this.safeExecute(() => (this.root.playbackRate = Number(rate.value)))
+    this.safeExecute(() => (this.root!.playbackRate = Number(rate.value)))
   }
 
   play() {
     if (!isMobile && !this.isMetadataLoaded) {
       this.pending({paused: false})
 
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-      if (this.root.load) {
-        // workaround for some devices that not support preload="metadata"
-        // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-        this.safeExecute(() => this.root.load())
+      if (this.root?.load) {
+        this.safeExecute(() => this.root!.load())
       }
 
       return
     }
 
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    this.playPromise = Promise.resolve(this.root.play()) // 保证是 promise
+    this.playPromise = Promise.resolve(this.root!.play()) // 保证是 promise
       .catch((error) => {
         const {onError} = this.props
         if (onError) {
@@ -217,8 +206,7 @@ class Video extends Component<VideoProps> {
       return
     }
 
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    this.safeExecute(() => this.root.pause())
+    this.safeExecute(() => this.root!.pause())
   }
 
   seek(currentTime: any) {
@@ -230,9 +218,7 @@ class Video extends Component<VideoProps> {
     }
 
     // see https://stackoverflow.com/a/23353005
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    if (this.root.duration) {
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
+    if (this.root?.duration) {
       this.root.currentTime = currentTime
     }
   }
@@ -252,8 +238,7 @@ class Video extends Component<VideoProps> {
   handleDurationChange = () => {
     const {onDurationChange} = this.props
     if (onDurationChange) {
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-      onDurationChange(this.root.duration)
+      onDurationChange(this.root!.duration)
     }
   }
 
@@ -266,7 +251,6 @@ class Video extends Component<VideoProps> {
     if (!this.loading) {
       this.loading = true
     }
-    // @ts-expect-error ts-migrate(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.onWaiting()
   }
 
@@ -274,7 +258,6 @@ class Video extends Component<VideoProps> {
     if (this.loading) {
       this.loading = false
     }
-    // @ts-expect-error ts-migrate(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.onPlaying()
   }
 
@@ -285,7 +268,6 @@ class Video extends Component<VideoProps> {
     if (paused || this.loading) {
       return
     }
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'currentTime' does not exist on type '{}'... Remove this comment to see the full error message
     const {currentTime} = this.root || {}
 
     if (onTimeUpdate && currentTime) {
@@ -300,8 +282,7 @@ class Video extends Component<VideoProps> {
 
   handleProgress = () => {
     const {onProgress} = this.props
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-    const buffered = this.root.buffered
+    const buffered = this.root!.buffered
     const result = []
     for (let i = 0; i < buffered.length; i++) {
       result.push({
@@ -318,16 +299,14 @@ class Video extends Component<VideoProps> {
     window.cancelAnimationFrame(this._playTimer)
   }
 
-  // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'handleError'.
   handleError = () => {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'error' does not exist on type '{}'.
     const {error, currentTime} = this.root || {}
     if (!error) {
       return
     }
-    const {code, message, name} = error
+    const {code, message} = error
 
-    logger.debug('Error: %o', {code, message, name})
+    logger.debug('Error: %o', {code, message, name: (error as any).name})
 
     const dontReportPlayFailed = isNotAllowedError(error) || isAbortError(error) // 这两种错误不认为是播放失败
 
@@ -358,13 +337,9 @@ class Video extends Component<VideoProps> {
       onLoadedData,
       onSeeking,
       onSeeked,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'format' does not exist on type 'Readonly... Remove this comment to see the full error message
       format,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'useMSE' does not exist on type 'Readonly... Remove this comment to see the full error message
       useMSE,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'sources' does not exist on type 'Readonl... Remove this comment to see the full error message
       sources,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'currentQuality' does not exist on type '... Remove this comment to see the full error message
       currentQuality,
     } = this.props
 
@@ -408,15 +383,13 @@ class Video extends Component<VideoProps> {
   }
 }
 
-export default React.forwardRef((props, ref) => (
+export default React.forwardRef<any, VideoProps>((props, ref) => (
   <VideoSourceContext.Consumer>
-    {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'currentSrc' does not exist on type '{}'. */}
     {({currentSrc, sources, currentQuality, format, currentPlaybackRate}) => (
       <Video
-        // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
         ref={ref}
         {...props}
-        src={currentSrc}
+        src={currentSrc!}
         format={format}
         sources={sources}
         currentQuality={currentQuality}

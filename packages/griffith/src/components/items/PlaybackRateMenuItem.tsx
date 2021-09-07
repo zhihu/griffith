@@ -30,7 +30,6 @@ class PlaybackRateMenuItem extends React.PureComponent<{}, State> {
     const {isPlaybackRateHovered} = this.state
     return (
       <VideoSourceContext.Consumer>
-        {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'playbackRates' does not exist on type '{... Remove this comment to see the full error message */}
         {({playbackRates, setCurrentPlaybackRate, currentPlaybackRate}) =>
           playbackRates.length > 1 && (
             <div

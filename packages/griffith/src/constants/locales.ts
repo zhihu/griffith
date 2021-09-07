@@ -1,21 +1,32 @@
-export const defaultLocal = 'en'
+// 提供一个基础值，再推断出类型，让其他语言符合条件
+const en = {
+  'quality-auto': 'Auto',
+  'quality-ld': 'LD',
+  'quality-sd': 'SD',
+  'quality-hd': 'HD',
+  'quality-fhd': 'FHD',
+  'action-enter-fullscreen': 'Fullscreen',
+  'action-exit-fullscreen': 'Exit Fullscreen',
+  'action-enter-page-fullscreen': 'PageFullscreen',
+  'action-exit-page-fullscreen': 'Exit PageFullscreen',
+  'action-enter-pip': 'Picture in Picture',
+  'action-exit-pip': 'Exit Picture in Picture',
+  'playback-rate': 'PlaybackRate',
+}
+
+export type LocaleCode = 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
+export type LocaleConfig = typeof en
+export type LocaleConfigKey = keyof LocaleConfig
+export type LocaleConfigMap = Record<LocaleCode, LocaleConfig>
+export type PartialLocaleConfigMap = Partial<
+  Record<LocaleCode, Partial<LocaleConfig>>
+>
+
+export const defaultLocale: LocaleCode = 'en'
 
 // TODO: 应该提供 tree-shaking 的方式加载
-export default {
-  en: {
-    'quality-auto': 'Auto',
-    'quality-ld': 'LD',
-    'quality-sd': 'SD',
-    'quality-hd': 'HD',
-    'quality-fhd': 'FHD',
-    'action-enter-fullscreen': 'Fullscreen',
-    'action-exit-fullscreen': 'Exit Fullscreen',
-    'action-enter-page-fullscreen': 'PageFullscreen',
-    'action-exit-page-fullscreen': 'Exit PageFullscreen',
-    'action-enter-pip': 'Picture in Picture',
-    'action-exit-pip': 'Exit Picture in Picture',
-    'playback-rate': 'PlaybackRate',
-  },
+const locales: LocaleConfigMap = {
+  en,
   ja: {
     'quality-auto': '自動',
     'quality-ld': '低画質',
@@ -61,3 +72,5 @@ export default {
     'playback-rate': '倍速',
   },
 }
+
+export default locales

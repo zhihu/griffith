@@ -77,13 +77,10 @@ const VideoWithMessage = React.forwardRef((props, ref) => {
 
   return (
     <PositionContext.Consumer>
-      {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'updateVideoSize' does not exist on type ... Remove this comment to see the full error message */}
       {({updateVideoSize}) => (
         <ObjectFitContext.Consumer>
-          {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'objectFit' does not exist on type '{}'. */}
           {({objectFit}) => (
             <InternalContext.Consumer>
-              {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'emitEvent' does not exist on type '{}'. */}
               {({emitEvent}) =>
                 renderChildren(emitEvent, objectFit, updateVideoSize)
               }

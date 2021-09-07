@@ -1,24 +1,29 @@
 import React, {Component} from 'react'
 import {css} from 'aphrodite/no-important'
-import Slider from './Slider'
+import Slider, {SliderProps} from './Slider'
 import styles, {
   slider as sliderStyles,
   hoveredSlider as hoveredSliderStyles,
   dotHoveredSlider as dotHoveredSliderStyles,
 } from './Timeline.styles'
 
-type Props = {
+export type TimelineProps = {
   onDragStart?: (...args: any[]) => any
   onDragEnd?: (...args: any[]) => any
   onChange?: (...args: any[]) => any
   onSeek?: (...args: any[]) => any
   onProgressDotHover?: (...args: any[]) => any
   onProgressDotLeave?: (...args: any[]) => any
+} & SliderProps
+
+export type TimelineState = {
+  isHovered: boolean
+  isFocused: boolean
+  isDragging: boolean
+  progressDotHovered: boolean
 }
 
-type State = any
-
-class Timeline extends Component<Props, State> {
+class Timeline extends Component<TimelineProps, TimelineState> {
   state = {
     isHovered: false,
     isFocused: false,
@@ -66,8 +71,7 @@ class Timeline extends Component<Props, State> {
   handleChange = (value: any) => {
     const {onSeek, onChange} = this.props
     if (onSeek && value !== (this.props as any).value) {
-      // @ts-expect-error ts-migrate(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-      onChange(value)
+      onChange?.(value)
     }
     if (this.state.isDragging) return
     if (onSeek) {
@@ -93,7 +97,6 @@ class Timeline extends Component<Props, State> {
         onMouseEnter={this.handlePointerEnter}
         onMouseLeave={this.handlePointerLeave}
       >
-        {/* @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call. */}
         <Slider
           {...this.props}
           styles={[

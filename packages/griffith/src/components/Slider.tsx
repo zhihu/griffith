@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {css} from 'aphrodite/no-important'
+import {css, StyleDeclaration} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
-import ProgressDot from './ProgressDot'
-
+import {ProgressDot as ProgressDotType} from '../types'
+import ProgressDot, {ProgressDotsProps} from './ProgressDot'
 import formatPercent from '../utils/formatPercent'
 import KeyCode from '../constants/KeyCode'
 
@@ -23,19 +23,18 @@ type OwnProps = {
   onDragStart?: (...args: any[]) => any
   onDragEnd?: (...args: any[]) => any
   onChange?: (...args: any[]) => any
-  onProgressDotHover?: (...args: any[]) => any
-  onProgressDotLeave?: (...args: any[]) => any
+  onProgressDotHover?: ProgressDotsProps['onProgressDotHover']
+  onProgressDotLeave?: ProgressDotsProps['onProgressDotLeave']
   noInteraction?: boolean
-  progressDots?: {
-    startTime: number
-  }[]
+  progressDots?: ProgressDotType[]
+  styles: StyleDeclaration[]
 }
 
 type State = any
 
-type Props = OwnProps & typeof Slider.defaultProps
+export type SliderProps = OwnProps & typeof Slider.defaultProps
 
-class Slider extends Component<Props, State> {
+class Slider extends Component<SliderProps, State> {
   static defaultProps = {
     orientation: 'horizontal',
     reverse: false,
@@ -43,7 +42,7 @@ class Slider extends Component<Props, State> {
     buffered: 0,
     total: 0,
     step: 1,
-    progressDots: [],
+    progressDots: [] as ProgressDotType[],
   }
 
   state = {
@@ -53,7 +52,7 @@ class Slider extends Component<Props, State> {
   }
 
   // refs
-  trackRef = React.createRef()
+  trackRef = React.createRef<HTMLDivElement>()
 
   registerEvents() {
     document.addEventListener('mousemove', this.handleDragMove)
@@ -70,17 +69,15 @@ class Slider extends Component<Props, State> {
     return orientation === 'horizontal' ? horizontalStyles : verticalStyles
   }
 
-  getStyles(name: any) {
-    let customStyles = (this.props as any).styles
+  getStyles(name: keyof typeof horizontalStyles) {
+    let customStyles = this.props.styles
     if (!Array.isArray(customStyles)) {
       customStyles = [customStyles]
     }
     customStyles = customStyles.filter(Boolean)
 
     return [
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       styles[name],
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       this.getVariantStyleSheet()[name],
       ...customStyles.map((item: any) => item[name]),
     ]
@@ -112,7 +109,7 @@ class Slider extends Component<Props, State> {
   getPercentage() {
     const {value, total} = this.props
     const {isSlideActive, slidingValue} = this.state
-    return formatPercent(isSlideActive ? slidingValue : value, total)
+    return formatPercent(isSlideActive ? (slidingValue as any) : value, total)
   }
 
   getBufferedPercentage() {
@@ -240,7 +237,6 @@ class Slider extends Component<Props, State> {
     return (
       <div className={this.getClassName('root')} {...interactionProps}>
         <div className={this.getClassName('inner')}>
-          {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'RefObject<unknown>' is not assignable to typ... Remove this comment to see the full error message */}
           <div ref={this.trackRef} className={this.getClassName('track')}>
             {Boolean(buffered) && (
               <div

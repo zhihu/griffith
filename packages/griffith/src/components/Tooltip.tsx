@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import {css} from 'aphrodite/no-important'
+import {LocaleConfigKey} from '../constants/locales'
 import TranslatedText from './TranslatedText'
 import styles from './Tooltip.styles'
 
 type Props = {
-  content: string
+  content: LocaleConfigKey
 }
 
 class Tooltip extends Component<Props> {

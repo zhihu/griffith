@@ -1,7 +1,7 @@
 import React from 'react'
-import locales, {defaultLocal} from '../constants/locales'
+import locales, {defaultLocale} from '../constants/locales'
 
-const LocaleContext = React.createContext(locales[defaultLocal])
+const LocaleContext = React.createContext(locales[defaultLocale])
 LocaleContext.displayName = 'LocaleContext'
 
 export default LocaleContext

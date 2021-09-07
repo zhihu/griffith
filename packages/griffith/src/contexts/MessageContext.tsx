@@ -6,29 +6,48 @@ import {EVENTS, createMessageHelper} from 'griffith-message'
 const EVENT_TYPE = 'event'
 const ACTION_TYPE = 'action'
 
+interface Subscription {
+  unsubscribe: () => void
+}
+
+export interface MessageContextValue {
+  subscribeEvent: (
+    eventName: string,
+    eventHandler: (data: any) => void
+  ) => Subscription
+  dispatchAction: (actionName: string, data?: any) => void
+}
+
+export interface InternalContextValue {
+  emitEvent(eventName: string, data?: any): void
+  subscribeAction(eventName: any, listener: (data: any) => void): Subscription
+}
+
 /**
  * 用于播放器内部，只能接收外界传入的 Action，向外界发出 Event
  */
-export const InternalContext = React.createContext({})
+export const InternalContext = React.createContext<InternalContextValue>(
+  {} as any
+)
 InternalContext.displayName = 'InternalMessageContext'
 
 /**
  * 用于播放器外部，只能接收播放器发出的 Event, 或者向播放器发送 Action
  */
-export const ExternalContext = React.createContext({})
+export const ExternalContext = React.createContext<MessageContextValue>(
+  null as any
+)
 ExternalContext.displayName = 'ExternalMessageContext'
 
-export class MessageProvider extends React.PureComponent {
-  static propsTypes = {
-    id: PropTypes.string.isRequired,
-    enableCrossWindow: PropTypes.bool,
-    targetOrigin: PropTypes.string.isRequired,
-    onEvent: PropTypes.func,
-    dispatchRef: PropTypes.shape({
-      current: PropTypes.func,
-    }),
-  }
+type MessageProviderProps = {
+  id: string
+  targetOrigin: string
+  enableCrossWindow?: boolean
+  onEvent?: Function
+  dispatchRef?: React.Ref<MessageContextValue['dispatchAction']>
+}
 
+export class MessageProvider extends React.PureComponent<MessageProviderProps> {
   static defaultProps = {
     targetOrigin: '*',
   }
@@ -42,7 +61,6 @@ export class MessageProvider extends React.PureComponent {
   constructor(props: any) {
     super(props)
     this.emitter = new EventEmitter()
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'id' does not exist on type 'Readonly<{}>... Remove this comment to see the full error message
     const {id, targetOrigin} = this.props
     const {subscribeMessage, dispatchMessage} = createMessageHelper(
       id,
@@ -57,7 +75,6 @@ export class MessageProvider extends React.PureComponent {
     }
 
     Promise.resolve().then(() =>
-      // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
       this.emitEvent(EVENTS.PLAYER.SUBSCRIPTION_READY)
     )
   }
@@ -76,7 +93,7 @@ export class MessageProvider extends React.PureComponent {
     }
   }
 
-  emitEvent = (eventName: any, data: any) => {
+  emitEvent = (eventName: any, data?: any) => {
     this.emitter.emit(eventName, {__type__: EVENT_TYPE, data})
     ;(this.props as any).onEvent?.(eventName, data)
     if ((this.props as any).enableCrossWindow) {

@@ -1,13 +1,13 @@
 import React from 'react'
 import {css} from 'aphrodite/no-important'
-
+import {Quality} from '../../types'
 import VideoSourceContext from '../../contexts/VideoSourceContext'
 import reverseArray from '../../utils/reverseArray'
 import TranslatedText from '../TranslatedText'
 
 import styles from '../Controller.styles'
 
-const QUALITIES = {
+const QUALITIES: Record<Quality, `quality-${Quality}`> = {
   auto: 'quality-auto',
   ld: 'quality-ld',
   sd: 'quality-sd',
@@ -39,7 +39,6 @@ class QualityMenuItem extends React.PureComponent<{}, State> {
     const {isQualityHovered} = this.state
     return (
       <VideoSourceContext.Consumer>
-        {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'qualities' does not exist on type '{}'. */}
         {({qualities, setCurrentQuality, currentQuality}) =>
           qualities.length > 1 && (
             <div
@@ -49,7 +48,6 @@ class QualityMenuItem extends React.PureComponent<{}, State> {
             >
               <button className={css(styles.button, styles.qualityButton)}>
                 <span className={css(styles.qualityButtonText)}>
-                  {/* @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message */}
                   <TranslatedText name={QUALITIES[currentQuality]} />
                 </span>
               </button>
@@ -60,7 +58,7 @@ class QualityMenuItem extends React.PureComponent<{}, State> {
                 )}
               >
                 <div className={css(styles.qualityMenu)}>
-                  {reverseArray(qualities).map((q: any) => (
+                  {reverseArray(qualities).map((q) => (
                     <button
                       key={q}
                       className={css(
@@ -69,7 +67,6 @@ class QualityMenuItem extends React.PureComponent<{}, State> {
                       )}
                       onClick={() => this.handleClickItem(q, setCurrentQuality)}
                     >
-                      {/* @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message */}
                       <TranslatedText name={QUALITIES[q]} />
                     </button>
                   ))}

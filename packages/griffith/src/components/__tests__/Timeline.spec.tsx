@@ -1,7 +1,6 @@
 import React from 'react'
-// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'enzy... Remove this comment to see the full error message
 import {shallow} from 'enzyme'
-import Timeline from '../Timeline'
+import Timeline, {TimelineProps, TimelineState} from '../Timeline'
 
 describe('Timeline', () => {
   it('get Timeline component', () => {
@@ -11,9 +10,8 @@ describe('Timeline', () => {
     const onDragStart = jest.fn()
     const onProgressDotHover = jest.fn()
     const onProgressDotLeave = jest.fn()
-    const wrapper = shallow(
+    const wrapper = shallow<Timeline, TimelineProps, TimelineState>(
       <Timeline
-        // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
         buffered={7}
         total={182.234}
         value={0.453}

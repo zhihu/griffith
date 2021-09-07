@@ -1,23 +1,34 @@
 import memoize from 'lodash/memoize'
 
-const compatibleStorage = {
+type CustomStorage = {
+  store: {[key: string]: any}
+  getItem(key: string): string
+  setItem(key: string, value: any): void
+  removeItem(key: string): boolean
+}
+
+type Storage = {
+  isSupported(): boolean
+  get(key: string): Object
+  set(key: string, value: any): void
+  delete(key: string): void
+  getStorage(): CustomStorage | typeof localStorage
+}
+
+const compatibleStorage: CustomStorage = {
   store: {},
-  setItem(key: any, value: any) {
-    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+  setItem(key, value) {
     this.store[key] = value
   },
-  removeItem(key: any) {
-    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+  removeItem(key) {
     return delete this.store[key]
   },
-  getItem(key: any) {
-    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+  getItem(key) {
     return this.store[key]
   },
 }
 
-// @ts-expect-error ts-migrate(7022) FIXME: 'storage' implicitly has type 'any' because it doe... Remove this comment to see the full error message
-const storage = {
+const storage: Storage = {
   isSupported: memoize(() => {
     try {
       const testSupport = {
@@ -41,16 +52,16 @@ const storage = {
     storage.getStorage().setItem(key, JSON.stringify(value))
   },
 
-  get(key: any) {
+  get(key) {
     try {
       const value = storage.getStorage().getItem(key)
-      return JSON.parse(value)
+      return JSON.parse(value!)
     } catch (error) {
       return null
     }
   },
 
-  delete(key: any) {
+  delete(key) {
     storage.getStorage().removeItem(key)
   },
 }

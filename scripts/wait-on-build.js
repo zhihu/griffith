@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * @fileoverview
  *
@@ -8,14 +9,15 @@ const path = require('path')
 const {execSync} = require('child_process')
 
 const packages = [
-  'griffith',
+  // 已使用 alias
+  // 'griffith',
+  // 'griffith-message',
+  // 'griffith-utils',
   'griffith-hls',
-  'griffith-message',
   'griffith-mp4',
-  'griffith-utils',
 ]
 
-const distFiles = packages.map(x => {
+const distFiles = packages.map((x) => {
   const pkgFile = require.resolve(`${x}/package.json`)
   const file = path.resolve(path.dirname(pkgFile), require(pkgFile).module)
   return file

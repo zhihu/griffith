@@ -1,7 +1,7 @@
 import Stream from '../stream'
 import Box from '../mp4Box'
 
-export default function avc1(buffer) {
+export default function avc1(buffer: any) {
   const stream = new Stream(buffer)
 
   // reserved

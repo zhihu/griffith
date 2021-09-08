@@ -1,4 +1,4 @@
-export default function getPerChunkArray(stscBox, end) {
+export default function getPerChunkArray(stscBox: any, end: any) {
   const stscBoxSamplesPerChunkArray = []
   const stscSamplesLength = stscBox.samples.length
 

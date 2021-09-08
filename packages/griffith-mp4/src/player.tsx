@@ -5,22 +5,24 @@ import MSE from './mse'
 const {isSafari} = ua
 
 export default class Player extends Component {
+  mse: any
+  video: any
   useMSE = true
 
   componentDidMount() {
-    this.mse = new MSE(this.video, this.props.src)
+    this.mse = new MSE(this.video, (this.props as any).src)
     this.mse.init().then(() => {
       // don't use MSE If the video don't have a video track
       if (!this.mse.mp4Probe.mp4Data.videoDuration) {
         this.useMSE = false
-        this.video.src = this.props.src
+        this.video.src = (this.props as any).src
       }
     })
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.src !== prevProps.src && this.useMSE) {
-      this.mse.changeQuality(this.props.src)
+  componentDidUpdate(prevProps: any) {
+    if ((this.props as any).src !== prevProps.src && this.useMSE) {
+      this.mse.changeQuality((this.props as any).src)
     }
   }
 
@@ -30,14 +32,14 @@ export default class Player extends Component {
     }
   }
 
-  handleTimeUpdate = e => {
+  handleTimeUpdate = (e: any) => {
     if (this.useMSE) {
       this.mse.handleTimeUpdate()
     }
-    this.props.onTimeUpdate(e)
+    (this.props as any).onTimeUpdate(e)
   }
 
-  handleVideoSeeking = e => {
+  handleVideoSeeking = (e: any) => {
     const currentTime = this.video.currentTime
     const buffered = this.video.buffered
 
@@ -55,22 +57,23 @@ export default class Player extends Component {
         this.mse.seek(this.video.currentTime)
       }
     }
-    this.props.onSeeking(e)
+    (this.props as any).onSeeking(e)
   }
 
-  handlePlay = e => {
+  handlePlay = (e: any) => {
     const {currentTime} = this.video
     if (currentTime === 0 && this.useMSE) {
       this.mse.seek(0)
     }
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'onPlay' does not exist on type 'Readonly... Remove this comment to see the full error message
     const {onPlay} = this.props
     if (onPlay) {
       onPlay(e)
     }
   }
 
-  handleVideoProgress = e => {
+  handleVideoProgress = (e: any) => {
     const buffered = this.video.buffered
     const currentTime = this.video.currentTime
     if (
@@ -79,9 +82,10 @@ export default class Player extends Component {
       buffered.length > 0 &&
       currentTime < buffered.start(0)
     ) {
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 1 arguments, but got 0.
       this.handleVideoSeeking()
     }
-    this.props.onProgress(e)
+    (this.props as any).onProgress(e)
   }
 
   // 如果当前时间为 0，safari 浏览器需要把 currentTime 设置成 buffered.start(0) 右边一点点的位置
@@ -98,21 +102,30 @@ export default class Player extends Component {
   render() {
     const {
       /* eslint-disable no-unused-vars */
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'src' does not exist on type 'Readonly<{}... Remove this comment to see the full error message
       src,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onRef' does not exist on type 'Readonly<... Remove this comment to see the full error message
       onRef,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'currentQuality' does not exist on type '... Remove this comment to see the full error message
       currentQuality,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'useAutoQuality' does not exist on type '... Remove this comment to see the full error message
       useAutoQuality,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onSeeking' does not exist on type 'Reado... Remove this comment to see the full error message
       onSeeking,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onPlay' does not exist on type 'Readonly... Remove this comment to see the full error message
       onPlay,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'paused' does not exist on type 'Readonly... Remove this comment to see the full error message
       paused,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onTimeUpdate' does not exist on type 'Re... Remove this comment to see the full error message
       onTimeUpdate,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onProgress' does not exist on type 'Read... Remove this comment to see the full error message
       onProgress,
       /* eslint-enable no-unused-vars */
       ...props
     } = this.props
     return (
       <video
-        ref={el => {
+        ref={(el) => {
           this.video = el
           onRef(el)
         }}

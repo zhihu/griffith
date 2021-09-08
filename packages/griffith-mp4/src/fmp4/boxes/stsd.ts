@@ -2,7 +2,7 @@ import {generateBox, concatTypedArray, generateVersionAndFlags} from '../utils'
 import avc1 from './avc1'
 import mp4a from './mp4a'
 
-export default function stsd(data) {
+export default function stsd(data: any) {
   const {type} = data
   let content
   if (type === 'video') {

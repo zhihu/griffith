@@ -1,6 +1,6 @@
 import Stream from '../stream'
 
-export default function tkhd(buffer) {
+export default function tkhd(buffer: any) {
   const stream = new Stream(buffer)
 
   const version = stream.readByte(1)

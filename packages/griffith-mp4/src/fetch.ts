@@ -1,8 +1,12 @@
 export default class FragmentFetch {
   static queue = []
 
-  constructor(url, start, end, callback) {
+  start: any
+  xhr: any
+
+  constructor(url: any, start: any, end: any, callback: any) {
     this.start = start
+    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'this' is not assignable to param... Remove this comment to see the full error message
     FragmentFetch.queue.push(this)
 
     const xhr = new XMLHttpRequest()
@@ -28,13 +32,14 @@ export default class FragmentFetch {
 
   remove = () => {
     FragmentFetch.queue = FragmentFetch.queue.filter(
-      item => item.start !== this.start
+      (item) => (item as any).start !== this.start
     )
   }
 
   static clear() {
     while (FragmentFetch.queue.length) {
       const item = FragmentFetch.queue.shift()
+      // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
       item.xhr.abort()
     }
   }

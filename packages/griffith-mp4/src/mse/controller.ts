@@ -9,7 +9,18 @@ import {abortPolyfill} from './polyfill'
 const MAGIC_NUMBER = 20000
 
 export default class MSE {
-  constructor(video, src) {
+  audioQueue: any
+  mediaSource: any
+  mimeTypes: any
+  mp4BoxTreeObject: any
+  mp4Probe: any
+  needUpdateTime: any
+  qualityChangeFlag: any
+  sourceBuffers: any
+  src: any
+  video: any
+  videoQueue: any
+  constructor(video: any, src: any) {
     this.video = video
     this.src = src
     this.qualityChangeFlag = false
@@ -60,7 +71,7 @@ export default class MSE {
     })
   }
 
-  handleAppendBuffer = (buffer, type) => {
+  handleAppendBuffer = (buffer: any, type: any) => {
     if (this.mediaSource.readyState === 'open') {
       try {
         if (this.sourceBuffers[type]) {
@@ -75,6 +86,7 @@ export default class MSE {
         }
       }
     } else {
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       this[`${type}Queue`].push(buffer)
     }
   }
@@ -82,10 +94,11 @@ export default class MSE {
   init() {
     // 获取 mdat 外的数据
     return this.loadData()
-      .then(res => {
+      .then((res) => {
+        // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
         return new MP4Parse(new Uint8Array(res)).mp4BoxTreeObject
       })
-      .then(mp4BoxTreeObject => {
+      .then((mp4BoxTreeObject) => {
         // 有可能 moov 在最后一个 box，导致我们第一次请求 0~MAGIC_NUMBER 没有请求到 moov。
         const {moov, ftyp} = mp4BoxTreeObject
         if (!moov) {
@@ -93,7 +106,9 @@ export default class MSE {
           for (const box in mp4BoxTreeObject) {
             moovStart += mp4BoxTreeObject[box].size
           }
-          return this.loadData(moovStart, '').then(res => {
+          // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '""' is not assignable to paramet... Remove this comment to see the full error message
+          return this.loadData(moovStart, '').then((res) => {
+            // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
             const {moov} = new MP4Parse(new Uint8Array(res)).mp4BoxTreeObject
             if (moov) {
               mp4BoxTreeObject.moov = moov
@@ -104,7 +119,8 @@ export default class MSE {
           // 有可能视频较大，第一次请求没有请求到完整的 moov box
           const ftypAndMoovSize = moov.size + ftyp.size
           if (ftypAndMoovSize > MAGIC_NUMBER) {
-            return this.loadData(ftyp.size, ftypAndMoovSize).then(res => {
+            return this.loadData(ftyp.size, ftypAndMoovSize).then((res) => {
+              // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
               const {moov} = new MP4Parse(new Uint8Array(res)).mp4BoxTreeObject
               if (moov) {
                 mp4BoxTreeObject.moov = moov
@@ -116,7 +132,7 @@ export default class MSE {
 
         return mp4BoxTreeObject
       })
-      .then(mp4BoxTreeObject => {
+      .then((mp4BoxTreeObject) => {
         this.mp4Probe = new MP4Probe(mp4BoxTreeObject)
         this.mp4BoxTreeObject = mp4BoxTreeObject
 
@@ -144,7 +160,7 @@ export default class MSE {
       })
   }
 
-  hasBufferedCache = isSeek => {
+  hasBufferedCache = (isSeek: any) => {
     const {
       timeRange: [start, end],
     } = this.mp4Probe
@@ -164,7 +180,7 @@ export default class MSE {
     return false
   }
 
-  seek = time => {
+  seek = (time: any) => {
     FragmentFetch.clear()
 
     const [start, end] = this.mp4Probe.getFragmentPosition(time)
@@ -176,13 +192,12 @@ export default class MSE {
 
     this.handleReplayCase()
 
-    this.loadData(start, end).then(mdatBuffer => {
+    this.loadData(start, end).then((mdatBuffer) => {
       if (!mdatBuffer) {
         return
       }
-      const {videoTrackInfo, audioTrackInfo} = this.mp4Probe.getTrackInfo(
-        mdatBuffer
-      )
+      const {videoTrackInfo, audioTrackInfo} =
+        this.mp4Probe.getTrackInfo(mdatBuffer)
       const {videoInterval, audioInterval} = this.mp4Probe
       const videoBaseMediaDecodeTime = videoInterval.timeInterVal[0]
       const audioBaseMediaDecodeTime = audioInterval.timeInterVal[0]
@@ -211,7 +226,7 @@ export default class MSE {
     })
   }
 
-  changeQuality(newSrc) {
+  changeQuality(newSrc: any) {
     this.src = newSrc
     this.qualityChangeFlag = true
 
@@ -234,7 +249,7 @@ export default class MSE {
     })
   }
 
-  removeBuffer(start, end, type) {
+  removeBuffer(start: any, end: any, type: any) {
     const track = this.sourceBuffers[type]
     if (track.updating) {
       const {isSafari} = ua
@@ -252,7 +267,7 @@ export default class MSE {
   }
 
   loadData(start = 0, end = MAGIC_NUMBER) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       new FragmentFetch(this.src, start, end, resolve)
     }).catch(() => {
       // catch cancel error
@@ -275,6 +290,7 @@ export default class MSE {
       ) {
         this.destroy()
       } else if (this.shouldFetchNextSegment()) {
+        // @ts-expect-error ts-migrate(2554) FIXME: Expected 1 arguments, but got 0.
         this.seek()
       }
     }
@@ -308,7 +324,7 @@ export default class MSE {
     }
   }
 
-  handleQuotaExceededError = (buffer, type) => {
+  handleQuotaExceededError = (buffer: any, type: any) => {
     for (const key in this.sourceBuffers) {
       const track = this.sourceBuffers[key]
 

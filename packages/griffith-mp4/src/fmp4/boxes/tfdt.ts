@@ -1,6 +1,6 @@
 import {generateBox, generateVersionAndFlags} from '../utils'
 
-export default function tfdt(data) {
+export default function tfdt(data: any) {
   const {baseMediaDecodeTime} = data
   // prettier-ignore
   const content = new Uint8Array([

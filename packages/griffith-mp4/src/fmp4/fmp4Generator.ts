@@ -11,11 +11,11 @@ export default class FMP4Generator {
     return ftyp()
   }
 
-  static moov(data, type) {
+  static moov(data: any, type: any) {
     return moov(data, type)
   }
 
-  static moof(trackInfo, baseMediaDecodeTime) {
+  static moof(trackInfo: any, baseMediaDecodeTime: any) {
     return moof(
       Object.assign({}, trackInfo, {
         sequenceNumber: FMP4Generator.sequenceNumber++,
@@ -24,9 +24,9 @@ export default class FMP4Generator {
     )
   }
 
-  static mdat(trackInfo) {
+  static mdat(trackInfo: any) {
     const samples = trackInfo.samples.map(
-      sample => new Uint8Array(sample.buffer)
+      (sample: any) => new Uint8Array(sample.buffer)
     )
 
     return mdat(concatTypedArray(...samples))

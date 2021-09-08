@@ -1,6 +1,6 @@
 import {concatTypedArray, generateBox} from '../utils'
 
-export default function sdtp(data) {
+export default function sdtp(data: any) {
   const {samples} = data
   const content = concatTypedArray(
     [0x00, 0x00, 0x00, 0x00],

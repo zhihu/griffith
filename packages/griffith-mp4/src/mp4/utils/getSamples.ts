@@ -3,7 +3,11 @@ import findBox from './findBox'
 import getPerChunkArray from './getPerChunkArray'
 import getSamplesOffset from './getSamplesOffset'
 
-export function getVideoSamples(mp4BoxTree, bufferStart, offsetInterVal) {
+export function getVideoSamples(
+  mp4BoxTree: any,
+  bufferStart: any,
+  offsetInterVal: any
+) {
   const cttsBox = cloneDeep(findBox(mp4BoxTree, 'videoCtts'))
 
   const compositionTimeOffset = []
@@ -26,15 +30,21 @@ export function getVideoSamples(mp4BoxTree, bufferStart, offsetInterVal) {
   )
 }
 
-export function getAudioSamples(mp4BoxTree, bufferStart, offsetInterVal) {
+export function getAudioSamples(
+  mp4BoxTree: any,
+  bufferStart: any,
+  offsetInterVal: any
+) {
+  // @ts-expect-error ts-migrate(2554) FIXME: Expected 4 arguments, but got 3.
   return getSamples(mp4BoxTree, bufferStart, offsetInterVal)
 }
 
 function getSamples(
-  mp4BoxTree,
-  bufferStart,
+  mp4BoxTree: any,
+  bufferStart: any,
+  // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'offsetStart' implicitly has an 'a... Remove this comment to see the full error message
   [offsetStart, offsetEnd],
-  compositionTimeOffset
+  compositionTimeOffset: any
 ) {
   const samples = []
   const sttsBox = findBox(
@@ -56,7 +66,7 @@ function getSamples(
 
   const samplesOffset = getSamplesOffset(stszBox, stscBoxSamplesPerChunkArray)
 
-  const sttsFormatBox = []
+  const sttsFormatBox: any = []
   for (let i = 0; i < sttsBox.samples.length; i++) {
     const {sampleCount, sampleDelta} = sttsBox.samples[i]
     sttsFormatBox.push({
@@ -87,6 +97,7 @@ function getSamples(
     const end = chunkOffsetArray[i] - bufferStart + samplesOffset[i]
     const start = end - size
 
+    // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'sample' implicitly has an 'any' type.
     const duration = sttsFormatBox.find((sample, idx) => {
       if (sttsFormatBox[idx - 1]) {
         return (

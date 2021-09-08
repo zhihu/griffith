@@ -6,6 +6,11 @@ const CONTAINER_BOXES = ['moov', 'trak', 'edts', 'mdia', 'minf', 'dinf', 'stbl']
 const SPECIAL_BOXES = ['udta', 'free']
 
 export default class MP4Box {
+  box: any
+  data: any
+  size: any
+  start: any
+  type: any
   constructor() {
     this.size = 0
     this.type = ''
@@ -13,12 +18,12 @@ export default class MP4Box {
     this.box = {}
   }
 
-  readSize(stream) {
+  readSize(stream: any) {
     this.start = stream.position
     this.size = stream.readByte(4)
   }
 
-  readType(stream) {
+  readType(stream: any) {
     this.type = stream.readType()
 
     // 一个 box 的 size 只可能大于等于 8
@@ -29,19 +34,21 @@ export default class MP4Box {
     }
   }
 
-  readBody(stream) {
+  readBody(stream: any) {
     this.data = stream.buffer.slice(stream.position, this.size + this.start)
     if (
-      CONTAINER_BOXES.find(item => item === this.type) ||
-      SPECIAL_BOXES.find(item => item === this.type)
+      CONTAINER_BOXES.find((item) => item === this.type) ||
+      SPECIAL_BOXES.find((item) => item === this.type)
     ) {
       this.parserContainerBox()
     } else {
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if (!boxParse[this.type]) {
         this.box = {}
       } else {
         this.box = {
           ...this.box,
+          // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           ...boxParse[this.type](this.data),
         }
       }

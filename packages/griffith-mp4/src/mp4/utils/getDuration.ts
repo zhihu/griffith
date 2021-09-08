@@ -1,4 +1,4 @@
-export default function getDuration(sttsBox, totalCount) {
+export default function getDuration(sttsBox: any, totalCount: any) {
   let count = 0
   let duration = 0
   for (let i = 0; i < sttsBox.samples.length; i++) {

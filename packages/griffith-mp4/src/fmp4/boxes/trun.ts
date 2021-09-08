@@ -1,6 +1,6 @@
 import {num2FourBytes, concatTypedArray, generateBox} from '../utils'
 
-export default function trun(data) {
+export default function trun(data: any) {
   const {samples, trackId} = data
   const ceil = trackId === 1 ? 16 : 12
   const length = samples.length
@@ -22,7 +22,7 @@ export default function trun(data) {
     ...num2FourBytes(samples.length),
     ...num2FourBytes(offset),
     ...concatTypedArray(
-      ...samples.map((sample, index) => {
+      ...samples.map((sample: any, index: any) => {
         const {duration, size, compositionTimeOffset} = sample
         return concatTypedArray(
           num2FourBytes(duration),

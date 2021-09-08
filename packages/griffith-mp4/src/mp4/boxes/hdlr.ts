@@ -1,6 +1,6 @@
 import Stream from '../stream'
 
-export default function hdlr(buffer) {
+export default function hdlr(buffer: any) {
   const stream = new Stream(buffer)
 
   const version = stream.readByte(1)

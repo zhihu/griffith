@@ -1,15 +1,15 @@
-export default function createMasterM3U8(list) {
+export default function createMasterM3U8(list: any) {
   const result = []
   result.push('#EXTM3U')
 
-  list.forEach(item => {
+  list.forEach((item: any) => {
     const meta = {
       'PROGRAM-ID': '1',
       BANDWIDTH: String(item.bandwidth),
     }
     if (item.resolution) {
       const {width, height} = item.resolution
-      meta.RESOLUTION = `${width}x${height}`
+      ;(meta as any).RESOLUTION = `${width}x${height}`
     }
     result.push(
       `#EXT-X-STREAM-INF:${Object.entries(meta)

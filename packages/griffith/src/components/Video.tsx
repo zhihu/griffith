@@ -232,6 +232,7 @@ class Video extends Component<VideoProps> {
     this.applyPendingAction()
     if (this.isSwitchDefinition) {
       this.isSwitchDefinition = false
+      this.setRate(this.props.currentPlaybackRate)
       this.props.onEvent(
         EVENTS.CHANGE_QUALITY_SUCCESS,
         (this.props as any).currentQuality
@@ -320,6 +321,7 @@ class Video extends Component<VideoProps> {
 
     if (this.isSwitchDefinition) {
       this.isSwitchDefinition = false
+      this.setRate(this.props.currentPlaybackRate)
       this.props.onEvent(EVENTS.CHANGE_QUALITY_FAIL, this.props.currentQuality)
     }
     this.props.onError(error)

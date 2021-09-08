@@ -14,9 +14,10 @@ const en = {
   'playback-rate': 'Speed',
   replay: 'Replay',
 }
-
 export type LocaleCode = 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
-export type LocaleConfig = typeof en
+export type LocaleConfig = {
+  [K in keyof typeof en]: {narrow: string; text: string} | string
+}
 export type LocaleConfigKey = keyof LocaleConfig
 export type LocaleConfigMap = Record<LocaleCode, LocaleConfig>
 export type PartialLocaleConfigMap = Partial<

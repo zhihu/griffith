@@ -4,7 +4,7 @@ import sdtp from './sdtp'
 import tfdt from './tfdt'
 import trun from './trun'
 
-export default function traf(data) {
+export default function traf(data: any) {
   const content = concatTypedArray(
     tfhd(data),
     tfdt(data),

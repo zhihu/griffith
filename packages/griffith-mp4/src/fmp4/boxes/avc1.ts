@@ -6,7 +6,7 @@ import {
 } from '../utils'
 import avcC from './avcC'
 
-export default function acv1(data) {
+export default function acv1(data: any) {
   const {width, height} = data
 
   // prettier-ignore

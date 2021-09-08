@@ -1,6 +1,6 @@
 import Stream from '../stream'
 
-export default function vmhd(buffer) {
+export default function vmhd(buffer: any) {
   const stream = new Stream(buffer)
 
   const version = stream.readByte(1)

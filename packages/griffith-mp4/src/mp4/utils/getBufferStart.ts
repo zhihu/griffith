@@ -3,7 +3,7 @@ import findBox from './findBox'
 import getPerChunkArray from './getPerChunkArray'
 
 export default function getBufferStart(
-  mp4BoxTree,
+  mp4BoxTree: any,
   videoOffsetStart = 0,
   audioOffsetStart = 0
 ) {
@@ -13,7 +13,7 @@ export default function getBufferStart(
   )
 }
 
-function getChunkSize(mp4BoxTree, offsetStart, type) {
+function getChunkSize(mp4BoxTree: any, offsetStart: any, type: any) {
   const stscBox = cloneDeep(
     findBox(mp4BoxTree, type === 'video' ? 'videoStsc' : 'audioStsc')
   )

@@ -9,6 +9,7 @@ import mp4BoxTree2 from '../../__tests__/__mocks__/mp4BoxTree2'
 
 describe('getSamplesInterval', () => {
   it('Should get the interval of video samles', () => {
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 1-2 arguments, but got 3.
     expect(getVideoSamplesInterval(mp4BoxTree, 0, 12800)).toEqual({
       offsetInterVal: [0, 229],
       timeInterVal: [0, 117248],
@@ -58,6 +59,7 @@ describe('getSamplesInterval', () => {
         },
       ],
     }
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
     expect(getIntervalArray(mockStssBox)).toEqual([0, 250, 500])
   })
 

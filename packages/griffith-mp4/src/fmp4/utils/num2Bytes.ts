@@ -1,4 +1,4 @@
-export function num2FourBytes(num) {
+export function num2FourBytes(num: any) {
   return new Uint8Array([
     (num >>> 24) & 0xff,
     (num >>> 16) & 0xff,
@@ -7,7 +7,7 @@ export function num2FourBytes(num) {
   ])
 }
 
-export function num2EightBytes(num) {
+export function num2EightBytes(num: any) {
   const upper = num / Math.pow(2, 32)
   const lower = num % Math.pow(2, 32)
   return new Uint8Array([

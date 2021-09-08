@@ -5,12 +5,12 @@ import {
   generateVersionAndFlags,
 } from '../utils'
 
-export default function mvex(data) {
+export default function mvex(data: any) {
   const content = concatTypedArray(mehd(data), trex(1), trex(2))
   return generateBox('mvex', content)
 }
 
-export function mehd(data) {
+export function mehd(data: any) {
   const {duration} = data
   // prettier-ignore
   const content = new Uint8Array([
@@ -20,7 +20,7 @@ export function mehd(data) {
   return generateBox('mehd', content)
 }
 
-export function trex(trackId) {
+export function trex(trackId: any) {
   // prettier-ignore
   const content = new Uint8Array([
     ...generateVersionAndFlags(0, 0), // version & flags

@@ -2,7 +2,10 @@ import Stream from './stream'
 import Box from './mp4Box'
 
 export default class MP4Parse {
-  constructor(buffer) {
+  buffer: any
+  mp4BoxTreeObject: any
+  stream: any
+  constructor(buffer: any) {
     this.buffer = buffer
     this.stream = new Stream(buffer)
     this.mp4BoxTreeObject = {}

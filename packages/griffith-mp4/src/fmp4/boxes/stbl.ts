@@ -1,7 +1,7 @@
 import {generateBox, concatTypedArray, generateVersionAndFlags} from '../utils'
 import stsd from './stsd'
 
-export default function stbl(data) {
+export default function stbl(data: any) {
   const content = concatTypedArray(stsd(data), stts(), stsc(), stsz(), stco())
   return generateBox('stbl', content)
 }

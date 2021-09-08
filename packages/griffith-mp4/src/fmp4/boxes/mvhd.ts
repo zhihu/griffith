@@ -7,7 +7,7 @@ import {
 } from '../utils'
 import {MATRIX_TYPED_ARRAY} from '../utils/constants'
 
-export default function mvhd(data) {
+export default function mvhd(data: any) {
   const {duration, timescale} = data
   // prettier-ignore
   const content =  new Uint8Array([

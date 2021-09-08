@@ -2,8 +2,8 @@ import readChunk from 'read-chunk'
 import path from 'path'
 import MP4Parse from '../mp4Parse'
 
-function loadMP4Data(url, dataLength) {
-  return new Promise(resolve => {
+function loadMP4Data(url: any, dataLength: any) {
+  return new Promise((resolve) => {
     const ab = readChunk.sync(url, 0, dataLength)
     resolve(ab)
   })

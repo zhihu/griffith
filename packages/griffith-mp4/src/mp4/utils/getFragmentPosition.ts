@@ -1,8 +1,8 @@
 export default function getFragmentPosition(
-  videoSamples,
-  audioSamples,
-  mdatStart,
-  isLastFragmentPosition
+  videoSamples: any,
+  audioSamples: any,
+  mdatStart: any,
+  isLastFragmentPosition: any
 ) {
   const videoSamplesEnd = videoSamples[videoSamples.length - 1].end
   let videoSamplesStart = 0

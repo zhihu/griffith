@@ -1,5 +1,7 @@
 export default class Stream {
-  constructor(buffer) {
+  buffer: any
+  position: any
+  constructor(buffer: any) {
     this.buffer = buffer
     this.position = 0
   }
@@ -12,7 +14,7 @@ export default class Stream {
     return String.fromCharCode.apply(null, typeBuffer)
   }
 
-  readByte(length) {
+  readByte(length: any) {
     switch (length) {
       case 1:
         return this.readOneByte()

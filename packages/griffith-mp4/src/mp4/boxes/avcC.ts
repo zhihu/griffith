@@ -1,6 +1,6 @@
 import Stream from '../stream'
 
-export default function avcC(buffer) {
+export default function avcC(buffer: any) {
   const stream = new Stream(buffer)
 
   const configurationVersion = stream.readByte(1)

@@ -6,7 +6,7 @@ import {
   generateBox,
 } from '../utils'
 
-export default function hdlr(type) {
+export default function hdlr(type: any) {
   let handler = ''
   let name = ''
   switch (type) {

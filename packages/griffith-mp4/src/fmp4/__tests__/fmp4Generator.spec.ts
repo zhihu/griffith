@@ -23,6 +23,7 @@ describe('fmp4Generator', () => {
   })
 
   it('should generator moof buffer size', () => {
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
     expect(FMP4.moof(audioData).length).toBe(5235)
   })
 

@@ -1,6 +1,6 @@
 import Stream from '../stream'
 
-export default function url(buffer) {
+export default function url(buffer: any) {
   const stream = new Stream(buffer)
 
   const version = stream.readByte(1)

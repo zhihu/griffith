@@ -1,6 +1,6 @@
 import {generateBox, generateVersionAndFlags} from '../utils'
 
-export default function esds(data) {
+export default function esds(data: any) {
   const {audioConfig: config = [43, 146, 8, 0]} = data
   // prettier-ignore
   const content = new Uint8Array([

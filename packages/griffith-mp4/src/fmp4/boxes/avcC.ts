@@ -1,6 +1,6 @@
 import {generateBox} from '../utils'
 
-export default function avcC(data) {
+export default function avcC(data: any) {
   const {SPS, PPS} = data
   // prettier-ignore
   const content = new Uint8Array([

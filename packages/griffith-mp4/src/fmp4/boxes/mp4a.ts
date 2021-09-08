@@ -1,7 +1,7 @@
 import {generateReserved, concatTypedArray, generateBox} from '../utils'
 import esds from './esds'
 
-export default function mp4a(data) {
+export default function mp4a(data: any) {
   const {channelCount, sampleRate} = data
   // prettier-ignore
   let content = new Uint8Array([

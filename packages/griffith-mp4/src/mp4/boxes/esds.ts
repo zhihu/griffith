@@ -9,7 +9,7 @@ const TAGS = [
   'DecSpecificDescrTag',
 ]
 
-export default function esds(buffer) {
+export default function esds(buffer: any) {
   const stream = new Stream(buffer)
 
   const version = stream.readByte(1)
@@ -19,13 +19,14 @@ export default function esds(buffer) {
   const esdsBox = {
     version,
     flags,
+    // @ts-expect-error ts-migrate(2464) FIXME: A computed property name must be of type 'string',... Remove this comment to see the full error message
     [type]: getESDescrTag(stream),
   }
 
   return esdsBox
 }
 
-function getESDescrTag(stream) {
+function getESDescrTag(stream: any) {
   const data = {}
 
   let size = stream.readByte(1)
@@ -36,16 +37,18 @@ function getESDescrTag(stream) {
     size += 2
   }
 
-  data.size = size
-  data.ESID = stream.readByte(2)
-  data.streamPriority = stream.readByte(1)
+  (data as any).size = size
+  ;(data as any).ESID = stream.readByte(2)
+  ;(data as any).streamPriority = stream.readByte(1)
 
+  // @ts-expect-error ts-migrate(2538) FIXME: Type 'null' cannot be used as an index type.
   data[TAGS[stream.readByte(1)]] = getDecoderConfigDescrTag(stream)
+  // @ts-expect-error ts-migrate(2538) FIXME: Type 'null' cannot be used as an index type.
   data[TAGS[stream.readByte(1)]] = getDecSpecificDescrTag(stream)
   return data
 }
 
-function getDecoderConfigDescrTag(stream) {
+function getDecoderConfigDescrTag(stream: any) {
   const data = {}
 
   let size = stream.readByte(1)
@@ -56,19 +59,19 @@ function getDecoderConfigDescrTag(stream) {
     size += 2
   }
 
-  data.size = size
-  data.objectTypeIndication = stream.readByte(1)
+  (data as any).size = size
+  ;(data as any).objectTypeIndication = stream.readByte(1)
   const type = stream.readByte(1)
-  data.streamType = type & ((1 << 7) - 1)
-  data.upStream = type & (1 << 1)
-  data.bufferSize = stream.readByte(3)
-  data.maxBitrate = stream.readByte(4)
-  data.avgBitrate = stream.readByte(4)
+  ;(data as any).streamType = type & ((1 << 7) - 1)
+  ;(data as any).upStream = type & (1 << 1)
+  ;(data as any).bufferSize = stream.readByte(3)
+  ;(data as any).maxBitrate = stream.readByte(4)
+  ;(data as any).avgBitrate = stream.readByte(4)
 
   return data
 }
 
-function getDecSpecificDescrTag(stream) {
+function getDecSpecificDescrTag(stream: any) {
   const data = {}
   let size = stream.readByte(1)
   let dataSize = size
@@ -80,16 +83,12 @@ function getDecSpecificDescrTag(stream) {
     size += 2
   }
 
-  data.size = size
+  (data as any).size = size
   const EScode = []
   for (let i = 0; i < dataSize; i++) {
-    EScode.push(
-      Number(stream.readByte(1))
-        .toString(16)
-        .padStart(2, '0')
-    )
+    EScode.push(Number(stream.readByte(1)).toString(16).padStart(2, '0'))
   }
-  data.audioConfig = EScode.map(item => Number(`0x${item}`))
+  (data as any).audioConfig = EScode.map((item) => Number(`0x${item}`))
 
   return data
 }

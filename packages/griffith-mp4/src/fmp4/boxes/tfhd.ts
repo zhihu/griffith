@@ -1,6 +1,6 @@
 import {generateBox, num2FourBytes, generateVersionAndFlags} from '../utils'
 
-export default function tfhd(data) {
+export default function tfhd(data: any) {
   const {trackId} = data
   // prettier-ignore
   return generateBox('tfhd', new Uint8Array([

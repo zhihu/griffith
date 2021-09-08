@@ -1,6 +1,6 @@
 import Stream from '../stream'
 
-export default function ftyp(buffer) {
+export default function ftyp(buffer: any) {
   const stream = new Stream(buffer)
   const majorBrand = stream.readType()
   const minorVersion = stream.readByte(4)

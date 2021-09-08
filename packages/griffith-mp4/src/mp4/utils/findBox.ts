@@ -1,4 +1,4 @@
-export default function findBox(mp4BoxTree, type) {
+export default function findBox(mp4BoxTree: any, type: any) {
   switch (type) {
     case 'moov':
       return findMoovBox(mp4BoxTree)
@@ -56,102 +56,102 @@ export default function findBox(mp4BoxTree, type) {
   }
 }
 
-function findMoovBox(mp4BoxTree) {
+function findMoovBox(mp4BoxTree: any) {
   return mp4BoxTree['moov']
 }
 
-function findMvhdBox(mp4BoxTree) {
+function findMvhdBox(mp4BoxTree: any) {
   return findMoovBox(mp4BoxTree)['mvhd']
 }
 
-function findVideoTrakBox(mp4BoxTree) {
+function findVideoTrakBox(mp4BoxTree: any) {
   return findMoovBox(mp4BoxTree)['videoTrak']
 }
 
-function findVideoTkhdBox(mp4BoxTree) {
+function findVideoTkhdBox(mp4BoxTree: any) {
   return findVideoTrakBox(mp4BoxTree)['tkhd']
 }
 
-function findVideoStblBox(mp4BoxTree) {
+function findVideoStblBox(mp4BoxTree: any) {
   return findVideoTrakBox(mp4BoxTree)['mdia']['minf']['stbl']
 }
 
-function findAudioTrakBox(mp4BoxTree) {
+function findAudioTrakBox(mp4BoxTree: any) {
   return findMoovBox(mp4BoxTree)['audioTrak']
 }
 
-function findAudioStblBox(mp4BoxTree) {
+function findAudioStblBox(mp4BoxTree: any) {
   return findAudioTrakBox(mp4BoxTree)['mdia']['minf']['stbl']
 }
 
-function findAudioTkhdBox(mp4BoxTree) {
+function findAudioTkhdBox(mp4BoxTree: any) {
   return findAudioTrakBox(mp4BoxTree)['tkhd']
 }
 
-function findVideoStscBox(mp4BoxTree) {
+function findVideoStscBox(mp4BoxTree: any) {
   return findVideoStblBox(mp4BoxTree)['stsc']
 }
 
-function findAudioStscBox(mp4BoxTree) {
+function findAudioStscBox(mp4BoxTree: any) {
   return findAudioStblBox(mp4BoxTree)['stsc']
 }
 
-function findAvcCBox(mp4BoxTree) {
+function findAvcCBox(mp4BoxTree: any) {
   return findVideoStblBox(mp4BoxTree)['stsd']['avc1'][0]['avcC']
 }
 
-function findMp4aBox(mp4BoxTree) {
+function findMp4aBox(mp4BoxTree: any) {
   return findAudioStblBox(mp4BoxTree)['stsd']['mp4a'][0]
 }
 
-function findEsdsBox(mp4BoxTree) {
+function findEsdsBox(mp4BoxTree: any) {
   return findMp4aBox(mp4BoxTree)['esds']
 }
 
-function findVideoStcoBox(mp4BoxTree) {
+function findVideoStcoBox(mp4BoxTree: any) {
   return findVideoStblBox(mp4BoxTree)['stco']
 }
 
-function findAudioStcoBox(mp4BoxTree) {
+function findAudioStcoBox(mp4BoxTree: any) {
   return findAudioStblBox(mp4BoxTree)['stco']
 }
 
-function findVideoSttsBox(mp4BoxTree) {
+function findVideoSttsBox(mp4BoxTree: any) {
   return findVideoStblBox(mp4BoxTree)['stts']
 }
 
-function findAudioSttsBox(mp4BoxTree) {
+function findAudioSttsBox(mp4BoxTree: any) {
   return findAudioStblBox(mp4BoxTree)['stts']
 }
 
-function findVideoMdhdBox(mp4BoxTree) {
+function findVideoMdhdBox(mp4BoxTree: any) {
   return findVideoTrakBox(mp4BoxTree)['mdia']['mdhd']
 }
 
-function findAudioMdhdBox(mp4BoxTree) {
+function findAudioMdhdBox(mp4BoxTree: any) {
   return findAudioTrakBox(mp4BoxTree)['mdia']['mdhd']
 }
 
-function findVideoStssBox(mp4BoxTree) {
+function findVideoStssBox(mp4BoxTree: any) {
   return findVideoStblBox(mp4BoxTree)['stss']
 }
 
-function findVideoStszBox(mp4BoxTree) {
+function findVideoStszBox(mp4BoxTree: any) {
   return findVideoStblBox(mp4BoxTree)['stsz']
 }
 
-function findAudioStszBox(mp4BoxTree) {
+function findAudioStszBox(mp4BoxTree: any) {
   return findAudioStblBox(mp4BoxTree)['stsz']
 }
 
-function findVideoCttsBox(mp4BoxTree) {
+function findVideoCttsBox(mp4BoxTree: any) {
   return findVideoStblBox(mp4BoxTree)['ctts']
 }
 
-function findAudioElstBox(mp4BoxTree) {
+function findAudioElstBox(mp4BoxTree: any) {
   return findAudioTrakBox(mp4BoxTree)['edts']['elst']
 }
 
-function findVideoElstBox(mp4BoxTree) {
+function findVideoElstBox(mp4BoxTree: any) {
   return findAudioTrakBox(mp4BoxTree)['edts']['elst']
 }

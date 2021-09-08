@@ -5,7 +5,7 @@ import {
   generateVersionAndFlags,
 } from '../utils'
 
-export default function mdhd(data) {
+export default function mdhd(data: any) {
   const {type} = data
   let duration
   let timescale

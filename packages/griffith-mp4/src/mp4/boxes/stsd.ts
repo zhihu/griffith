@@ -1,7 +1,7 @@
 import Stream from '../stream'
 import Box from '../mp4Box'
 
-export default function stsd(buffer) {
+export default function stsd(buffer: any) {
   const stream = new Stream(buffer)
 
   const version = stream.readByte(1)

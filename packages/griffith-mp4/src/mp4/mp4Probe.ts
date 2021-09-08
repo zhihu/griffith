@@ -12,13 +12,19 @@ import {
 } from './utils'
 
 export default class MP4Probe {
-  constructor(mp4BoxTree) {
+  audioInterval: any
+  bufferStart: any
+  mp4BoxTree: any
+  mp4Data: any
+  timeRange: any
+  videoInterval: any
+  constructor(mp4BoxTree: any) {
     this.mp4BoxTree = mp4BoxTree
     this.mp4Data = {}
     this.init()
   }
 
-  updateInterval = time => {
+  updateInterval = (time: any) => {
     const {videoTimescale, audioTimescale} = this.mp4Data
 
     if (typeof time === 'number') {
@@ -39,10 +45,10 @@ export default class MP4Probe {
     )
 
     const videoTimeRange = this.videoInterval.timeInterVal.map(
-      time => time / videoTimescale
+      (time: any) => time / videoTimescale
     )
     const audioTimeRange = this.audioInterval.timeInterVal.map(
-      time => time / audioTimescale
+      (time: any) => time / audioTimescale
     )
 
     this.timeRange = [
@@ -51,10 +57,10 @@ export default class MP4Probe {
     ]
   }
 
-  isDraining = time =>
+  isDraining = (time: any) =>
     time > (this.timeRange[1] - this.timeRange[0]) / 4 + this.timeRange[0]
 
-  getFragmentPosition = time => {
+  getFragmentPosition = (time: any) => {
     this.updateInterval(time)
 
     this.bufferStart = getBufferStart(
@@ -101,7 +107,7 @@ export default class MP4Probe {
     }
   }
 
-  getTrackInfo = mdatBuffer => {
+  getTrackInfo = (mdatBuffer: any) => {
     const {videoSamples, audioSamples} = this.getSamples()
     const videoTrackInfo = getVideoTrackInfo(videoSamples, mdatBuffer)
     const audioTrackInfo = getAudioTrackInfo(audioSamples, mdatBuffer)

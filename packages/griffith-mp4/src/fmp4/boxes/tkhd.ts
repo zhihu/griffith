@@ -7,7 +7,7 @@ import {
 } from '../utils'
 import {MATRIX_TYPED_ARRAY} from '../utils/constants'
 
-export default function tkhd(data) {
+export default function tkhd(data: any) {
   const {type, duration, width, height} = data
 
   // prettier-ignore

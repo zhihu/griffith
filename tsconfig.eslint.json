@@ -6,6 +6,7 @@
   },
   "include": [
     "./scripts/**/*.js",
+    "./packages/*/.eslintrc.js",
     // TODO: 允许 "*.js"，为 root dir 单独配置规则,
     ".eslintrc.js"
   ]

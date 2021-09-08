@@ -1,4 +1,4 @@
-export default function generateVersionAndFlags(version: any, flag: any) {
+export default function generateVersionAndFlags(version: number, flag: number) {
   return new Uint8Array([
     version & 0xff,
     (flag >> 16) & 0xff,

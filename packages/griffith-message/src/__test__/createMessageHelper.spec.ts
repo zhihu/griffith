@@ -4,7 +4,7 @@
 
 import createMessageHelper from '../createMessageHelper'
 
-const waitMessage = () => new Promise(r => setTimeout(r))
+const waitMessage = () => new Promise((r) => setTimeout(r))
 
 test('calls helper', async () => {
   const helper = createMessageHelper('myId')

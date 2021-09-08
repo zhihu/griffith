@@ -3,13 +3,13 @@
  */
 function getMediaSource() {
   if (typeof window !== 'undefined') {
-    return window.MediaSource || (window as any).WebKitMediaSource;
+    return window.MediaSource || (window as any).WebKitMediaSource
   }
 }
 
 export default function isMSESupported() {
   const mediaSource = getMediaSource()
-  const sourceBuffer = window.SourceBuffer || (window as any).WebKitSourceBuffer;
+  const sourceBuffer = window.SourceBuffer || (window as any).WebKitSourceBuffer
   const isTypeSupported =
     mediaSource &&
     typeof mediaSource.isTypeSupported === 'function' &&

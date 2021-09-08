@@ -221,20 +221,6 @@ class Video extends Component {
     }
   }
 
-  handleError = () => {
-    const {onError} = this.props
-    if (this.isSwitchDefinition) {
-      this.isSwitchDefinition = false
-      this.props.onEvent(
-        EVENTS.PLAYER.CHANGE_QUALITY_FAIL,
-        this.props.currentQuality
-      )
-    }
-    if (onError) {
-      onError(this.root.error)
-    }
-  }
-
   handleDurationChange = () => {
     const {onDurationChange} = this.props
     if (onDurationChange) {
@@ -312,6 +298,14 @@ class Video extends Component {
 
     if (!dontReportPlayFailed) {
       this.props.onEvent(EVENTS.PLAYER.PLAY_FAILED, {currentTime})
+    }
+
+    if (this.isSwitchDefinition) {
+      this.isSwitchDefinition = false
+      this.props.onEvent(
+        EVENTS.PLAYER.CHANGE_QUALITY_FAIL,
+        this.props.currentQuality
+      )
     }
     this.props.onError(error)
   }

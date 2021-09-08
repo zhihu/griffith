@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {defaultLocal} from '../constants/locales'
 import Player from './Player'
 import VideoSourceProvider from '../contexts/VideoSourceProvider'
@@ -9,6 +8,42 @@ import PositionProvider from '../contexts/PositionProvider'
 import ObjectFitProvider, {VALID_FIT} from '../contexts/ObjectFitProvider'
 import LocaleProvider from '../contexts/LocaleProvider'
 import {DEFAULT_PLAYBACK_RATE} from '../constants/DefaultPlaybackRate'
+
+type Props = {
+  standalone?: boolean
+  autoplay?: boolean
+  loop?: boolean
+  id: string
+  title?: string
+  cover?: string
+  duration?: number
+  sources: {
+    [key: string]: {
+      bitrate?: number
+      duration?: number
+      format: string
+      height?: number
+      play_url: string
+      size?: number
+      width?: number
+    }
+  }
+  error?: {
+    message?: string
+  }
+  onBeforePlay?: (...args: any[]) => any
+  onEvent?: (...args: any[]) => any
+  dispatchRef?: {
+    current?: (...args: any[]) => any
+  }
+  initialObjectFit?: any // TODO: PropTypes.oneOf(VALID_FIT)
+  useMSE?: boolean
+  defaultQuality?: 'ld' | 'sd' | 'hd' | 'fhd'
+  playbackRates?: {
+    text?: string
+    value?: number
+  }[]
+}
 
 const PlayerContainer = ({
   standalone,
@@ -21,44 +56,64 @@ const PlayerContainer = ({
   onBeforePlay = () => Promise.resolve(),
   onEvent,
   dispatchRef,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'shouldObserveResize' does not exist on t... Remove this comment to see the full error message
   shouldObserveResize,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'children' does not exist on type 'Props'... Remove this comment to see the full error message
   children,
   initialObjectFit = 'contain',
   useMSE,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'locale' does not exist on type 'Props'.
   locale = defaultLocal,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'localeConfig' does not exist on type 'Pr... Remove this comment to see the full error message
   localeConfig = {},
   autoplay,
   loop,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'muted' does not exist on type 'Props'.
   muted,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'disablePictureInPicture' does not exist ... Remove this comment to see the full error message
   disablePictureInPicture,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'hiddenPlayButton' does not exist on type... Remove this comment to see the full error message
   hiddenPlayButton,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'hiddenTimeline' does not exist on type '... Remove this comment to see the full error message
   hiddenTimeline,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'hiddenTime' does not exist on type 'Prop... Remove this comment to see the full error message
   hiddenTime,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'hiddenQualityMenu' does not exist on typ... Remove this comment to see the full error message
   hiddenQualityMenu,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'hiddenVolume' does not exist on type 'Pr... Remove this comment to see the full error message
   hiddenVolume,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'hiddenPlaybackRateItem' does not exist o... Remove this comment to see the full error message
   hiddenPlaybackRateItem,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'hiddenFullScreenButton' does not exist o... Remove this comment to see the full error message
   hiddenFullScreenButton,
   defaultQuality,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'defaultPlaybackRate' does not exist on t... Remove this comment to see the full error message
   defaultPlaybackRate = {value: 1.0, text: '1.0x'},
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'useAutoQuality' does not exist on type '... Remove this comment to see the full error message
   useAutoQuality = false,
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'progressDots' does not exist on type 'Pr... Remove this comment to see the full error message
   progressDots = [],
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'alwaysShowVolumeButton' does not exist o... Remove this comment to see the full error message
   alwaysShowVolumeButton,
   playbackRates = DEFAULT_PLAYBACK_RATE,
-}) => (
+}: Props) => (
   <ObjectFitProvider initialObjectFit={initialObjectFit}>
     <PositionProvider shouldObserveResize={shouldObserveResize}>
       <MessageProvider
+        // @ts-expect-error ts-migrate(2322) FIXME: Type '{ children: Element; id: string; enableCross... Remove this comment to see the full error message
         id={id}
         enableCrossWindow={standalone}
         onEvent={onEvent}
         dispatchRef={dispatchRef}
       >
         <InternalContext.Consumer>
+          {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'emitEvent' does not exist on type '{}'. */}
           {({emitEvent, subscribeAction}) => (
             <VideoSourceProvider
               onEvent={emitEvent}
               sources={sources}
               id={id}
+              // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
               defaultQuality={defaultQuality}
               useAutoQuality={useAutoQuality}
               defaultPlaybackRate={defaultPlaybackRate}
@@ -66,8 +121,10 @@ const PlayerContainer = ({
             >
               <LocaleProvider locale={locale} localeConfig={localeConfig}>
                 <VideoSourceContext.Consumer>
+                  {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'currentSrc' does not exist on type '{}'. */}
                   {({currentSrc}) => (
                     <Player
+                      // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
                       useMSE={useMSE}
                       useAutoQuality={useAutoQuality}
                       autoplay={autoplay}
@@ -104,43 +161,5 @@ const PlayerContainer = ({
     </PositionProvider>
   </ObjectFitProvider>
 )
-
-PlayerContainer.propTypes = {
-  standalone: PropTypes.bool,
-  autoplay: PropTypes.bool,
-  loop: PropTypes.bool,
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  cover: PropTypes.string,
-  duration: PropTypes.number,
-  sources: PropTypes.objectOf(
-    PropTypes.shape({
-      bitrate: PropTypes.number,
-      duration: PropTypes.number,
-      format: PropTypes.string.isRequired,
-      height: PropTypes.number,
-      play_url: PropTypes.string.isRequired,
-      size: PropTypes.number,
-      width: PropTypes.number,
-    })
-  ).isRequired,
-  error: PropTypes.shape({
-    message: PropTypes.string,
-  }),
-  onBeforePlay: PropTypes.func,
-  onEvent: PropTypes.func,
-  dispatchRef: PropTypes.shape({
-    current: PropTypes.func,
-  }),
-  initialObjectFit: PropTypes.oneOf(VALID_FIT),
-  useMSE: PropTypes.bool,
-  defaultQuality: PropTypes.oneOf(['ld', 'sd', 'hd', 'fhd']),
-  playbackRates: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string,
-      value: PropTypes.number,
-    })
-  ),
-}
 
 export default PlayerContainer

@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
 import Slider from './Slider'
 import styles, {
@@ -8,16 +7,18 @@ import styles, {
   dotHoveredSlider as dotHoveredSliderStyles,
 } from './Timeline.styles'
 
-class Timeline extends Component {
-  static propTypes = {
-    onDragStart: PropTypes.func,
-    onDragEnd: PropTypes.func,
-    onChange: PropTypes.func,
-    onSeek: PropTypes.func,
-    onProgressDotHover: PropTypes.func,
-    onProgressDotLeave: PropTypes.func,
-  }
+type Props = {
+  onDragStart?: (...args: any[]) => any
+  onDragEnd?: (...args: any[]) => any
+  onChange?: (...args: any[]) => any
+  onSeek?: (...args: any[]) => any
+  onProgressDotHover?: (...args: any[]) => any
+  onProgressDotLeave?: (...args: any[]) => any
+}
 
+type State = any
+
+class Timeline extends Component<Props, State> {
   state = {
     isHovered: false,
     isFocused: false,
@@ -62,9 +63,10 @@ class Timeline extends Component {
     }
   }
 
-  handleChange = value => {
+  handleChange = (value: any) => {
     const {onSeek, onChange} = this.props
-    if (onSeek && value !== this.props.value) {
+    if (onSeek && value !== (this.props as any).value) {
+      // @ts-expect-error ts-migrate(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       onChange(value)
     }
     if (this.state.isDragging) return
@@ -73,12 +75,12 @@ class Timeline extends Component {
     }
   }
 
-  handleProgressDotHover = (...args) => {
+  handleProgressDotHover = (...args: any[]) => {
     this.setState({progressDotHovered: true})
     this.props.onProgressDotHover?.(...args)
   }
 
-  handleProgressDotLeave = (...args) => {
+  handleProgressDotLeave = (...args: any[]) => {
     this.setState({progressDotHovered: false})
     this.props.onProgressDotLeave?.(...args)
   }
@@ -87,10 +89,11 @@ class Timeline extends Component {
     const {isHovered, isFocused, isDragging, progressDotHovered} = this.state
     return (
       <div
-        className={css(styles.root)}
+        className={css((styles as any).root)}
         onMouseEnter={this.handlePointerEnter}
         onMouseLeave={this.handlePointerLeave}
       >
+        {/* @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call. */}
         <Slider
           {...this.props}
           styles={[

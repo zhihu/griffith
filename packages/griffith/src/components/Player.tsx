@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
+// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'isom... Remove this comment to see the full error message
 import BigScreen from 'isomorphic-bigscreen'
 import {EVENTS, ACTIONS} from 'griffith-message'
 import {ua} from 'griffith-utils'
@@ -23,35 +23,37 @@ import styles, {hiddenOrShownStyle} from './Player.styles'
 const CONTROLLER_HIDE_DELAY = 3000
 const {isMobile} = ua
 
-class Player extends Component {
-  static propTypes = {
-    standalone: PropTypes.bool,
-    error: PropTypes.shape({
-      message: PropTypes.string,
-    }),
-    title: PropTypes.string,
-    cover: PropTypes.string,
-    duration: PropTypes.number,
-    progressDots: PropTypes.arrayOf(
-      PropTypes.shape({
-        startTime: PropTypes.number.isRequired,
-      })
-    ),
-    onEvent: PropTypes.func.isRequired,
-    onBeforePlay: PropTypes.func.isRequired,
-    autoplay: PropTypes.bool,
-    loop: PropTypes.bool,
-    muted: PropTypes.bool,
-    disablePictureInPicture: PropTypes.bool,
-    hiddenPlayButton: PropTypes.bool,
-    hiddenTimeline: PropTypes.bool,
-    hiddenTime: PropTypes.bool,
-    hiddenQualityMenu: PropTypes.bool,
-    hiddenVolume: PropTypes.bool,
-    hiddenFullScreenButton: PropTypes.bool,
-    hiddenPlaybackRateItem: PropTypes.bool,
+type OwnProps = {
+  standalone?: boolean
+  error?: {
+    message?: string
   }
+  title?: string
+  cover?: string
+  duration?: number
+  progressDots?: {
+    startTime: number
+  }[]
+  onEvent: (...args: any[]) => any
+  onBeforePlay: (...args: any[]) => any
+  autoplay?: boolean
+  loop?: boolean
+  muted?: boolean
+  disablePictureInPicture?: boolean
+  hiddenPlayButton?: boolean
+  hiddenTimeline?: boolean
+  hiddenTime?: boolean
+  hiddenQualityMenu?: boolean
+  hiddenVolume?: boolean
+  hiddenFullScreenButton?: boolean
+  hiddenPlaybackRateItem?: boolean
+}
 
+type State = any
+
+type Props = OwnProps & typeof Player.defaultProps
+
+class Player extends Component<Props, State> {
   static defaultProps = {
     standalone: false,
     duration: 0,
@@ -88,7 +90,7 @@ class Player extends Component {
   playerRef = React.createRef()
   videoRef = React.createRef()
 
-  static getDerivedStateFromProps = (props, state) => {
+  static getDerivedStateFromProps = (props: any, state: any) => {
     const {duration} = props
 
     const shouldUpdateDuration = duration && !state.duration
@@ -96,6 +98,8 @@ class Player extends Component {
 
     return {...newDurationState}
   }
+
+  actionSubscriptions_: any
 
   componentDidMount() {
     this.setDocumentTitle()
@@ -111,31 +115,37 @@ class Player extends Component {
     }
 
     this.actionSubscriptions_ = [
-      this.props.subscribeAction(ACTIONS.PLAYER.PLAY, this.handlePlay),
-      this.props.subscribeAction(ACTIONS.PLAYER.PAUSE, this.handlePauseAction),
-      this.props.subscribeAction(ACTIONS.PLAYER.TIME_UPDATE, ({currentTime}) =>
-        this.handleSeek(currentTime)
+      (this.props as any).subscribeAction(ACTIONS.PLAYER.PLAY, this.handlePlay),
+      (this.props as any).subscribeAction(
+        ACTIONS.PLAYER.PAUSE,
+        this.handlePauseAction
       ),
-      this.props.subscribeAction(
+      (this.props as any).subscribeAction(
+        ACTIONS.PLAYER.TIME_UPDATE,
+        ({currentTime}: any) => this.handleSeek(currentTime)
+      ),
+      (this.props as any).subscribeAction(
         ACTIONS.PLAYER.SHOW_CONTROLLER,
         this.handleShowController
       ),
-      this.props.subscribeAction(ACTIONS.PLAYER.SET_VOLUME, ({volume}) =>
-        this.handleVideoVolumeChange(volume)
+      (this.props as any).subscribeAction(
+        ACTIONS.PLAYER.SET_VOLUME,
+        ({volume}: any) => this.handleVideoVolumeChange(volume)
       ),
     ]
 
-    if (this.videoRef.current.root) {
+    if ((this as any).videoRef.current.root) {
       if (this.props.muted) {
         this.handleVideoVolumeChange(0)
       }
       if (this.props.autoplay) {
+        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"video"' is not assignable to pa... Remove this comment to see the full error message
         this.handlePlay('video')
       }
     }
   }
 
-  componentDidUpdate(preProps, preState) {
+  componentDidUpdate(preProps: Props, preState: State) {
     this.setDocumentTitle()
     this.initPip()
 
@@ -158,7 +168,7 @@ class Player extends Component {
     isControllerHovered,
     isControllerDragging,
     currentTime,
-  }) => {
+  }: any) => {
     // 播放中：暂停 或 Controller shown/hovered/dragging 时展示 Controller
     if (isPlaybackStarted) {
       return (
@@ -183,11 +193,11 @@ class Player extends Component {
   initPip = () => {
     if (
       !this.props.disablePictureInPicture &&
-      this.videoRef.current.root &&
+      (this as any).videoRef.current.root &&
       !Pip.inited
     ) {
       Pip.init(
-        this.videoRef.current.root,
+        (this as any).videoRef.current.root,
         () => this.props.onEvent(EVENTS.PLAYER.ENTER_PIP),
         () => this.props.onEvent(EVENTS.PLAYER.EXIT_PIP)
       )
@@ -195,21 +205,24 @@ class Player extends Component {
   }
 
   componentWillUnmount() {
-    this.actionSubscriptions_.forEach(s => s.unsubscribe())
+    this.actionSubscriptions_.forEach((s: any) => s.unsubscribe())
   }
 
-  handlePauseAction = ({dontApplyOnFullScreen} = {}) => {
+  handlePauseAction = ({dontApplyOnFullScreen}: any = {}) => {
     if (!this.state.isPlaying) return
 
     if (dontApplyOnFullScreen && Boolean(BigScreen.element)) return
 
+    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"button"' is not assignable to p... Remove this comment to see the full error message
     this.handlePause('button') // 通过这种方式暂停不会显示中间的图标
   }
 
   handleToggle = () => {
     if (this.state.isPlaying) {
+      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"video"' is not assignable to pa... Remove this comment to see the full error message
       this.handlePause('video')
     } else {
+      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"video"' is not assignable to pa... Remove this comment to see the full error message
       this.handlePlay('video')
     }
   }
@@ -288,24 +301,24 @@ class Player extends Component {
     })
   }
 
-  handleVideoDurationChange = duration => {
+  handleVideoDurationChange = (duration: any) => {
     this.setState({duration})
   }
 
-  handleVideoTimeUpdate = currentTime => {
+  handleVideoTimeUpdate = (currentTime: any) => {
     const {isLoading} = this.state
     if (isLoading || this.isSeeking) return
     if (this.isSeeking) return
     this.setState({currentTime})
   }
 
-  handleVideoVolumeChange = volume => {
+  handleVideoVolumeChange = (volume: any) => {
     volume = Math.round(volume * 100) / 100
     this.setState({volume})
     storage.set('@griffith/history-volume', volume)
   }
 
-  handleSeek = currentTime => {
+  handleSeek = (currentTime: any) => {
     const {
       isPlaybackStarted,
       isNeverPlayed,
@@ -315,7 +328,7 @@ class Player extends Component {
       !isPlaybackStarted && !isNeverPlayed && stateCurrentTime !== 0 // 播放结束，显示「重新播放」状态
     this.setState({currentTime})
     // TODO 想办法去掉这个实例方法调用
-    this.videoRef.current.seek(currentTime)
+    ;(this as any).videoRef.current.seek(currentTime)
     if (isPlayEnded) {
       this.handlePlay()
     }
@@ -323,6 +336,7 @@ class Player extends Component {
 
   handleVideoWaiting = () => {
     if (this.showLoaderTimeout !== null) return
+    // @ts-expect-error ts-migrate(2322) FIXME: Type 'Timeout' is not assignable to type 'null'.
     this.showLoaderTimeout = setTimeout(() => {
       this.setState({isLoading: true})
     }, 1000)
@@ -330,6 +344,7 @@ class Player extends Component {
 
   handleVideoPlaying = () => {
     if (this.showLoaderTimeout !== null) {
+      // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
       clearTimeout(this.showLoaderTimeout)
       this.showLoaderTimeout = null
     }
@@ -344,7 +359,7 @@ class Player extends Component {
     this.isSeeking = false
   }
 
-  handleVideoProgress = buffered => {
+  handleVideoProgress = (buffered: any) => {
     this.setState({buffered})
   }
 
@@ -381,8 +396,10 @@ class Player extends Component {
       this.setState({isControllerShown: true})
     }
     if (this.hideControllerTimeout !== null) {
+      // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
       clearTimeout(this.hideControllerTimeout)
     }
+    // @ts-expect-error ts-migrate(2322) FIXME: Type 'Timeout' is not assignable to type 'null'.
     this.hideControllerTimeout = setTimeout(() => {
       this.hideControllerTimeout = null
       this.setState({isControllerShown: false})
@@ -391,6 +408,7 @@ class Player extends Component {
 
   handleHideController = () => {
     if (this.hideControllerTimeout !== null) {
+      // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
       clearTimeout(this.hideControllerTimeout)
       this.hideControllerTimeout = null
     }
@@ -440,7 +458,7 @@ class Player extends Component {
     this.handleShowController()
   }
 
-  handleProgressDotHover = info => {
+  handleProgressDotHover = (info: any) => {
     this.props.onEvent(EVENTS.PLAYER.HOVER_PROGRESS_DOT, info)
   }
 
@@ -456,8 +474,11 @@ class Player extends Component {
       standalone,
       loop,
       onEvent,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'useMSE' does not exist on type 'Readonly... Remove this comment to see the full error message
       useMSE,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'useAutoQuality' does not exist on type '... Remove this comment to see the full error message
       useAutoQuality,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'alwaysShowVolumeButton' does not exist o... Remove this comment to see the full error message
       alwaysShowVolumeButton,
       disablePictureInPicture,
       progressDots,
@@ -507,11 +528,13 @@ class Player extends Component {
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}
         onMouseMove={this.handleShowController}
+        // @ts-expect-error ts-migrate(2322) FIXME: Type 'RefObject<unknown>' is not assignable to typ... Remove this comment to see the full error message
         ref={this.playerRef}
       >
         <div className={css(styles.video)}>
           <Video
             ref={this.videoRef}
+            // @ts-expect-error ts-migrate(2322) FIXME: Type '{ ref: RefObject<unknown>; controls: boolean... Remove this comment to see the full error message
             controls={isMobile && isPlaybackStarted}
             paused={!isPlaying}
             volume={volume}
@@ -539,6 +562,7 @@ class Player extends Component {
         >
           {cover && (
             <ObjectFitContext.Consumer>
+              {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'objectFit' does not exist on type '{}'. */}
               {({objectFit}) => (
                 <img
                   className={css(styles.coverImage)}
@@ -562,6 +586,7 @@ class Player extends Component {
           {isNeverPlayed && (
             <div className={css(styles.coverAction)}>
               <div className={css(styles.actionButton)}>
+                {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ icon: Element; styles: object; }' is not a... Remove this comment to see the full error message */}
                 <Icon icon={icons.play} styles={styles.actionIcon} />
               </div>
             </div>
@@ -576,6 +601,7 @@ class Player extends Component {
                   pressed && styles.coverReplayButtonPressed
                 )}
               >
+                {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ icon: Element; styles: object; }' is not a... Remove this comment to see the full error message */}
                 <Icon icon={icons.replay} styles={styles.replayIcon} />
                 重新播放
               </div>
@@ -593,6 +619,7 @@ class Player extends Component {
             )}
             {/*直接点击底部播放/暂停按钮时不展示动画*/}
             {lastAction && type !== 'button' && (
+              // @ts-expect-error ts-migrate(2322) FIXME: Type 'null' is not assignable to type 'Key | undef... Remove this comment to see the full error message
               <div className={css(styles.action)} key={lastAction}>
                 <div
                   className={css(
@@ -602,6 +629,7 @@ class Player extends Component {
                 >
                   <Icon
                     icon={lastAction === 'play' ? icons.play : icons.pause}
+                    // @ts-expect-error ts-migrate(2322) FIXME: Type '{ icon: Element; styles: object; }' is not a... Remove this comment to see the full error message
                     styles={styles.actionIcon}
                   />
                 </div>
@@ -609,7 +637,7 @@ class Player extends Component {
             )}
             <div
               className={css(styles.backdrop)}
-              onTouchStart={event => {
+              onTouchStart={(event) => {
                 // prevent touch to toggle
                 event.preventDefault()
               }}
@@ -635,7 +663,9 @@ class Player extends Component {
                     : hiddenOrShownStyle.shown
                 )}
               >
+                {/* @ts-expect-error ts-migrate(2786) FIXME: 'MinimalTimeline' cannot be used as a JSX componen... Remove this comment to see the full error message */}
                 <MinimalTimeline
+                  // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
                   progressDots={progressDots}
                   buffered={bufferedTime}
                   duration={duration}
@@ -671,12 +701,14 @@ class Player extends Component {
                 onMouseEnter={this.handleControllerPointerEnter}
                 onMouseLeave={this.handleControllerPointerLeave}
               >
+                {/* @ts-expect-error ts-migrate(2786) FIXME: 'Controller' cannot be used as a JSX component. */}
                 <Controller
                   standalone={standalone}
                   isPlaying={isPlaying}
                   duration={duration}
                   currentTime={currentTime}
                   volume={volume}
+                  // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
                   progressDots={progressDots}
                   buffered={bufferedTime}
                   isFullScreen={isFullScreen}
@@ -709,6 +741,7 @@ class Player extends Component {
         )}
         {error && (
           <div className={css(styles.error)}>
+            {/* @ts-expect-error ts-migrate(2322) FIXME: Type '{ icon: Element; styles: object; }' is not a... Remove this comment to see the full error message */}
             <Icon icon={icons.alert} styles={styles.errorIcon} />
             {error.message && (
               <div className={css(styles.errorMessage)}>{error.message}</div>

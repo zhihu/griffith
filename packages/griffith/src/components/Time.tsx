@@ -1,12 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import formatTime from '../utils/formatTime'
 
-class Time extends React.Component {
-  static propTypes = {
-    value: PropTypes.number,
-  }
+type OwnProps = {
+  value?: number
+}
 
+type Props = OwnProps & typeof Time.defaultProps
+
+class Time extends React.Component<Props> {
   static defaultProps = {
     value: 0,
   }

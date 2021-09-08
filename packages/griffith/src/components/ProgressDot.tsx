@@ -8,9 +8,10 @@ const ProgressDotItem = ({
   total,
   onProgressDotHover,
   onProgressDotLeave,
-}) => {
+}: any) => {
   const ref = useRef()
   const handleMouseEnter = () => {
+    // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
     const {left, top} = ref.current.getBoundingClientRect()
     onProgressDotHover?.({startTime, left, top})
   }
@@ -24,6 +25,7 @@ const ProgressDotItem = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={onProgressDotLeave}
     >
+      {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message */}
       <div ref={ref} className={css(styles.innerItem)} />
     </div>
   )
@@ -33,9 +35,10 @@ const ProgressDots = ({
   total,
   onProgressDotHover,
   onProgressDotLeave,
-}) => {
+}: any) => {
   return (
     <div className={css(styles.root)}>
+      {/* @ts-expect-error ts-migrate(7006) FIXME: Parameter 'i' implicitly has an 'any' type. */}
       {progressDots.map((i, index) => (
         <ProgressDotItem
           key={index}

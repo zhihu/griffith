@@ -1,23 +1,22 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 
 import Slider from './Slider'
 
 import {slider, minimal} from './Timeline.styles'
 
-class MinimalTimeline extends Component {
-  static propTypes = {
-    duration: PropTypes.number.isRequired,
-    currentTime: PropTypes.number.isRequired,
-    buffered: PropTypes.number.isRequired,
-    show: PropTypes.bool,
-    progressDots: PropTypes.arrayOf(
-      PropTypes.shape({
-        startTime: PropTypes.number.isRequired,
-      })
-    ),
-  }
+type OwnProps = {
+  duration: number
+  currentTime: number
+  buffered: number
+  show?: boolean
+  progressDots?: {
+    startTime: number
+  }[]
+}
 
+type Props = OwnProps & typeof MinimalTimeline.defaultProps
+
+class MinimalTimeline extends Component<Props> {
   static defaultProps = {
     duration: 0,
     currentTime: 0,
@@ -25,7 +24,8 @@ class MinimalTimeline extends Component {
     progressDots: [],
   }
 
-  shouldComponentUpdate(nextProps) {
+  // @ts-expect-error ts-migrate(2416) FIXME: Property 'shouldComponentUpdate' in type 'MinimalT... Remove this comment to see the full error message
+  shouldComponentUpdate(nextProps: Props) {
     return this.props.show || nextProps.show
   }
 
@@ -37,6 +37,7 @@ class MinimalTimeline extends Component {
         total={duration}
         buffered={buffered}
         progressDots={progressDots}
+        // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
         styles={[slider, minimal]}
         noInteraction
       />

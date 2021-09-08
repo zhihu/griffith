@@ -4,36 +4,45 @@
 
 const pip = {
   inited: false,
-  init(element, onEnter, onExit) {
+  init(element: any, onEnter: any, onExit: any) {
     this.inited = true
-    this.element = element
-    this.onEnter = onEnter
+    ;(this as any).element = element
+    ;(this as any).onEnter = onEnter
+    // @ts-expect-error ts-migrate(2551) FIXME: Property 'onExit' does not exist on type '{ inited... Remove this comment to see the full error message
     this.onExit = onExit
-    this.element.addEventListener('enterpictureinpicture', this.handleEnter)
-    this.element.addEventListener('leavepictureinpicture', this.handleExit)
+    ;(this as any).element.addEventListener(
+      'enterpictureinpicture',
+      this.handleEnter
+    )
+    ;(this as any).element.addEventListener(
+      'leavepictureinpicture',
+      this.handleExit
+    )
   },
-  handleEnter(e) {
-    if (this.onEnter) {
-      this.onEnter(e)
+  handleEnter(e: any) {
+    if ((this as any).onEnter) {
+      ;(this as any).onEnter(e)
     }
   },
-  handleExit(e) {
+  handleExit(e: any) {
+    // @ts-expect-error ts-migrate(2551) FIXME: Property 'onExit' does not exist on type '{ inited... Remove this comment to see the full error message
     if (this.onExit) {
+      // @ts-expect-error ts-migrate(2551) FIXME: Property 'onExit' does not exist on type '{ inited... Remove this comment to see the full error message
       this.onExit(e)
     }
   },
   get supported() {
     if (!this.inited) return false
-    return document.pictureInPictureEnabled
+    return (document as any).pictureInPictureEnabled
   },
   get pictureInPictureElement() {
-    return document.pictureInPictureElement
+    return (document as any).pictureInPictureElement
   },
   request() {
-    this.element.requestPictureInPicture()
+    ;(this as any).element.requestPictureInPicture()
   },
   exit() {
-    document.exitPictureInPicture()
+    ;(document as any).exitPictureInPicture()
   },
   toggle() {
     if (this.pictureInPictureElement) {

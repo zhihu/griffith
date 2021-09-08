@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
 import ProgressDot from './ProgressDot'
@@ -12,28 +11,31 @@ import styles, {
   vertical as verticalStyles,
 } from './Slider.styles'
 
-class Slider extends Component {
-  static propTypes = {
-    orientation: PropTypes.oneOf(['horizontal', 'vertical']),
-    reverse: PropTypes.bool,
-    value: PropTypes.number,
-    buffered: PropTypes.number,
-    total: PropTypes.number,
-    step: PropTypes.number,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onDragStart: PropTypes.func,
-    onDragEnd: PropTypes.func,
-    onChange: PropTypes.func,
-    onProgressDotHover: PropTypes.func,
-    onProgressDotLeave: PropTypes.func,
-    noInteraction: PropTypes.bool, // 不可交互
-    progressDots: PropTypes.arrayOf(
-      PropTypes.shape({
-        startTime: PropTypes.number.isRequired,
-      })
-    ),
-  }
+type OwnProps = {
+  orientation?: 'horizontal' | 'vertical'
+  reverse?: boolean
+  value?: number
+  buffered?: number
+  total?: number
+  step?: number
+  onFocus?: (...args: any[]) => any
+  onBlur?: (...args: any[]) => any
+  onDragStart?: (...args: any[]) => any
+  onDragEnd?: (...args: any[]) => any
+  onChange?: (...args: any[]) => any
+  onProgressDotHover?: (...args: any[]) => any
+  onProgressDotLeave?: (...args: any[]) => any
+  noInteraction?: boolean
+  progressDots?: {
+    startTime: number
+  }[]
+}
+
+type State = any
+
+type Props = OwnProps & typeof Slider.defaultProps
+
+class Slider extends Component<Props, State> {
   static defaultProps = {
     orientation: 'horizontal',
     reverse: false,
@@ -68,25 +70,27 @@ class Slider extends Component {
     return orientation === 'horizontal' ? horizontalStyles : verticalStyles
   }
 
-  getStyles(name) {
-    let customStyles = this.props.styles
+  getStyles(name: any) {
+    let customStyles = (this.props as any).styles
     if (!Array.isArray(customStyles)) {
       customStyles = [customStyles]
     }
     customStyles = customStyles.filter(Boolean)
 
     return [
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       styles[name],
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       this.getVariantStyleSheet()[name],
-      ...customStyles.map(item => item[name]),
+      ...customStyles.map((item: any) => item[name]),
     ]
   }
 
-  getClassName(...names) {
+  getClassName(...names: any[]) {
     return css(
       ...Array.prototype.concat.apply(
         [],
-        names.map(name => this.getStyles(name))
+        names.map((name) => this.getStyles(name))
       )
     )
   }
@@ -116,11 +120,11 @@ class Slider extends Component {
     return formatPercent(buffered, total)
   }
 
-  getSlidingValue(event) {
+  getSlidingValue(event: any) {
     const {orientation, reverse, total} = this.props
     const track = this.trackRef.current
     if (!track) return 0
-    const rect = track.getBoundingClientRect()
+    const rect = (track as any).getBoundingClientRect()
 
     let value
     if (orientation === 'horizontal') {
@@ -136,7 +140,7 @@ class Slider extends Component {
     return value * total
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = (event: any) => {
     const {reverse, value, total, step} = this.props
 
     let direction = 0
@@ -157,7 +161,7 @@ class Slider extends Component {
     }
   }
 
-  handleDragStart = event => {
+  handleDragStart = (event: any) => {
     if (event.button !== 0) return
 
     const value = this.getSlidingValue(event)
@@ -175,7 +179,7 @@ class Slider extends Component {
     this.registerEvents()
   }
 
-  handleDragMove = event => {
+  handleDragMove = (event: any) => {
     const value = this.getSlidingValue(event)
     this.setState({
       slidingValue: value,
@@ -185,7 +189,7 @@ class Slider extends Component {
     this.handleChange(value)
   }
 
-  handleDragEnd = event => {
+  handleDragEnd = (event: any) => {
     this.unregisterEvents()
 
     const {onDragEnd} = this.props
@@ -205,7 +209,7 @@ class Slider extends Component {
     })
   }
 
-  handleChange = value => {
+  handleChange = (value: any) => {
     const {onChange} = this.props
     if (onChange) {
       onChange(value)
@@ -236,6 +240,7 @@ class Slider extends Component {
     return (
       <div className={this.getClassName('root')} {...interactionProps}>
         <div className={this.getClassName('inner')}>
+          {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'RefObject<unknown>' is not assignable to typ... Remove this comment to see the full error message */}
           <div ref={this.trackRef} className={this.getClassName('track')}>
             {Boolean(buffered) && (
               <div

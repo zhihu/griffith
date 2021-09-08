@@ -1,5 +1,5 @@
 // https://github.com/zloirock/core-js/issues/280
-function pad(number) {
+function pad(number: any) {
   let result = String(number)
   if (result.length < 2) {
     result = '0' + result
@@ -7,7 +7,7 @@ function pad(number) {
   return result
 }
 
-export default function formatTime(time) {
+export default function formatTime(time: any) {
   if (!Number.isFinite(time)) return ''
 
   time = Math.floor(time)

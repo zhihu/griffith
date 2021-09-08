@@ -14,7 +14,7 @@ const VolumeItem = ({
   onDragEnd,
   onChange,
   onToggleMuted,
-}) => (
+}: any) => (
   <div
     className={css(styles.menuContainer)}
     onMouseEnter={onMouseEnter}
@@ -25,6 +25,7 @@ const VolumeItem = ({
     </button>
     <div className={css(styles.menu, menuShown && styles.menuShown)}>
       <VolumeSlider
+        // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
         value={volume}
         total={1}
         onDragStart={onDragStart}

@@ -1,14 +1,14 @@
 import debounce from 'lodash/debounce'
 
-const listenResizePolyfill = (target, callback) => {
+const listenResizePolyfill = (target: any, callback: any) => {
   const MutationObserver =
-    window.MutationObserver || window.WebKitMutationObserver
-  let lastRect
+    window.MutationObserver || (window as any).WebKitMutationObserver
+  let lastRect: any
   const handler = () => {
     const rect = target.getBoundingClientRect()
     const isChanged = !(
       lastRect &&
-      ['left', 'top', 'width', 'height'].every(k => lastRect[k] === rect[k])
+      ['left', 'top', 'width', 'height'].every((k) => lastRect[k] === rect[k])
     )
     if (isChanged) {
       lastRect = rect
@@ -31,8 +31,8 @@ const listenResizePolyfill = (target, callback) => {
   }
 }
 
-const listenResizeNative = (target, callback) => {
-  const observer = new ResizeObserver(changes =>
+const listenResizeNative = (target: any, callback: any) => {
+  const observer = new ResizeObserver((changes) =>
     callback(changes[0].contentRect)
   )
   observer.observe(target)

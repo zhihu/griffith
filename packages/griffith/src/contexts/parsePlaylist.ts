@@ -1,6 +1,6 @@
 const QUALITY_ORDER = ['auto', 'ld', 'sd', 'hd', 'fhd']
 
-export const getQualities = (sources, isMobile) => {
+export const getQualities = (sources: any, isMobile: any) => {
   const qualities = Object.keys(sources).sort(
     (a, b) => QUALITY_ORDER.indexOf(a) - QUALITY_ORDER.indexOf(b)
   )
@@ -11,15 +11,15 @@ export const getQualities = (sources, isMobile) => {
       return qualities.slice(0, 1)
     } else {
       // 桌面端端去掉低清，除非只有一个低清
-      return qualities.filter(item => item !== 'ld')
+      return qualities.filter((item) => item !== 'ld')
     }
   }
 
   return qualities
 }
 
-export const getSources = (qualities, sources) =>
-  qualities.map(quality => {
+export const getSources = (qualities: any, sources: any) =>
+  qualities.map((quality: any) => {
     const {play_url, ...rest} = sources[quality]
     return {
       ...rest,

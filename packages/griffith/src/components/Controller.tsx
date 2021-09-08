@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {css} from 'aphrodite/no-important'
 import debounce from 'lodash/debounce'
 import clamp from 'lodash/clamp'
@@ -15,41 +14,43 @@ import PipButtonItem from './items/PipButtonItem'
 import styles from './Controller.styles'
 import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
 
-class Controller extends Component {
-  static propTypes = {
-    standalone: PropTypes.bool,
-    isPlaying: PropTypes.bool,
-    duration: PropTypes.number,
-    currentTime: PropTypes.number,
-    volume: PropTypes.number,
-    buffered: PropTypes.number,
-    isFullScreen: PropTypes.bool,
-    onDragStart: PropTypes.func,
-    onDragEnd: PropTypes.func,
-    onPlay: PropTypes.func,
-    onPause: PropTypes.func,
-    onSeek: PropTypes.func,
-    onQualityChange: PropTypes.func,
-    onVolumeChange: PropTypes.func,
-    onToggleFullScreen: PropTypes.func,
-    onProgressDotHover: PropTypes.func,
-    onProgressDotLeave: PropTypes.func,
-    show: PropTypes.bool,
-    showPip: PropTypes.bool,
-    progressDots: PropTypes.arrayOf(
-      PropTypes.shape({
-        startTime: PropTypes.number.isRequired,
-      })
-    ),
-    hiddenPlayButton: PropTypes.bool,
-    hiddenTimeline: PropTypes.bool,
-    hiddenTime: PropTypes.bool,
-    hiddenQualityMenu: PropTypes.bool,
-    hiddenVolumeItem: PropTypes.bool,
-    hiddenFullScreenButton: PropTypes.bool,
-    hiddenPlaybackRateItem: PropTypes.bool,
-  }
+type OwnProps = {
+  standalone?: boolean
+  isPlaying?: boolean
+  duration?: number
+  currentTime?: number
+  volume?: number
+  buffered?: number
+  isFullScreen?: boolean
+  onDragStart?: (...args: any[]) => any
+  onDragEnd?: (...args: any[]) => any
+  onPlay?: (...args: any[]) => any
+  onPause?: (...args: any[]) => any
+  onSeek?: (...args: any[]) => any
+  onQualityChange?: (...args: any[]) => any
+  onVolumeChange?: (...args: any[]) => any
+  onToggleFullScreen?: (...args: any[]) => any
+  onProgressDotHover?: (...args: any[]) => any
+  onProgressDotLeave?: (...args: any[]) => any
+  show?: boolean
+  showPip?: boolean
+  progressDots?: {
+    startTime: number
+  }[]
+  hiddenPlayButton?: boolean
+  hiddenTimeline?: boolean
+  hiddenTime?: boolean
+  hiddenQualityMenu?: boolean
+  hiddenVolumeItem?: boolean
+  hiddenFullScreenButton?: boolean
+  hiddenPlaybackRateItem?: boolean
+}
 
+type State = any
+
+type Props = OwnProps & typeof Controller.defaultProps
+
+class Controller extends Component<Props, State> {
   static defaultProps = {
     standalone: false,
     isPlaying: false,
@@ -85,7 +86,8 @@ class Controller extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  // @ts-expect-error ts-migrate(2416) FIXME: Property 'shouldComponentUpdate' in type 'Controll... Remove this comment to see the full error message
+  shouldComponentUpdate(nextProps: Props) {
     return this.props.show || nextProps.show
   }
 
@@ -96,13 +98,13 @@ class Controller extends Component {
     }
   }
 
-  onDragMove = slideTime => {
+  onDragMove = (slideTime: any) => {
     const {duration} = this.props
     slideTime = clamp(slideTime, 0, duration)
     this.setState({slideTime})
   }
 
-  handleToggle = type => {
+  handleToggle = (type: any) => {
     const {isPlaying, onPlay, onPause} = this.props
     if (!isPlaying && onPlay) {
       onPlay(type)
@@ -112,7 +114,7 @@ class Controller extends Component {
     }
   }
 
-  handleSeek = currentTime => {
+  handleSeek = (currentTime: any) => {
     const {duration, onSeek} = this.props
     currentTime = clamp(currentTime, 0, duration)
     if (onSeek) {
@@ -121,7 +123,7 @@ class Controller extends Component {
     }
   }
 
-  handleVolumeChange = volume => {
+  handleVolumeChange = (volume: any) => {
     volume = clamp(volume, 0, 1)
     const {onVolumeChange} = this.props
     if (onVolumeChange) {
@@ -168,7 +170,7 @@ class Controller extends Component {
     }
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = (event: any) => {
     const {duration, currentTime, volume, show, onToggleFullScreen} = this.props
     let handled = true
     switch (event.keyCode) {
@@ -182,6 +184,7 @@ class Controller extends Component {
       case KeyCode.ENTER:
       case KeyCode.F:
         if (this.firstKey) {
+          // @ts-expect-error ts-migrate(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           onToggleFullScreen()
         }
         break
@@ -253,7 +256,7 @@ class Controller extends Component {
     this.firstKey = false
   }
 
-  handleKeyUp = event => {
+  handleKeyUp = (event: any) => {
     this.firstKey = true
 
     switch (event.keyCode) {
@@ -278,12 +281,16 @@ class Controller extends Component {
       currentTime,
       volume,
       isFullScreen,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'isPageFullScreen' does not exist on type... Remove this comment to see the full error message
       isPageFullScreen,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'isPip' does not exist on type 'Readonly<... Remove this comment to see the full error message
       isPip,
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onTogglePageFullScreen' does not exist o... Remove this comment to see the full error message
       onTogglePageFullScreen,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onTogglePip' does not exist on type 'Rea... Remove this comment to see the full error message
       onTogglePip,
       showPip,
       progressDots,
@@ -297,17 +304,19 @@ class Controller extends Component {
       onProgressDotHover,
       onProgressDotLeave,
     } = this.props
-    const {
-      isVolumeHovered,
-      isVolumeDragging,
-      isVolumeKeyboard,
-      slideTime,
-    } = this.state
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'slideTime' does not exist on type '{ isV... Remove this comment to see the full error message
+    const {isVolumeHovered, isVolumeDragging, isVolumeKeyboard, slideTime} =
+      this.state
 
     const displayedCurrentTime = slideTime || currentTime
 
     return (
-      <div className={css(styles.root, isFullScreen && styles.fullScreened)}>
+      <div
+        className={css(
+          styles.root,
+          isFullScreen && (styles as any).fullScreened
+        )}
+      >
         {!hiddenTimeline && (
           <TimelineItem
             value={currentTime}

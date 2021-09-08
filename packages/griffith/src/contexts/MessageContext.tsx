@@ -33,9 +33,16 @@ export class MessageProvider extends React.PureComponent {
     targetOrigin: '*',
   }
 
-  constructor(props) {
+  crossWindowEventSubscription: any
+  crossWindowMessageSubscription: any
+  dispatchCrossWindowMessage: any
+  emitter: any
+  subscribeCrossWindowMessage: any
+
+  constructor(props: any) {
     super(props)
     this.emitter = new EventEmitter()
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'id' does not exist on type 'Readonly<{}>... Remove this comment to see the full error message
     const {id, targetOrigin} = this.props
     const {subscribeMessage, dispatchMessage} = createMessageHelper(
       id,
@@ -44,17 +51,19 @@ export class MessageProvider extends React.PureComponent {
 
     this.subscribeCrossWindowMessage = subscribeMessage
     this.dispatchCrossWindowMessage = dispatchMessage
-    if (this.props.dispatchRef) {
-      this.props.dispatchRef.current = this.externalContextValue.dispatchAction
+    if ((this.props as any).dispatchRef) {
+      ;(this.props as any).dispatchRef.current =
+        this.externalContextValue.dispatchAction
     }
 
     Promise.resolve().then(() =>
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
       this.emitEvent(EVENTS.PLAYER.SUBSCRIPTION_READY)
     )
   }
 
   componentDidMount() {
-    if (this.props.enableCrossWindow) {
+    if ((this.props as any).enableCrossWindow) {
       this.crossWindowMessageSubscription = this.subscribeCrossWindowMessage(
         this.dispatchAction
       )
@@ -67,16 +76,16 @@ export class MessageProvider extends React.PureComponent {
     }
   }
 
-  emitEvent = (eventName, data) => {
+  emitEvent = (eventName: any, data: any) => {
     this.emitter.emit(eventName, {__type__: EVENT_TYPE, data})
-    this.props.onEvent?.(eventName, data)
-    if (this.props.enableCrossWindow) {
+    ;(this.props as any).onEvent?.(eventName, data)
+    if ((this.props as any).enableCrossWindow) {
       this.dispatchCrossWindowMessage(window.parent, eventName, data)
     }
   }
 
-  subscribeEvent = (eventName, listener) => {
-    const realListener = ({__type__, data} = {}) => {
+  subscribeEvent = (eventName: any, listener: any) => {
+    const realListener = ({__type__, data}: any = {}) => {
       if (__type__ === EVENT_TYPE) {
         listener(data)
       }
@@ -88,12 +97,12 @@ export class MessageProvider extends React.PureComponent {
     }
   }
 
-  dispatchAction = (actionName, data) => {
+  dispatchAction = (actionName: any, data: any) => {
     this.emitter.emit(actionName, {__type__: ACTION_TYPE, data})
   }
 
-  subscribeAction = (eventName, listener) => {
-    const realListener = ({__type__, data}) => {
+  subscribeAction = (eventName: any, listener: any) => {
+    const realListener = ({__type__, data}: any) => {
       if (__type__ === ACTION_TYPE) {
         listener(data)
       }

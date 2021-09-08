@@ -7,7 +7,9 @@ import reverseArray from '../../utils/reverseArray'
 import styles from '../Controller.styles'
 import TranslatedText from '../TranslatedText'
 
-class PlaybackRateMenuItem extends React.PureComponent {
+type State = any
+
+class PlaybackRateMenuItem extends React.PureComponent<{}, State> {
   state = {
     isPlaybackRateHovered: false,
   }
@@ -19,7 +21,7 @@ class PlaybackRateMenuItem extends React.PureComponent {
   handlePlaybackRatePointerLeave = () => {
     this.setState({isPlaybackRateHovered: false})
   }
-  handleClickItem = (q, handler) => {
+  handleClickItem = (q: any, handler: any) => {
     this.handlePlaybackRatePointerLeave()
     handler(q)
   }
@@ -28,6 +30,7 @@ class PlaybackRateMenuItem extends React.PureComponent {
     const {isPlaybackRateHovered} = this.state
     return (
       <VideoSourceContext.Consumer>
+        {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'playbackRates' does not exist on type '{... Remove this comment to see the full error message */}
         {({playbackRates, setCurrentPlaybackRate, currentPlaybackRate}) =>
           playbackRates.length > 1 && (
             <div
@@ -51,7 +54,7 @@ class PlaybackRateMenuItem extends React.PureComponent {
                 )}
               >
                 <div className={css(styles.qualityMenu)}>
-                  {reverseArray(playbackRates).map(q => (
+                  {reverseArray(playbackRates).map((q: any) => (
                     <button
                       key={q.value}
                       className={css(

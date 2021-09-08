@@ -44,8 +44,9 @@
     "build:watch": "lerna run build --parallel --ignore example --ignore website --ignore griffith-standalone -- --watch",
     "release": "yarn build && lerna publish",
     "start-server": "yarn workspace example run start",
+    "start-watch": "lerna run build --parallel --scope griffith-hls --scope griffith-mp4  -- --watch",
     "start-on-build": "node scripts/wait-on-build && yarn start-server",
-    "start": "run-p build:watch start-on-build"
+    "start": "run-p start-watch start-on-build"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

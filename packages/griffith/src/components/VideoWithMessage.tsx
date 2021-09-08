@@ -1,12 +1,15 @@
-import React from 'react'
+import React, {useCallback, useContext, useEffect, useMemo, useRef} from 'react'
 import {EVENTS} from 'griffith-message'
-import {sequence} from 'griffith-utils'
-import noop from 'lodash/noop'
 import {InternalContext} from '../contexts/MessageContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
 import PositionContext from '../contexts/PositionContext'
 
-const eventMap = [
+type AnyFunction = (...args: any[]) => void
+type VideoEvent = React.SyntheticEvent<HTMLVideoElement, Event>
+type NativeVideoProps = React.HTMLProps<HTMLVideoElement>
+type EventPair = [string, keyof NativeVideoProps]
+
+const eventMap: EventPair[] = [
   [EVENTS.DOM.PLAY, 'onPlay'],
   [EVENTS.DOM.PLAYING, 'onPlaying'],
   [EVENTS.DOM.PAUSE, 'onPause'],
@@ -16,14 +19,14 @@ const eventMap = [
   [EVENTS.DOM.WAITING, 'onWaiting'],
 ]
 
-function serializeDOMException(exception: any) {
+function serializeDOMException(exception?: MediaError | null) {
   if (!exception) return null
-  const {code, messge, name} = exception
-  return {code, messge, name}
+  const {code, message} = exception
+  return {code, message, name: (exception as any).name}
 }
 
-function getMediaEventPayload(event: any) {
-  const {currentTime, duration, error} = event.currentTarget
+function getMediaEventPayload(event: VideoEvent) {
+  const {currentTime, duration, error} = event.currentTarget as HTMLVideoElement
   return {
     currentTime,
     duration,
@@ -31,64 +34,59 @@ function getMediaEventPayload(event: any) {
   }
 }
 
+type VideoWithMessageProps = NativeVideoProps & {
+  Video: React.ComponentType<NativeVideoProps>
+}
+
 // TODO：这个文件只是做了一层方法拦截，触发播放事件，删除这些封装，简化逻辑
-const VideoWithMessage = React.forwardRef((props, ref) => {
-  const renderChildren = (
-    emitEvent: any,
-    objectFit: any,
-    updateVideoSize: any
-  ) => {
-    const newProps = {}
-    eventMap.map(([eventName, key]) => {
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-      const handler = props[key]
-      const emit = (event: any) =>
+const VideoWithMessage = React.forwardRef<
+  HTMLVideoElement,
+  VideoWithMessageProps
+>((props, ref) => {
+  const {updateVideoSize} = useContext(PositionContext)
+  const {objectFit} = useContext(ObjectFitContext)
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const {emitEvent} = useContext(InternalContext)
+  const propsRef = useRef(props)
+  useEffect(() => {
+    propsRef.current = props
+  }, [props])
+
+  const newProps = useMemo(() => {
+    const newProps: Partial<NativeVideoProps> = {}
+    eventMap.forEach(([eventName, key]) => {
+      newProps[key] = (event: VideoEvent, ...args: any[]) => {
         emitEvent(eventName, getMediaEventPayload(event))
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-      newProps[key] = sequence(emit, handler || noop)
+        const handler = propsRef.current[key] as AnyFunction
+        return handler?.(event, ...args)
+      }
     })
 
-    const updateVideoSizeOnLoadedMetadata = (event: any) => {
+    return newProps
+  }, [emitEvent])
+
+  const handleOnLoadedMetadata = useCallback(
+    (event: VideoEvent) => {
       const videoNode = event.currentTarget
       if (videoNode) {
-        const {videoWidth, videoHeight} = videoNode
+        const {videoWidth, videoHeight} = videoNode as HTMLVideoElement
         updateVideoSize({videoWidth, videoHeight})
       }
-    }
+      propsRef.current.onLoadedMetadata?.(event)
+    },
+    [updateVideoSize]
+  )
 
-    const newOnLoadedMetadata = sequence(
-      updateVideoSizeOnLoadedMetadata,
-      (props as any).onLoadedMetadata || noop
-    )
-
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'Video' does not exist on type '{ childre... Remove this comment to see the full error message
-    const {Video, ...otherProps} = props
-
-    return (
-      <Video
-        {...otherProps}
-        {...newProps}
-        ref={ref}
-        style={{objectFit}}
-        onLoadedMetadata={newOnLoadedMetadata}
-      />
-    )
-  }
+  const {Video, ...otherProps} = props
 
   return (
-    <PositionContext.Consumer>
-      {({updateVideoSize}) => (
-        <ObjectFitContext.Consumer>
-          {({objectFit}) => (
-            <InternalContext.Consumer>
-              {({emitEvent}) =>
-                renderChildren(emitEvent, objectFit, updateVideoSize)
-              }
-            </InternalContext.Consumer>
-          )}
-        </ObjectFitContext.Consumer>
-      )}
-    </PositionContext.Consumer>
+    <Video
+      {...otherProps}
+      {...newProps}
+      ref={ref}
+      style={{objectFit}}
+      onLoadedMetadata={handleOnLoadedMetadata}
+    />
   )
 })
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NormalVideo = props => {
+const NormalVideo = (props: any) => {
   const {
     onRef,
     /* eslint-disable no-unused-vars */

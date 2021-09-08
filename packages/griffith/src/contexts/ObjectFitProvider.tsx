@@ -1,15 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import ObjectFitContext from './ObjectFitContext'
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
 export const VALID_FIT = ['fill', 'contain', 'cover', 'none', 'scale-down']
 
-export default class ObjectFitProvider extends React.Component {
-  static propTypes = {
-    initialObjectFit: PropTypes.oneOf(VALID_FIT).isRequired,
-  }
+type OwnProps = {
+  initialObjectFit: any // TODO: PropTypes.oneOf(VALID_FIT)
+}
 
+type State = any
+
+type Props = OwnProps & typeof ObjectFitProvider.defaultProps
+
+export default class ObjectFitProvider extends React.Component<Props, State> {
   static defaultProps = {
     initialObjectFit: 'contain',
   }
@@ -18,7 +21,7 @@ export default class ObjectFitProvider extends React.Component {
     objectFit: this.props.initialObjectFit,
   }
 
-  setObjectFit = objectFit => {
+  setObjectFit = (objectFit: any) => {
     if (VALID_FIT.includes(objectFit) && this.state.objectFit !== objectFit) {
       this.setState({
         objectFit,
@@ -26,7 +29,7 @@ export default class ObjectFitProvider extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const {initialObjectFit} = this.props
     if (initialObjectFit !== prevProps.initialObjectFit) {
       this.setObjectFit(initialObjectFit)

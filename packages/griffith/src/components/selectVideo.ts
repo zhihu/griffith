@@ -1,10 +1,12 @@
 import {isHlsNativeSupported, isMSESupported} from 'griffith-utils'
+// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'grif... Remove this comment to see the full error message
 import GriffithHls from 'griffith-hls'
+// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'grif... Remove this comment to see the full error message
 import GriffithMp4 from 'griffith-mp4'
 import NormalVideo from './NormalVideo'
 import memoize from 'lodash/memoize'
 
-function selectVideo(format, useMSE) {
+function selectVideo(format: any, useMSE: any) {
   if (
     format === 'm3u8' &&
     GriffithHls?.VideoComponent &&

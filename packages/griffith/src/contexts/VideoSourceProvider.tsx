@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import VideoSourceContext from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
@@ -7,21 +6,26 @@ import {ua} from 'griffith-utils'
 
 const {isMobile} = ua
 
-const getQuery = (url, key) => {
+const getQuery = (url: any, key: any) => {
   const [, value] = url.match(new RegExp(`\\b${key}=([^&]+)`)) || []
   return value
 }
 
-export default class VideoSourceProvider extends React.Component {
-  static propTypes = {
-    onEvent: PropTypes.func.isRequired,
-    sources: PropTypes.object,
-    id: PropTypes.string.isRequired,
-    useAutoQuality: PropTypes.bool,
-    playbackRates: PropTypes.arrayOf(PropTypes.object),
-    defaultPlaybackRate: PropTypes.object,
-  }
+type VideoSourceProviderProps = {
+  onEvent: (...args: any[]) => any
+  sources?: any
+  id: string
+  useAutoQuality?: boolean
+  playbackRates?: any[]
+  defaultPlaybackRate?: any
+}
 
+type VideoSourceProviderState = any
+
+export default class VideoSourceProvider extends React.Component<
+  VideoSourceProviderProps,
+  VideoSourceProviderState
+> {
   state = {
     qualities: [],
     currentQuality: null,
@@ -39,10 +43,11 @@ export default class VideoSourceProvider extends React.Component {
       defaultQuality,
       useAutoQuality,
       defaultPlaybackRate,
-    },
-    state
+    }: any,
+    state: any
   ) => {
     if (!videoSources) return null
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'format' does not exist on type 'unknown'... Remove this comment to see the full error message
     const {format, play_url} = Object.values(videoSources)[0]
     const expiration = getQuery(play_url, 'expiration')
     const dataKey = `${id}-${expiration}` // expiration 和 id 组合可以唯一标识一次请求的数据
@@ -77,7 +82,7 @@ export default class VideoSourceProvider extends React.Component {
     }
   }
 
-  setCurrentQuality = quality => {
+  setCurrentQuality = (quality: any) => {
     const prevQuality = this.state.currentQuality
     if (prevQuality !== quality) {
       this.setState({currentQuality: quality})
@@ -88,7 +93,7 @@ export default class VideoSourceProvider extends React.Component {
     }
   }
 
-  setCurrentPlaybackRate = rate => {
+  setCurrentPlaybackRate = (rate: any) => {
     const prevRate = this.state.currentPlaybackRate
     if (prevRate !== rate) {
       this.setState({currentPlaybackRate: rate})
@@ -109,8 +114,9 @@ export default class VideoSourceProvider extends React.Component {
     }
 
     const source =
-      sources.find(item => item.quality === currentQuality) || sources[0]
-    return source.source
+      sources.find((item) => (item as any).quality === currentQuality) ||
+      sources[0]
+    return (source as any).source
   }
 
   render() {

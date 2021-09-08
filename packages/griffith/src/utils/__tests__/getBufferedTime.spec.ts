@@ -8,7 +8,7 @@ describe('getBufferedTime', () => {
   })
 
   it('return 0 when buffered is empty', () => {
-    const buffered = []
+    const buffered: any = []
     expect(getBufferedTime(currentTime, buffered)).toBe(0)
   })
 

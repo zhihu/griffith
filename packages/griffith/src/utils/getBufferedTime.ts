@@ -1,6 +1,6 @@
-export default function getBufferedTime(currentTime, buffered) {
+export default function getBufferedTime(currentTime: any, buffered: any) {
   const item = buffered.find(
-    item => item.start <= currentTime && currentTime <= item.end
+    (item: any) => item.start <= currentTime && currentTime <= item.end
   )
   if (item) {
     return item.end

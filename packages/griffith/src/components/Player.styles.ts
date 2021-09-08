@@ -31,8 +31,11 @@ const breakpoints = {
   mobile: '26em', // 416px
 }
 
-const breakTo = breakpoint =>
-  `@media screen and (max-width: ${breakpoints[breakpoint]})`
+const breakTo = (breakpoint: any) =>
+  `@media screen and (max-width: ${
+    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    breakpoints[breakpoint]
+  })`
 
 export default StyleSheet.create({
   root: {
@@ -244,6 +247,7 @@ export default StyleSheet.create({
   },
 
   coverReplayButtonPressed: {
+    // @ts-expect-error ts-migrate(2322) FIXME: Type '"0.7"' is not assignable to type 'number | C... Remove this comment to see the full error message
     opacity: '0.7',
   },
 

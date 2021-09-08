@@ -4,20 +4,21 @@ import PositionContext from '../contexts/PositionContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
 import styles from './Layer.styles'
 
-const getContainerClassName = isFullWidth =>
+const getContainerClassName = (isFullWidth: any) =>
   css(
     styles.container,
     isFullWidth ? styles.containerFullWidth : styles.containerFullHeight
   )
 
-const getImageClassName = isFullWidth =>
+const getImageClassName = (isFullWidth: any) =>
   css(
     styles.image,
     isFullWidth ? styles.imageFullWidth : styles.imageFullHeight
   )
 
-const Positioned = ({children}) => (
+const Positioned = ({children}: any) => (
   <PositionContext.Consumer>
+    {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'helperImageSrc' does not exist on type '... Remove this comment to see the full error message */}
     {({isFullWidth, helperImageSrc}) =>
       helperImageSrc && (
         <div className={getContainerClassName(isFullWidth)}>
@@ -32,7 +33,7 @@ const Positioned = ({children}) => (
   </PositionContext.Consumer>
 )
 
-export default function Layer({children}) {
+export default function Layer({children}: any) {
   if (!children) return null
 
   const layer = <div className={css(styles.layer)}>{children}</div>
@@ -40,6 +41,7 @@ export default function Layer({children}) {
   // 暂时先只考虑 cover
   return (
     <ObjectFitContext.Consumer>
+      {/* @ts-expect-error ts-migrate(2339) FIXME: Property 'objectFit' does not exist on type '{}'. */}
       {({objectFit}) =>
         objectFit === 'cover' ? layer : <Positioned>{layer}</Positioned>
       }

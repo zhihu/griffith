@@ -9,6 +9,7 @@ class VolumeSlider extends Component {
       <div className={css(styles.root)}>
         <Slider
           {...this.props}
+          // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
           styles={sliderStyles}
           orientation="vertical"
           step={0.1}

@@ -1,9 +1,19 @@
 import React, {Component} from 'react'
+// TODO: 升级有类型的新版
 // @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'hls.... Remove this comment to see the full error message
 import Hls from 'hls.js/dist/hls.light.min'
 import {getMasterM3U8Blob} from './utils'
 
-export default class Video extends Component {
+type NativeVideoProps = React.HTMLProps<HTMLVideoElement>
+type VideoProps = NativeVideoProps & {
+  paused: boolean
+  currentQuality: string
+  useAutoQuality: boolean
+  sources: {quality: string; source: string}[]
+  onRef(el: HTMLVideoElement | null): void
+}
+
+export default class Video extends Component<VideoProps> {
   hls: any
   src: any
   video: any
@@ -11,13 +21,12 @@ export default class Video extends Component {
   hasLoadStarted = false
 
   componentDidMount() {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'src' does not exist on type 'Readonly<{}... Remove this comment to see the full error message
     const {src, sources, useAutoQuality} = this.props
     this.hls = new Hls({autoStartLoad: false})
     this.hls.attachMedia(this.video)
 
     const isAutoQualitySourceProvided = Boolean(
-      sources.find((s: any) => s.quality === 'auto')
+      sources.find((s) => s.quality === 'auto')
     )
 
     // 启用自动质量但是又没有提供 auto 规格的 source，那么就尝试本地手动生成
@@ -32,13 +41,12 @@ export default class Video extends Component {
     this.hls.loadSource(this.src)
   }
 
-  componentDidUpdate(prevProps: any) {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'currentQuality' does not exist on type '... Remove this comment to see the full error message
+  componentDidUpdate(prevProps: VideoProps) {
     const {currentQuality, sources, paused} = this.props
 
     // 切换清晰度
     if (currentQuality !== prevProps.currentQuality) {
-      const source = sources.find((s: any) => s.quality === currentQuality)
+      const source = sources.find((s) => s.quality === currentQuality)
       if (source) {
         if (this.manuallyBuildAdaptiveM3U8Blob) {
           const levels = this.hls.levels
@@ -82,18 +90,12 @@ export default class Video extends Component {
 
   render() {
     const {
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'onRef' does not exist on type 'Readonly<... Remove this comment to see the full error message
       onRef,
       /* eslint-disable no-unused-vars */
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'currentQuality' does not exist on type '... Remove this comment to see the full error message
       currentQuality,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'useAutoQuality' does not exist on type '... Remove this comment to see the full error message
       useAutoQuality,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'src' does not exist on type 'Readonly<{}... Remove this comment to see the full error message
       src,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'sources' does not exist on type 'Readonl... Remove this comment to see the full error message
       sources,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'paused' does not exist on type 'Readonly... Remove this comment to see the full error message
       paused,
       /* eslint-enable no-unused-vars */
       ...props

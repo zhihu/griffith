@@ -1,10 +1,15 @@
 export default class FragmentFetch {
   static queue = []
 
-  start: any
-  xhr: any
+  start: number
+  xhr: XMLHttpRequest
 
-  constructor(url: any, start: any, end: any, callback: any) {
+  constructor(
+    url: string,
+    start: number,
+    end: number,
+    callback: (r: XMLHttpRequest['response']) => void
+  ) {
     this.start = start
     // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'this' is not assignable to param... Remove this comment to see the full error message
     FragmentFetch.queue.push(this)

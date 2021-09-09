@@ -88,7 +88,7 @@ export function getAudioSamplesInterval(mp4BoxTree: any, videoInterval: any) {
   return interval
 }
 
-export function getNextVideoSamplesInterval(mp4BoxTree: any, sample: any) {
+export function getNextVideoSamplesInterval(mp4BoxTree: any, sample: number) {
   const stssBox = cloneDeep(findBox(mp4BoxTree, 'videoStss'))
   const sttsBox = cloneDeep(findBox(mp4BoxTree, 'videoStts'))
   const stszBox = findBox(mp4BoxTree, 'videoStsz')

@@ -37,7 +37,7 @@ function getESDescrTag(stream: any) {
     size += 2
   }
 
-  (data as any).size = size
+  ;(data as any).size = size
   ;(data as any).ESID = stream.readByte(2)
   ;(data as any).streamPriority = stream.readByte(1)
 
@@ -59,7 +59,7 @@ function getDecoderConfigDescrTag(stream: any) {
     size += 2
   }
 
-  (data as any).size = size
+  ;(data as any).size = size
   ;(data as any).objectTypeIndication = stream.readByte(1)
   const type = stream.readByte(1)
   ;(data as any).streamType = type & ((1 << 7) - 1)
@@ -83,12 +83,12 @@ function getDecSpecificDescrTag(stream: any) {
     size += 2
   }
 
-  (data as any).size = size
+  ;(data as any).size = size
   const EScode = []
   for (let i = 0; i < dataSize; i++) {
     EScode.push(Number(stream.readByte(1)).toString(16).padStart(2, '0'))
   }
-  (data as any).audioConfig = EScode.map((item) => Number(`0x${item}`))
+  ;(data as any).audioConfig = EScode.map((item) => Number(`0x${item}`))
 
   return data
 }

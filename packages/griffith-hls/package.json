@@ -5,16 +5,17 @@
   "homepage": "https://github.com/zhihu/griffith/tree/master/packages/griffith-hls",
   "license": "MIT",
   "files": [
-    "cjs",
-    "esm"
+    "dist"
   ],
-  "source": "src/index.js",
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
+  "browserslist": ["maintained node versions"],
   "scripts": {
-    "prebuild": "rm -rf esm cjs",
-    "build": "rollup -c ../../rollup.config.js"
+    "prebuild": "rm -rf dist/**",
+    "build": "microbundle -f cjs,esm --no-sourcemap --no-compress --jsx React.createElement"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17",

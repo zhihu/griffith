@@ -22,7 +22,7 @@ type Props = {
   sources: PlaySourceMap
   onBeforePlay?: (...args: any[]) => any
   onEvent?: (...args: any[]) => any
-  dispatchRef?: React.Ref<MessageContextValue['dispatchAction']>
+  dispatchRef?: React.MutableRefObject<MessageContextValue['dispatchAction']>
   initialObjectFit?: ObjectFit
   useMSE?: boolean
   defaultQuality?: RealQuality

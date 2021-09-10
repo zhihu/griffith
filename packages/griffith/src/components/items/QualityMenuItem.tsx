@@ -15,9 +15,11 @@ const QUALITIES: Record<Quality, `quality-${Quality}`> = {
   fhd: 'quality-fhd',
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+type QualityMenuItemProps = {}
 type State = any
 
-class QualityMenuItem extends React.PureComponent<{}, State> {
+class QualityMenuItem extends React.PureComponent<QualityMenuItemProps, State> {
   state = {
     isQualityHovered: false,
   }
@@ -28,11 +30,6 @@ class QualityMenuItem extends React.PureComponent<{}, State> {
 
   handleQualityPointerLeave = () => {
     this.setState({isQualityHovered: false})
-  }
-
-  handleClickItem = (q: any, handler: any) => {
-    this.handleQualityPointerLeave()
-    handler(q)
   }
 
   render() {
@@ -65,7 +62,10 @@ class QualityMenuItem extends React.PureComponent<{}, State> {
                         styles.qualityMenuItem,
                         currentQuality === q && styles.qualityMenuActiveItem
                       )}
-                      onClick={() => this.handleClickItem(q, setCurrentQuality)}
+                      onClick={() => {
+                        this.handleQualityPointerLeave()
+                        setCurrentQuality(q)
+                      }}
                     >
                       <TranslatedText name={QUALITIES[q]} />
                     </button>

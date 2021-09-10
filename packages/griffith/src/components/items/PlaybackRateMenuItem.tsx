@@ -21,10 +21,6 @@ class PlaybackRateMenuItem extends React.PureComponent<{}, State> {
   handlePlaybackRatePointerLeave = () => {
     this.setState({isPlaybackRateHovered: false})
   }
-  handleClickItem = (q: any, handler: any) => {
-    this.handlePlaybackRatePointerLeave()
-    handler(q)
-  }
 
   render() {
     const {isPlaybackRateHovered} = this.state
@@ -62,7 +58,8 @@ class PlaybackRateMenuItem extends React.PureComponent<{}, State> {
                           styles.qualityMenuActiveItem
                       )}
                       onClick={() => {
-                        this.handleClickItem(q, setCurrentPlaybackRate)
+                        this.handlePlaybackRatePointerLeave()
+                        setCurrentPlaybackRate(q)
                       }}
                     >
                       {q.text}

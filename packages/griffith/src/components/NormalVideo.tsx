@@ -17,4 +17,5 @@ const NormalVideo = (props: any) => {
 export default {
   pluginName: 'native',
   VideoComponent: NormalVideo,
+  willHandleSrcChange: false,
 }

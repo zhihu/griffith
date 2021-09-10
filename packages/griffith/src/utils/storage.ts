@@ -1,15 +1,15 @@
 import memoize from 'lodash/memoize'
 
 type CustomStorage = {
-  store: {[key: string]: any}
-  getItem(key: string): string
+  store: {[key: string]: unknown}
+  getItem(key: string): string | null
   setItem(key: string, value: any): void
   removeItem(key: string): boolean
 }
 
 type Storage = {
   isSupported(): boolean
-  get(key: string): Object
+  get(key: string): unknown
   set(key: string, value: any): void
   delete(key: string): void
   getStorage(): CustomStorage | typeof localStorage
@@ -24,7 +24,7 @@ const compatibleStorage: CustomStorage = {
     return delete this.store[key]
   },
   getItem(key) {
-    return this.store[key]
+    return this.store[key] as string | null
   },
 }
 
@@ -55,7 +55,7 @@ const storage: Storage = {
   get(key) {
     try {
       const value = storage.getStorage().getItem(key)
-      return JSON.parse(value!)
+      return JSON.parse(value!) as unknown
     } catch (error) {
       return null
     }

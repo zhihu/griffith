@@ -16,8 +16,14 @@ class Pip {
     this.element = element
     this.onEnter = onEnter
     this.onExit = onExit
-    this.element.addEventListener('enterpictureinpicture', this.handleEnter)
-    this.element.addEventListener('leavepictureinpicture', this.handleExit)
+    this.element.addEventListener(
+      'enterpictureinpicture',
+      this.handleEnter.bind(this)
+    )
+    this.element.addEventListener(
+      'leavepictureinpicture',
+      this.handleExit.bind(this)
+    )
   }
   handleEnter(e: any) {
     if (this.onEnter) {
@@ -31,17 +37,20 @@ class Pip {
   }
   get supported() {
     if (!this.inited) return false
-    return (document as any).pictureInPictureEnabled
+    // experimental types
+    return (document as any).pictureInPictureEnabled as boolean
   }
   get pictureInPictureElement() {
-    return (document as any).pictureInPictureElement
+    return (document as any).pictureInPictureElement as Element | null
   }
   request() {
     if (this.element) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       ;(this.element as any).requestPictureInPicture()
     }
   }
   exit() {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     ;(document as any).exitPictureInPicture()
   }
   toggle() {

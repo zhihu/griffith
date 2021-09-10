@@ -4,7 +4,7 @@ import {EVENTS} from 'griffith-message'
 import {logger, ua} from 'griffith-utils'
 import {PlaybackRate, Quality, PlaySource} from '../types'
 import VideoSourceContext from '../contexts/VideoSourceContext'
-import VideoWithMessage from './VideoWithMessage'
+import VideoWithMessage, {VideoComponentType} from './VideoWithMessage'
 import selectVideo from './selectVideo'
 import styles from './Video.styles'
 
@@ -16,6 +16,11 @@ const isAbortError = (error: any) =>
 
 const isNotAllowedError = (error: any) =>
   error && error.name === 'NotAllowedError'
+
+type ProgressValue = {
+  start: number
+  end: number
+}
 
 type OwnVideoProps = {
   src: string
@@ -37,7 +42,7 @@ type OwnVideoProps = {
   onPlaying: (...args: any[]) => any
   onSeeking?: (...args: any[]) => any
   onSeeked?: (...args: any[]) => any
-  onProgress?: (...args: any[]) => any
+  onProgress?: (values: ProgressValue[]) => any
   onError: (...args: any[]) => any
   onEvent: (...args: any[]) => any
   currentPlaybackRate: PlaybackRate
@@ -283,7 +288,7 @@ class Video extends Component<VideoProps> {
   handleProgress = () => {
     const {onProgress} = this.props
     const buffered = this.root!.buffered
-    const result = []
+    const result: ProgressValue[] = []
     for (let i = 0; i < buffered.length; i++) {
       result.push({
         start: buffered.start(i),
@@ -377,7 +382,7 @@ class Video extends Component<VideoProps> {
         paused={paused}
         sources={sources}
         currentQuality={currentQuality}
-        Video={VideoComponent}
+        Video={VideoComponent as VideoComponentType}
       />
     )
   }
@@ -389,7 +394,7 @@ export default React.forwardRef<any, VideoProps>((props, ref) => (
       <Video
         ref={ref}
         {...props}
-        src={currentSrc!}
+        src={currentSrc}
         format={format}
         sources={sources}
         currentQuality={currentQuality}

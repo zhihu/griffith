@@ -1,17 +1,18 @@
 import debounce from 'lodash/debounce'
 
-const listenResizePolyfill = (target: any, callback: any) => {
+const listenResizePolyfill = (
+  target: HTMLElement,
+  callback: (rect: DOMRectReadOnly) => void
+) => {
   const MutationObserver =
     window.MutationObserver || (window as any).WebKitMutationObserver
-  let lastRect: any
+  let lastRect: DOMRectReadOnly
   const handler = () => {
     const rect = target.getBoundingClientRect()
-    const isChanged = !(
-      lastRect &&
-      ['left', 'top', 'width', 'height'].every((k) => lastRect[k] === rect[k])
-    )
+    const keys: (keyof DOMRectReadOnly)[] = ['left', 'top', 'width', 'height']
+    const isChanged = !(lastRect && keys.every((k) => lastRect[k] === rect[k]))
     if (isChanged) {
-      lastRect = rect
+      lastRect = rect as DOMRectReadOnly
       callback(rect)
     }
   }
@@ -31,7 +32,10 @@ const listenResizePolyfill = (target: any, callback: any) => {
   }
 }
 
-const listenResizeNative = (target: any, callback: any) => {
+const listenResizeNative = (
+  target: HTMLElement,
+  callback: (rect: DOMRectReadOnly) => void
+) => {
   const observer = new ResizeObserver((changes) =>
     callback(changes[0].contentRect)
   )

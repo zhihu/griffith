@@ -34,8 +34,10 @@ function getMediaEventPayload(event: VideoEvent) {
   }
 }
 
+export type VideoComponentType = React.ComponentType<NativeVideoProps>
+
 type VideoWithMessageProps = NativeVideoProps & {
-  Video: React.ComponentType<NativeVideoProps>
+  Video: VideoComponentType
 }
 
 // TODO：这个文件只是做了一层方法拦截，触发播放事件，删除这些封装，简化逻辑

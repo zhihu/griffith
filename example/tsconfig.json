@@ -1,9 +1,6 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "paths": {
-      "griffith": ["../packages/griffith/src/index.ts"]
-    },
     "esModuleInterop": true,
     "jsx": "react"
   }

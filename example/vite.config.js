@@ -6,9 +6,8 @@ const packages = [
   'griffith',
   'griffith-message',
   'griffith-utils',
-  // TODO: ts-migrate
-  // 'griffith-hls',
-  // 'griffith-mp4',
+  'griffith-hls',
+  'griffith-mp4',
 ]
 
 const packagesAliases = Object.fromEntries(

@@ -44,9 +44,7 @@
     "build:watch": "lerna run build --parallel --ignore example --ignore website --ignore griffith-standalone -- --watch",
     "release": "yarn build && lerna publish",
     "start-server": "yarn workspace example run start",
-    "start-watch": "lerna run build --parallel --scope griffith-hls --scope griffith-mp4  -- --watch",
-    "start-on-build": "node scripts/wait-on-build && yarn start-server",
-    "start": "run-p start-watch start-on-build"
+    "start": "yarn start-server"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
@@ -83,8 +81,7 @@
     "prettier": "^2.3.2",
     "rollup": "^2.48.0",
     "rollup-plugin-terser": "^7.0.2",
-    "ts-migrate": "^0.1.22",
-    "wait-on": "^6.0.0"
+    "ts-migrate": "^0.1.22"
   },
   "husky": {
     "hooks": {

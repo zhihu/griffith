@@ -28,6 +28,15 @@ module.exports = {
     jest: true,
   },
 
+  overrides: [
+    {
+      files: ['**/*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+  ],
+
   // we use recommended configurations
   extends: [
     // https://eslint.org/docs/rules/

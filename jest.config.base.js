@@ -1,4 +1,6 @@
 module.exports = {
+  preset: 'es-jest',
+  testEnvironment: 'node',
   setupFiles: [require.resolve('./jest.setup.js')],
   snapshotSerializers: ['enzyme-to-json/serializer'],
   collectCoverageFrom: [

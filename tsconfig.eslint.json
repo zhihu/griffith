@@ -5,9 +5,11 @@
     "allowJs": true
   },
   "include": [
+    // TODO: 所有 JS 单独配置规则
     "./scripts/**/*.js",
-    "./packages/*/.eslintrc.js",
-    // TODO: 允许 "*.js"，为 root dir 单独配置规则,
-    ".eslintrc.js"
+    "./packages/*/*.js",
+    "./packages/*/.*.js",
+    "./*.js",
+    "./.*.js"
   ]
 }

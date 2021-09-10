@@ -15,6 +15,6 @@
   "browserslist": ["maintained node versions"],
   "scripts": {
     "prebuild": "rm -rf dist/**",
-    "build": "microbundle -f cjs,esm --no-sourcemap --no-compress"
+    "build": "microbundle --tsconfig ../../tsconfig.build.json -f cjs,esm --no-sourcemap --no-compress"
   }
 }

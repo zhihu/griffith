@@ -15,7 +15,7 @@
   "browserslist": ["maintained node versions"],
   "scripts": {
     "prebuild": "rm -rf dist/**",
-    "build": "microbundle -f cjs,esm --no-sourcemap --no-compress --jsx React.createElement"
+    "build": "microbundle --tsconfig ../../tsconfig.build.json -f cjs,esm --no-sourcemap --no-compress --jsx React.createElement"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17",

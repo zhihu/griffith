@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Player from 'griffith'
+import Player, {PlayerProps} from 'griffith'
 
-export function createPlayer(target) {
+export function createPlayer(target: Element) {
   return {
-    render(props) {
+    render(props: PlayerProps) {
       ReactDOM.render(<Player {...props} />, target)
     },
 

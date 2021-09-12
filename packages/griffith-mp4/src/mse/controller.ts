@@ -79,6 +79,7 @@ export default class MSE {
         }
       } catch (error) {
         // see https://developers.google.com/web/updates/2017/10/quotaexceedederror
+        // @ts-expect-error any
         if (error.code === 22) {
           this.handleQuotaExceededError(buffer, type)
         } else {

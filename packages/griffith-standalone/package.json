@@ -7,13 +7,15 @@
   "files": [
     "dist/"
   ],
-  "source": "src/index.js",
+  "source": "src/index.tsx",
   "main": "dist/index.umd.min.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "rollup -c"
   },
   "devDependencies": {
+    "@types/react-dom": "^17.0.9",
     "griffith": "^1.17.0",
     "react": "^16.8",
     "react-dom": "^16.8"

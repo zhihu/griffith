@@ -5,7 +5,7 @@ import {
   LocaleCode,
   PartialLocaleConfigMap,
 } from '../constants/locales'
-import Player, {PlayerProps} from './Player'
+import Player, {PlayerProps as InternalPlayerProps} from './Player'
 import VideoSourceProvider from '../contexts/VideoSourceProvider'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 import {
@@ -17,7 +17,7 @@ import PositionProvider from '../contexts/PositionProvider'
 import ObjectFitProvider, {ObjectFit} from '../contexts/ObjectFitProvider'
 import LocaleProvider from '../contexts/LocaleProvider'
 
-type Props = {
+export type PlayerProps = {
   id: string
   sources: PlaySourceMap
   onBeforePlay?: (...args: any[]) => any
@@ -33,7 +33,7 @@ type Props = {
   shouldObserveResize?: boolean
   locale?: LocaleCode
   localeConfig?: PartialLocaleConfigMap
-} & Omit<PlayerProps, 'onEvent' | 'onBeforePlay'>
+} & Omit<InternalPlayerProps, 'onEvent' | 'onBeforePlay'>
 
 const DEFAULT_PLAYBACK_RATE: PlaybackRate = {value: 1.0, text: '1.0x'}
 const DEFAULT_PLAYBACK_RATES: PlaybackRate[] = [
@@ -45,7 +45,7 @@ const DEFAULT_PLAYBACK_RATES: PlaybackRate[] = [
   {value: 2.0, text: '2.0x'},
 ]
 
-const PlayerContainer: React.FC<Props> = ({
+const PlayerContainer: React.FC<PlayerProps> = ({
   standalone,
   id,
   title,

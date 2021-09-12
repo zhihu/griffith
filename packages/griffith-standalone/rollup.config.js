@@ -1,12 +1,14 @@
 import path from 'path'
-import babel from '@rollup/plugin-babel'
+import findCacheDir from 'find-cache-dir'
+import typescript from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import commonjs from '@rollup/plugin-commonjs'
 import alias from '@rollup/plugin-alias'
 import {terser} from 'rollup-plugin-terser'
 
-const pkg = require(path.resolve(process.cwd(), 'package.json'))
+const resolveCwd = path.resolve.bind(null, process.cwd())
+const pkg = require(resolveCwd('package.json'))
 
 export default [
   {
@@ -20,7 +22,20 @@ export default [
       },
     ],
     plugins: [
-      babel(require('../../babel.config')),
+      typescript({
+        cacheRoot: findCacheDir({
+          name: 'rollup-plugin-typescript2',
+          cwd: resolveCwd('../..'),
+        }),
+        tsconfigOverride: {
+          include: [resolveCwd('src/**/*')],
+          exclude: ['**/*.spec.*', '**/__tests__'],
+          compilerOptions: {
+            // reset to empty
+            paths: {},
+          },
+        },
+      }),
       commonjs({
         // 不是所有的包都是 ESM（如 React 只是 CJS）
         include: /node_modules/,

@@ -14,7 +14,6 @@
     "build": "rollup -c"
   },
   "devDependencies": {
-    "babel-loader": "^8.0.5",
     "griffith": "^1.17.0",
     "react": "^16.8",
     "react-dom": "^16.8"

@@ -12,10 +12,9 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
-  "browserslist": ["maintained node versions"],
   "scripts": {
     "prebuild": "rm -rf dist/**",
-    "build": "microbundle --tsconfig ../../tsconfig.build.json -f cjs,esm --no-sourcemap --no-compress --jsx React.createElement"
+    "build": "rollup -c ../../rollup.config.js"
   },
   "devDependencies": {
     "read-chunk": "^3.0.0"

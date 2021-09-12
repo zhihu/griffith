@@ -2,9 +2,6 @@ const OFF = 0
 const ERROR = 2
 
 module.exports = {
-  // parse proposal features like class fileds
-  parser: '@typescript-eslint/parser',
-
   // https://eslint.org/docs/user-guide/configuring#specifying-parser-options
   parserOptions: {
     ecmaVersion: 2019,
@@ -13,11 +10,6 @@ module.exports = {
       // Supports JSX syntax (not the same as supporting React).
       jsx: true,
     },
-    project: [
-      './tsconfig.eslint.json',
-      './example/tsconfig.json',
-      './packages/*/tsconfig.json',
-    ],
   },
 
   // commonly used envs
@@ -30,9 +22,20 @@ module.exports = {
 
   overrides: [
     {
-      files: ['**/*.js'],
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: ['./example/tsconfig.json', './packages/*/tsconfig.json'],
+      },
+      extends: [
+        // https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+      ],
       rules: {
-        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'warn',
+        '@typescript-eslint/no-unsafe-member-access': 'warn',
+        '@typescript-eslint/no-extra-semi': 'off',
       },
     },
   ],
@@ -51,9 +54,6 @@ module.exports = {
     'plugin:prettier/recommended',
     // https://github.com/prettier/eslint-config-prettier
     'prettier',
-    // https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
 
   plugins: ['react-hooks', '@typescript-eslint'],
@@ -73,11 +73,6 @@ module.exports = {
     // hooks
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
-
-    // TS
-    '@typescript-eslint/no-unsafe-assignment': 'warn',
-    '@typescript-eslint/no-unsafe-member-access': 'warn',
-    '@typescript-eslint/no-extra-semi': 'off',
   },
 
   settings: {

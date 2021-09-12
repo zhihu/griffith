@@ -1,9 +1,9 @@
 import path from 'path'
-import babel from '@rollup/plugin-babel'
-import resolve from '@rollup/plugin-node-resolve'
+import typescript from 'rollup-plugin-typescript2'
+import findCacheDir from 'find-cache-dir'
 
-const pkg = require(path.resolve(process.cwd(), 'package.json'))
-
+const resolveCwd = path.resolve.bind(null, process.cwd())
+const pkg = require(resolveCwd('package.json'))
 const deps = Object.keys({...pkg.dependencies, ...pkg.peerDependencies})
 const reExternal = new RegExp(`^(${deps.join('|')})($|/)`)
 
@@ -14,19 +14,28 @@ export default [
       {
         file: pkg.main,
         format: 'cjs',
-        sourcemap: true,
       },
       {
         file: pkg.module,
         format: 'esm',
-        sourcemap: true,
       },
     ],
     plugins: [
-      babel(require('./babel.config')),
-      // resolves `./directory` to `./directory/index.js`
-      resolve({only: [/\/packages\/.*/]}),
+      typescript({
+        cacheRoot: findCacheDir({
+          name: 'rollup-plugin-typescript2',
+          cwd: __dirname,
+        }),
+        tsconfigOverride: {
+          include: [resolveCwd('src/**/*')],
+          exclude: ['**/*.spec.*', '**/__tests__'],
+          compilerOptions: {
+            // reset to empty
+            paths: {},
+          },
+        },
+      }),
     ],
-    external: id => (deps.length ? reExternal.test(id) : false),
+    external: (id) => (deps.length ? reExternal.test(id) : false),
   },
 ]

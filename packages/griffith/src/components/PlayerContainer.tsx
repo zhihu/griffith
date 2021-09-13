@@ -7,7 +7,6 @@ import {
 } from '../constants/locales'
 import Player, {PlayerProps as InternalPlayerProps} from './Player'
 import VideoSourceProvider from '../contexts/VideoSourceProvider'
-import VideoSourceContext from '../contexts/VideoSourceContext'
 import {
   MessageProvider,
   InternalContext,
@@ -20,7 +19,6 @@ import LocaleProvider from '../contexts/LocaleProvider'
 export type PlayerProps = {
   id: string
   sources: PlaySourceMap
-  onBeforePlay?: (...args: any[]) => any
   onEvent?: (...args: any[]) => any
   dispatchRef?: React.MutableRefObject<MessageContextValue['dispatchAction']>
   initialObjectFit?: ObjectFit
@@ -33,7 +31,7 @@ export type PlayerProps = {
   shouldObserveResize?: boolean
   locale?: LocaleCode
   localeConfig?: PartialLocaleConfigMap
-} & Omit<InternalPlayerProps, 'onEvent' | 'onBeforePlay'>
+} & Omit<InternalPlayerProps, 'onEvent'>
 
 const DEFAULT_PLAYBACK_RATE: PlaybackRate = {value: 1.0, text: '1.0x'}
 const DEFAULT_PLAYBACK_RATES: PlaybackRate[] = [
@@ -53,7 +51,7 @@ const PlayerContainer: React.FC<PlayerProps> = ({
   duration,
   sources,
   error,
-  onBeforePlay = () => Promise.resolve(),
+  onBeforePlay,
   onEvent,
   dispatchRef,
   shouldObserveResize,
@@ -100,37 +98,33 @@ const PlayerContainer: React.FC<PlayerProps> = ({
               playbackRates={playbackRates}
             >
               <LocaleProvider locale={locale} localeConfig={localeConfig}>
-                <VideoSourceContext.Consumer>
-                  {({currentSrc}) => (
-                    <Player
-                      useMSE={useMSE}
-                      useAutoQuality={useAutoQuality}
-                      autoplay={autoplay}
-                      loop={loop}
-                      muted={muted}
-                      disablePictureInPicture={disablePictureInPicture}
-                      hiddenPlayButton={hiddenPlayButton}
-                      hiddenTimeline={hiddenTimeline}
-                      hiddenTime={hiddenTime}
-                      hiddenQualityMenu={hiddenQualityMenu}
-                      hiddenVolume={hiddenVolume}
-                      hiddenPlaybackRateItem={hiddenPlaybackRateItem}
-                      hiddenFullScreenButton={hiddenFullScreenButton}
-                      alwaysShowVolumeButton={alwaysShowVolumeButton}
-                      progressDots={progressDots}
-                      standalone={standalone}
-                      cover={cover}
-                      title={title}
-                      duration={duration}
-                      error={error}
-                      onEvent={emitEvent}
-                      subscribeAction={subscribeAction}
-                      onBeforePlay={() => onBeforePlay(currentSrc)}
-                    >
-                      {children}
-                    </Player>
-                  )}
-                </VideoSourceContext.Consumer>
+                <Player
+                  useMSE={useMSE}
+                  useAutoQuality={useAutoQuality}
+                  autoplay={autoplay}
+                  loop={loop}
+                  muted={muted}
+                  disablePictureInPicture={disablePictureInPicture}
+                  hiddenPlayButton={hiddenPlayButton}
+                  hiddenTimeline={hiddenTimeline}
+                  hiddenTime={hiddenTime}
+                  hiddenQualityMenu={hiddenQualityMenu}
+                  hiddenVolume={hiddenVolume}
+                  hiddenPlaybackRateItem={hiddenPlaybackRateItem}
+                  hiddenFullScreenButton={hiddenFullScreenButton}
+                  alwaysShowVolumeButton={alwaysShowVolumeButton}
+                  progressDots={progressDots}
+                  standalone={standalone}
+                  cover={cover}
+                  title={title}
+                  duration={duration}
+                  error={error}
+                  onEvent={emitEvent}
+                  subscribeAction={subscribeAction}
+                  onBeforePlay={onBeforePlay}
+                >
+                  {children}
+                </Player>
               </LocaleProvider>
             </VideoSourceProvider>
           )}

@@ -4,10 +4,10 @@ import locales, {LocaleCode, PartialLocaleConfigMap} from '../constants/locales'
 
 const getLocalConfig = (
   locale: LocaleCode,
-  userLocals: PartialLocaleConfigMap
+  userLocals?: PartialLocaleConfigMap
 ) => {
   const defaultConfig = locales[locale]
-  const userConfig = userLocals[locale]
+  const userConfig = userLocals?.[locale]
   return userConfig
     ? Object.assign({}, defaultConfig, userConfig)
     : defaultConfig
@@ -15,15 +15,11 @@ const getLocalConfig = (
 
 type Props = {
   locale: LocaleCode
-  localeConfig: PartialLocaleConfigMap
+  localeConfig?: PartialLocaleConfigMap
   children: React.ReactNode
 }
 
-export default function LocaleProvider({
-  locale,
-  localeConfig,
-  children,
-}: Props) {
+const LocaleProvider: React.FC<Props> = ({locale, localeConfig, children}) => {
   const value = useMemo(
     () => getLocalConfig(locale, localeConfig),
     [locale, localeConfig]
@@ -32,3 +28,5 @@ export default function LocaleProvider({
     <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
   )
 }
+
+export default LocaleProvider

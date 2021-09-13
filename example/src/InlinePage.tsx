@@ -1,5 +1,5 @@
 import React from 'react'
-import PlayerContainer, {Layer} from 'griffith'
+import Player, {Layer} from 'griffith'
 import {logEvent} from './utils'
 
 const watermarkStyle = {
@@ -20,11 +20,11 @@ const VideoCard = ({
     className="VideoCard"
     style={{height, width: '320px', margin: '20px auto'}}
   >
-    <PlayerContainer {...data} initialObjectFit={objectFit} onEvent={logEvent}>
+    <Player {...data} initialObjectFit={objectFit} onEvent={logEvent}>
       <Layer>
         <span style={watermarkStyle}>水印示例</span>
       </Layer>
-    </PlayerContainer>
+    </Player>
   </div>
 )
 

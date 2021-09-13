@@ -3,8 +3,10 @@ import React, {
   useState,
   useLayoutEffect,
   useContext,
+  useEffect,
 } from 'react'
-import PlayerContainer, {MessageContext, ACTIONS, EVENTS} from 'griffith'
+import Player, {MessageContext, ACTIONS, EVENTS} from 'griffith'
+import {useLocation} from 'react-router-dom'
 import Logo from './Logo'
 import {logEvent} from './utils'
 
@@ -44,46 +46,57 @@ const props = {
 }
 
 const shouldLoop = new URLSearchParams(location.search).has('loop')
-const canShowLogo = new URLSearchParams(location.search).has('logo')
+const getCanShowLogo = () => new URLSearchParams(location.search).has('logo')
 
 /** 常规通讯方式，建议直接使用 `onEvent` 替代 */
 const LogoListener = () => {
+  const location = useLocation()
+  const [canShowLogo, setCaShowLogo] = useState(getCanShowLogo)
+  useEffect(() => {
+    setCaShowLogo(getCanShowLogo())
+  }, [location])
   const [isLogoVisible, setIsLogoVisible] = useState(false)
   const {subscribeEvent} = useContext(MessageContext)
   useLayoutEffect(() => {
     return subscribeEvent(EVENTS.PLAYER.PLAY_COUNT, () => {
       setIsLogoVisible(true)
     }).unsubscribe
-  }, [])
+  }, [subscribeEvent])
   return canShowLogo && isLogoVisible ? <Logo /> : null
 }
 
 const App = () => {
   const dispatchRef = useRef(null)
   return (
-    <PlayerContainer
-      {...props}
-      localeConfig={{
-        'zh-Hans': {
-          'quality-ld': '流畅 360P',
-          'quality-sd': '清晰 480P',
-          'quality-hd': '高清 720P',
-          'quality-fhd': '超清 1080P',
-        },
-      }}
-      locale={'ja'}
-      dispatchRef={dispatchRef}
-      onEvent={(e, data) => {
-        if (shouldLoop && e === EVENTS.DOM.ENDED) {
-          dispatchRef.current?.(ACTIONS.PLAYER.PLAY)
-        }
-        logEvent(e, data)
-      }}
-    >
-      <LogoListener />
-      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PLAY)}>Play</button>
-      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PAUSE)}>Pause</button>
-    </PlayerContainer>
+    <>
+      <Player
+        {...props}
+        localeConfig={{
+          'zh-Hans': {
+            'quality-ld': '流畅 360P',
+            'quality-sd': '清晰 480P',
+            'quality-hd': '高清 720P',
+            'quality-fhd': '超清 1080P',
+          },
+        }}
+        locale={'ja'}
+        dispatchRef={dispatchRef}
+        onEvent={(e, data) => {
+          if (shouldLoop && e === EVENTS.DOM.ENDED) {
+            dispatchRef.current?.(ACTIONS.PLAYER.PLAY)
+          }
+          logEvent(e, data)
+        }}
+      >
+        <LogoListener />
+      </Player>
+      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PLAY)}>
+        Play
+      </button>
+      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PAUSE)}>
+        Pause
+      </button>
+    </>
   )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import PlayerContainer from 'griffith'
+import Player from 'griffith'
 import {logEvent} from './utils'
 
 const duration = 182
@@ -38,5 +38,5 @@ const props = {
   onEvent: logEvent,
 }
 
-const App = () => <PlayerContainer {...props} />
+const App = () => <Player {...props} />
 export default App

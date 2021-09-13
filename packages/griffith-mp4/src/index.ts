@@ -1,4 +1,4 @@
-import VideoComponent from './player'
+import VideoComponent from './VideoComponent'
 
 export default {
   pluginName: 'griffith-mp4',

@@ -1,7 +1,7 @@
 export default class Stream {
-  buffer: any
-  position: any
-  constructor(buffer: any) {
+  buffer: Uint8Array
+  position: number
+  constructor(buffer: Uint8Array) {
     this.buffer = buffer
     this.position = 0
   }

@@ -24,9 +24,9 @@ export default class FMP4Generator {
     )
   }
 
-  static mdat(trackInfo: any) {
+  static mdat(trackInfo: {samples: {buffer: ArrayBuffer}[]}) {
     const samples = trackInfo.samples.map(
-      (sample: any) => new Uint8Array(sample.buffer)
+      (sample) => new Uint8Array(sample.buffer)
     )
 
     return mdat(concatTypedArray(...samples))

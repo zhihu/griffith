@@ -5,21 +5,26 @@ import MP4Probe from '../mp4/mp4Probe'
 import FMP4 from '../fmp4/fmp4Generator'
 import {concatTypedArray} from '../fmp4/utils'
 import {abortPolyfill} from './polyfill'
+import {Mp4BoxTree} from '../mp4/types'
 
 const MAGIC_NUMBER = 20000
 
+type SourceBufferKey = 'audio' | 'video'
+
 export default class MSE {
-  audioQueue: any
-  mediaSource: any
+  audioQueue: BufferSource[]
+  mediaSource!: MediaSource
   mimeTypes: any
   mp4BoxTreeObject: any
-  mp4Probe: any
-  needUpdateTime: any
-  qualityChangeFlag: any
-  sourceBuffers: any
-  src: any
-  video: any
-  videoQueue: any
+  mp4Probe?: MP4Probe
+  needUpdateTime?: boolean
+  qualityChangeFlag: boolean
+  sourceBuffers: {
+    [key in SourceBufferKey]: SourceBuffer | null
+  }
+  src: string
+  video: HTMLVideoElement
+  videoQueue: BufferSource[]
   constructor(video: any, src: any) {
     this.video = video
     this.src = src
@@ -71,11 +76,11 @@ export default class MSE {
     })
   }
 
-  handleAppendBuffer = (buffer: any, type: any) => {
+  handleAppendBuffer = (buffer: BufferSource, type: SourceBufferKey) => {
     if (this.mediaSource.readyState === 'open') {
       try {
         if (this.sourceBuffers[type]) {
-          this.sourceBuffers[type].appendBuffer(buffer)
+          this.sourceBuffers[type]!.appendBuffer(buffer)
         }
       } catch (error) {
         // see https://developers.google.com/web/updates/2017/10/quotaexceedederror
@@ -87,7 +92,6 @@ export default class MSE {
         }
       }
     } else {
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       this[`${type}Queue`].push(buffer)
     }
   }
@@ -96,7 +100,7 @@ export default class MSE {
     // 获取 mdat 外的数据
     return this.loadData()
       .then((res) => {
-        // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
+        // @ts-expect-error No overload matches this call.
         return new MP4Parse(new Uint8Array(res)).mp4BoxTreeObject
       })
       .then((mp4BoxTreeObject) => {
@@ -105,7 +109,8 @@ export default class MSE {
         if (!moov) {
           let moovStart = 0
           for (const box in mp4BoxTreeObject) {
-            moovStart += mp4BoxTreeObject[box].size
+            // @ts-expect-error Property 'size' does not exist
+            moovStart += mp4BoxTreeObject[box as keyof Mp4BoxTree].size
           }
           // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '""' is not assignable to paramet... Remove this comment to see the full error message
           return this.loadData(moovStart, '').then((res) => {
@@ -118,8 +123,11 @@ export default class MSE {
           })
         } else {
           // 有可能视频较大，第一次请求没有请求到完整的 moov box
+          // @ts-expect-error Operands of '+' operation must either be both strings or both numbers
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           const ftypAndMoovSize = moov.size + ftyp.size
           if (ftypAndMoovSize > MAGIC_NUMBER) {
+            // @ts-expect-error Property 'size' does not exist on type
             return this.loadData(ftyp.size, ftypAndMoovSize).then((res) => {
               // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
               const {moov} = new MP4Parse(new Uint8Array(res)).mp4BoxTreeObject
@@ -134,7 +142,7 @@ export default class MSE {
         return mp4BoxTreeObject
       })
       .then((mp4BoxTreeObject) => {
-        this.mp4Probe = new MP4Probe(mp4BoxTreeObject)
+        this.mp4Probe = new MP4Probe(mp4BoxTreeObject!)
         this.mp4BoxTreeObject = mp4BoxTreeObject
 
         const videoRawData = concatTypedArray(
@@ -164,9 +172,10 @@ export default class MSE {
   hasBufferedCache = (isSeek: any) => {
     const {
       timeRange: [start, end],
-    } = this.mp4Probe
+    } = this.mp4Probe!
 
     // handle seek case and normal case
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     const time = isSeek ? this.video.currentTime : Math.floor((start + end) / 2)
     const buffered = this.video.buffered
 
@@ -184,7 +193,7 @@ export default class MSE {
   seek = (time: any) => {
     FragmentFetch.clear()
 
-    const [start, end] = this.mp4Probe.getFragmentPosition(time)
+    const [start, end] = this.mp4Probe!.getFragmentPosition(time)
     // 对于已经请求的数据不再重复请求
     // No need to repeat request video data
     if (this.hasBufferedCache(time) && !this.qualityChangeFlag) {
@@ -193,15 +202,15 @@ export default class MSE {
 
     this.handleReplayCase()
 
-    this.loadData(start, end).then((mdatBuffer) => {
+    void this.loadData(start as number, end as number).then((mdatBuffer) => {
       if (!mdatBuffer) {
         return
       }
       const {videoTrackInfo, audioTrackInfo} =
-        this.mp4Probe.getTrackInfo(mdatBuffer)
-      const {videoInterval, audioInterval} = this.mp4Probe
-      const videoBaseMediaDecodeTime = videoInterval.timeInterVal[0]
-      const audioBaseMediaDecodeTime = audioInterval.timeInterVal[0]
+        this.mp4Probe!.getTrackInfo(mdatBuffer)
+      const {videoInterval, audioInterval} = this.mp4Probe!
+      const videoBaseMediaDecodeTime = videoInterval!.timeInterVal[0]
+      const audioBaseMediaDecodeTime = audioInterval!.timeInterVal[0]
       const videoRawData = concatTypedArray(
         FMP4.moof(videoTrackInfo, videoBaseMediaDecodeTime),
         FMP4.mdat(videoTrackInfo)
@@ -227,31 +236,32 @@ export default class MSE {
     })
   }
 
-  changeQuality(newSrc: any) {
+  changeQuality(newSrc: string) {
     this.src = newSrc
     this.qualityChangeFlag = true
 
     // remove old quality buffer before append new quality buffer
     for (const key in this.sourceBuffers) {
-      const track = this.sourceBuffers[key]
+      const track = this.sourceBuffers[key as SourceBufferKey] as SourceBuffer
       const length = track.buffered.length
 
       if (length > 0) {
         this.removeBuffer(
           track.buffered.start(0),
           track.buffered.end(length - 1),
-          key
+          key as SourceBufferKey
         )
       }
     }
 
-    this.init().then(() => {
+    void this.init().then(() => {
+      // eslint-disable-next-line no-self-assign
       this.video.currentTime = this.video.currentTime
     })
   }
 
-  removeBuffer(start: any, end: any, type: any) {
-    const track = this.sourceBuffers[type]
+  removeBuffer(start: number, end: number, type: SourceBufferKey) {
+    const track = this.sourceBuffers[type] as SourceBuffer
     if (track.updating) {
       const {isSafari} = ua
 
@@ -268,7 +278,7 @@ export default class MSE {
   }
 
   loadData(start = 0, end = MAGIC_NUMBER) {
-    return new Promise((resolve) => {
+    return new Promise<ArrayBuffer>((resolve) => {
       new FragmentFetch(this.src, start, end, resolve)
     }).catch(() => {
       // catch cancel error
@@ -280,6 +290,7 @@ export default class MSE {
       return
     }
     const {
+      // @ts-expect-error Property 'offsetInterVal' does not exist on type 'never[] | TimeOffsetInterval'
       videoInterval: {offsetInterVal = []} = [],
       mp4Data: {videoSamplesLength},
       timeRange = [],
@@ -287,7 +298,7 @@ export default class MSE {
     if (this.mediaSource.readyState !== 'closed') {
       if (
         offsetInterVal[1] === videoSamplesLength &&
-        this.video.currentTime > timeRange[0]
+        this.video.currentTime > timeRange[0]!
       ) {
         this.destroy()
       } else if (this.shouldFetchNextSegment()) {
@@ -301,13 +312,13 @@ export default class MSE {
     if (this.mediaSource.readyState === 'ended') {
       // If MediaSource.readyState value is ended,
       // setting SourceBuffer.timestampOffset will cause this value to transition to open.
-      this.sourceBuffers.video.timestampOffset = 0
+      this.sourceBuffers.video!.timestampOffset = 0
     }
   }
 
   shouldFetchNextSegment = () => {
     this.handleReplayCase()
-    if (this.mp4Probe.isDraining(this.video.currentTime)) {
+    if (this.mp4Probe!.isDraining(this.video.currentTime)) {
       return true
     }
     return false
@@ -318,16 +329,16 @@ export default class MSE {
     URL.revokeObjectURL(this.video.src)
     if (
       this.mediaSource.readyState === 'open' &&
-      !this.sourceBuffers.video.updating &&
-      !this.sourceBuffers.audio.updating
+      !this.sourceBuffers.video!.updating &&
+      !this.sourceBuffers.audio!.updating
     ) {
       this.mediaSource.endOfStream()
     }
   }
 
-  handleQuotaExceededError = (buffer: any, type: any) => {
+  handleQuotaExceededError = (buffer: BufferSource, type: SourceBufferKey) => {
     for (const key in this.sourceBuffers) {
-      const track = this.sourceBuffers[key]
+      const track = this.sourceBuffers[key as SourceBufferKey] as SourceBuffer
 
       const currentTime = this.video.currentTime
 
@@ -336,7 +347,7 @@ export default class MSE {
       if (track.buffered.length > 0) {
         removeStart = track.buffered.start(0) + 10
       }
-      this.removeBuffer(removeStart, currentTime - 10, key)
+      this.removeBuffer(removeStart, currentTime - 10, key as SourceBufferKey)
     }
 
     // re-append(maybe should lower the playback resolution)

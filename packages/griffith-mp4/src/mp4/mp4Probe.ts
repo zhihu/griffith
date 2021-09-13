@@ -1,3 +1,4 @@
+import {Mp4BoxTree, Interval, TimeOffsetInterval} from './types'
 import {
   findBox,
   getBufferStart,
@@ -12,19 +13,19 @@ import {
 } from './utils'
 
 export default class MP4Probe {
-  audioInterval: any
+  audioInterval?: TimeOffsetInterval
+  videoInterval?: TimeOffsetInterval
   bufferStart: any
-  mp4BoxTree: any
+  mp4BoxTree: Mp4BoxTree
   mp4Data: any
-  timeRange: any
-  videoInterval: any
-  constructor(mp4BoxTree: any) {
+  timeRange!: Interval
+  constructor(mp4BoxTree: Mp4BoxTree) {
     this.mp4BoxTree = mp4BoxTree
     this.mp4Data = {}
     this.init()
   }
 
-  updateInterval = (time: any) => {
+  updateInterval = (time: number) => {
     const {videoTimescale, audioTimescale} = this.mp4Data
 
     if (typeof time === 'number') {
@@ -35,7 +36,7 @@ export default class MP4Probe {
     } else {
       this.videoInterval = getNextVideoSamplesInterval(
         this.mp4BoxTree,
-        this.videoInterval.offsetInterVal[1]
+        this.videoInterval!.offsetInterVal[1]
       )
     }
 
@@ -45,10 +46,10 @@ export default class MP4Probe {
     )
 
     const videoTimeRange = this.videoInterval.timeInterVal.map(
-      (time: any) => time / videoTimescale
+      (time) => time / videoTimescale
     )
     const audioTimeRange = this.audioInterval.timeInterVal.map(
-      (time: any) => time / audioTimescale
+      (time) => time / audioTimescale
     )
 
     this.timeRange = [
@@ -57,16 +58,16 @@ export default class MP4Probe {
     ]
   }
 
-  isDraining = (time: any) =>
+  isDraining = (time: number) =>
     time > (this.timeRange[1] - this.timeRange[0]) / 4 + this.timeRange[0]
 
-  getFragmentPosition = (time: any) => {
+  getFragmentPosition = (time: number) => {
     this.updateInterval(time)
 
     this.bufferStart = getBufferStart(
       this.mp4BoxTree,
-      this.videoInterval.offsetInterVal[0],
-      this.audioInterval.offsetInterVal[0]
+      this.videoInterval!.offsetInterVal[0],
+      this.audioInterval!.offsetInterVal[0]
     )
 
     const {videoSamples, audioSamples} = this.getSamples()
@@ -92,13 +93,13 @@ export default class MP4Probe {
     const videoSamples = getVideoSamples(
       this.mp4BoxTree,
       this.bufferStart,
-      this.videoInterval.offsetInterVal
+      this.videoInterval!.offsetInterVal
     )
 
     const audioSamples = getAudioSamples(
       this.mp4BoxTree,
       this.bufferStart,
-      this.audioInterval.offsetInterVal
+      this.audioInterval!.offsetInterVal
     )
 
     return {
@@ -107,7 +108,7 @@ export default class MP4Probe {
     }
   }
 
-  getTrackInfo = (mdatBuffer: any) => {
+  getTrackInfo = (mdatBuffer: ArrayBuffer) => {
     const {videoSamples, audioSamples} = this.getSamples()
     const videoTrackInfo = getVideoTrackInfo(videoSamples, mdatBuffer)
     const audioTrackInfo = getAudioTrackInfo(audioSamples, mdatBuffer)

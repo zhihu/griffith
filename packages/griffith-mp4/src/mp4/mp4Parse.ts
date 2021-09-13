@@ -1,14 +1,15 @@
+import {Mp4BoxTree} from './types'
 import Stream from './stream'
 import Box from './mp4Box'
 
 export default class MP4Parse {
-  buffer: any
-  mp4BoxTreeObject: any
-  stream: any
-  constructor(buffer: any) {
+  buffer: Uint8Array
+  mp4BoxTreeObject: Mp4BoxTree
+  stream: Stream
+  constructor(buffer: Uint8Array) {
     this.buffer = buffer
     this.stream = new Stream(buffer)
-    this.mp4BoxTreeObject = {}
+    this.mp4BoxTreeObject = {} as Mp4BoxTree
     this.init()
   }
 
@@ -22,8 +23,9 @@ export default class MP4Parse {
       MP4Box.readSize(this.stream)
       MP4Box.readType(this.stream)
       MP4Box.readBody(this.stream)
-      this.mp4BoxTreeObject[MP4Box.type] = MP4Box.box
-      this.mp4BoxTreeObject[MP4Box.type].size = MP4Box.size
+      this.mp4BoxTreeObject[MP4Box.type as keyof Mp4BoxTree] = MP4Box.box
+      // @ts-expect-error Property 'size' does not exist on type
+      this.mp4BoxTreeObject[MP4Box.type as keyof Mp4BoxTree].size = MP4Box.size
     }
   }
 }

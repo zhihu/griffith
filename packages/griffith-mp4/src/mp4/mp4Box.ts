@@ -5,26 +5,28 @@ const CONTAINER_BOXES = ['moov', 'trak', 'edts', 'mdia', 'minf', 'dinf', 'stbl']
 
 const SPECIAL_BOXES = ['udta', 'free']
 
+type BoxType = keyof typeof boxParse
+
 export default class MP4Box {
   box: any
-  data: any
-  size: any
-  start: any
-  type: any
+  data?: Uint8Array
+  size: number
+  start: number
+  type: BoxType
   constructor() {
     this.size = 0
-    this.type = ''
+    this.type = '' as BoxType
     this.start = 0
     this.box = {}
   }
 
-  readSize(stream: any) {
+  readSize(stream: Stream) {
     this.start = stream.position
     this.size = stream.readByte(4)
   }
 
-  readType(stream: any) {
-    this.type = stream.readType()
+  readType(stream: Stream) {
+    this.type = stream.readType() as BoxType
 
     // 一个 box 的 size 只可能大于等于 8
     // 如果从 readSize 中解析出来的 mdat size 为 1，则表明此视频比较大，需要 type 后的 8 个字节来计算实际大小
@@ -34,7 +36,7 @@ export default class MP4Box {
     }
   }
 
-  readBody(stream: any) {
+  readBody(stream: Stream) {
     this.data = stream.buffer.slice(stream.position, this.size + this.start)
     if (
       CONTAINER_BOXES.find((item) => item === this.type) ||
@@ -42,13 +44,11 @@ export default class MP4Box {
     ) {
       this.parserContainerBox()
     } else {
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if (!boxParse[this.type]) {
         this.box = {}
       } else {
         this.box = {
           ...this.box,
-          // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           ...boxParse[this.type](this.data),
         }
       }
@@ -58,7 +58,7 @@ export default class MP4Box {
   }
 
   parserContainerBox() {
-    const stream = new Stream(this.data)
+    const stream = new Stream(this.data!)
     const size = stream.buffer.length
     while (stream.position < size) {
       const Box = new MP4Box()
@@ -66,6 +66,7 @@ export default class MP4Box {
       Box.readType(stream)
       Box.readBody(stream)
 
+      // @ts-expect-error This condition will always return 'false'
       if (Box.type === 'trak' && Box.box.mdia && Box.box.mdia.hdlr) {
         const handlerType = Box.box.mdia.hdlr.handlerType
         if (handlerType === 'vide') {
@@ -73,6 +74,7 @@ export default class MP4Box {
         } else if (handlerType === 'soun') {
           this.box.audioTrak = Box.box
         } else {
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           this.box[`${handlerType}Trak`] = Box.box
         }
       } else {

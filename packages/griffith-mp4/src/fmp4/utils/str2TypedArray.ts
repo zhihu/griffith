@@ -1,9 +1,11 @@
-const char2Hex = (char: any) => char.charCodeAt()
+const char2Hex = (char: string) => char.charCodeAt(0)
 
-const str2TypedArray = (str: any) => {
+const str2TypedArray = (str: string) => {
   // 字符串转 uint8 array
-  // @ts-expect-error ts-migrate(2769) FIXME: No overload matches this call.
-  return new Uint8Array(Array.prototype.map.call(str, char2Hex))
+  // 应该使用 Uint8Array.from/TextEncoder
+  return new Uint8Array(
+    Array.prototype.map.call(str, char2Hex) as Iterable<number>
+  )
 }
 
 export default str2TypedArray

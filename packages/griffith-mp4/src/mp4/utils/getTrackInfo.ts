@@ -1,6 +1,11 @@
-export function getVideoTrackInfo(videoSamples: any, mdatBuffer: any) {
+import {Sample} from '../types'
+
+export function getVideoTrackInfo(
+  videoSamples: Sample[],
+  mdatBuffer: ArrayBuffer
+) {
   return {
-    samples: videoSamples.map((sample: any) => ({
+    samples: videoSamples.map((sample) => ({
       ...sample,
       buffer: mdatBuffer.slice(sample.start, sample.end),
     })),
@@ -8,9 +13,12 @@ export function getVideoTrackInfo(videoSamples: any, mdatBuffer: any) {
   }
 }
 
-export function getAudioTrackInfo(audioSamples: any, mdatBuffer: any) {
+export function getAudioTrackInfo(
+  audioSamples: Sample[],
+  mdatBuffer: ArrayBuffer
+) {
   return {
-    samples: audioSamples.map((sample: any) => ({
+    samples: audioSamples.map((sample) => ({
       ...sample,
       buffer: mdatBuffer.slice(sample.start, sample.end),
     })),

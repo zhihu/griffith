@@ -1,4 +1,9 @@
-export default function getPerChunkArray(stscBox: any, end: any) {
+import {TypeBoxMap} from './findBox'
+
+export default function getPerChunkArray(
+  stscBox: ReturnType<TypeBoxMap['videoStsc']>,
+  end: number
+) {
   const stscBoxSamplesPerChunkArray = []
   const stscSamplesLength = stscBox.samples.length
 
@@ -19,6 +24,7 @@ export default function getPerChunkArray(stscBox: any, end: any) {
 
     // 处理最后一位不是 end 时的情况
     if (i >= stscSamplesLength) {
+      // @ts-expect-error semantic error TS2367: This condition will always return 'true'
       if (stscBox.samples[stscSamplesLength - 1] !== 1) {
         i = i + stscBox.samples[stscSamplesLength - 1].samplesPerChunk - 1
       }

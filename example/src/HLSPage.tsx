@@ -1,5 +1,5 @@
 import React from 'react'
-import PlayerContainer from 'griffith'
+import Player from 'griffith'
 import {logEvent} from './utils'
 
 const sources = {
@@ -28,6 +28,6 @@ const props = {
   onEvent: logEvent,
 }
 
-const App = () => <PlayerContainer {...props} />
+const App = () => <Player {...props} />
 
 export default App

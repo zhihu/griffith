@@ -5,9 +5,27 @@ import BigScreen from 'isomorphic-bigscreen'
 import {EVENTS, ACTIONS} from 'griffith-message'
 import {ua} from 'griffith-utils'
 import {ProgressDot} from '../types'
+import {PlaybackRate, PlaySourceMap, RealQuality} from '../types'
+import {
+  defaultLocale,
+  LocaleCode,
+  PartialLocaleConfigMap,
+} from '../constants/locales'
+import VideoSourceProvider from '../contexts/VideoSourceProvider'
+import {
+  MessageProvider,
+  MessageContextValue,
+  InternalContext,
+  InternalContextValue,
+} from '../contexts/MessageContext'
+import VideoSourceContext from '../contexts/VideoSourceContext'
+import ObjectFitContext from '../contexts/ObjectFitContext'
+import PositionProvider from '../contexts/PositionProvider'
+import ObjectFitProvider, {ObjectFit} from '../contexts/ObjectFitProvider'
+import LocaleProvider from '../contexts/LocaleProvider'
 import Time from './Time'
 import Icon from './Icon'
-import * as icons from './icons/display'
+import * as icons from './icons/display/index'
 import Loader from './Loader'
 import Video from './Video'
 import Controller from './Controller'
@@ -16,16 +34,19 @@ import MinimalTimeline from './MinimalTimeline'
 import getBufferedTime from '../utils/getBufferedTime'
 import storage from '../utils/storage'
 import Pip from '../utils/pip'
-import VideoSourceContext from '../contexts/VideoSourceContext'
-import ObjectFitContext from '../contexts/ObjectFitContext'
-import {InternalContextValue} from '../contexts/MessageContext'
 
 import styles, {hiddenOrShownStyle} from './Player.styles'
 
 const CONTROLLER_HIDE_DELAY = 3000
 const {isMobile} = ua
 
-export type PlayerProps = {
+// 临时属性，由 Provider 注入（TODO：替换成 hooks 后可以删除）
+type ProviderOnlyProps = {
+  subscribeAction: InternalContextValue['subscribeAction']
+}
+
+// 被 Provider 包装后的属性
+type InnerPlayerProps = ProviderOnlyProps & {
   standalone?: boolean
   error?: {
     message?: string
@@ -36,7 +57,6 @@ export type PlayerProps = {
   progressDots?: ProgressDot[]
   onEvent: (...args: any[]) => any
   onBeforePlay?: (currentSrc: string) => Promise<void>
-  subscribeAction: InternalContextValue['subscribeAction']
   autoplay?: boolean
   loop?: boolean
   muted?: boolean
@@ -53,16 +73,34 @@ export type PlayerProps = {
   hiddenPlaybackRateItem?: boolean
 }
 
+// 仅供 Provider 使用的属性
+type OuterPlayerProps = {
+  id: string
+  sources: PlaySourceMap
+  dispatchRef?: React.MutableRefObject<MessageContextValue['dispatchAction']>
+  initialObjectFit?: ObjectFit
+  defaultQuality?: RealQuality
+  playbackRates?: PlaybackRate[]
+  defaultPlaybackRate?: PlaybackRate
+  shouldObserveResize?: boolean
+  locale?: LocaleCode
+  localeConfig?: PartialLocaleConfigMap
+}
+
+// export 给外部用的
+export type PlayerProps = InnerPlayerProps & OuterPlayerProps
+
 type State = any
 
-class Player extends Component<PlayerProps, State> {
+class InnerPlayer extends Component<InnerPlayerProps, State> {
   static contextType = VideoSourceContext
-  static defaultProps: Partial<PlayerProps> = {
+  static defaultProps: Partial<InnerPlayerProps> = {
     standalone: false,
     duration: 0,
     autoplay: false,
     muted: false,
     disablePictureInPicture: false,
+    progressDots: [],
   }
 
   state = {
@@ -143,7 +181,7 @@ class Player extends Component<PlayerProps, State> {
     }
   }
 
-  componentDidUpdate(preProps: PlayerProps, preState: State) {
+  componentDidUpdate(preProps: InnerPlayerProps, preState: State) {
     this.setDocumentTitle()
     this.initPip()
 
@@ -728,6 +766,70 @@ class Player extends Component<PlayerProps, State> {
       </div>
     )
   }
+}
+
+const DEFAULT_PLAYBACK_RATE: PlaybackRate = {value: 1.0, text: '1.0x'}
+const DEFAULT_PLAYBACK_RATES: PlaybackRate[] = [
+  {value: 0.5, text: '0.5x'},
+  {value: 0.75, text: '0.75x'},
+  {value: 1.0, text: '1.0x'},
+  {value: 1.25, text: '1.25x'},
+  {value: 1.5, text: '1.5x'},
+  {value: 2.0, text: '2.0x'},
+]
+
+const Player: React.FC<PlayerProps> = ({
+  standalone,
+  id,
+  sources,
+  onEvent,
+  dispatchRef,
+  shouldObserveResize,
+  initialObjectFit,
+  locale = defaultLocale,
+  localeConfig,
+  defaultQuality,
+  defaultPlaybackRate = DEFAULT_PLAYBACK_RATE,
+  playbackRates = DEFAULT_PLAYBACK_RATES,
+  useAutoQuality = false,
+  ...restProps
+}) => {
+  return (
+    <ObjectFitProvider initialObjectFit={initialObjectFit}>
+      <PositionProvider shouldObserveResize={shouldObserveResize}>
+        <MessageProvider
+          id={id}
+          enableCrossWindow={standalone}
+          onEvent={onEvent}
+          dispatchRef={dispatchRef}
+        >
+          <InternalContext.Consumer>
+            {({emitEvent, subscribeAction}) => (
+              <VideoSourceProvider
+                onEvent={emitEvent}
+                sources={sources}
+                id={id}
+                defaultQuality={defaultQuality}
+                useAutoQuality={useAutoQuality}
+                defaultPlaybackRate={defaultPlaybackRate}
+                playbackRates={playbackRates}
+              >
+                <LocaleProvider locale={locale} localeConfig={localeConfig}>
+                  <InnerPlayer
+                    {...restProps}
+                    useAutoQuality={useAutoQuality}
+                    standalone={standalone}
+                    onEvent={emitEvent}
+                    subscribeAction={subscribeAction}
+                  />
+                </LocaleProvider>
+              </VideoSourceProvider>
+            )}
+          </InternalContext.Consumer>
+        </MessageProvider>
+      </PositionProvider>
+    </ObjectFitProvider>
+  )
 }
 
 export default Player

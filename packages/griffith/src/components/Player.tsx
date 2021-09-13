@@ -16,6 +16,7 @@ import MinimalTimeline from './MinimalTimeline'
 import getBufferedTime from '../utils/getBufferedTime'
 import storage from '../utils/storage'
 import Pip from '../utils/pip'
+import VideoSourceContext from '../contexts/VideoSourceContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
 import {InternalContextValue} from '../contexts/MessageContext'
 
@@ -34,7 +35,7 @@ export type PlayerProps = {
   duration?: number
   progressDots?: ProgressDot[]
   onEvent: (...args: any[]) => any
-  onBeforePlay: (...args: any[]) => any
+  onBeforePlay?: (currentSrc: string) => Promise<void>
   subscribeAction: InternalContextValue['subscribeAction']
   autoplay?: boolean
   loop?: boolean
@@ -55,6 +56,7 @@ export type PlayerProps = {
 type State = any
 
 class Player extends Component<PlayerProps, State> {
+  static contextType = VideoSourceContext
   static defaultProps: Partial<PlayerProps> = {
     standalone: false,
     duration: 0,
@@ -222,8 +224,9 @@ class Player extends Component<PlayerProps, State> {
 
   handlePlay = (type: 'video' | null = null) => {
     const {onEvent, onBeforePlay} = this.props
+    const {currentSrc} = this.context
     onEvent(EVENTS.PLAYER.REQUEST_PLAY)
-    onBeforePlay()
+    Promise.resolve(onBeforePlay?.(currentSrc))
       .then(() => {
         if (!this.state.isPlaybackStarted) {
           onEvent(EVENTS.PLAYER.PLAY_COUNT)

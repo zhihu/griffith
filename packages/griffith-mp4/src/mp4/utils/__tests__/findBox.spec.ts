@@ -110,8 +110,7 @@ describe('findBox', () => {
   })
 
   it('find empty', () => {
-    // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
-    expect(findBox(mp4BoxTree)).toEqual({})
+    expect(findBox(mp4BoxTree, undefined)).toEqual({})
   })
 
   it('find audio elst', () => {

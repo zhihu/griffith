@@ -14,15 +14,15 @@ type VideoProps = NativeVideoProps & {
 }
 
 export default class Player extends Component<VideoProps> {
-  mse: any
+  mse?: MSE
   video: HTMLVideoElement | null = null
   useMSE = true
 
   componentDidMount() {
     this.mse = new MSE(this.video, this.props.src)
-    this.mse.init().then(() => {
+    void this.mse.init().then(() => {
       // don't use MSE If the video don't have a video track
-      if (!this.mse.mp4Probe.mp4Data.videoDuration) {
+      if (!this.mse!.mp4Probe!.mp4Data.videoDuration) {
         this.useMSE = false
         this.video!.src = this.props.src!
       }
@@ -31,19 +31,19 @@ export default class Player extends Component<VideoProps> {
 
   componentDidUpdate(prevProps: VideoProps) {
     if (this.props.src !== prevProps.src && this.useMSE) {
-      this.mse.changeQuality(this.props.src)
+      this.mse!.changeQuality(this.props.src!)
     }
   }
 
   componentWillUnmount() {
     if (this.useMSE) {
-      this.mse.destroy()
+      this.mse!.destroy()
     }
   }
 
   handleTimeUpdate = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     if (this.useMSE) {
-      this.mse.handleTimeUpdate()
+      this.mse!.handleTimeUpdate()
     }
     this.props.onTimeUpdate?.(e)
   }
@@ -58,7 +58,7 @@ export default class Player extends Component<VideoProps> {
     if (isSafari && buffered && buffered.length > 0) {
       if (currentTime - 0.1 > buffered.start(0)) {
         if (this.useMSE) {
-          this.mse.seek(this.video.currentTime)
+          this.mse!.seek(this.video.currentTime)
         }
       } else if (currentTime < buffered.start(0)) {
         this.handleSafariBug()
@@ -66,7 +66,7 @@ export default class Player extends Component<VideoProps> {
       }
     } else {
       if (this.useMSE) {
-        this.mse.seek(this.video.currentTime)
+        this.mse!.seek(this.video.currentTime)
       }
     }
     this.props.onSeeking?.(e)
@@ -78,7 +78,7 @@ export default class Player extends Component<VideoProps> {
     }
     const {currentTime} = this.video
     if (currentTime === 0 && this.useMSE) {
-      this.mse.seek(0)
+      this.mse!.seek(0)
     }
 
     const {onPlay} = this.props

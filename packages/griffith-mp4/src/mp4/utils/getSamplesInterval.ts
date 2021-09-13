@@ -1,22 +1,23 @@
 import cloneDeep from 'lodash/cloneDeep'
-import findBox from './findBox'
+import {TimeOffsetInterval, Mp4BoxTree} from '../types'
+import findBox, {TypeBoxMap} from './findBox'
 import getDuration from './getDuration'
 
-export function getVideoSamplesInterval(mp4BoxTree: any, time = 0) {
+export function getVideoSamplesInterval(mp4BoxTree: Mp4BoxTree, time = 0) {
   const stssBox = cloneDeep(findBox(mp4BoxTree, 'videoStss'))
   const sttsBox = cloneDeep(findBox(mp4BoxTree, 'videoStts'))
   const stszBox = findBox(mp4BoxTree, 'videoStsz')
   const duration = getDuration(sttsBox, stszBox.samples.length)
 
   const intervalArray = getIntervalArray(stssBox, stszBox)
-  const timeInterval = intervalArray.map((interval: any) =>
+  const timeInterval = intervalArray.map((interval) =>
     getDuration(sttsBox, interval)
   )
 
   const interval = {
     offsetInterVal: [],
     timeInterVal: [],
-  }
+  } as unknown as TimeOffsetInterval
   for (let i = 0; i < timeInterval.length; i++) {
     const start = timeInterval[i]
     const end = timeInterval[i + 1] ? timeInterval[i + 1] : duration
@@ -27,9 +28,7 @@ export function getVideoSamplesInterval(mp4BoxTree: any, time = 0) {
         intervalArray[i + 1] !== undefined
           ? intervalArray[i + 1]
           : stszBox.samples.length
-      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
       interval.offsetInterVal.push(offsetStart, offsetEnd)
-      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
       interval.timeInterVal.push(start, end)
       break
     }
@@ -38,7 +37,10 @@ export function getVideoSamplesInterval(mp4BoxTree: any, time = 0) {
   return interval
 }
 
-export function getAudioSamplesInterval(mp4BoxTree: any, videoInterval: any) {
+export function getAudioSamplesInterval(
+  mp4BoxTree: Mp4BoxTree,
+  videoInterval: TimeOffsetInterval
+) {
   const {
     timeInterVal: [startTime, endTime],
     offsetInterVal,
@@ -80,7 +82,7 @@ export function getAudioSamplesInterval(mp4BoxTree: any, videoInterval: any) {
   if (offsetInterVal[1] === videoStszBox.samples.length) {
     audioEnd = audioStszBox.samples.length
   }
-  const interval = {
+  const interval: TimeOffsetInterval = {
     offsetInterVal: [start, audioEnd ? audioEnd : end],
     timeInterVal: [startDuration, endDuration],
   }
@@ -88,7 +90,10 @@ export function getAudioSamplesInterval(mp4BoxTree: any, videoInterval: any) {
   return interval
 }
 
-export function getNextVideoSamplesInterval(mp4BoxTree: any, sample: number) {
+export function getNextVideoSamplesInterval(
+  mp4BoxTree: Mp4BoxTree,
+  sample: number
+) {
   const stssBox = cloneDeep(findBox(mp4BoxTree, 'videoStss'))
   const sttsBox = cloneDeep(findBox(mp4BoxTree, 'videoStts'))
   const stszBox = findBox(mp4BoxTree, 'videoStsz')
@@ -97,13 +102,12 @@ export function getNextVideoSamplesInterval(mp4BoxTree: any, sample: number) {
 
   const intervalArray = getIntervalArray(stssBox, stszBox)
 
-  const timeInterval = intervalArray.map((interval: any) =>
+  const timeInterval = intervalArray.map((interval) =>
     getDuration(sttsBox, interval)
   )
-  let result = []
+  let result: TimeOffsetInterval | [] = []
   if (sample + 1 > intervalArray[intervalArray.length - 1]) {
     result = {
-      // @ts-expect-error ts-migrate(2322) FIXME: Type '{ offsetInterVal: any[]; timeInterVal: any[]... Remove this comment to see the full error message
       offsetInterVal: [intervalArray[intervalArray.length - 1], sampleCount],
       timeInterVal: [timeInterval[intervalArray.length - 1], duration],
     }
@@ -111,22 +115,22 @@ export function getNextVideoSamplesInterval(mp4BoxTree: any, sample: number) {
   for (let i = 0; i < intervalArray.length; i++) {
     if (intervalArray[i] < sample + 1 && intervalArray[i + 1] >= sample + 1) {
       result = {
-        // @ts-expect-error ts-migrate(2322) FIXME: Type '{ offsetInterVal: any[]; timeInterVal: any[]... Remove this comment to see the full error message
         offsetInterVal: [intervalArray[i], intervalArray[i + 1]],
         timeInterVal: [timeInterval[i], timeInterval[i + 1]],
       }
       break
     }
   }
-  return result
+  return result as TimeOffsetInterval
 }
 
-export function getIntervalArray(stssBox: any, stszBox: any) {
-  let intervalArray = []
+export function getIntervalArray(
+  stssBox: ReturnType<TypeBoxMap['videoStss']>,
+  stszBox: ReturnType<TypeBoxMap['videoStsz']>
+) {
+  let intervalArray: number[] = []
   if (stssBox) {
-    intervalArray = stssBox.samples.map(
-      (sample: any) => sample.sampleNumber - 1
-    )
+    intervalArray = stssBox.samples.map((sample) => sample.sampleNumber - 1)
   } else {
     // make a fake GOP when video dont have B/P frame
     for (let i = 0; i <= Math.floor(stszBox.samples.length / 5); i++) {

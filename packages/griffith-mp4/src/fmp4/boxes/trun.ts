@@ -1,6 +1,7 @@
+import {Sample} from '../../mp4/types'
 import {num2FourBytes, concatTypedArray, generateBox} from '../utils'
 
-export default function trun(data: any) {
+export default function trun(data: {samples: Sample[]; trackId: number}) {
   const {samples, trackId} = data
   const ceil = trackId === 1 ? 16 : 12
   const length = samples.length
@@ -22,7 +23,7 @@ export default function trun(data: any) {
     ...num2FourBytes(samples.length),
     ...num2FourBytes(offset),
     ...concatTypedArray(
-      ...samples.map((sample: any, index: any) => {
+      ...samples.map((sample, index) => {
         const {duration, size, compositionTimeOffset} = sample
         return concatTypedArray(
           num2FourBytes(duration),
@@ -32,7 +33,7 @@ export default function trun(data: any) {
               ? [0x02, 0x00, 0x00, 0x00]
               : [0x01, 0x01, 0x00, 0x00]
             : [0x01, 0x00, 0x00, 0x00],
-          trackId === 1 ? num2FourBytes(compositionTimeOffset): [],
+          trackId === 1 ? num2FourBytes(compositionTimeOffset!): [],
         )
       })
     ),

@@ -13,7 +13,7 @@ export default function getBufferStart(
   )
 }
 
-function getChunkSize(mp4BoxTree: any, offsetStart: any, type: any) {
+function getChunkSize(mp4BoxTree: any, offsetStart: number, type: string) {
   const stscBox = cloneDeep(
     findBox(mp4BoxTree, type === 'video' ? 'videoStsc' : 'audioStsc')
   )

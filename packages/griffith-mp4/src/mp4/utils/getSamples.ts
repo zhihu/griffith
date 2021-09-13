@@ -1,12 +1,13 @@
 import cloneDeep from 'lodash/cloneDeep'
+import {Sample, Interval, Mp4BoxTree} from '../types'
 import findBox from './findBox'
 import getPerChunkArray from './getPerChunkArray'
 import getSamplesOffset from './getSamplesOffset'
 
 export function getVideoSamples(
-  mp4BoxTree: any,
-  bufferStart: any,
-  offsetInterVal: any
+  mp4BoxTree: Mp4BoxTree,
+  bufferStart: number,
+  offsetInterVal: Interval
 ) {
   const cttsBox = cloneDeep(findBox(mp4BoxTree, 'videoCtts'))
 
@@ -31,21 +32,19 @@ export function getVideoSamples(
 }
 
 export function getAudioSamples(
-  mp4BoxTree: any,
-  bufferStart: any,
-  offsetInterVal: any
+  mp4BoxTree: Mp4BoxTree,
+  bufferStart: number,
+  offsetInterVal: Interval
 ) {
-  // @ts-expect-error ts-migrate(2554) FIXME: Expected 4 arguments, but got 3.
   return getSamples(mp4BoxTree, bufferStart, offsetInterVal)
 }
 
 function getSamples(
-  mp4BoxTree: any,
-  bufferStart: any,
-  // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'offsetStart' implicitly has an 'a... Remove this comment to see the full error message
-  [offsetStart, offsetEnd],
-  compositionTimeOffset: any
-) {
+  mp4BoxTree: Mp4BoxTree,
+  bufferStart: number,
+  [offsetStart, offsetEnd]: Interval,
+  compositionTimeOffset?: number[]
+): Sample[] {
   const samples = []
   const sttsBox = findBox(
     mp4BoxTree,
@@ -66,7 +65,7 @@ function getSamples(
 
   const samplesOffset = getSamplesOffset(stszBox, stscBoxSamplesPerChunkArray)
 
-  const sttsFormatBox: any = []
+  const sttsFormatBox: {sampleCount: number; sampleDelta: any}[] = []
   for (let i = 0; i < sttsBox.samples.length; i++) {
     const {sampleCount, sampleDelta} = sttsBox.samples[i]
     sttsFormatBox.push({

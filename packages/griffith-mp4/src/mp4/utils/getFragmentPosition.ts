@@ -1,8 +1,10 @@
+import {Sample} from '../types'
+
 export default function getFragmentPosition(
-  videoSamples: any,
-  audioSamples: any,
-  mdatStart: any,
-  isLastFragmentPosition: any
+  videoSamples: Sample[],
+  audioSamples: Sample[],
+  mdatStart: number,
+  isLastFragmentPosition: boolean
 ) {
   const videoSamplesEnd = videoSamples[videoSamples.length - 1].end
   let videoSamplesStart = 0

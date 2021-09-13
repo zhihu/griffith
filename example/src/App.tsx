@@ -13,7 +13,9 @@ const NavLinks = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/mp4">mp4</Link> <Link to="/mp4?logo">mp4 (with logo)</Link>
+          <Link to="/mp4">mp4</Link>{' '}
+          <Link to="/mp4?logo">mp4 (with logo) </Link>{' '}
+          <Link to="/mp4?loop">mp4 (loop)</Link>
         </li>
         <li>
           <Link to="/fmp4">mp4 (MSE)</Link>

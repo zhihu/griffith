@@ -4,7 +4,7 @@ import throttle from 'lodash/throttle'
 import {EVENTS} from 'griffith'
 
 const createGroupedLogger = (label = 'Log', wait = 100) => {
-  const logs = []
+  const logs: any[] = []
   const flush = throttle(() => {
     console.groupCollapsed?.(`[Click to expand]: ${label}, ${logs.length} logs`)
     let log
@@ -13,7 +13,7 @@ const createGroupedLogger = (label = 'Log', wait = 100) => {
     }
     console.groupEnd?.()
   }, wait)
-  return (...args) => {
+  return (...args: any[]) => {
     logs.push(args)
     flush()
   }
@@ -21,7 +21,7 @@ const createGroupedLogger = (label = 'Log', wait = 100) => {
 
 const groupedLogger = createGroupedLogger('TIMEUPDATE', 2000)
 
-export const logEvent = (e, data) => {
+export const logEvent = (e: string, data: any) => {
   const args = ['onEvent', e, data]
   if (e === EVENTS.DOM.TIMEUPDATE) {
     groupedLogger(...args)

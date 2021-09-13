@@ -4,6 +4,7 @@
     "target": "ES6",
     "jsx": "react",
     "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "paths": {
       // link all packages without build step
       "griffith-mp4": ["./packages/griffith-mp4/src/index.ts"],

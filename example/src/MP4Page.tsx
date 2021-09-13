@@ -45,16 +45,24 @@ const props = {
   src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
 }
 
-const shouldLoop = new URLSearchParams(location.search).has('loop')
-const getCanShowLogo = () => new URLSearchParams(location.search).has('logo')
+const parseQuery = (search: string) =>
+  Object.fromEntries(
+    new URLSearchParams(search) as unknown as Iterable<[string, string]>
+  )
+
+const useQuery = () => {
+  const location = useLocation<null>()
+  const [query, setQuery] = useState(() => parseQuery(location.search))
+  useEffect(() => {
+    setQuery(parseQuery(location.search))
+  }, [location.search])
+  return query
+}
 
 /** 常规通讯方式，建议直接使用 `onEvent` 替代 */
-const LogoListener = () => {
-  const location = useLocation()
-  const [canShowLogo, setCaShowLogo] = useState(getCanShowLogo)
-  useEffect(() => {
-    setCaShowLogo(getCanShowLogo())
-  }, [location])
+const LogoListener: React.FC<{shouldShowLogo: boolean}> = ({
+  shouldShowLogo,
+}) => {
   const [isLogoVisible, setIsLogoVisible] = useState(false)
   const {subscribeEvent} = useContext(MessageContext)
   useLayoutEffect(() => {
@@ -62,11 +70,12 @@ const LogoListener = () => {
       setIsLogoVisible(true)
     }).unsubscribe
   }, [subscribeEvent])
-  return canShowLogo && isLogoVisible ? <Logo /> : null
+  return shouldShowLogo && isLogoVisible ? <Logo /> : null
 }
 
 const App = () => {
   const dispatchRef = useRef(null)
+  const query = useQuery()
   return (
     <>
       <Player
@@ -82,13 +91,13 @@ const App = () => {
         locale={'ja'}
         dispatchRef={dispatchRef}
         onEvent={(e, data) => {
-          if (shouldLoop && e === EVENTS.DOM.ENDED) {
+          if ('loop' in query && e === EVENTS.DOM.ENDED) {
             dispatchRef.current?.(ACTIONS.PLAYER.PLAY)
           }
           logEvent(e, data)
         }}
       >
-        <LogoListener />
+        <LogoListener shouldShowLogo={'logo' in query} />
       </Player>
       <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PLAY)}>
         Play

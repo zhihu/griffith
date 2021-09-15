@@ -11,25 +11,19 @@ export default function IframePage(): JSX.Element {
   useEffect(() => {
     helperRef.current = createMessageHelper()
 
-    function pauseAllOtherVideos(thisWindow: MessageEventSource) {
+    function pauseAllOtherVideos(source: MessageEventSource) {
       iframeRefs
         .map((ref) => ref.current!.contentWindow!)
-        .filter((w) => w !== thisWindow)
-        .forEach((w) =>
-          helperRef.current!.dispatchMessage(w, ACTIONS.PLAYER.PAUSE)
-        )
+        .filter((w) => w !== source)
+        .forEach((w) => helperRef.current!.dispatchMessage(w, ACTIONS.PAUSE))
     }
 
-    const disposer = helperRef.current.subscribeMessage(
-      (messageName, data, sourceWindow) => {
-        if (messageName === EVENTS.DOM.PLAY) {
-          pauseAllOtherVideos(sourceWindow!)
-        }
-      }
-    )
+    helperRef.current.subscribeMessage(EVENTS.PLAY, (data, source) => {
+      pauseAllOtherVideos(source!)
+    })
 
     return () => {
-      disposer.unsubscribe()
+      helperRef.current?.dispose()
     }
   }, [iframeRefs])
 
@@ -56,20 +50,14 @@ export default function IframePage(): JSX.Element {
         <h2>场景演示</h2>
         <button
           onClick={() => {
-            helperRef.current!.dispatchMessage(
-              getFirstWindow(),
-              ACTIONS.PLAYER.PAUSE
-            )
+            helperRef.current!.dispatchMessage(getFirstWindow(), ACTIONS.PAUSE)
           }}
         >
           暂停第一个视频
         </button>
         <button
           onClick={() => {
-            helperRef.current!.dispatchMessage(
-              getFirstWindow(),
-              ACTIONS.PLAYER.PLAY
-            )
+            helperRef.current!.dispatchMessage(getFirstWindow(), ACTIONS.PLAY)
           }}
         >
           播放第一个视频（暂停其他视频）
@@ -81,10 +69,8 @@ export default function IframePage(): JSX.Element {
               const currentTime = Number(timeInputRef.current!.value)
               helperRef.current!.dispatchMessage(
                 getFirstWindow(),
-                ACTIONS.PLAYER.TIME_UPDATE,
-                {
-                  currentTime,
-                }
+                ACTIONS.TIME_UPDATE,
+                {currentTime}
               )
             }}
           >
@@ -95,7 +81,7 @@ export default function IframePage(): JSX.Element {
           onClick={() => {
             helperRef.current!.dispatchMessage(
               getFirstWindow(),
-              ACTIONS.PLAYER.SHOW_CONTROLLER
+              ACTIONS.SHOW_CONTROLLER
             )
           }}
         >
@@ -105,10 +91,8 @@ export default function IframePage(): JSX.Element {
           onClick={() => {
             helperRef.current!.dispatchMessage(
               getFirstWindow(),
-              ACTIONS.PLAYER.SET_VOLUME,
-              {
-                volume: 0,
-              }
+              ACTIONS.SET_VOLUME,
+              {volume: 0}
             )
           }}
         >

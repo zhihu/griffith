@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import EventEmitter from 'eventemitter3'
 import {
-  EVENTS,
   ACTIONS,
+  EVENTS,
   ActionParamsMap,
+  EventParamsMap,
   createMessageHelper,
 } from 'griffith-message'
 
@@ -15,9 +16,9 @@ interface Subscription {
 }
 
 export interface MessageContextValue {
-  subscribeEvent: (
-    eventName: EVENTS,
-    eventHandler: (data: any) => void
+  subscribeEvent: <T extends keyof EventParamsMap>(
+    eventName: T,
+    handler: EventParamsMap[T]
   ) => Subscription
   dispatchAction: <T extends keyof ActionParamsMap>(
     actionName: T,
@@ -26,7 +27,10 @@ export interface MessageContextValue {
 }
 
 export interface InternalContextValue {
-  emitEvent(eventName: EVENTS, data?: any): void
+  emitEvent<T extends keyof EventParamsMap>(
+    eventName: T,
+    ...data: Parameters<EventParamsMap[T]>
+  ): void
   subscribeAction<T extends keyof ActionParamsMap>(
     actionName: T,
     listener: ActionParamsMap[T]
@@ -49,28 +53,56 @@ export const ExternalContext = React.createContext<MessageContextValue>(
 )
 ExternalContext.displayName = 'ExternalMessageContext'
 
+type MessageContextRef = React.MutableRefObject<MessageContextValue | void>
+
 type MessageProviderProps = {
   id: string
   targetOrigin: string
   enableCrossWindow?: boolean
-  onEvent?: (name: string, data?: any) => any
+  onEvent?: (name: EVENTS, data?: unknown) => void
   dispatchRef?: React.MutableRefObject<
     MessageContextValue['dispatchAction'] | void
   >
+  messageContextRef?: MessageContextRef
 }
 
 type MessageHelper = ReturnType<typeof createMessageHelper>
-type AnyFunction = (...args: any[]) => void
+
+/**
+ *
+ * Retrieve `MessageContext` from outside of Player
+ *
+ * ```js
+ * const messageContextRef = useMessageContextRef()
+ *
+ * render(
+ *  <>
+ *    <Player messageContextRef={messageContextRef} />
+ *    <button onClick={() => messageContextRef.dispatchAction(ACTIONS.PLAY)}>Play</button>
+ *  </>
+ * )
+ * ```
+ */
+export const useMessageContextRef = () => {
+  const ref = useRef({}).current as MessageContextRef
+  useEffect(() => {
+    if (!ref.current) {
+      throw new Error(
+        'Missing ref value, please pass it to Player, eg. `<Player messageContextRef={messageContextRef} />`'
+      )
+    }
+    Object.assign(ref, ref.current)
+  }, [ref])
+  return ref as MessageContextRef & MessageContextValue
+}
 
 export class MessageProvider extends React.PureComponent<MessageProviderProps> {
   static defaultProps = {
     targetOrigin: '*',
   }
 
-  crossWindowMessageSubscription?: ReturnType<MessageHelper['subscribeMessage']>
   emitter: EventEmitter
   crossWindowMessager: MessageHelper
-  subscribeCrossWindowMessage: any
 
   constructor(props: MessageProviderProps) {
     super(props)
@@ -81,42 +113,53 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
     if (this.props.dispatchRef) {
       this.props.dispatchRef.current = this.externalContextValue.dispatchAction
     }
-
-    void Promise.resolve().then(() =>
-      this.emitEvent(EVENTS.PLAYER.SUBSCRIPTION_READY)
-    )
+    if (this.props.messageContextRef) {
+      this.props.messageContextRef.current = this.externalContextValue
+    }
+    void Promise.resolve().then(() => {
+      this.emitEvent(EVENTS.SUBSCRIPTION_READY)
+    })
   }
 
   componentDidMount() {
     if (this.props.enableCrossWindow) {
-      this.crossWindowMessageSubscription =
-        this.crossWindowMessager.subscribeMessage((name, data) => {
-          this.dispatchAction(name as unknown as ACTIONS, data)
-        })
+      this.crossWindowMessager.subscribeMessage((name, data) => {
+        // TODO: `createMessageHelper` 应当在 API 上区分内部使用（event/action 与相反）与外部使用，这会导致签名不匹配
+        this.dispatchAction(name as any, data as any)
+      })
     }
   }
 
   componentWillUnmount() {
-    if (this.crossWindowMessageSubscription) {
-      this.crossWindowMessageSubscription.unsubscribe()
+    if (this.props.dispatchRef) {
+      this.props.dispatchRef.current = undefined
     }
+    if (this.props.messageContextRef) {
+      this.props.messageContextRef.current = undefined
+    }
+    this.crossWindowMessager.dispose()
+    this.emitter.removeAllListeners()
   }
 
-  emitEvent = (eventName: EVENTS, data?: any) => {
+  emitEvent: InternalContextValue['emitEvent'] = (eventName, data?) => {
     this.emitter.emit(eventName, {__type__: EVENT_TYPE, data})
     this.props.onEvent?.(eventName, data)
     if (this.props.enableCrossWindow) {
       this.crossWindowMessager.dispatchMessage(
         window.parent,
-        eventName as unknown as ACTIONS,
-        data
+        eventName as any,
+        data as any
       )
     }
   }
 
-  subscribeEvent = (eventName: EVENTS, listener: AnyFunction) => {
+  subscribeEvent: MessageContextValue['subscribeEvent'] = (
+    eventName,
+    listener
+  ) => {
     const realListener = ({__type__, data}: any = {}) => {
       if (__type__ === EVENT_TYPE) {
+        // @ts-expect-error Argument of type 'any' is not assignable to parameter of type 'never'
         listener(data)
       }
     }
@@ -127,11 +170,17 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
     }
   }
 
-  dispatchAction = (actionName: ACTIONS, data?: any) => {
+  dispatchAction: MessageContextValue['dispatchAction'] = (
+    actionName,
+    data?
+  ) => {
     this.emitter.emit(actionName, {__type__: ACTION_TYPE, data})
   }
 
-  subscribeAction = (actionName: ACTIONS, listener: AnyFunction) => {
+  subscribeAction: InternalContextValue['subscribeAction'] = (
+    actionName,
+    listener
+  ) => {
     const realListener = ({__type__, data}: any) => {
       if (__type__ === ACTION_TYPE) {
         listener(data)

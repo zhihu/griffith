@@ -12,7 +12,7 @@ type MessagePayload = {
 // 消息，MessageHelper 在 postMessage 事件中处理
 type Message = {
   from: string
-  id: string
+  id: string | number
   payload: MessagePayload
 }
 
@@ -27,9 +27,12 @@ type Unsubscribe = {unsubscribe: () => void}
  * import {createMessageHelper, EVENTS, ACTIONS} from 'griffith-message'
  *
  * const helper = createMessageHelper()
+ * // register event listener
  * helper.subscribeMessage(EVENTS.PLAY, r => { r.currentTime })
  * helper.subscribeMessage(EVENTS.QUALITY_CHANGE, r => { r.quality })
+ * // dispatch action to player
  * helper.dispatchMessage(window, ACTIONS.SET_VOLUME, {volume: .5})
+ * // dispose all event listeners
  * helper.dispose()
  * ```
  *
@@ -38,11 +41,11 @@ type Unsubscribe = {unsubscribe: () => void}
  * @param shouldValidateId 是否验证传入消息的 id 和自身 id 相同
  */
 function createMessageHelper(
-  id?: string,
+  id?: Message['id'],
   targetOrigin = '*',
   shouldValidateId = false
 ) {
-  let disposers: Unsubscribe[] = []
+  const disposers = new Set<Unsubscribe>()
 
   /**
    * Subscribe event from player
@@ -50,10 +53,10 @@ function createMessageHelper(
   function subscribeMessage<E extends keyof EventParamsMap>(
     name: E,
     handler: (
-      data: EventParamsMap[E],
+      data: Parameters<EventParamsMap[E]>[0],
       source: MessageEventSource | null
     ) => void
-  ): void
+  ): Unsubscribe
   /**
    * Subscribe event from player
    * @deprecated Please use `subscribeMessage(name, handler)` for better type annotation
@@ -64,8 +67,8 @@ function createMessageHelper(
       data: unknown,
       source: MessageEventSource | null
     ) => void
-  ): void
-  function subscribeMessage(arg1: any, arg2?: any) {
+  ): Unsubscribe
+  function subscribeMessage(arg1: unknown, arg2?: unknown) {
     const isLegacy = typeof arg1 === 'function'
     const handler = isLegacy ? arg1 : arg2
     const eventName = isLegacy ? undefined : arg1
@@ -77,9 +80,10 @@ function createMessageHelper(
       const idIsValidated = !shouldValidateId || id === incomingId
       if (originIsValidated && from === LIB_ID && idIsValidated && payload) {
         const {name, data} = payload
-        if (!name) {
+        if (!name || typeof handler !== 'function') {
           return
         }
+
         if (isLegacy) {
           handler(name, data as any, event.source)
         } else if (eventName === name) {
@@ -92,10 +96,10 @@ function createMessageHelper(
     const disposer = {
       unsubscribe: () => {
         window.removeEventListener('message', realHandler)
-        disposers = disposers.filter((x) => x !== disposer)
+        disposers.delete(disposer)
       },
     }
-    disposers.push(disposer)
+    disposers.add(disposer)
     return disposer
   }
 
@@ -115,7 +119,7 @@ function createMessageHelper(
     ...data: Parameters<ActionParamsMap[T]>
   ) => {
     target?.postMessage?.(
-      {from: LIB_ID, id, payload: {name, data}},
+      {from: LIB_ID, id, payload: {name, data: data[0]}},
       targetOrigin || '*'
     )
   }

@@ -16,13 +16,13 @@ enum PLAYER {
 // TODO：临时兼容，下一版本删除，直接在定义上合并，否则造成引用上的麻烦
 export const ACTIONS = {
   ...PLAYER,
-  /** @deprecated */
+  /** @deprecated Please use `ACTIONS.NAME` instead */
   PLAYER,
 }
 
 export type ACTIONS = PLAYER | never
 
-// 泛型确保了 void 定义有效应用于 spread 提取
+// 泛型确保了 void 可选参数定义有效（应用于 spread 提取）
 type Dispatch<P> = (params: P) => void
 
 export type ActionParamsMap = {

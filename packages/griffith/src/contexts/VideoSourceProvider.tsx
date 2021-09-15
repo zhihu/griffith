@@ -87,7 +87,7 @@ export default class VideoSourceProvider extends React.Component<
     const prevQuality = this.state.currentQuality
     if (prevQuality !== quality) {
       this.setState({currentQuality: quality})
-      this.props.onEvent(EVENTS.PLAYER.QUALITY_CHANGE, {
+      this.props.onEvent(EVENTS.QUALITY_CHANGE, {
         prevQuality,
         quality,
       })
@@ -98,7 +98,7 @@ export default class VideoSourceProvider extends React.Component<
     const prevRate = this.state.currentPlaybackRate
     if (prevRate !== rate) {
       this.setState({currentPlaybackRate: rate})
-      this.props.onEvent(EVENTS.PLAYER.PLAYBACK_RATE_CHANGE, {
+      this.props.onEvent(EVENTS.PLAYBACK_RATE_CHANGE, {
         prevRate,
         rate,
       })

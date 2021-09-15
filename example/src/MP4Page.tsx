@@ -1,13 +1,7 @@
-import React, {
-  useRef,
-  useState,
-  useLayoutEffect,
-  useContext,
-  useEffect,
-} from 'react'
+import React, {useState, useLayoutEffect, useContext, useEffect} from 'react'
 import Player, {
   MessageContext,
-  MessageContextValue,
+  useMessageContextRef,
   ACTIONS,
   EVENTS,
 } from 'griffith'
@@ -71,7 +65,7 @@ const LogoListener: React.FC<{shouldShowLogo: boolean}> = ({
   const [isLogoVisible, setIsLogoVisible] = useState(false)
   const {subscribeEvent} = useContext(MessageContext)
   useLayoutEffect(() => {
-    return subscribeEvent(EVENTS.PLAYER.PLAY_COUNT, () => {
+    return subscribeEvent(EVENTS.PLAY_COUNT, () => {
       setIsLogoVisible(true)
     }).unsubscribe
   }, [subscribeEvent])
@@ -79,8 +73,17 @@ const LogoListener: React.FC<{shouldShowLogo: boolean}> = ({
 }
 
 const App = () => {
-  const dispatchRef = useRef<MessageContextValue['dispatchAction']>()
+  const messageContextRef = useMessageContextRef()
   const query = useQuery()
+  const loop = 'loop' in query
+
+  useEffect(() => {
+    return messageContextRef.subscribeEvent(EVENTS.ENDED, () => {
+      if (loop) {
+        messageContextRef.dispatchAction(ACTIONS.PLAY)
+      }
+    }).unsubscribe
+  }, [messageContextRef, loop])
 
   return (
     <>
@@ -95,20 +98,23 @@ const App = () => {
           },
         }}
         locale={'ja'}
-        dispatchRef={dispatchRef}
-        onEvent={(e, data) => {
-          if ('loop' in query && e === EVENTS.DOM.ENDED) {
-            dispatchRef.current?.(ACTIONS.PLAYER.PLAY)
-          }
-          logEvent(e, data)
-        }}
+        messageContextRef={messageContextRef}
+        onEvent={logEvent}
       >
         <LogoListener shouldShowLogo={'logo' in query} />
       </Player>
-      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PLAY)}>
+      <button
+        onClick={() => {
+          messageContextRef.dispatchAction(ACTIONS.PLAY)
+        }}
+      >
         Play
       </button>
-      <button onClick={() => dispatchRef.current?.(ACTIONS.PLAYER.PAUSE)}>
+      <button
+        onClick={() => {
+          messageContextRef.dispatchAction(ACTIONS.PAUSE)
+        }}
+      >
         Pause
       </button>
     </>

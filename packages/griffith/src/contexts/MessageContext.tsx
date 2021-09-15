@@ -1,6 +1,11 @@
 import React from 'react'
 import EventEmitter from 'eventemitter3'
-import {EVENTS, createMessageHelper} from 'griffith-message'
+import {
+  EVENTS,
+  ACTIONS,
+  ActionParamsMap,
+  createMessageHelper,
+} from 'griffith-message'
 
 const EVENT_TYPE = 'event'
 const ACTION_TYPE = 'action'
@@ -11,15 +16,21 @@ interface Subscription {
 
 export interface MessageContextValue {
   subscribeEvent: (
-    eventName: string,
+    eventName: EVENTS,
     eventHandler: (data: any) => void
   ) => Subscription
-  dispatchAction: (actionName: string, data?: any) => void
+  dispatchAction: <T extends keyof ActionParamsMap>(
+    actionName: T,
+    ...data: Parameters<ActionParamsMap[T]>
+  ) => void
 }
 
 export interface InternalContextValue {
-  emitEvent(eventName: string, data?: any): void
-  subscribeAction(eventName: any, listener: (data: any) => void): Subscription
+  emitEvent(eventName: EVENTS, data?: any): void
+  subscribeAction<T extends keyof ActionParamsMap>(
+    actionName: T,
+    listener: ActionParamsMap[T]
+  ): Subscription
 }
 
 /**
@@ -44,7 +55,7 @@ type MessageProviderProps = {
   enableCrossWindow?: boolean
   onEvent?: (name: string, data?: any) => any
   dispatchRef?: React.MutableRefObject<
-    MessageContextValue['dispatchAction'] | null
+    MessageContextValue['dispatchAction'] | void
   >
 }
 
@@ -79,7 +90,9 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
   componentDidMount() {
     if (this.props.enableCrossWindow) {
       this.crossWindowMessageSubscription =
-        this.crossWindowMessager.subscribeMessage(this.dispatchAction)
+        this.crossWindowMessager.subscribeMessage((name, data) => {
+          this.dispatchAction(name as unknown as ACTIONS, data)
+        })
     }
   }
 
@@ -89,15 +102,19 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
     }
   }
 
-  emitEvent = (eventName: any, data?: any) => {
+  emitEvent = (eventName: EVENTS, data?: any) => {
     this.emitter.emit(eventName, {__type__: EVENT_TYPE, data})
     this.props.onEvent?.(eventName, data)
     if (this.props.enableCrossWindow) {
-      this.crossWindowMessager.dispatchMessage(window.parent, eventName, data)
+      this.crossWindowMessager.dispatchMessage(
+        window.parent,
+        eventName as unknown as ACTIONS,
+        data
+      )
     }
   }
 
-  subscribeEvent = (eventName: any, listener: AnyFunction) => {
+  subscribeEvent = (eventName: EVENTS, listener: AnyFunction) => {
     const realListener = ({__type__, data}: any = {}) => {
       if (__type__ === EVENT_TYPE) {
         listener(data)
@@ -110,20 +127,20 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
     }
   }
 
-  dispatchAction = (actionName: string, data?: any) => {
+  dispatchAction = (actionName: ACTIONS, data?: any) => {
     this.emitter.emit(actionName, {__type__: ACTION_TYPE, data})
   }
 
-  subscribeAction = (eventName: any, listener: AnyFunction) => {
+  subscribeAction = (actionName: ACTIONS, listener: AnyFunction) => {
     const realListener = ({__type__, data}: any) => {
       if (__type__ === ACTION_TYPE) {
         listener(data)
       }
     }
-    this.emitter.on(eventName, realListener)
+    this.emitter.on(actionName, realListener)
 
     return {
-      unsubscribe: () => this.emitter.off(eventName, realListener),
+      unsubscribe: () => this.emitter.off(actionName, realListener),
     }
   }
 

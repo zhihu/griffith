@@ -96,15 +96,15 @@ Events received from the player
 
 ### ACTIONS
 
-Event sent to the player
+Actions sent to the player
 
-| `messageName`                      | Description               | `data`                                                      | Status    |
-| ---------------------------------- | ------------------------- | ----------------------------------------------------------- | --------- |
-| `ACTIONS.PLAYER.PLAY`              | Play                      | `{applyOnFullScreen: boolean}` Applied to full screen video | SUPPORTED |
-| `ACTIONS.PLAYER.PAUSE`             | Pause                     | Applied to full screen video                                | SUPPORTED |
-| `ACTIONS.PLAYER.SET_VOLUME`        | Set the volume            | `{volume: number}` Volume value from 0 to 1                 | SUPPORTED |
-| `ACTIONS.PLAYER.ENTER_FULLSCREEN`  | Enter fullScreen          | null                                                        | SUPPORTED |
-| `ACTIONS.PLAYER.EXIT_FULLSCREEN`   | Exit fullscreen           | null                                                        | SUPPORTED |
-| `ACTIONS.PLAYER.TIME_UPDATE`       | Set current time          | `{currentTime: number} Set the currentTime`                 | SUPPORTED |
-| `ACTIONS.PLAYER.SHOW_CONTROLLER`   | Show Controller           | null                                                        | SUPPORTED |
-| `EVENTS.PLAYER.SUBSCRIPTION_READY` | Action subscription ready | null                                                        |
+| `messageName`                      | Description               | `data`                                                                   |
+| ---------------------------------- | ------------------------- | ------------------------------------------------------------------------ |
+| `ACTIONS.PLAYER.PLAY`              | Play                      | `void`                                                                   |
+| `ACTIONS.PLAYER.PAUSE`             | Pause                     | `{dontApplyOnFullScreen: boolean}` Whether to apply to full screen video |
+| `ACTIONS.PLAYER.SET_VOLUME`        | Set the volume            | `{volume: number}` Volume value from 0 to 1                              |
+| `ACTIONS.PLAYER.ENTER_FULLSCREEN`  | Enter fullScreen          | `void`                                                                   |
+| `ACTIONS.PLAYER.EXIT_FULLSCREEN`   | Exit fullscreen           | `void`                                                                   |
+| `ACTIONS.PLAYER.TIME_UPDATE`       | Set current time          | `{currentTime: number}` Set the current playback time                    |
+| `ACTIONS.PLAYER.SHOW_CONTROLLER`   | Show Controller           | `void`                                                                   |
+| `EVENTS.PLAYER.SUBSCRIPTION_READY` | Action subscription ready | `void`                                                                   |

@@ -1,4 +1,4 @@
-import * as EVENTS from './constants/events'
-import * as ACTIONS from './constants/actions'
-import createMessageHelper from './createMessageHelper'
-export {EVENTS, ACTIONS, createMessageHelper}
+export * from './constants/events'
+export * from './constants/actions'
+
+export {default as createMessageHelper} from './createMessageHelper'

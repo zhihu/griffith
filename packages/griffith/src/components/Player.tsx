@@ -77,7 +77,9 @@ type InnerPlayerProps = ProviderOnlyProps & {
 type OuterPlayerProps = {
   id: string
   sources: PlaySourceMap
-  dispatchRef?: React.MutableRefObject<MessageContextValue['dispatchAction']>
+  dispatchRef?: React.MutableRefObject<
+    MessageContextValue['dispatchAction'] | void
+  >
   initialObjectFit?: ObjectFit
   defaultQuality?: RealQuality
   playbackRates?: PlaybackRate[]
@@ -88,7 +90,8 @@ type OuterPlayerProps = {
 }
 
 // export 给外部用的
-export type PlayerProps = InnerPlayerProps & OuterPlayerProps
+export type PlayerProps = Omit<InnerPlayerProps, keyof ProviderOnlyProps> &
+  OuterPlayerProps
 
 type State = any
 
@@ -156,17 +159,16 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     }
 
     this.actionSubscriptions_ = [
-      this.props.subscribeAction(ACTIONS.PLAYER.PLAY, this.handlePlay),
+      this.props.subscribeAction(ACTIONS.PLAYER.PLAY, () => this.handlePlay()),
       this.props.subscribeAction(ACTIONS.PLAYER.PAUSE, this.handlePauseAction),
-      this.props.subscribeAction(
-        ACTIONS.PLAYER.TIME_UPDATE,
-        ({currentTime}: any) => this.handleSeek(currentTime)
+      this.props.subscribeAction(ACTIONS.PLAYER.TIME_UPDATE, ({currentTime}) =>
+        this.handleSeek(currentTime)
       ),
       this.props.subscribeAction(
         ACTIONS.PLAYER.SHOW_CONTROLLER,
         this.handleShowController
       ),
-      this.props.subscribeAction(ACTIONS.PLAYER.SET_VOLUME, ({volume}: any) =>
+      this.props.subscribeAction(ACTIONS.PLAYER.SET_VOLUME, ({volume}) =>
         this.handleVideoVolumeChange(volume)
       ),
     ]
@@ -352,7 +354,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     storage.set('@griffith/history-volume', volume)
   }
 
-  handleSeek = (currentTime: any) => {
+  handleSeek = (currentTime: number) => {
     const {
       isPlaybackStarted,
       isNeverPlayed,

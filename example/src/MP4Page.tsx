@@ -5,7 +5,12 @@ import React, {
   useContext,
   useEffect,
 } from 'react'
-import Player, {MessageContext, ACTIONS, EVENTS} from 'griffith'
+import Player, {
+  MessageContext,
+  MessageContextValue,
+  ACTIONS,
+  EVENTS,
+} from 'griffith'
 import {useLocation} from 'react-router-dom'
 import Logo from './Logo'
 import {logEvent} from './utils'
@@ -74,8 +79,9 @@ const LogoListener: React.FC<{shouldShowLogo: boolean}> = ({
 }
 
 const App = () => {
-  const dispatchRef = useRef(null)
+  const dispatchRef = useRef<MessageContextValue['dispatchAction']>()
   const query = useQuery()
+
   return (
     <>
       <Player

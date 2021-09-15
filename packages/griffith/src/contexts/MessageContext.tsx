@@ -26,7 +26,7 @@ export interface MessageContextValue {
   ) => void
 }
 
-export interface InternalContextValue {
+export interface InternalMessageContextValue {
   emitEvent<T extends keyof EventParamsMap>(
     eventName: T,
     ...data: Parameters<EventParamsMap[T]>
@@ -40,18 +40,17 @@ export interface InternalContextValue {
 /**
  * 用于播放器内部，只能接收外界传入的 Action，向外界发出 Event
  */
-export const InternalContext = React.createContext<InternalContextValue>(
-  {} as any
-)
-InternalContext.displayName = 'InternalMessageContext'
+export const InternalMessageContext =
+  React.createContext<InternalMessageContextValue>({} as any)
+InternalMessageContext.displayName = 'InternalMessageContext'
 
 /**
  * 用于播放器外部，只能接收播放器发出的 Event, 或者向播放器发送 Action
  */
-export const ExternalContext = React.createContext<MessageContextValue>(
+export const MessageContext = React.createContext<MessageContextValue>(
   null as any
 )
-ExternalContext.displayName = 'ExternalMessageContext'
+MessageContext.displayName = 'MessageContext'
 
 type MessageContextRef = React.MutableRefObject<MessageContextValue | void>
 
@@ -141,7 +140,7 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
     this.emitter.removeAllListeners()
   }
 
-  emitEvent: InternalContextValue['emitEvent'] = (eventName, data?) => {
+  emitEvent: InternalMessageContextValue['emitEvent'] = (eventName, data?) => {
     this.emitter.emit(eventName, {__type__: EVENT_TYPE, data})
     this.props.onEvent?.(eventName, data)
     if (this.props.enableCrossWindow) {
@@ -177,7 +176,7 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
     this.emitter.emit(actionName, {__type__: ACTION_TYPE, data})
   }
 
-  subscribeAction: InternalContextValue['subscribeAction'] = (
+  subscribeAction: InternalMessageContextValue['subscribeAction'] = (
     actionName,
     listener
   ) => {
@@ -205,11 +204,11 @@ export class MessageProvider extends React.PureComponent<MessageProviderProps> {
 
   render() {
     return (
-      <InternalContext.Provider value={this.internalContextValue}>
-        <ExternalContext.Provider value={this.externalContextValue}>
+      <InternalMessageContext.Provider value={this.internalContextValue}>
+        <MessageContext.Provider value={this.externalContextValue}>
           {this.props.children}
-        </ExternalContext.Provider>
-      </InternalContext.Provider>
+        </MessageContext.Provider>
+      </InternalMessageContext.Provider>
     )
   }
 }

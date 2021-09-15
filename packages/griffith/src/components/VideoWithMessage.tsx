@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useMemo, useRef} from 'react'
 import {EVENTS} from 'griffith-message'
-import {InternalContext} from '../contexts/MessageContext'
+import {InternalMessageContext} from '../contexts/MessageContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
 import PositionContext from '../contexts/PositionContext'
 
@@ -48,7 +48,7 @@ const VideoWithMessage = React.forwardRef<
   const {updateVideoSize} = useContext(PositionContext)
   const {objectFit} = useContext(ObjectFitContext)
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const {emitEvent} = useContext(InternalContext)
+  const {emitEvent} = useContext(InternalMessageContext)
   const propsRef = useRef(props)
   useEffect(() => {
     propsRef.current = props

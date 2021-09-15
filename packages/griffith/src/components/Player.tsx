@@ -14,8 +14,8 @@ import VideoSourceProvider from '../contexts/VideoSourceProvider'
 import {
   MessageProvider,
   MessageContextValue,
-  InternalContext,
-  InternalContextValue,
+  InternalMessageContext,
+  InternalMessageContextValue,
 } from '../contexts/MessageContext'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
@@ -43,7 +43,7 @@ const {isMobile} = ua
 type ProviderOnlyProps = {
   // TODO：这个应该改名成 emitEvent
   onEvent: (name: EVENTS, data?: unknown) => void
-  subscribeAction: InternalContextValue['subscribeAction']
+  subscribeAction: InternalMessageContextValue['subscribeAction']
 }
 
 // 被 Provider 包装后的属性
@@ -811,7 +811,7 @@ const Player: React.FC<PlayerProps> = ({
           dispatchRef={dispatchRef}
           messageContextRef={messageContextRef}
         >
-          <InternalContext.Consumer>
+          <InternalMessageContext.Consumer>
             {({emitEvent, subscribeAction}) => (
               <VideoSourceProvider
                 onEvent={emitEvent}
@@ -833,7 +833,7 @@ const Player: React.FC<PlayerProps> = ({
                 </LocaleProvider>
               </VideoSourceProvider>
             )}
-          </InternalContext.Consumer>
+          </InternalMessageContext.Consumer>
         </MessageProvider>
       </PositionProvider>
     </ObjectFitProvider>

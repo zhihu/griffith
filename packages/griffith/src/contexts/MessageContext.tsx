@@ -11,7 +11,7 @@ import {
 const EVENT_TYPE = 'event'
 const ACTION_TYPE = 'action'
 
-interface Subscription {
+export interface Subscription {
   unsubscribe: () => void
 }
 

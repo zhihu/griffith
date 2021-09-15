@@ -96,7 +96,7 @@ class Video extends Component<VideoProps> {
      */
     if (prevProps.src && src !== prevProps.src) {
       this.isSwitchDefinition = true
-      onEvent(EVENTS.PLAYER.CHANGE_QUALITY_START, currentQuality)
+      onEvent(EVENTS.CHANGE_QUALITY_START, currentQuality)
       const {willHandleSrcChange} = selectVideo(format, useMSE)
       // TODO 这一块逻辑需要 Video 自己处理
       if (!willHandleSrcChange) {
@@ -234,7 +234,7 @@ class Video extends Component<VideoProps> {
     if (this.isSwitchDefinition) {
       this.isSwitchDefinition = false
       this.props.onEvent(
-        EVENTS.PLAYER.CHANGE_QUALITY_SUCCESS,
+        EVENTS.CHANGE_QUALITY_SUCCESS,
         (this.props as any).currentQuality
       )
     }
@@ -316,15 +316,12 @@ class Video extends Component<VideoProps> {
     const dontReportPlayFailed = isNotAllowedError(error) || isAbortError(error) // 这两种错误不认为是播放失败
 
     if (!dontReportPlayFailed) {
-      this.props.onEvent(EVENTS.PLAYER.PLAY_FAILED, {currentTime})
+      this.props.onEvent(EVENTS.PLAY_FAILED, {currentTime})
     }
 
     if (this.isSwitchDefinition) {
       this.isSwitchDefinition = false
-      this.props.onEvent(
-        EVENTS.PLAYER.CHANGE_QUALITY_FAIL,
-        this.props.currentQuality
-      )
+      this.props.onEvent(EVENTS.CHANGE_QUALITY_FAIL, this.props.currentQuality)
     }
     this.props.onError(error)
   }

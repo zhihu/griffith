@@ -81,7 +81,7 @@ The behavior in standalone mode is:
 - Enable shortcut support (listen to the keydown event on document).
 - Will send a message to the parent page, the parent page can listen to these events and then communicate with the player.
 
-### Cross-window meesage with player
+### Cross-window message with player
 
 use [griffith-message](../packages/griffith-message#README)
 

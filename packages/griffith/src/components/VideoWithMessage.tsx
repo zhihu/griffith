@@ -7,16 +7,16 @@ import PositionContext from '../contexts/PositionContext'
 type AnyFunction = (...args: any[]) => void
 type VideoEvent = React.SyntheticEvent<HTMLVideoElement, Event>
 type NativeVideoProps = React.HTMLProps<HTMLVideoElement>
-type EventPair = [string, keyof NativeVideoProps]
+type EventPair = [EVENTS, keyof NativeVideoProps]
 
 const eventMap: EventPair[] = [
-  [EVENTS.DOM.PLAY, 'onPlay'],
-  [EVENTS.DOM.PLAYING, 'onPlaying'],
-  [EVENTS.DOM.PAUSE, 'onPause'],
-  [EVENTS.DOM.ENDED, 'onEnded'],
-  [EVENTS.DOM.TIMEUPDATE, 'onTimeUpdate'],
-  [EVENTS.DOM.ERROR, 'onError'],
-  [EVENTS.DOM.WAITING, 'onWaiting'],
+  [EVENTS.PLAY, 'onPlay'],
+  [EVENTS.PLAYING, 'onPlaying'],
+  [EVENTS.PAUSE, 'onPause'],
+  [EVENTS.ENDED, 'onEnded'],
+  [EVENTS.TIMEUPDATE, 'onTimeUpdate'],
+  [EVENTS.ERROR, 'onError'],
+  [EVENTS.WAITING, 'onWaiting'],
 ]
 
 function serializeDOMException(exception?: MediaError | null) {

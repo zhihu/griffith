@@ -4,8 +4,7 @@ import {css} from 'aphrodite/no-important'
 import BigScreen from 'isomorphic-bigscreen'
 import {EVENTS, ACTIONS} from 'griffith-message'
 import {ua} from 'griffith-utils'
-import {ProgressDot} from '../types'
-import {PlaybackRate, PlaySourceMap, RealQuality} from '../types'
+import {ProgressDot, PlaybackRate, PlaySourceMap, RealQuality} from '../types'
 import {
   defaultLocale,
   LocaleCode,
@@ -42,6 +41,8 @@ const {isMobile} = ua
 
 // 临时属性，由 Provider 注入（TODO：替换成 hooks 后可以删除）
 type ProviderOnlyProps = {
+  // TODO：这个应该改名成 emitEvent
+  onEvent: (name: EVENTS, data?: unknown) => void
   subscribeAction: InternalContextValue['subscribeAction']
 }
 
@@ -55,7 +56,6 @@ type InnerPlayerProps = ProviderOnlyProps & {
   cover?: string
   duration?: number
   progressDots?: ProgressDot[]
-  onEvent: (...args: any[]) => any
   onBeforePlay?: (currentSrc: string) => Promise<void>
   autoplay?: boolean
   loop?: boolean
@@ -77,9 +77,13 @@ type InnerPlayerProps = ProviderOnlyProps & {
 type OuterPlayerProps = {
   id: string
   sources: PlaySourceMap
+  /** It's recommended to use `useMessageContextRef()` for better type annotation */
   dispatchRef?: React.MutableRefObject<
     MessageContextValue['dispatchAction'] | void
   >
+  /** It's recommended to use `useMessageContextRef()` for better type annotation */
+  onEvent?: (name: EVENTS, data?: unknown) => void
+  messageContextRef?: React.MutableRefObject<MessageContextValue | void>
   initialObjectFit?: ObjectFit
   defaultQuality?: RealQuality
   playbackRates?: PlaybackRate[]
@@ -150,7 +154,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     this.initPip()
 
     if (this.getShowController(this.state)) {
-      this.props.onEvent(EVENTS.PLAYER.SHOW_CONTROLLER)
+      this.props.onEvent(EVENTS.SHOW_CONTROLLER)
     }
 
     const historyVolume = storage.get('@griffith/history-volume')
@@ -159,16 +163,16 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     }
 
     this.actionSubscriptions_ = [
-      this.props.subscribeAction(ACTIONS.PLAYER.PLAY, () => this.handlePlay()),
-      this.props.subscribeAction(ACTIONS.PLAYER.PAUSE, this.handlePauseAction),
-      this.props.subscribeAction(ACTIONS.PLAYER.TIME_UPDATE, ({currentTime}) =>
+      this.props.subscribeAction(ACTIONS.PLAY, () => this.handlePlay()),
+      this.props.subscribeAction(ACTIONS.PAUSE, this.handlePauseAction),
+      this.props.subscribeAction(ACTIONS.TIME_UPDATE, ({currentTime}) =>
         this.handleSeek(currentTime)
       ),
       this.props.subscribeAction(
-        ACTIONS.PLAYER.SHOW_CONTROLLER,
+        ACTIONS.SHOW_CONTROLLER,
         this.handleShowController
       ),
-      this.props.subscribeAction(ACTIONS.PLAYER.SET_VOLUME, ({volume}) =>
+      this.props.subscribeAction(ACTIONS.SET_VOLUME, ({volume}) =>
         this.handleVideoVolumeChange(volume)
       ),
     ]
@@ -192,9 +196,9 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
 
     if (preShowController !== showController) {
       if (showController) {
-        this.props.onEvent(EVENTS.PLAYER.SHOW_CONTROLLER)
+        this.props.onEvent(EVENTS.SHOW_CONTROLLER)
       } else {
-        this.props.onEvent(EVENTS.PLAYER.HIDE_CONTROLLER)
+        this.props.onEvent(EVENTS.HIDE_CONTROLLER)
       }
     }
   }
@@ -236,8 +240,8 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     ) {
       Pip.init(
         (this as any).videoRef.current.root,
-        () => this.props.onEvent(EVENTS.PLAYER.ENTER_PIP),
-        () => this.props.onEvent(EVENTS.PLAYER.EXIT_PIP)
+        () => this.props.onEvent(EVENTS.ENTER_PIP),
+        () => this.props.onEvent(EVENTS.EXIT_PIP)
       )
     }
   }
@@ -265,11 +269,11 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   handlePlay = (type: 'video' | null = null) => {
     const {onEvent, onBeforePlay} = this.props
     const {currentSrc} = this.context
-    onEvent(EVENTS.PLAYER.REQUEST_PLAY)
+    onEvent(EVENTS.REQUEST_PLAY)
     Promise.resolve(onBeforePlay?.(currentSrc))
       .then(() => {
         if (!this.state.isPlaybackStarted) {
-          onEvent(EVENTS.PLAYER.PLAY_COUNT)
+          onEvent(EVENTS.PLAY_COUNT)
           this.setState({isPlaybackStarted: true})
           if (!this.state.isDataLoaded) {
             this.setState({isLoading: true})
@@ -284,13 +288,13 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
         this.setState({isPlaying: true, type, isNeverPlayed: false})
       })
       .catch(() => {
-        onEvent(EVENTS.PLAYER.PLAY_REJECTED)
+        onEvent(EVENTS.PLAY_REJECTED)
         // 播放被取消
       })
   }
 
   handlePause = (type: 'video' | 'button' | null = null) => {
-    this.props.onEvent(EVENTS.PLAYER.REQUEST_PAUSE)
+    this.props.onEvent(EVENTS.REQUEST_PAUSE)
     const {isLoading} = this.state
 
     if (!isLoading) {
@@ -401,10 +405,10 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     if (BigScreen.enabled) {
       const {onEvent} = this.props
       const onEnter = () => {
-        return onEvent(EVENTS.PLAYER.ENTER_FULLSCREEN)
+        return onEvent(EVENTS.ENTER_FULLSCREEN)
       }
       const onExit = () => {
-        return onEvent(EVENTS.PLAYER.EXIT_FULLSCREEN)
+        return onEvent(EVENTS.EXIT_FULLSCREEN)
       }
       BigScreen.toggle(this.playerRef.current, onEnter, onExit)
     }
@@ -414,10 +418,10 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     const {onEvent} = this.props
     if (this.state.isEnterPageFullScreen) {
       this.setState({isEnterPageFullScreen: false})
-      onEvent(EVENTS.PLAYER.EXIT_PAGE_FULLSCREEN)
+      onEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
     } else {
       this.setState({isEnterPageFullScreen: true})
-      onEvent(EVENTS.PLAYER.ENTER_PAGE_FULLSCREEN)
+      onEvent(EVENTS.ENTER_PAGE_FULLSCREEN)
     }
   }
 
@@ -490,11 +494,11 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   }
 
   handleProgressDotHover = (info: any) => {
-    this.props.onEvent(EVENTS.PLAYER.HOVER_PROGRESS_DOT, info)
+    this.props.onEvent(EVENTS.HOVER_PROGRESS_DOT, info)
   }
 
   handleProgressDotLeave = () => {
-    this.props.onEvent(EVENTS.PLAYER.LEAVE_PROGRESS_DOT)
+    this.props.onEvent(EVENTS.LEAVE_PROGRESS_DOT)
   }
 
   render() {
@@ -786,6 +790,7 @@ const Player: React.FC<PlayerProps> = ({
   sources,
   onEvent,
   dispatchRef,
+  messageContextRef,
   shouldObserveResize,
   initialObjectFit,
   locale = defaultLocale,
@@ -804,6 +809,7 @@ const Player: React.FC<PlayerProps> = ({
           enableCrossWindow={standalone}
           onEvent={onEvent}
           dispatchRef={dispatchRef}
+          messageContextRef={messageContextRef}
         >
           <InternalContext.Consumer>
             {({emitEvent, subscribeAction}) => (
@@ -821,7 +827,7 @@ const Player: React.FC<PlayerProps> = ({
                     {...restProps}
                     useAutoQuality={useAutoQuality}
                     standalone={standalone}
-                    onEvent={emitEvent}
+                    onEvent={emitEvent as PlayerProps['onEvent']}
                     subscribeAction={subscribeAction}
                   />
                 </LocaleProvider>

@@ -23,7 +23,7 @@ const groupedLogger = createGroupedLogger('TIMEUPDATE', 2000)
 
 export const logEvent = (e: string, data: any) => {
   const args = ['onEvent', e, data]
-  if (e === EVENTS.DOM.TIMEUPDATE) {
+  if (e === EVENTS.TIMEUPDATE) {
     groupedLogger(...args)
   } else {
     console.log(...args)

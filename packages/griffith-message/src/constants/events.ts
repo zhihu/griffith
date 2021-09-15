@@ -1,4 +1,5 @@
 // pair to native DOM events, see https://mdn.io/video
+// NOTE: 补充新类型时，应当在 `EventParamsMap` 中定义参数类型
 enum DOM {
   PLAY = 'event/dom/play',
   PLAYING = 'event/dom/playing',
@@ -10,6 +11,7 @@ enum DOM {
 }
 
 // custom events
+// NOTE: 补充新类型时，应当在 `EventParamsMap` 中定义参数类型
 enum PLAYER {
   QUALITY_CHANGE = 'event/player/quality-change',
   CHANGE_QUALITY_START = 'event/player/quality-change-start',
@@ -38,8 +40,8 @@ enum PLAYER {
 export const EVENTS = {
   ...DOM,
   ...PLAYER,
-  /** @deprecated */ DOM,
-  /** @deprecated */ PLAYER,
+  /** @deprecated Please use `EVENTS.NAME` instead */ DOM,
+  /** @deprecated Please use `EVENTS.NAME` instead */ PLAYER,
 }
 
 export type EVENTS = DOM | PLAYER
@@ -50,13 +52,50 @@ type DOMEventParams = {
   error: {code: number; message: string; name: string} | null
 }
 
+type PlaybackRate = {
+  value: number
+  text: string
+}
+
+type Quality = 'auto' | 'ld' | 'sd' | 'hd' | 'fhd'
+
+// 泛型确保了 void 可选参数定义有效（应用于 spread 提取）
+type Listen<T> = (params: T) => void
+
 export type EventParamsMap = {
-  [EVENTS.PLAY]: DOMEventParams
-  [EVENTS.PLAYING]: DOMEventParams
-  [EVENTS.PAUSE]: DOMEventParams
-  [EVENTS.ENDED]: DOMEventParams
-  [EVENTS.TIMEUPDATE]: DOMEventParams
-  [EVENTS.ERROR]: DOMEventParams
-  [EVENTS.WAITING]: DOMEventParams
-  [EVENTS.QUALITY_CHANGE]: {quality: string; prevQuality: string}
+  [EVENTS.PLAY]: Listen<DOMEventParams>
+  [EVENTS.PLAYING]: Listen<DOMEventParams>
+  [EVENTS.PAUSE]: Listen<DOMEventParams>
+  [EVENTS.ENDED]: Listen<DOMEventParams>
+  [EVENTS.TIMEUPDATE]: Listen<DOMEventParams>
+  [EVENTS.ERROR]: Listen<DOMEventParams>
+  [EVENTS.WAITING]: Listen<DOMEventParams>
+  [EVENTS.QUALITY_CHANGE]: Listen<{quality: Quality; prevQuality: Quality}>
+  [EVENTS.CHANGE_QUALITY_START]: Listen<void>
+  [EVENTS.CHANGE_QUALITY_SUCCESS]: Listen<void>
+  [EVENTS.CHANGE_QUALITY_FAIL]: Listen<Quality>
+  [EVENTS.PLAYBACK_RATE_CHANGE]: Listen<{
+    prevRate: PlaybackRate
+    rate: PlaybackRate
+  }>
+  [EVENTS.REQUEST_PLAY]: Listen<void>
+  [EVENTS.PLAY_REJECTED]: Listen<void>
+  [EVENTS.REQUEST_PAUSE]: Listen<void>
+  [EVENTS.PLAY_COUNT]: Listen<void>
+  [EVENTS.PLAY_FAILED]: Listen<{currentTime: number}>
+  [EVENTS.ENTER_FULLSCREEN]: Listen<void>
+  [EVENTS.EXIT_FULLSCREEN]: Listen<void>
+  [EVENTS.ENTER_PAGE_FULLSCREEN]: Listen<void>
+  [EVENTS.EXIT_PAGE_FULLSCREEN]: Listen<void>
+  [EVENTS.ENTER_PIP]: Listen<void>
+  [EVENTS.EXIT_PIP]: Listen<void>
+  [EVENTS.SHOW_CONTROLLER]: Listen<void>
+  [EVENTS.HIDE_CONTROLLER]: Listen<void>
+  [EVENTS.HOVER_PROGRESS_DOT]: Listen<{
+    startTime: number
+    left: number
+    top: number
+  }>
+  [EVENTS.LEAVE_PROGRESS_DOT]: Listen<void>
+  [EVENTS.SUBSCRIPTION_READY]: Listen<void>
 }

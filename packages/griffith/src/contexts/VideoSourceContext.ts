@@ -1,8 +1,6 @@
 import React from 'react'
 import {PlaySource, Quality, PlaybackRate} from '../types'
 
-let foo: Quality[] = ['auto', 'fhd']
-
 export type VideoSourceContextValue = {
   dataKey?: string
   currentSrc: string

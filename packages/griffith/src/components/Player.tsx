@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {css} from 'aphrodite/no-important'
-// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'isom... Remove this comment to see the full error message
 import BigScreen from 'isomorphic-bigscreen'
 import {EVENTS, ACTIONS} from 'griffith-message'
 import {ua} from 'griffith-utils'
@@ -16,6 +15,7 @@ import {
   MessageContextValue,
   InternalMessageContext,
   InternalMessageContextValue,
+  Subscription,
 } from '../contexts/MessageContext'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
@@ -147,7 +147,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     return {...newDurationState}
   }
 
-  actionSubscriptions_: any
+  actionSubscriptions_: Subscription[] = []
 
   componentDidMount() {
     this.setDocumentTitle()
@@ -247,7 +247,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   }
 
   componentWillUnmount() {
-    this.actionSubscriptions_.forEach((s: any) => s.unsubscribe())
+    this.actionSubscriptions_.forEach((s) => s.unsubscribe())
   }
 
   handlePauseAction = ({dontApplyOnFullScreen}: any = {}) => {
@@ -410,7 +410,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       const onExit = () => {
         return onEvent(EVENTS.EXIT_FULLSCREEN)
       }
-      BigScreen.toggle(this.playerRef.current, onEnter, onExit)
+      BigScreen.toggle(this.playerRef.current!, onEnter, onExit)
     }
   }
 

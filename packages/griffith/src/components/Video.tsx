@@ -214,7 +214,7 @@ class Video extends Component<VideoProps> {
     this.safeExecute(() => this.root!.pause())
   }
 
-  seek(currentTime: any) {
+  seek(currentTime: number) {
     if (!Number.isFinite(currentTime)) return
 
     if (!this.isMetadataLoaded) {

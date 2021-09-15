@@ -99,12 +99,12 @@ dispatchMessage(targetWindow, messageName, data)
 
 往播放器发送的事件
 
-| `messageName`                     | 说明                 | `data`                                            | 状态   |
-| --------------------------------- | -------------------- | ------------------------------------------------- | ------ |
-| `ACTIONS.PLAYER.PLAY`             | 播放                 | `{applyOnFullScreen: boolean}` 是否应用于全屏视频 | 已支持 |
-| `ACTIONS.PLAYER.PAUSE`            | 暂停                 | 同上                                              | 已支持 |
-| `ACTIONS.PLAYER.SET_VOLUME`       | 设置音量             | `{volume: number}` 音量值，0 到 1                 | 已支持 |
-| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | 进入全屏             | 无                                                | 已支持 |
-| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | 退出全屏             | 无                                                | 已支持 |
-| `ACTIONS.PLAYER.TIME_UPDATE`      | 设置视频播放进度     | `{currentTime: number} 设置视频当前的进度`        | 已支持 |
-| `ACTIONS.PLAYER.SHOW_CONTROLLER`  | 显示播放器进度条控件 | 无                                                | 已支持 |
+| `messageName`                     | 说明                 | `data`                                                |
+| --------------------------------- | -------------------- | ----------------------------------------------------- |
+| `ACTIONS.PLAYER.PLAY`             | 播放                 | `void`                                                |
+| `ACTIONS.PLAYER.PAUSE`            | 暂停                 | `{dontApplyOnFullScreen: boolean}` 是否应用于全屏视频 |
+| `ACTIONS.PLAYER.SET_VOLUME`       | 设置音量             | `{volume: number}` 音量值，0 到 1                     |
+| `ACTIONS.PLAYER.ENTER_FULLSCREEN` | 进入全屏             | `void`                                                |
+| `ACTIONS.PLAYER.EXIT_FULLSCREEN`  | 退出全屏             | `void`                                                |
+| `ACTIONS.PLAYER.TIME_UPDATE`      | 设置视频播放进度     | `{currentTime: number}` 设置视频当前的进度            |
+| `ACTIONS.PLAYER.SHOW_CONTROLLER`  | 显示播放器进度条控件 | `void`                                                |

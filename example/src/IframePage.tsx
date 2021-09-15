@@ -1,85 +1,120 @@
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {EVENTS, ACTIONS, createMessageHelper} from 'griffith-message'
 
-export default function IframePage() {
-  useEffect(() => {
-    const {subscribeMessage, dispatchMessage} = createMessageHelper()
+export default function IframePage(): JSX.Element {
+  const [iframeRefs] = useState(() =>
+    [...Array(4).keys()].map(() => React.createRef<HTMLIFrameElement>())
+  )
+  const timeInputRef = useRef<HTMLInputElement>(null)
+  const helperRef = useRef<ReturnType<typeof createMessageHelper>>()
 
-    function pauseAllOtherVideos(thisWindow) {
-      Array.from(document.querySelectorAll('iframe'))
-        .map(node => node.contentWindow)
-        .filter(w => w !== thisWindow)
-        .forEach(w => dispatchMessage(w, ACTIONS.PLAYER.PAUSE))
+  useEffect(() => {
+    helperRef.current = createMessageHelper()
+
+    function pauseAllOtherVideos(thisWindow: MessageEventSource) {
+      iframeRefs
+        .map((ref) => ref.current!.contentWindow!)
+        .filter((w) => w !== thisWindow)
+        .forEach((w) =>
+          helperRef.current!.dispatchMessage(w, ACTIONS.PLAYER.PAUSE)
+        )
     }
 
-    const disposer = subscribeMessage((messageName, data, sourceWindow) => {
-      if (messageName === EVENTS.DOM.PLAY) {
-        pauseAllOtherVideos(sourceWindow)
+    const disposer = helperRef.current.subscribeMessage(
+      (messageName, data, sourceWindow) => {
+        if (messageName === EVENTS.DOM.PLAY) {
+          pauseAllOtherVideos(sourceWindow!)
+        }
       }
-    })
-
-    const firstVideoWindow = document.querySelector('iframe').contentWindow
-
-    document.getElementById('jsPauseFirst').addEventListener('click', () => {
-      dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.PAUSE)
-    })
-
-    document.getElementById('jsPlayFirst').addEventListener('click', () => {
-      dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.PLAY)
-    })
-
-    document.getElementById('jsSeekFirst').addEventListener('click', () => {
-      const currentTime = Number(document.getElementById('time').value)
-      dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.TIME_UPDATE, {
-        currentTime,
-      })
-    })
-
-    document
-      .getElementById('jsShowControllerFirst')
-      .addEventListener('click', () => {
-        dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.SHOW_CONTROLLER)
-      })
-
-    document
-      .getElementById('jsSetVolumeFirst')
-      .addEventListener('click', () => {
-        dispatchMessage(firstVideoWindow, ACTIONS.PLAYER.SET_VOLUME, {
-          volume: 0,
-        })
-      })
+    )
 
     return () => {
       disposer.unsubscribe()
     }
-  }, [])
+  }, [iframeRefs])
+
+  const getFirstWindow = useCallback(
+    () => iframeRefs[0].current!.contentWindow!,
+    [iframeRefs]
+  )
 
   return (
     <>
       <p>本页面可以测试播放器在 iframe 中的效果，还可以测试跨窗口消息接口</p>
-      <p>场景 1：向一个视频发出暂停 / 播放指令</p>
-      <p>场景 2：一个视频开始播放时，暂停其他视频</p>
-      <p>场景 3：手动 seek</p>
-      <p>场景 4：显示进度条</p>
-      <p>场景 5：设置视频的音量</p>
       <div>
-        <iframe src="/mp4?nonav" allowFullScreen frameBorder="0" />
-        <iframe src="/mp4?nonav" allowFullScreen frameBorder="0" />
-        <iframe src="/mp4?nonav" allowFullScreen frameBorder="0" />
-        <iframe src="/mp4?nonav" allowFullScreen frameBorder="0" />
+        {iframeRefs.map((ref, i) => (
+          <iframe
+            ref={ref}
+            key={i}
+            src="/mp4?nonav"
+            allowFullScreen
+            frameBorder="0"
+          />
+        ))}
       </div>
-      <br />
-      <button id="jsPauseFirst">暂停第一个视频</button>
-      <br />
-      <button id="jsPlayFirst">播放第一个视频</button>
-      <br />
-      <div>
-        <input id="time" />
-        <button id="jsSeekFirst">手动 seek 第一个视频</button>
-      </div>
-      <button id="jsShowControllerFirst">让第一个视频显示进度条</button>
-      <br />
-      <button id="jsSetVolumeFirst">让第一个视频静音</button>
+      <section>
+        <h2>场景演示</h2>
+        <button
+          onClick={() => {
+            helperRef.current!.dispatchMessage(
+              getFirstWindow(),
+              ACTIONS.PLAYER.PAUSE
+            )
+          }}
+        >
+          暂停第一个视频
+        </button>
+        <button
+          onClick={() => {
+            helperRef.current!.dispatchMessage(
+              getFirstWindow(),
+              ACTIONS.PLAYER.PLAY
+            )
+          }}
+        >
+          播放第一个视频（暂停其他视频）
+        </button>
+        <div>
+          <input ref={timeInputRef} />
+          <button
+            onClick={() => {
+              const currentTime = Number(timeInputRef.current!.value)
+              helperRef.current!.dispatchMessage(
+                getFirstWindow(),
+                ACTIONS.PLAYER.TIME_UPDATE,
+                {
+                  currentTime,
+                }
+              )
+            }}
+          >
+            手动 seek 第一个视频
+          </button>
+        </div>
+        <button
+          onClick={() => {
+            helperRef.current!.dispatchMessage(
+              getFirstWindow(),
+              ACTIONS.PLAYER.SHOW_CONTROLLER
+            )
+          }}
+        >
+          让第一个视频显示进度条
+        </button>
+        <button
+          onClick={() => {
+            helperRef.current!.dispatchMessage(
+              getFirstWindow(),
+              ACTIONS.PLAYER.SET_VOLUME,
+              {
+                volume: 0,
+              }
+            )
+          }}
+        >
+          让第一个视频静音
+        </button>
+      </section>
     </>
   )
 }

@@ -1,6 +1,3 @@
-const OFF = 0
-const ERROR = 2
-
 module.exports = {
   // https://eslint.org/docs/user-guide/configuring#specifying-parser-options
   parserOptions: {
@@ -25,9 +22,10 @@ module.exports = {
       files: ['**/*.ts', '**/*.tsx'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
-        project: ['./example/tsconfig.json', './packages/*/tsconfig.json'],
+        project: ['**/tsconfig.json'],
       },
       extends: [
+        'plugin:import/typescript',
         // https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -62,13 +60,13 @@ module.exports = {
     'prettier/prettier': ['error', require('./.prettierrc')],
 
     // disable nice-to-have rules for migrate convenience
-    'react/prop-types': OFF,
-    'react/no-find-dom-node': OFF,
-    'react/display-name': OFF,
+    'react/prop-types': 'off',
+    'react/no-find-dom-node': 'off',
+    'react/display-name': 'off',
 
     // recommended rules
-    'prefer-const': ERROR,
-    'no-var': ERROR,
+    'prefer-const': 'error',
+    'no-var': 'error',
 
     // hooks
     'react-hooks/rules-of-hooks': 'error',
@@ -80,16 +78,5 @@ module.exports = {
     react: {
       version: '16',
     },
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
-    },
-    'import/core-modules': [
-      'griffith',
-      'griffith-mp4',
-      'griffith-utils',
-      'griffith-message',
-    ],
   },
 }

@@ -1,4 +1,4 @@
-import VideoComponent from './Video'
+import VideoComponent from './VideoComponent'
 
 export default {
   pluginName: 'griffith-hls',

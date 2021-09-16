@@ -13,10 +13,10 @@ type VideoProps = NativeVideoProps & {
   onRef(el: HTMLVideoElement | null): void
 }
 
-export default class Video extends Component<VideoProps> {
+export default class VideoComponent extends Component<VideoProps> {
   hls: any
-  src: any
-  video: any
+  src!: string
+  video: HTMLVideoElement | null = null
   manuallyBuildAdaptiveM3U8Blob = false
   hasLoadStarted = false
 
@@ -35,7 +35,7 @@ export default class Video extends Component<VideoProps> {
       this.src = URL.createObjectURL(master)
       this.manuallyBuildAdaptiveM3U8Blob = true
     } else {
-      this.src = src
+      this.src = src!
     }
 
     this.hls.loadSource(this.src)
@@ -57,15 +57,15 @@ export default class Video extends Component<VideoProps> {
         } else {
           // TODO: 没有在 hls 的 API 内部找到顺畅切换 source 的方法
           // 因此这里比较直接和生硬
-          const currentTime = this.video.currentTime
+          const currentTime = this.video!.currentTime
           this.hls.destroy()
           this.hls = new Hls({autoStartLoad: false})
           this.hls.attachMedia(this.video)
           this.hls.loadSource(source.source)
-          this.video.currentTime = currentTime
+          this.video!.currentTime = currentTime
           this.hls.startLoad()
           if (!paused) {
-            this.video.play()
+            void this.video!.play()
           }
         }
       } else {

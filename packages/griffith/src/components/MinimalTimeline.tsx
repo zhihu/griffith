@@ -22,7 +22,8 @@ class MinimalTimeline extends Component<Props> {
     progressDots: [] as ProgressDot[],
   }
 
-  shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props): boolean {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.props.show || nextProps.show
   }
 

@@ -1,5 +1,9 @@
-import React, {Component} from 'react'
-import {css, StyleDeclaration} from 'aphrodite/no-important'
+import React, {Component, MouseEvent} from 'react'
+import {
+  css,
+  StyleDeclaration,
+  StyleDeclarationMap,
+} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
 import {ProgressDot as ProgressDotType} from '../types'
 import ProgressDot, {ProgressDotsProps} from './ProgressDot'
@@ -11,6 +15,10 @@ import styles, {
   vertical as verticalStyles,
 } from './Slider.styles'
 
+type SlideStyle = typeof horizontalStyles & typeof verticalStyles // & {thumbSliding: unknown}
+type OwnStyleKey = keyof SlideStyle
+type StyleKey = OwnStyleKey | 'buffered' | 'thumb'
+
 type OwnProps = {
   orientation?: 'horizontal' | 'vertical'
   reverse?: boolean
@@ -20,19 +28,24 @@ type OwnProps = {
   step?: number
   onFocus?: (...args: any[]) => any
   onBlur?: (...args: any[]) => any
-  onDragStart?: (...args: any[]) => any
-  onDragEnd?: (...args: any[]) => any
-  onChange?: (...args: any[]) => any
+  onDragStart?: () => void
+  onDragEnd?: () => void
+  onChange?: (value: number) => void
   onProgressDotHover?: ProgressDotsProps['onProgressDotHover']
   onProgressDotLeave?: ProgressDotsProps['onProgressDotLeave']
   noInteraction?: boolean
   progressDots?: ProgressDotType[]
-  styles: StyleDeclaration[]
+  styles: Record<string, unknown> | Record<string, unknown>[]
+  // styles: StyleDeclaration<SlideStyle>[] | Partial<StyleDeclaration<SlideStyle>>
 }
 
-type State = any
+type State = {
+  isSlideActive: boolean
+  isSliding: boolean
+  slidingValue: null | number
+}
 
-export type SliderProps = OwnProps & typeof Slider.defaultProps
+export type SliderProps = OwnProps //& typeof Slider.defaultProps
 
 class Slider extends Component<SliderProps, State> {
   static defaultProps = {
@@ -69,7 +82,7 @@ class Slider extends Component<SliderProps, State> {
     return orientation === 'horizontal' ? horizontalStyles : verticalStyles
   }
 
-  getStyles(name: keyof typeof horizontalStyles) {
+  getStyles(name: StyleKey) {
     let customStyles = this.props.styles
     if (!Array.isArray(customStyles)) {
       customStyles = [customStyles]
@@ -77,19 +90,14 @@ class Slider extends Component<SliderProps, State> {
     customStyles = customStyles.filter(Boolean)
 
     return [
-      styles[name],
-      this.getVariantStyleSheet()[name],
-      ...customStyles.map((item: any) => item[name]),
-    ]
+      styles[name as OwnStyleKey],
+      this.getVariantStyleSheet()[name as OwnStyleKey],
+      ...customStyles.map((item) => item[name]),
+    ] as StyleDeclarationMap[]
   }
 
-  getClassName(...names: any[]) {
-    return css(
-      ...Array.prototype.concat.apply(
-        [],
-        names.map((name) => this.getStyles(name))
-      )
-    )
+  getClassName(...names: StyleKey[]) {
+    return css(...names.map((name) => this.getStyles(name)))
   }
 
   getAlignKey() {
@@ -109,19 +117,19 @@ class Slider extends Component<SliderProps, State> {
   getPercentage() {
     const {value, total} = this.props
     const {isSlideActive, slidingValue} = this.state
-    return formatPercent(isSlideActive ? (slidingValue as any) : value, total)
+    return formatPercent(isSlideActive ? slidingValue! : value!, total)
   }
 
   getBufferedPercentage() {
     const {buffered, total} = this.props
-    return formatPercent(buffered, total)
+    return formatPercent(buffered!, total)
   }
 
-  getSlidingValue(event: any) {
+  getSlidingValue(event: globalThis.MouseEvent) {
     const {orientation, reverse, total} = this.props
     const track = this.trackRef.current
     if (!track) return 0
-    const rect = (track as any).getBoundingClientRect()
+    const rect = track.getBoundingClientRect()
 
     let value
     if (orientation === 'horizontal') {
@@ -134,10 +142,10 @@ class Slider extends Component<SliderProps, State> {
       value = 1 - value
     }
 
-    return value * total
+    return value * total!
   }
 
-  handleKeyDown = (event: any) => {
+  handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     const {reverse, value, total, step} = this.props
 
     let direction = 0
@@ -151,17 +159,19 @@ class Slider extends Component<SliderProps, State> {
       direction = -direction
     }
 
-    const result = clamp(value + step * direction, 0, total)
+    const result = clamp(value! + step! * direction, 0, total!)
     if (result !== value) {
       event.preventDefault()
       this.handleChange(result)
     }
   }
 
-  handleDragStart = (event: any) => {
+  handleDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.button !== 0) return
 
-    const value = this.getSlidingValue(event)
+    const value = this.getSlidingValue(
+      event as unknown as globalThis.MouseEvent
+    )
     this.setState({
       isSlideActive: true,
       slidingValue: value,
@@ -176,7 +186,7 @@ class Slider extends Component<SliderProps, State> {
     this.registerEvents()
   }
 
-  handleDragMove = (event: any) => {
+  handleDragMove = (event: globalThis.MouseEvent) => {
     const value = this.getSlidingValue(event)
     this.setState({
       slidingValue: value,
@@ -186,7 +196,7 @@ class Slider extends Component<SliderProps, State> {
     this.handleChange(value)
   }
 
-  handleDragEnd = (event: any) => {
+  handleDragEnd = (event: globalThis.MouseEvent): void => {
     this.unregisterEvents()
 
     const {onDragEnd} = this.props
@@ -206,7 +216,7 @@ class Slider extends Component<SliderProps, State> {
     })
   }
 
-  handleChange = (value: any) => {
+  handleChange = (value: number) => {
     const {onChange} = this.props
     if (onChange) {
       onChange(value)
@@ -254,10 +264,10 @@ class Slider extends Component<SliderProps, State> {
                 [this.getSizeKey()]: this.getPercentage(),
               }}
             />
-            {Boolean(progressDots.length) && (
+            {Boolean(progressDots?.length) && (
               <ProgressDot
-                progressDots={progressDots}
-                total={total}
+                progressDots={progressDots!}
+                total={total!}
                 onProgressDotHover={onProgressDotHover}
                 onProgressDotLeave={onProgressDotLeave}
               />
@@ -271,7 +281,7 @@ class Slider extends Component<SliderProps, State> {
               <div
                 className={this.getClassName(
                   'thumb',
-                  isSlideActive && 'thumbSliding'
+                  (isSlideActive && 'thumbSliding') as OwnStyleKey
                 )}
               />
             </div>

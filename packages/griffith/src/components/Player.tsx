@@ -27,7 +27,7 @@ import Icon from './Icon'
 import * as icons from './icons/display/index'
 import Loader from './Loader'
 import Video from './Video'
-import Controller from './Controller'
+import Controller, {ToggleType} from './Controller'
 import VolumeItem from './items/VolumeItem'
 import MinimalTimeline from './MinimalTimeline'
 import getBufferedTime from '../utils/getBufferedTime'
@@ -97,7 +97,25 @@ type OuterPlayerProps = {
 export type PlayerProps = Omit<InnerPlayerProps, keyof ProviderOnlyProps> &
   OuterPlayerProps
 
-type State = any
+type State = {
+  isPlaybackStarted: boolean
+  isNeverPlayed: boolean
+  lastAction?: 'play' | 'pause' | null
+  isDataLoaded: boolean
+  isPlaying: boolean
+  isLoading: boolean
+  duration: number
+  currentTime: number
+  volume: number
+  buffered: {start: number; end: number}[][]
+  isControllerShown: boolean
+  isControllerHovered: boolean
+  isControllerDragging: boolean
+  type: ToggleType
+  hovered: boolean
+  pressed: boolean
+  isEnterPageFullScreen: boolean
+}
 
 class InnerPlayer extends Component<InnerPlayerProps, State> {
   static contextType = VideoSourceContext
@@ -136,9 +154,12 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
 
   // refs
   playerRef = React.createRef<HTMLDivElement>()
-  videoRef = React.createRef()
+  videoRef = React.createRef<{
+    root: HTMLVideoElement
+    seek(currentTime: number): void
+  }>()
 
-  static getDerivedStateFromProps = (props: any, state: any) => {
+  static getDerivedStateFromProps = (props: InnerPlayerProps, state: any) => {
     const {duration} = props
 
     const shouldUpdateDuration = duration && !state.duration
@@ -159,7 +180,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
 
     const historyVolume = storage.get('@griffith/history-volume')
     if (historyVolume) {
-      this.setState({volume: historyVolume})
+      this.setState({volume: historyVolume as number})
     }
 
     this.actionSubscriptions_ = [
@@ -177,7 +198,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       ),
     ]
 
-    if ((this as any).videoRef.current.root) {
+    if (this.videoRef.current!.root) {
       if (this.props.muted) {
         this.handleVideoVolumeChange(0)
       }
@@ -210,7 +231,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     isControllerHovered,
     isControllerDragging,
     currentTime,
-  }: any) => {
+  }: Partial<State>) => {
     // 播放中：暂停 或 Controller shown/hovered/dragging 时展示 Controller
     if (isPlaybackStarted) {
       return (
@@ -235,11 +256,11 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   initPip = () => {
     if (
       !this.props.disablePictureInPicture &&
-      (this as any).videoRef.current.root &&
+      this.videoRef.current!.root &&
       !Pip.inited
     ) {
       Pip.init(
-        (this as any).videoRef.current.root,
+        this.videoRef.current!.root,
         () => this.props.onEvent(EVENTS.ENTER_PIP),
         () => this.props.onEvent(EVENTS.EXIT_PIP)
       )
@@ -266,7 +287,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     }
   }
 
-  handlePlay = (type: 'video' | null = null) => {
+  handlePlay = (type: ToggleType = null) => {
     const {onEvent, onBeforePlay} = this.props
     const {currentSrc} = this.context
     onEvent(EVENTS.REQUEST_PLAY)
@@ -293,7 +314,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       })
   }
 
-  handlePause = (type: 'video' | 'button' | null = null) => {
+  handlePause = (type: ToggleType = null) => {
     this.props.onEvent(EVENTS.REQUEST_PAUSE)
     const {isLoading} = this.state
 
@@ -368,7 +389,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       !isPlaybackStarted && !isNeverPlayed && stateCurrentTime !== 0 // 播放结束，显示「重新播放」状态
     this.setState({currentTime})
     // TODO 想办法去掉这个实例方法调用
-    ;(this as any).videoRef.current.seek(currentTime)
+    this.videoRef.current!.seek(currentTime)
     if (isPlayEnded) {
       this.handlePlay()
     }
@@ -814,7 +835,8 @@ const Player: React.FC<PlayerProps> = ({
           <InternalMessageContext.Consumer>
             {({emitEvent, subscribeAction}) => (
               <VideoSourceProvider
-                onEvent={emitEvent}
+                // TODO：改名 emitEvent
+                onEvent={emitEvent as any}
                 sources={sources}
                 id={id}
                 defaultQuality={defaultQuality}

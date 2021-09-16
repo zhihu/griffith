@@ -2,7 +2,7 @@
 
 exports[`Timeline get Timeline component 1`] = `
 <div
-  className=""
+  className="root_3hmsj"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
@@ -61,8 +61,6 @@ exports[`Timeline get Timeline component 1`] = `
             "_name": "track_1q3h7g7",
           },
         },
-        false,
-        false,
       ]
     }
     total={182.234}

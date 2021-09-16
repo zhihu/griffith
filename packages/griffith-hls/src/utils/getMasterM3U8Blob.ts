@@ -1,7 +1,14 @@
 import createMasterM3U8 from './createMasterM3U8'
 
-export default (sources: any) => {
-  const list = sources.map((item: any) => ({
+type Source = {
+  source: string
+  bitrate: number
+  height: number
+  width: number
+}
+
+export default (sources: Source[]): Blob => {
+  const list = sources.map((item) => ({
     source: item.source,
     bandwidth: item.bitrate * 1024,
 

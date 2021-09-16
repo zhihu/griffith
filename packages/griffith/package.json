@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.172",
+    "@types/react": "^17.0.21",
     "aphrodite": "^2.4.0",
     "eventemitter3": "^3.1.0",
     "griffith-hls": "^1.18.0",

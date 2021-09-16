@@ -8,6 +8,7 @@ type PositionContextValue = {
 
 const PositionContext = React.createContext<PositionContextValue>({
   isFullWidth: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   updateVideoSize() {},
 })
 PositionContext.displayName = 'PositionContext'

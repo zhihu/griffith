@@ -93,17 +93,19 @@ class Timeline extends Component<TimelineProps, TimelineState> {
     const {isHovered, isFocused, isDragging, progressDotHovered} = this.state
     return (
       <div
-        className={css((styles as any).root)}
+        className={css(styles.root)}
         onMouseEnter={this.handlePointerEnter}
         onMouseLeave={this.handlePointerLeave}
       >
         <Slider
           {...this.props}
-          styles={[
-            sliderStyles,
-            (isHovered || isFocused || isDragging) && hoveredSliderStyles,
-            progressDotHovered && dotHoveredSliderStyles,
-          ]}
+          styles={
+            [
+              sliderStyles,
+              (isHovered || isFocused || isDragging) && hoveredSliderStyles,
+              progressDotHovered && dotHoveredSliderStyles,
+            ].filter(Boolean) as Record<string, unknown>[]
+          }
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onDragStart={this.handleDragStart}

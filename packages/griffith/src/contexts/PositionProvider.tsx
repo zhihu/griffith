@@ -20,7 +20,7 @@ export default class PositionProvider extends React.PureComponent<
   Props,
   State
 > {
-  unlistenResize_: any
+  unlistenResize_?: () => void
 
   state = {
     videoWidth: 0,
@@ -95,7 +95,7 @@ export default class PositionProvider extends React.PureComponent<
     const root = this.ref.current
     if (!root) return
 
-    const {width, height} = (root as any).getBoundingClientRect()
+    const {width, height} = root.getBoundingClientRect()
     // 因为视频缩放后，长宽可能不严格相等，所以认为差值小于等于 0.01 的就算相等。
     // 比如 1280x720 (1.777777778) 和 848x478 (1.774058577)，认为相等。
     const isFullWidth = width / height - videoWidth / videoHeight <= 0.01

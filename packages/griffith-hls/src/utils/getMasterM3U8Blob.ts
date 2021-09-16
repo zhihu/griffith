@@ -1,11 +1,5 @@
+import {Source} from '../types'
 import createMasterM3U8 from './createMasterM3U8'
-
-type Source = {
-  source: string
-  bitrate: number
-  height: number
-  width: number
-}
 
 export default (sources: Source[]): Blob => {
   const list = sources.map((item) => ({

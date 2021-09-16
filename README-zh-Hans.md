@@ -5,6 +5,7 @@
 
 [![License](https://img.shields.io/npm/l/griffith.svg)](https://github.com/zhihu/griffith/blob/master/LICENSE)
 [![npm package](https://img.shields.io/npm/v/griffith/latest.svg)](https://www.npmjs.com/package/griffith)
+![](https://badgen.net/npm/types/griffith)
 [![Coverage Status](https://coveralls.io/repos/github/zhihu/griffith/badge.svg?branch=master)](https://coveralls.io/github/zhihu/griffith?branch=master)
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zhihu/griffith/blob/master/CONTRIBUTING.md)

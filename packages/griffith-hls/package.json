@@ -16,6 +16,9 @@
     "prebuild": "rm -rf dist/**",
     "build": "rollup -c ../../rollup.config.js"
   },
+  "devDependencies": {
+    "hls.js-v1": "npm:hls.js@^1"
+  },
   "peerDependencies": {
     "react": "^16.8 || ^17",
     "react-dom": "^16.8 || ^17"

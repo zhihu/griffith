@@ -8013,6 +8013,11 @@ history@^4.9.0:
     tiny-warning "^1.0.0"
     value-equal "^1.0.1"
 
+"hls.js-v1@npm:hls.js@^1":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.10.tgz#2626c19e0a32904c1915a842c591f9b0a9f5066b"
+  integrity sha512-P+o/wjGJsnqwdXXYfWvopOceXEXFV0H8vs/T+ApsscP/GlpUtdIRWie7qc+jbml95ThjE6+FVci9VGaD51r/6Q==
+
 hls.js@0.7.11:
   version "0.7.11"
   resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-0.7.11.tgz#e8448be35a2435bad24b8b93d9e7f9c05659bb28"

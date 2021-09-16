@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 // TODO: 升级有类型的新版
-// @ts-expect-error ts-migrate(7016) FIXME: Could not find a declaration file for module 'hls.... Remove this comment to see the full error message
 import Hls from 'hls.js/dist/hls.light.min'
+import {Source} from './types'
 import {getMasterM3U8Blob} from './utils'
 
 type NativeVideoProps = React.HTMLProps<HTMLVideoElement>
@@ -9,12 +9,12 @@ type VideoProps = NativeVideoProps & {
   paused: boolean
   currentQuality: string
   useAutoQuality: boolean
-  sources: {quality: string; source: string}[]
+  sources: Source[]
   onRef(el: HTMLVideoElement | null): void
 }
 
 export default class VideoComponent extends Component<VideoProps> {
-  hls: any
+  hls?: Hls
   src!: string
   video: HTMLVideoElement | null = null
   manuallyBuildAdaptiveM3U8Blob = false
@@ -23,7 +23,7 @@ export default class VideoComponent extends Component<VideoProps> {
   componentDidMount() {
     const {src, sources, useAutoQuality} = this.props
     this.hls = new Hls({autoStartLoad: false})
-    this.hls.attachMedia(this.video)
+    this.hls.attachMedia(this.video!)
 
     const isAutoQualitySourceProvided = Boolean(
       sources.find((s) => s.quality === 'auto')
@@ -44,14 +44,18 @@ export default class VideoComponent extends Component<VideoProps> {
   componentDidUpdate(prevProps: VideoProps) {
     const {currentQuality, sources, paused} = this.props
 
-    // 切换清晰度
+    if (!this.hls) {
+      return
+    }
+
     if (currentQuality !== prevProps.currentQuality) {
+      // 切换清晰度
       const source = sources.find((s) => s.quality === currentQuality)
       if (source) {
         if (this.manuallyBuildAdaptiveM3U8Blob) {
           const levels = this.hls.levels
-          const level = levels.findIndex((l: any) =>
-            l.url.includes(source.source)
+          const level = levels.findIndex((l) =>
+            l.url.includes(source.source as any)
           )
           this.hls.nextLevel = level
         } else {
@@ -60,7 +64,7 @@ export default class VideoComponent extends Component<VideoProps> {
           const currentTime = this.video!.currentTime
           this.hls.destroy()
           this.hls = new Hls({autoStartLoad: false})
-          this.hls.attachMedia(this.video)
+          this.hls.attachMedia(this.video!)
           this.hls.loadSource(source.source)
           this.video!.currentTime = currentTime
           this.hls.startLoad()
@@ -82,7 +86,7 @@ export default class VideoComponent extends Component<VideoProps> {
   }
 
   componentWillUnmount() {
-    this.hls.destroy()
+    this.hls!.destroy()
     if (this.manuallyBuildAdaptiveM3U8Blob) {
       URL.revokeObjectURL(this.src)
     }

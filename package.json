@@ -32,7 +32,7 @@
     "zhihu-video-player"
   ],
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --cache . ",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --notify",

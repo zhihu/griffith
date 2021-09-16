@@ -15,24 +15,26 @@ import PipButtonItem from './items/PipButtonItem'
 import styles from './Controller.styles'
 import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
 
-type OwnProps = {
+export type ToggleType = 'button' | 'keyCode' | 'video' | null
+
+type ControllerProps = {
   standalone?: boolean
   isPlaying?: boolean
   duration?: number
-  currentTime?: number
-  volume?: number
+  currentTime: number
+  volume: number
   buffered?: number
   isFullScreen?: boolean
   isPageFullScreen: boolean
   isPip: boolean
-  onDragStart?: (...args: any[]) => any
-  onDragEnd?: (...args: any[]) => any
-  onPlay?: (...args: any[]) => any
-  onPause?: (...args: any[]) => any
-  onSeek?: (...args: any[]) => any
+  onDragStart?: () => void
+  onDragEnd?: () => void
+  onPlay?: (type: ToggleType) => void
+  onPause?: (type: ToggleType) => void
+  onSeek?: (currentTime: number) => void
   onQualityChange?: (...args: any[]) => any
-  onVolumeChange?: (...args: any[]) => any
-  onToggleFullScreen?: (...args: void[]) => void
+  onVolumeChange?: (volume: number) => void
+  onToggleFullScreen?: () => void
   onTogglePageFullScreen: (...args: void[]) => void
   onTogglePip?: (...args: void[]) => void
   onProgressDotHover?: (...args: any[]) => any
@@ -49,11 +51,14 @@ type OwnProps = {
   hiddenPlaybackRateItem?: boolean
 }
 
-type State = any
+type State = {
+  slideTime?: number | null
+  isVolumeHovered: boolean
+  isVolumeDragging: boolean
+  isVolumeKeyboard: boolean
+}
 
-type Props = OwnProps & typeof Controller.defaultProps
-
-class Controller extends Component<Props, State> {
+class Controller extends Component<ControllerProps, State> {
   static defaultProps = {
     show: false,
     standalone: false,
@@ -91,7 +96,8 @@ class Controller extends Component<Props, State> {
     }
   }
 
-  shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: ControllerProps) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.props.show || nextProps.show
   }
 
@@ -102,13 +108,13 @@ class Controller extends Component<Props, State> {
     }
   }
 
-  onDragMove = (slideTime: any) => {
+  onDragMove = (slideTime: number) => {
     const {duration} = this.props
     slideTime = clamp(slideTime, 0, duration)
     this.setState({slideTime})
   }
 
-  handleToggle = (type: any) => {
+  handleToggle = (type: ToggleType) => {
     const {isPlaying, onPlay, onPause} = this.props
     if (!isPlaying && onPlay) {
       onPlay(type)
@@ -118,7 +124,7 @@ class Controller extends Component<Props, State> {
     }
   }
 
-  handleSeek = (currentTime: any) => {
+  handleSeek = (currentTime: number) => {
     const {duration, onSeek} = this.props
     currentTime = clamp(currentTime, 0, duration)
     if (onSeek) {
@@ -127,7 +133,7 @@ class Controller extends Component<Props, State> {
     }
   }
 
-  handleVolumeChange = (volume: any) => {
+  handleVolumeChange = (volume: number) => {
     volume = clamp(volume, 0, 1)
     const {onVolumeChange} = this.props
     if (onVolumeChange) {
@@ -174,7 +180,7 @@ class Controller extends Component<Props, State> {
     }
   }
 
-  handleKeyDown = (event: any) => {
+  handleKeyDown = (event: KeyboardEvent) => {
     const {duration, currentTime, volume, show, onToggleFullScreen} = this.props
     let handled = true
     switch (event.keyCode) {

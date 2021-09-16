@@ -3,7 +3,9 @@ import {css} from 'aphrodite/no-important'
 import Slider, {SliderProps} from './Slider'
 import styles, {slider as sliderStyles} from './VolumeSlider.styles'
 
-class VolumeSlider extends Component<SliderProps> {
+type DefinedProps = Pick<SliderProps, 'styles' | 'orientation' | 'step'>
+
+class VolumeSlider extends Component<Omit<SliderProps, keyof DefinedProps>> {
   render() {
     return (
       <div className={css(styles.root)}>

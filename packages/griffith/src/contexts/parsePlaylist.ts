@@ -1,7 +1,8 @@
-const QUALITY_ORDER = ['auto', 'ld', 'sd', 'hd', 'fhd']
+import {Quality, FormattedPlaySource, PlaySourceMap} from '../types'
+const QUALITY_ORDER: Quality[] = ['auto', 'ld', 'sd', 'hd', 'fhd']
 
-export const getQualities = (sources: any, isMobile: any) => {
-  const qualities = Object.keys(sources).sort(
+export const getQualities = (sources: PlaySourceMap, isMobile: any) => {
+  const qualities = (Object.keys(sources) as Quality[]).sort(
     (a, b) => QUALITY_ORDER.indexOf(a) - QUALITY_ORDER.indexOf(b)
   )
 
@@ -18,12 +19,16 @@ export const getQualities = (sources: any, isMobile: any) => {
   return qualities
 }
 
-export const getSources = (qualities: any, sources: any) =>
-  qualities.map((quality: any) => {
+export const getSources = (
+  qualities: Quality[],
+  sources: PlaySourceMap
+): FormattedPlaySource[] =>
+  qualities.map((quality) => {
+    // @ts-expect-error Property 'auto' does not exist on type 'PlaySourceMap'，应当是 QUALITY_ORDER 定义错了
     const {play_url, ...rest} = sources[quality]
     return {
       ...rest,
       source: play_url,
       quality,
-    }
+    } as FormattedPlaySource
   })

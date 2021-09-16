@@ -1,6 +1,8 @@
 import {StyleSheet} from 'aphrodite/no-important'
 
-export default StyleSheet.create({})
+export default StyleSheet.create({
+  root: {},
+})
 
 export const slider = StyleSheet.create({
   root: {

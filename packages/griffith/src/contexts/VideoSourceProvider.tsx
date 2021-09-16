@@ -1,5 +1,10 @@
 import React from 'react'
-import {PlaySourceMap, PlaybackRate, RealQuality} from '../types'
+import {
+  PlaySourceMap,
+  FormattedPlaySource,
+  PlaybackRate,
+  RealQuality,
+} from '../types'
 import VideoSourceContext, {VideoSourceContextValue} from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
@@ -7,13 +12,13 @@ import {ua} from 'griffith-utils'
 
 const {isMobile} = ua
 
-const getQuery = (url: any, key: any) => {
-  const [, value] = url.match(new RegExp(`\\b${key}=([^&]+)`)) || []
+const getQuery = (url: string, key: string) => {
+  const [, value] = new RegExp(`\\b${key}=([^&]+)`).exec(url) || []
   return value
 }
 
 type VideoSourceProviderProps = {
-  onEvent: (...args: any[]) => any
+  onEvent: (name: EVENTS, data?: unknown) => void
   sources: PlaySourceMap
   id: string
   defaultQuality?: RealQuality
@@ -22,7 +27,9 @@ type VideoSourceProviderProps = {
   defaultPlaybackRate?: PlaybackRate
 }
 
-type VideoSourceProviderState = Partial<VideoSourceContextValue>
+type VideoSourceProviderState = Partial<VideoSourceContextValue> & {
+  expiration: number
+}
 
 export default class VideoSourceProvider extends React.Component<
   VideoSourceProviderProps,
@@ -32,7 +39,7 @@ export default class VideoSourceProvider extends React.Component<
     qualities: [],
     currentQuality: undefined,
     format: undefined,
-    sources: [],
+    sources: [] as FormattedPlaySource[],
     expiration: 0,
     dataKey: undefined,
     currentPlaybackRate: undefined,
@@ -47,7 +54,7 @@ export default class VideoSourceProvider extends React.Component<
       defaultPlaybackRate,
     }: VideoSourceProviderProps,
     state: VideoSourceProviderState
-  ) => {
+  ): VideoSourceProviderState | null => {
     if (!videoSources) return null
     const {format, play_url} = Object.values(videoSources)[0]!
     const expiration = getQuery(play_url, 'expiration')
@@ -83,7 +90,7 @@ export default class VideoSourceProvider extends React.Component<
     }
   }
 
-  setCurrentQuality = (quality: any) => {
+  setCurrentQuality = (quality: RealQuality) => {
     const prevQuality = this.state.currentQuality
     if (prevQuality !== quality) {
       this.setState({currentQuality: quality})
@@ -94,7 +101,7 @@ export default class VideoSourceProvider extends React.Component<
     }
   }
 
-  setCurrentPlaybackRate = (rate: any) => {
+  setCurrentPlaybackRate = (rate: PlaybackRate) => {
     const prevRate = this.state.currentPlaybackRate
     if (prevRate !== rate) {
       this.setState({currentPlaybackRate: rate})
@@ -115,9 +122,8 @@ export default class VideoSourceProvider extends React.Component<
     }
 
     const source =
-      sources.find((item) => (item as any).quality === currentQuality) ||
-      sources[0]
-    return (source as any).source
+      sources.find((item) => item.quality === currentQuality) || sources[0]
+    return source.source
   }
 
   render() {
@@ -140,7 +146,7 @@ export default class VideoSourceProvider extends React.Component<
           sources,
           currentQuality: currentQuality!,
           currentPlaybackRate: currentPlaybackRate!,
-          currentSrc: this.getCurrentSrc(),
+          currentSrc: this.getCurrentSrc()!,
           setCurrentQuality: this.setCurrentQuality,
           setCurrentPlaybackRate: this.setCurrentPlaybackRate,
         }}

@@ -17,6 +17,11 @@ export interface PlaySource {
   width?: number
 }
 
+export interface FormattedPlaySource extends PlaySource {
+  quality: RealQuality
+  source: string
+}
+
 export type PlaySourceMap = {
   [key in RealQuality]?: PlaySource
 }

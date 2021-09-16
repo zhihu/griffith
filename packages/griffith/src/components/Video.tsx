@@ -10,26 +10,26 @@ import styles from './Video.styles'
 
 const {isMobile} = ua
 
-const isAbortError = (error: any) =>
-  (error && error.name === 'AbortError') ||
+const isAbortError = (error: MediaError) =>
+  (error && (error as unknown as Error).name === 'AbortError') ||
   (error instanceof MediaError && error.code === MediaError.MEDIA_ERR_ABORTED)
 
-const isNotAllowedError = (error: any) =>
-  error && error.name === 'NotAllowedError'
+const isNotAllowedError = (error: MediaError) =>
+  error && (error as unknown as Error).name === 'NotAllowedError'
 
 type ProgressValue = {
   start: number
   end: number
 }
 
-type OwnVideoProps = {
+type VideoProps = {
   src: string
   format: string
   controls?: boolean
   loop?: boolean
   paused?: boolean
   useMSE?: boolean
-  volume?: number
+  volume: number
   currentQuality?: Quality
   sources?: PlaySource[]
   onPlay?: (...args: any[]) => any
@@ -44,11 +44,9 @@ type OwnVideoProps = {
   onSeeked?: (...args: any[]) => any
   onProgress?: (values: ProgressValue[]) => any
   onError: (...args: any[]) => any
-  onEvent: (...args: any[]) => any
+  onEvent: (name: EVENTS, data?: unknown) => void
   currentPlaybackRate: PlaybackRate
 }
-
-type VideoProps = OwnVideoProps & typeof Video.defaultProps
 
 class Video extends Component<VideoProps> {
   static defaultProps = {
@@ -58,7 +56,7 @@ class Video extends Component<VideoProps> {
 
   _playTimer: any
   handleClick: any
-  playPromise: any
+  playPromise?: Promise<void>
 
   isMetadataLoaded = false
   pendingAction: {paused: boolean; currentTime: number} | null = null
@@ -166,9 +164,9 @@ class Video extends Component<VideoProps> {
   /**
    * @see https://developers.google.com/web/updates/2017/06/play-request-was-interrupted
    */
-  safeExecute = (fn: any) => {
+  safeExecute = (fn: () => void) => {
     if (this.playPromise !== undefined) {
-      this.playPromise.then(() => {
+      void this.playPromise.then(() => {
         fn()
       })
     } else {

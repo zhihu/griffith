@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/zhihu/griffith/compare/v1.17.0...v1.18.0) (2021-09-16)
+
+
+### Bug Fixes
+
+* dispose subscription in MessageContext ([ca9139e](https://github.com/zhihu/griffith/commit/ca9139e))
+* fix default value in LocaleContext ([e4a0816](https://github.com/zhihu/griffith/commit/e4a0816))
+* remove duplicate handleError in Video ([a6aaa4c](https://github.com/zhihu/griffith/commit/a6aaa4c))
+
+
+### Features
+
+* add event params type ([20dea5a](https://github.com/zhihu/griffith/commit/20dea5a))
+* add useEvent API ([fa4b671](https://github.com/zhihu/griffith/commit/fa4b671))
+* migrate griffith-standalone to ts ([ca6cd25](https://github.com/zhihu/griffith/commit/ca6cd25))
+* overload subscribeMessage, add action params type ([e814282](https://github.com/zhihu/griffith/commit/e814282))
+
+
+
+
+
 # [1.17.0](https://github.com/zhihu/griffith/compare/v1.16.0...v1.17.0) (2021-09-02)
 
 

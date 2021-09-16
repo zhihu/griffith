@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/zhihu/griffith/compare/v1.17.0...v1.18.0) (2021-09-16)
+
+
+### Features
+
+* add event params type ([20dea5a](https://github.com/zhihu/griffith/commit/20dea5a))
+* overload subscribeMessage, add action params type ([e814282](https://github.com/zhihu/griffith/commit/e814282))
+
+
+
+
+
 # [1.17.0](https://github.com/zhihu/griffith/compare/v1.16.0...v1.17.0) (2021-09-02)
 
 

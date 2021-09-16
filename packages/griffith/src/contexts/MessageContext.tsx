@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useLayoutEffect, useRef} from 'react'
 import EventEmitter from 'eventemitter3'
 import {
   ACTIONS,
@@ -67,12 +67,21 @@ type MessageProviderProps = {
 
 type MessageHelper = ReturnType<typeof createMessageHelper>
 
+const useHandler = <T extends (...args: any[]) => any>(handler: T) => {
+  const handlerRef = useRef<T>(handler)
+  handlerRef.current = handler
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return useRef(((...args: any[]) => handlerRef.current(...args)) as T).current
+}
+
 /**
  *
  * Retrieve `MessageContext` from outside of Player
  *
  * ```js
  * const messageContextRef = useMessageContextRef()
+ *
+ * messageContextRef.useEvent(EVENTS.PLAY, () => {})
  *
  * render(
  *  <>
@@ -83,8 +92,24 @@ type MessageHelper = ReturnType<typeof createMessageHelper>
  * ```
  */
 export const useMessageContextRef = () => {
-  const ref = useRef({}).current as MessageContextRef
-  useEffect(() => {
+  const extra = {
+    useEvent<T extends keyof EventParamsMap>(
+      name: T,
+      listener: EventParamsMap[T]
+    ) {
+      const handler = useHandler(listener)
+      useLayoutEffect(
+        () => ref.subscribeEvent(name, handler).unsubscribe,
+        [name, handler]
+      )
+    },
+  }
+  const ref = useRef(extra).current as MessageContextRef &
+    MessageContextValue &
+    typeof extra
+
+  // Player mount 中触发了事件，确保在它之前开始监听
+  useLayoutEffect(() => {
     if (!ref.current) {
       throw new Error(
         'Missing ref value, please pass it to Player, eg. `<Player messageContextRef={messageContextRef} />`'
@@ -92,7 +117,8 @@ export const useMessageContextRef = () => {
     }
     Object.assign(ref, ref.current)
   }, [ref])
-  return ref as MessageContextRef & MessageContextValue
+
+  return ref
 }
 
 export class MessageProvider extends React.PureComponent<MessageProviderProps> {

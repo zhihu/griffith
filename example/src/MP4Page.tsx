@@ -58,32 +58,19 @@ const useQuery = () => {
   return query
 }
 
-/** 常规通讯方式，建议直接使用 `onEvent` 替代 */
-const LogoListener: React.FC<{shouldShowLogo: boolean}> = ({
-  shouldShowLogo,
-}) => {
-  const [isLogoVisible, setIsLogoVisible] = useState(false)
-  const {subscribeEvent} = useContext(MessageContext)
-  useLayoutEffect(() => {
-    return subscribeEvent(EVENTS.PLAY_COUNT, () => {
-      setIsLogoVisible(true)
-    }).unsubscribe
-  }, [subscribeEvent])
-  return shouldShowLogo && isLogoVisible ? <Logo /> : null
-}
-
 const App = () => {
-  const messageContextRef = useMessageContextRef()
   const query = useQuery()
-  const loop = 'loop' in query
+  const messageContextRef = useMessageContextRef()
+  const [isLogoVisible, setIsLogoVisible] = useState(false)
 
-  useEffect(() => {
-    return messageContextRef.subscribeEvent(EVENTS.ENDED, () => {
-      if (loop) {
-        messageContextRef.dispatchAction(ACTIONS.PLAY)
-      }
-    }).unsubscribe
-  }, [messageContextRef, loop])
+  messageContextRef.useEvent(EVENTS.PLAY_COUNT, () => {
+    setIsLogoVisible(true)
+  })
+  messageContextRef.useEvent(EVENTS.ENDED, () => {
+    if ('loop' in query) {
+      messageContextRef.dispatchAction(ACTIONS.PLAY)
+    }
+  })
 
   return (
     <>
@@ -101,7 +88,7 @@ const App = () => {
         messageContextRef={messageContextRef}
         onEvent={logEvent}
       >
-        <LogoListener shouldShowLogo={'logo' in query} />
+        {'logo' in query && isLogoVisible && <Logo />}
       </Player>
       <button
         onClick={() => {

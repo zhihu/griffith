@@ -1,14 +1,24 @@
 import React from 'react'
+import {PlaySource} from '../types'
 
-const NormalVideo = (props: any) => {
+type NativeVideoProps = React.HTMLProps<HTMLVideoElement>
+type VideoProps = NativeVideoProps & {
+  paused: boolean
+  currentQuality: string
+  useAutoQuality: boolean
+  sources: PlaySource[]
+  onRef: (el: HTMLVideoElement | null) => void
+}
+
+const NormalVideo: React.FC<VideoProps> = (props) => {
   const {
     onRef,
-    /* eslint-disable no-unused-vars */
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     paused,
     currentQuality,
     useAutoQuality,
     sources,
-    /* eslint-disable no-unused-vars */
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     ...restProps
   } = props
   return <video {...restProps} ref={onRef} />

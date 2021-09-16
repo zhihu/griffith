@@ -1,10 +1,5 @@
-import React, {useState, useLayoutEffect, useContext, useEffect} from 'react'
-import Player, {
-  MessageContext,
-  useMessageContextRef,
-  ACTIONS,
-  EVENTS,
-} from 'griffith'
+import React, {useState, useEffect} from 'react'
+import Player, {useMessageContextRef, ACTIONS, EVENTS} from 'griffith'
 import {useLocation} from 'react-router-dom'
 import Logo from './Logo'
 import {logEvent} from './utils'

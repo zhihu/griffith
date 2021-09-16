@@ -1,9 +1,5 @@
-import React, {Component, MouseEvent} from 'react'
-import {
-  css,
-  StyleDeclaration,
-  StyleDeclarationMap,
-} from 'aphrodite/no-important'
+import React, {Component} from 'react'
+import {css, StyleDeclarationMap} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
 import {ProgressDot as ProgressDotType} from '../types'
 import ProgressDot, {ProgressDotsProps} from './ProgressDot'

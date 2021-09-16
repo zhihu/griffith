@@ -120,7 +120,7 @@ export default class Player extends Component<VideoProps> {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       src,
       onRef,
       currentQuality,
@@ -130,7 +130,7 @@ export default class Player extends Component<VideoProps> {
       paused,
       onTimeUpdate,
       onProgress,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...props
     } = this.props
     return (

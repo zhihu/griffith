@@ -20,7 +20,7 @@ export type ToggleType = 'button' | 'keyCode' | 'video' | null
 type ControllerProps = {
   standalone?: boolean
   isPlaying?: boolean
-  duration?: number
+  duration: number
   currentTime: number
   volume: number
   buffered?: number
@@ -97,8 +97,7 @@ class Controller extends Component<ControllerProps, State> {
   }
 
   shouldComponentUpdate(nextProps: ControllerProps) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.props.show || nextProps.show
+    return this.props.show! || nextProps.show!
   }
 
   componentWillUnmount() {

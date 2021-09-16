@@ -46,6 +46,7 @@ type VideoProps = {
   onError: (...args: any[]) => any
   onEvent: (name: EVENTS, data?: unknown) => void
   currentPlaybackRate: PlaybackRate
+  useAutoQuality?: boolean
 }
 
 class Video extends Component<VideoProps> {
@@ -383,18 +384,27 @@ class Video extends Component<VideoProps> {
   }
 }
 
-export default React.forwardRef<any, VideoProps>((props, ref) => (
-  <VideoSourceContext.Consumer>
-    {({currentSrc, sources, currentQuality, format, currentPlaybackRate}) => (
-      <Video
-        ref={ref}
-        {...props}
-        src={currentSrc}
-        format={format}
-        sources={sources}
-        currentQuality={currentQuality}
-        currentPlaybackRate={currentPlaybackRate}
-      />
-    )}
-  </VideoSourceContext.Consumer>
-))
+type InjectedProps =
+  | 'src'
+  | 'format'
+  | 'sources'
+  | 'currentQuality'
+  | 'currentPlaybackRate'
+
+export default React.forwardRef<any, Omit<VideoProps, InjectedProps>>(
+  (props, ref) => (
+    <VideoSourceContext.Consumer>
+      {({currentSrc, sources, currentQuality, format, currentPlaybackRate}) => (
+        <Video
+          ref={ref}
+          {...props}
+          src={currentSrc}
+          format={format}
+          sources={sources}
+          currentQuality={currentQuality}
+          currentPlaybackRate={currentPlaybackRate}
+        />
+      )}
+    </VideoSourceContext.Consumer>
+  )
+)

@@ -389,7 +389,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       !isPlaybackStarted && !isNeverPlayed && stateCurrentTime !== 0 // 播放结束，显示「重新播放」状态
     this.setState({currentTime})
     // TODO 想办法去掉这个实例方法调用
-    this.videoRef.current!.seek(currentTime)
+    this.videoRef.current?.seek(currentTime)
     if (isPlayEnded) {
       this.handlePlay()
     }

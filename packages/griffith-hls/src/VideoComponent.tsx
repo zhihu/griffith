@@ -95,13 +95,13 @@ export default class VideoComponent extends Component<VideoProps> {
   render() {
     const {
       onRef,
-      /* eslint-disable no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       currentQuality,
       useAutoQuality,
       src,
       sources,
       paused,
-      /* eslint-enable no-unused-vars */
+      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...props
     } = this.props
     return (

@@ -1,7 +1,6 @@
-import React, {useEffect, useLayoutEffect, useRef} from 'react'
+import React, {useLayoutEffect, useRef} from 'react'
 import EventEmitter from 'eventemitter3'
 import {
-  ACTIONS,
   EVENTS,
   ActionParamsMap,
   EventParamsMap,

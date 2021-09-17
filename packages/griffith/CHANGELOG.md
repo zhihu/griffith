@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.1](https://github.com/zhihu/griffith/compare/v1.18.0...v1.18.1) (2021-09-17)
+
+
+### Bug Fixes
+
+* 撤销网页全屏按钮 ([76963bc](https://github.com/zhihu/griffith/commit/76963bc))
+
+
+
+
+
 # [1.18.0](https://github.com/zhihu/griffith/compare/v1.17.0...v1.18.0) (2021-09-16)
 
 

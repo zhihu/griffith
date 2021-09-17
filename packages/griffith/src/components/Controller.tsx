@@ -10,7 +10,6 @@ import CombinedTimeItem from './items/CombinedTimeItem'
 import QualityMenuItem from './items/QualityMenuItem'
 import VolumeItem from './items/VolumeItem'
 import FullScreenButtonItem from './items/FullScreenButtonItem'
-import PageFullScreenButtonItem from './items/PageFullScreenButtonItem'
 import PipButtonItem from './items/PipButtonItem'
 import styles from './Controller.styles'
 import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
@@ -289,12 +288,10 @@ class Controller extends Component<ControllerProps, State> {
       currentTime,
       volume,
       isFullScreen,
-      isPageFullScreen,
       isPip,
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
-      onTogglePageFullScreen,
       onTogglePip,
       showPip,
       progressDots,
@@ -355,12 +352,7 @@ class Controller extends Component<ControllerProps, State> {
             {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />}
             {!hiddenQualityMenu && <QualityMenuItem />}
             {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
-            {!hiddenFullScreenButton && (
-              <PageFullScreenButtonItem
-                isFullScreen={isPageFullScreen}
-                onClick={onTogglePageFullScreen}
-              />
-            )}
+            {/* TODO: 网页全屏暂时删除 */}
             {!hiddenFullScreenButton && (
               <FullScreenButtonItem
                 isFullScreen={isFullScreen}

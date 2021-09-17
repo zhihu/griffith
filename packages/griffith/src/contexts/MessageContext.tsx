@@ -6,6 +6,7 @@ import {
   EventParamsMap,
   createMessageHelper,
 } from 'griffith-message'
+import useHandler from '../hooks/useHandler'
 
 const EVENT_TYPE = 'event'
 const ACTION_TYPE = 'action'
@@ -65,13 +66,6 @@ type MessageProviderProps = {
 }
 
 type MessageHelper = ReturnType<typeof createMessageHelper>
-
-const useHandler = <T extends (...args: any[]) => any>(handler: T) => {
-  const handlerRef = useRef<T>(handler)
-  handlerRef.current = handler
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return useRef(((...args: any[]) => handlerRef.current(...args)) as T).current
-}
 
 /**
  *

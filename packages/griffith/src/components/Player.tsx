@@ -18,9 +18,9 @@ import {
   Subscription,
 } from '../contexts/MessageContext'
 import VideoSourceContext from '../contexts/VideoSourceContext'
-import ObjectFitContext from '../contexts/ObjectFitContext'
+import ObjectFitContext, {ObjectFit} from '../contexts/ObjectFitContext'
 import PositionProvider from '../contexts/PositionProvider'
-import ObjectFitProvider, {ObjectFit} from '../contexts/ObjectFitProvider'
+import ObjectFitProvider from '../contexts/ObjectFitProvider'
 import LocaleProvider from '../contexts/LocaleProvider'
 import Time from './Time'
 import Icon from './Icon'

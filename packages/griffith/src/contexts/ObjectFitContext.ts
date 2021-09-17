@@ -1,6 +1,8 @@
 import React from 'react'
 
-type ObjectFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+// https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
+export type ObjectFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+
 type ObjectFitContextValue = {
   objectFit?: ObjectFit
   setObjectFit?(objectFit: ObjectFit): void

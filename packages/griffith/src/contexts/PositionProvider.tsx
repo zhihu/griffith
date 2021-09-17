@@ -1,6 +1,5 @@
 import React, {useRef, useEffect, useState, useMemo} from 'react'
 import {css} from 'aphrodite/no-important'
-import {reduce} from 'griffith-utils'
 import useHandler from '../hooks/useHandler'
 import usePrevious from '../hooks/usePrevious'
 import listenResize from '../utils/listenResize'
@@ -34,8 +33,7 @@ const PositionProvider: React.FC<Props> = ({children}) => {
     if (!videoWidth || !videoHeight) {
       return
     }
-    const [width, height] = reduce(videoWidth, videoHeight)
-    setHelperImageSrc(createHolderImageSrc(width, height))
+    setHelperImageSrc(createHolderImageSrc(videoWidth, videoHeight))
   })
 
   const updateIsFullWidth = useHandler(() => {

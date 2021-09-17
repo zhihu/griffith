@@ -1,48 +1,46 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {css} from 'aphrodite/no-important'
 import PositionContext from '../contexts/PositionContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
 import styles from './Layer.styles'
 
-const getContainerClassName = (isFullWidth: any) =>
+const getContainerClassName = (isFullWidth: boolean) =>
   css(
     styles.container,
     isFullWidth ? styles.containerFullWidth : styles.containerFullHeight
   )
 
-const getImageClassName = (isFullWidth: any) =>
+const getImageClassName = (isFullWidth: boolean) =>
   css(
     styles.image,
     isFullWidth ? styles.imageFullWidth : styles.imageFullHeight
   )
 
-const Positioned = ({children}: any) => (
-  <PositionContext.Consumer>
-    {({isFullWidth, helperImageSrc}) =>
-      helperImageSrc && (
-        <div className={getContainerClassName(isFullWidth)}>
-          <img
-            src={helperImageSrc}
-            className={getImageClassName(isFullWidth)}
-          />
-          {children}
-        </div>
-      )
-    }
-  </PositionContext.Consumer>
-)
+const Positioned: React.FC = ({children}) => {
+  const {isFullWidth, helperImageSrc} = useContext(PositionContext)
 
-export default function Layer({children}: any) {
-  if (!children) return null
+  if (helperImageSrc) {
+    return (
+      <div className={getContainerClassName(isFullWidth)}>
+        <img src={helperImageSrc} className={getImageClassName(isFullWidth)} />
+        {children}
+      </div>
+    )
+  }
 
-  const layer = <div className={css(styles.layer)}>{children}</div>
-
-  // 暂时先只考虑 cover
-  return (
-    <ObjectFitContext.Consumer>
-      {({objectFit}) =>
-        objectFit === 'cover' ? layer : <Positioned>{layer}</Positioned>
-      }
-    </ObjectFitContext.Consumer>
-  )
+  return null
 }
+
+const Layer: React.FC = ({children}) => {
+  const {objectFit} = useContext(ObjectFitContext)
+
+  if (children) {
+    const layer = <div className={css(styles.layer)}>{children}</div>
+    // 暂时先只考虑 cover
+    return objectFit === 'cover' ? layer : <Positioned>{layer}</Positioned>
+  }
+
+  return null
+}
+
+export default Layer

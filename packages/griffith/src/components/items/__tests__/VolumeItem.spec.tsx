@@ -1,31 +1,31 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render, fireEvent, screen} from '@testing-library/react'
 import VolumeItem from '../VolumeItem'
 
 describe('VolumeItem', () => {
   it('get VolumeItem component', () => {
     const handleMouseEnter = jest.fn()
-    const handlemouseLeave = jest.fn()
-    const wrapper = shallow(
+    const handleMouseLeave = jest.fn()
+    const result = render(
       <VolumeItem
         volume={0.9}
         menuShown={true}
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={handlemouseLeave}
+        onMouseLeave={handleMouseLeave}
         onToggleMuted={jest.fn()}
         onDragStart={jest.fn()}
         onDragEnd={jest.fn()}
         onChange={jest.fn()}
       />
     )
-    expect(wrapper).toMatchSnapshot()
+    expect(result.container).toMatchSnapshot()
 
     // PointerEnter
-    wrapper.simulate('mouseenter')
+    fireEvent.mouseEnter(screen.getByRole('button'))
     expect(handleMouseEnter).toBeCalled()
 
     // PointerLeave
-    wrapper.simulate('mouseleave')
-    expect(handlemouseLeave).toBeCalled()
+    fireEvent.mouseLeave(screen.getByRole('button'))
+    expect(handleMouseLeave).toBeCalled()
   })
 })

@@ -1,17 +1,20 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render} from '@testing-library/react'
+import ObjectFitProvider from '../../contexts/ObjectFitProvider'
 import Layer from '../Layer'
 
 describe('Layer', () => {
   it('get Layer component', () => {
-    const wrapper1 = shallow(<Layer />)
-    expect(wrapper1).toEqual({})
+    const result1 = render(<Layer />)
+    expect(result1.container.innerHTML).toMatchSnapshot()
 
-    const wrapper2 = shallow(
-      <Layer>
-        <span>123</span>
-      </Layer>
+    const result2 = render(
+      <ObjectFitProvider initialObjectFit="cover">
+        <Layer>
+          <span>123</span>
+        </Layer>
+      </ObjectFitProvider>
     )
-    expect(wrapper2).toMatchSnapshot()
+    expect(result2.container.innerHTML).toMatchSnapshot()
   })
 })

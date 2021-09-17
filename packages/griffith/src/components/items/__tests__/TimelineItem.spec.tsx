@@ -1,10 +1,10 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render} from '@testing-library/react'
 import TimelineItem from '../TimelineItem'
 
 describe('TimelineItem', () => {
   it('get TimelineItem component', () => {
-    const wrapper = shallow(
+    const result = render(
       <TimelineItem
         value={7}
         total={187}
@@ -15,6 +15,6 @@ describe('TimelineItem', () => {
         onSeek={jest.fn()}
       />
     )
-    expect(wrapper).toMatchSnapshot()
+    expect(result.container).toMatchSnapshot()
   })
 })

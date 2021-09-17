@@ -1,9 +1,11 @@
 import React from 'react'
-import {render} from 'enzyme'
+import Renderer from 'react-test-renderer'
 import VolumeSlider from '../VolumeSlider'
 
 describe('VolumeSlider', () => {
   it('get VolumeSlider component', () => {
-    expect(render(<VolumeSlider total={1} value={0.5} />)).toMatchSnapshot()
+    expect(
+      Renderer.create(<VolumeSlider total={1} value={0.5} />).toJSON()
+    ).toMatchSnapshot()
   })
 })

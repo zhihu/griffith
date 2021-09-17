@@ -1,17 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TimelineItem get TimelineItem component 1`] = `
-<div
-  className="timeline_bc4egv"
->
-  <Timeline
-    buffered={12}
-    onChange={[MockFunction]}
-    onDragEnd={[MockFunction]}
-    onDragStart={[MockFunction]}
-    onSeek={[MockFunction]}
-    total={187}
-    value={7}
-  />
+<div>
+  <div class="timeline_bc4egv">
+    <div class="root_3hmsj">
+      <div
+        class="root_17bkmwy-o_O-root_1u52a97-o_O-root_1pr59fm"
+        tabindex="0"
+        role="slider"
+      >
+        <div class="inner_9gm5i8-o_O-inner_qb00m9">
+          <div class="track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7">
+            <div
+              class="
+                bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw-o_O-buffered_gsgvhl
+              "
+              style="left: 0px; width: 6.417112299465241%"
+            ></div>
+            <div
+              class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
+              style="left: 0px; width: 3.7433155080213902%"
+            ></div>
+          </div>
+          <div
+            class="thumbWrapper_ay4wjb-o_O-thumbWrapper_6t4rjm"
+            style="left: 3.7433155080213902%"
+          >
+            <div class="thumb_ozdqky-o_O-thumb_1omjhz8"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 `;

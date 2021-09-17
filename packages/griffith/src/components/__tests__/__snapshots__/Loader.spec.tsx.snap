@@ -2,14 +2,14 @@
 
 exports[`Loader get Loader component 1`] = `
 <div
-  class="root_3a2vkm"
+  className="root_3a2vkm"
 >
   <svg
-    class="svg_1v9ybk"
+    className="svg_1v9ybk"
     viewBox="0 0 64 64"
   >
     <circle
-      class="circle_11txi2m"
+      className="circle_11txi2m"
     />
   </svg>
 </div>

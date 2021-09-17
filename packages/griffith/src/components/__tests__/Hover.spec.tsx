@@ -1,31 +1,35 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render, fireEvent, screen} from '@testing-library/react'
 import Hover from '../Hover'
 
 describe('Hover', () => {
   it('get Hover component', () => {
     const handleMouseEnter = jest.fn()
-    const handlemouseLeave = jest.fn()
-    const wrapper = shallow(
+    const handleMouseLeave = jest.fn()
+    let hovering = false
+    const result = render(
       <Hover
         className="hover"
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={handlemouseLeave}
+        onMouseLeave={handleMouseLeave}
       >
-        {(isHovered) => <button>{isHovered ? 'button' : 'input'}</button>}
+        {(isHovered) => {
+          hovering = isHovered
+          return <button>{isHovered ? 'button' : 'input'}</button>
+        }}
       </Hover>
     )
-    expect(wrapper).toMatchSnapshot()
-    expect(wrapper.state().isHovered).toBeFalsy()
+    expect(result.container).toMatchSnapshot()
+    expect(hovering).toBeFalsy()
 
     // PointerEnter
-    wrapper.simulate('mouseenter')
-    expect(wrapper.state().isHovered).toBeTruthy()
+    fireEvent.mouseEnter(screen.getByRole('button'))
     expect(handleMouseEnter).toBeCalled()
+    expect(hovering).toBeTruthy()
 
     // PointerLeave
-    wrapper.simulate('mouseleave')
-    expect(wrapper.state().isHovered).toBeFalsy()
-    expect(handlemouseLeave).toBeCalled()
+    fireEvent.mouseLeave(screen.getByRole('button'))
+    expect(handleMouseLeave).toBeCalled()
+    expect(hovering).toBeFalsy()
   })
 })

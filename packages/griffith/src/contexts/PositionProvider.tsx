@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useRef, useEffect, useState, useMemo} from 'react'
 import {css} from 'aphrodite/no-important'
 import {reduce} from 'griffith-utils'
+import useHandler from '../hooks/useHandler'
+import usePrevious from '../hooks/usePrevious'
 import listenResize from '../utils/listenResize'
 import PositionContext from './PositionContext'
 import styles from './PositionProvider.styles'
@@ -9,122 +11,86 @@ type Props = {
   shouldObserveResize?: boolean
 }
 
-type State = {
+type VideoSize = {
   videoWidth: number
   videoHeight: number
-  isFullWidth: boolean
-  helperImageSrc?: string | null
 }
 
-export default class PositionProvider extends React.PureComponent<
-  Props,
-  State
-> {
-  unlistenResize_?: () => void
+// Create a placeholder image to preserve the original aspect ratio
+const createHolderImageSrc = (width: number, height: number) =>
+  `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}'></svg>`
 
-  state = {
+const PositionProvider: React.FC<Props> = ({children}) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const [helperImageSrc, setHelperImageSrc] = useState<string | null>(null)
+  const [isFullWidth, setIsFullWidth] = useState<boolean>(false)
+  const [videoSize, setVideoSize] = useState<VideoSize>({
     videoWidth: 0,
     videoHeight: 0,
-    isFullWidth: false,
-    helperImageSrc: null,
-  }
+  })
 
-  ref = React.createRef<HTMLDivElement>()
-
-  componentDidMount() {
-    if (this.props.shouldObserveResize) {
-      this.startObservingResize()
-    }
-    this.updateHelperImageSrc()
-  }
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    const {shouldObserveResize: prevShouldObserve} = prevProps
-    const {videoWidth: prevWidth, videoHeight: prevHeight} = prevState
-    const {shouldObserveResize} = this.props
-    const {videoWidth, videoHeight} = this.state
-
-    if (prevWidth !== videoWidth || prevHeight !== videoHeight) {
-      this.triggerUpdateIsFullWidth()
-      this.updateHelperImageSrc()
-    }
-
-    if (!prevShouldObserve && shouldObserveResize) {
-      this.startObservingResize()
-    }
-    if (prevShouldObserve && !shouldObserveResize) {
-      this.stopObservingResize()
-    }
-  }
-
-  componentWillUnmount() {
-    this.stopObservingResize()
-  }
-
-  startObservingResize = () => {
-    const root = this.ref.current
-    if (root) {
-      this.unlistenResize_ = listenResize(root, this.updateIsFullWidth)
-    }
-  }
-
-  stopObservingResize() {
-    if (this.unlistenResize_) {
-      this.unlistenResize_()
-    }
-  }
-
-  updateHelperImageSrc = () => {
-    const {videoWidth, videoHeight} = this.state
+  const updateHelperImageSrc = useHandler(() => {
+    const {videoWidth, videoHeight} = videoSize
     if (!videoWidth || !videoHeight) {
       return
     }
     const [width, height] = reduce(videoWidth, videoHeight)
-    const canvas = document.createElement('canvas')
-    canvas.width = width
-    canvas.height = height
-    const helperImageSrc = canvas.toDataURL()
-    this.setState({helperImageSrc})
-  }
+    setHelperImageSrc(createHolderImageSrc(width, height))
+  })
 
-  updateIsFullWidth = () => {
-    const {videoWidth, videoHeight} = this.state
+  const updateIsFullWidth = useHandler(() => {
+    const {videoWidth, videoHeight} = videoSize
     if (!videoWidth || !videoHeight) {
       return
     }
-    const root = this.ref.current
-    if (!root) return
+    if (!ref.current) {
+      return
+    }
 
-    const {width, height} = root.getBoundingClientRect()
+    const {width, height} = ref.current.getBoundingClientRect()
     // 因为视频缩放后，长宽可能不严格相等，所以认为差值小于等于 0.01 的就算相等。
     // 比如 1280x720 (1.777777778) 和 848x478 (1.774058577)，认为相等。
-    const isFullWidth = width / height - videoWidth / videoHeight <= 0.01
-    if (isFullWidth !== this.state.isFullWidth) {
-      this.setState({isFullWidth})
+    const isFullWidthNew = width / height - videoWidth / videoHeight <= 0.01
+    if (isFullWidthNew !== isFullWidth) {
+      setIsFullWidth(isFullWidthNew)
     }
-  }
+  })
 
-  triggerUpdateIsFullWidth = () => requestAnimationFrame(this.updateIsFullWidth)
+  useEffect(() => {
+    if (ref.current) {
+      return listenResize(ref.current, updateIsFullWidth)
+    }
+  }, [ref, updateIsFullWidth])
 
-  updateVideoSize = ({videoWidth, videoHeight}: any) => {
-    this.setState({videoWidth, videoHeight})
-  }
+  useEffect(() => {
+    updateHelperImageSrc()
+  }, [updateHelperImageSrc])
 
-  render() {
-    const {children} = this.props
-    const {isFullWidth, helperImageSrc} = this.state
-    return (
-      <PositionContext.Provider
-        value={{
-          isFullWidth,
-          helperImageSrc,
-          updateVideoSize: this.updateVideoSize,
-        }}
-      >
-        <div className={css(styles.root)} ref={this.ref}>
-          {children}
-        </div>
-      </PositionContext.Provider>
-    )
-  }
+  const prevVideoSize = usePrevious(videoSize)
+  useEffect(() => {
+    if (!prevVideoSize) {
+      return
+    }
+    const {videoWidth: prevWidth, videoHeight: prevHeight} = prevVideoSize
+    const {videoWidth, videoHeight} = videoSize
+    if (prevWidth !== videoWidth || prevHeight !== videoHeight) {
+      requestAnimationFrame(updateIsFullWidth)
+      updateHelperImageSrc()
+    }
+  }, [prevVideoSize, updateHelperImageSrc, updateIsFullWidth, videoSize])
+
+  const contextValue = useMemo(
+    () => ({isFullWidth, helperImageSrc, updateVideoSize: setVideoSize}),
+    [helperImageSrc, isFullWidth]
+  )
+
+  return (
+    <PositionContext.Provider value={contextValue}>
+      <div className={css(styles.root)} ref={ref}>
+        {children}
+      </div>
+    </PositionContext.Provider>
+  )
 }
+
+export default PositionProvider

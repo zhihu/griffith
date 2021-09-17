@@ -12,7 +12,6 @@ import VolumeItem from './items/VolumeItem'
 import FullScreenButtonItem from './items/FullScreenButtonItem'
 import PipButtonItem from './items/PipButtonItem'
 import styles from './Controller.styles'
-import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
 
 export type ToggleType = 'button' | 'keyCode' | 'video' | null
 
@@ -300,7 +299,6 @@ class Controller extends Component<ControllerProps, State> {
       hiddenTime,
       hiddenQualityMenu,
       hiddenVolumeItem,
-      hiddenPlaybackRateItem,
       hiddenFullScreenButton,
       onProgressDotHover,
       onProgressDotLeave,
@@ -349,7 +347,8 @@ class Controller extends Component<ControllerProps, State> {
             )}
           </div>
           <div className={css(styles.rootBottomRight)}>
-            {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />}
+            {/* TODO: 倍速按钮暂时删除 */}
+            {/* {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />} */}
             {!hiddenQualityMenu && <QualityMenuItem />}
             {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
             {/* TODO: 网页全屏暂时删除 */}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-type PositionContextValue = {
+export type PositionContextValue = {
   isFullWidth: boolean
   helperImageSrc?: string | null
   updateVideoSize: (opts: {videoWidth: number; videoHeight: number}) => void

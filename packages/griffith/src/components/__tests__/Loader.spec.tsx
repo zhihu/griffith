@@ -1,10 +1,9 @@
 import React from 'react'
-import {render} from 'enzyme'
+import Renderer from 'react-test-renderer'
 import Loader from '../Loader'
 
 describe('Loader', () => {
   it('get Loader component', () => {
-    const wrapper = render(<Loader />)
-    expect(wrapper).toMatchSnapshot()
+    expect(Renderer.create(<Loader />).toJSON()).toMatchSnapshot()
   })
 })

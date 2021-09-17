@@ -14,7 +14,7 @@ export type TimelineProps = {
   onSeek?: (...args: any[]) => any
   onProgressDotHover?: (...args: any[]) => any
   onProgressDotLeave?: (...args: any[]) => any
-} & SliderProps
+} & Omit<SliderProps, 'styles'>
 
 export type TimelineState = {
   isHovered: boolean

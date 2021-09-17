@@ -1,15 +1,13 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render, fireEvent, screen} from '@testing-library/react'
 import PlayButtonItem from '../PlayButtonItem'
 
 describe('PlayButtonItem', () => {
   it('get PlayButtonItem component', () => {
     const onClick = jest.fn()
-    const wrapper = shallow(
-      <PlayButtonItem isPlaying={true} onClick={onClick} />
-    )
-    expect(wrapper).toMatchSnapshot()
-    wrapper.find('button').simulate('click')
+    const result = render(<PlayButtonItem isPlaying={true} onClick={onClick} />)
+    expect(result.container).toMatchSnapshot()
+    fireEvent.click(screen.getByRole('button'))
     expect(onClick).toBeCalled()
   })
 })

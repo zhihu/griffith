@@ -1,19 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CombinedTimeItem get CombinedTimeItem component 1`] = `
-<div
-  className="time_kviad4-o_O-fullScreenedTime_1xxtrer"
->
-  <div
-    className=""
-  >
-    <Time
-      value={6}
-    />
-     / 
-    <Time
-      value={182}
-    />
+<div>
+  <div class="time_kviad4-o_O-fullScreenedTime_1xxtrer">
+    <div class=""><span>00:06</span> / <span>03:02</span></div>
   </div>
 </div>
+
 `;

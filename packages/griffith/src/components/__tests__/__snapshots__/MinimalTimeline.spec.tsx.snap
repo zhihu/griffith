@@ -1,185 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MinimalTimeline get MinimalTimeline component 1`] = `
-<Slider
-  buffered={0}
-  noInteraction={true}
-  orientation="horizontal"
-  progressDots={Array []}
-  reverse={false}
-  step={1}
-  styles={
-    Array [
-      Object {
-        "bar": Object {
-          "_definition": Object {
-            "backgroundColor": "#0f88eb",
-          },
-          "_len": 29,
-          "_name": "bar_1kvrquw",
-        },
-        "buffered": Object {
-          "_definition": Object {
-            "backgroundColor": "rgba(255, 255, 255, 0.6)",
-            "borderRadius": "2px 0 0 2px",
-          },
-          "_len": 75,
-          "_name": "buffered_gsgvhl",
-        },
-        "root": Object {
-          "_definition": Object {
-            "height": 40,
-          },
-          "_len": 13,
-          "_name": "root_1pr59fm",
-        },
-        "thumb": Object {
-          "_definition": Object {
-            "transform": "scale(0)",
-            "transition": "transform 300ms",
-          },
-          "_len": 55,
-          "_name": "thumb_1omjhz8",
-        },
-        "track": Object {
-          "_definition": Object {
-            "transition": "transform 300ms",
-          },
-          "_len": 32,
-          "_name": "track_1q3h7g7",
-        },
-      },
-      Object {
-        "buffered": Object {
-          "_definition": Object {
-            "backgroundColor": "rgba(255, 255, 255, 0.3)",
-            "borderRadius": "2px 0 0 2px",
-          },
-          "_len": 75,
-          "_name": "buffered_9ts8ks",
-        },
-        "root": Object {
-          "_definition": Object {
-            "bottom": 0,
-            "height": "3px",
-            "left": 0,
-            "padding": 0,
-            "position": "absolute",
-            "right": 0,
-          },
-          "_len": 80,
-          "_name": "root_qckecg",
-        },
-        "thumb": Object {
-          "_definition": Object {
-            "display": "none",
-          },
-          "_len": 18,
-          "_name": "thumb_1u9fru1",
-        },
-        "track": Object {
-          "_definition": Object {
-            "borderRadius": 0,
-          },
-          "_len": 18,
-          "_name": "track_1h7ofbx",
-        },
-      },
-    ]
-  }
-  total={182.234}
-  value={0}
-/>
+<div>
+  <div
+    class="root_17bkmwy-o_O-root_1u52a97-o_O-root_1pr59fm-o_O-root_qckecg"
+    role="slider"
+  >
+    <div class="inner_9gm5i8-o_O-inner_qb00m9">
+      <div
+        class="
+          track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7-o_O-track_1h7ofbx
+        "
+      >
+        <div
+          class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
+          style="left: 0px; width: 0%"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 `;
 
 exports[`MinimalTimeline get MinimalTimeline component 2`] = `
-<Slider
-  buffered={0}
-  noInteraction={true}
-  orientation="horizontal"
-  progressDots={Array []}
-  reverse={false}
-  step={1}
-  styles={
-    Array [
-      Object {
-        "bar": Object {
-          "_definition": Object {
-            "backgroundColor": "#0f88eb",
-          },
-          "_len": 29,
-          "_name": "bar_1kvrquw",
-        },
-        "buffered": Object {
-          "_definition": Object {
-            "backgroundColor": "rgba(255, 255, 255, 0.6)",
-            "borderRadius": "2px 0 0 2px",
-          },
-          "_len": 75,
-          "_name": "buffered_gsgvhl",
-        },
-        "root": Object {
-          "_definition": Object {
-            "height": 40,
-          },
-          "_len": 13,
-          "_name": "root_1pr59fm",
-        },
-        "thumb": Object {
-          "_definition": Object {
-            "transform": "scale(0)",
-            "transition": "transform 300ms",
-          },
-          "_len": 55,
-          "_name": "thumb_1omjhz8",
-        },
-        "track": Object {
-          "_definition": Object {
-            "transition": "transform 300ms",
-          },
-          "_len": 32,
-          "_name": "track_1q3h7g7",
-        },
-      },
-      Object {
-        "buffered": Object {
-          "_definition": Object {
-            "backgroundColor": "rgba(255, 255, 255, 0.3)",
-            "borderRadius": "2px 0 0 2px",
-          },
-          "_len": 75,
-          "_name": "buffered_9ts8ks",
-        },
-        "root": Object {
-          "_definition": Object {
-            "bottom": 0,
-            "height": "3px",
-            "left": 0,
-            "padding": 0,
-            "position": "absolute",
-            "right": 0,
-          },
-          "_len": 80,
-          "_name": "root_qckecg",
-        },
-        "thumb": Object {
-          "_definition": Object {
-            "display": "none",
-          },
-          "_len": 18,
-          "_name": "thumb_1u9fru1",
-        },
-        "track": Object {
-          "_definition": Object {
-            "borderRadius": 0,
-          },
-          "_len": 18,
-          "_name": "track_1h7ofbx",
-        },
-      },
-    ]
-  }
-  total={182.234}
-  value={0}
-/>
+<div>
+  <div
+    class="root_17bkmwy-o_O-root_1u52a97-o_O-root_1pr59fm-o_O-root_qckecg"
+    role="slider"
+  >
+    <div class="inner_9gm5i8-o_O-inner_qb00m9">
+      <div
+        class="
+          track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7-o_O-track_1h7ofbx
+        "
+      >
+        <div
+          class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
+          style="left: 0px; width: 32.92470120833653%"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 `;

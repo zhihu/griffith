@@ -1,13 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Hover get Hover component 1`] = `
-<div
-  className="hover"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
->
-  <button>
-    input
-  </button>
+<div>
+  <div class="hover"><button>input</button></div>
 </div>
+
 `;

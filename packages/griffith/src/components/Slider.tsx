@@ -241,7 +241,11 @@ class Slider extends Component<SliderProps, State> {
           onMouseDown: this.handleDragStart,
         }
     return (
-      <div className={this.getClassName('root')} {...interactionProps}>
+      <div
+        className={this.getClassName('root')}
+        {...interactionProps}
+        role="slider"
+      >
         <div className={this.getClassName('inner')}>
           <div ref={this.trackRef} className={this.getClassName('track')}>
             {Boolean(buffered) && (

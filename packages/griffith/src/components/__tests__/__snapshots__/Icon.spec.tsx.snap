@@ -2,10 +2,10 @@
 
 exports[`Icon get Icon component 1`] = `
 <span
-  class="root_s9vkyf"
+  className="root_s9vkyf"
 >
   <svg
-    class="svg_11u3rwe"
+    className="svg_11u3rwe"
     viewBox="0 0 24 24"
   >
     <path

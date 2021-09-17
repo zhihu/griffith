@@ -1,9 +1,11 @@
 import React from 'react'
-import {render} from 'enzyme'
+import Renderer from 'react-test-renderer'
 import Tooltip from '../Tooltip'
 
 describe('Tooltip', () => {
   it('get Tooltip component', () => {
-    expect(render(<Tooltip content="高清" />)).toMatchSnapshot()
+    expect(
+      Renderer.create(<Tooltip content="quality-hd" />).toJSON()
+    ).toMatchSnapshot()
   })
 })

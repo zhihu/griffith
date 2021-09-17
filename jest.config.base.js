@@ -1,8 +1,7 @@
 module.exports = {
   preset: 'es-jest',
   testEnvironment: 'node',
-  setupFiles: [require.resolve('./jest.setup.js')],
-  snapshotSerializers: ['enzyme-to-json/serializer'],
+  setupFiles: [require.resolve('./jest/setup.js')],
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     // 约定：入口文件只包含 import/export，不执行逻辑
@@ -11,4 +10,5 @@ module.exports = {
     '!src/**/types.ts',
   ],
   testPathIgnorePatterns: ['/__mocks__/'],
+  snapshotSerializers: [require.resolve('./jest/prettier-dom.js')],
 }

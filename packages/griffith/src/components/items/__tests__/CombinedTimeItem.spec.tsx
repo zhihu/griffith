@@ -1,12 +1,12 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render} from '@testing-library/react'
 import CombinedTimeItem from '../CombinedTimeItem'
 
 describe('CombinedTimeItem', () => {
   it('get CombinedTimeItem component', () => {
-    const wrapper = shallow(
+    const result = render(
       <CombinedTimeItem isFullScreen={true} currentTime={6} duration={182} />
     )
-    expect(wrapper).toMatchSnapshot()
+    expect(result.container).toMatchSnapshot()
   })
 })

@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layer get Layer component 1`] = `
-<Positioned>
-  <div
-    className="layer_120lr3k"
-  >
-    <span>
-      123
-    </span>
-  </div>
-</Positioned>
-`;
+exports[`Layer get Layer component 1`] = `""`;
+
+exports[`Layer get Layer component 2`] = `"<div class=\\"layer_120lr3k\\"><span>123</span></div>"`;

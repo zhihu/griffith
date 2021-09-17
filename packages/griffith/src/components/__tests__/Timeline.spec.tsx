@@ -1,6 +1,6 @@
 import React from 'react'
-import {shallow} from 'enzyme'
-import Timeline, {TimelineProps, TimelineState} from '../Timeline'
+import {render, fireEvent, screen} from '@testing-library/react'
+import Timeline from '../Timeline'
 
 describe('Timeline', () => {
   it('get Timeline component', () => {
@@ -10,7 +10,7 @@ describe('Timeline', () => {
     const onDragStart = jest.fn()
     const onProgressDotHover = jest.fn()
     const onProgressDotLeave = jest.fn()
-    const wrapper = shallow<Timeline, TimelineProps, TimelineState>(
+    render(
       <Timeline
         buffered={7}
         total={182.234}
@@ -24,43 +24,17 @@ describe('Timeline', () => {
       />
     )
 
-    expect(wrapper).toMatchSnapshot()
-
-    expect(wrapper.state().progressDotHovered).toBeFalsy()
-
-    expect(wrapper.state().isHovered).toBeFalsy()
-
-    // PointerEnter
-    wrapper.simulate('mouseenter')
-    expect(wrapper.state().isHovered).toBeTruthy()
-
-    // PointerLeave
-    wrapper.simulate('mouseleave')
-    expect(wrapper.state().isHovered).toBeFalsy()
-
-    expect(wrapper.state().isFocused).toBeFalsy()
-    // focus event
-    wrapper.find('Slider').simulate('focus')
-    expect(wrapper.state().isFocused).toBeTruthy()
-
-    // blur event
-    wrapper.find('Slider').simulate('blur')
-    expect(wrapper.state().isFocused).toBeFalsy()
-
-    expect(wrapper.state().isDragging).toBeFalsy()
-    // focus event
-    wrapper.find('Slider').simulate('dragstart')
-    expect(wrapper.state().isDragging).toBeTruthy()
+    fireEvent.mouseDown(screen.getByRole('slider'))
     expect(onDragStart).toBeCalled()
 
-    // blur event
-    wrapper.find('Slider').simulate('dragend')
-    expect(wrapper.state().isDragging).toBeFalsy()
+    fireEvent.mouseUp(screen.getByRole('slider'), {clientX: 100})
     expect(onDragEnd).toBeCalled()
+    expect(onChange).toBeCalled()
 
     // handle change
-    wrapper.instance().handleChange(47)
-    expect(onChange).toBeCalled()
+    onChange.mockClear()
+    fireEvent.keyDown(screen.getByRole('slider'), {keyCode: 39})
+    expect(onChange).toHaveBeenCalledWith(expect.any(Number))
     expect(onSeek).toBeCalled()
   })
 })

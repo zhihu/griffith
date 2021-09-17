@@ -2,29 +2,41 @@
 
 exports[`VolumeSlider get VolumeSlider component 1`] = `
 <div
-  class="root_1cc9rz"
+  className="root_1cc9rz"
 >
   <div
-    class="root_17bkmwy-o_O-root_1bq0ydu-o_O-root_av3p6z"
-    tabindex="0"
+    className="root_17bkmwy-o_O-root_1bq0ydu-o_O-root_av3p6z"
+    onKeyDown={[Function]}
+    onMouseDown={[Function]}
+    role="slider"
+    tabIndex={0}
   >
     <div
-      class="inner_9gm5i8-o_O-inner_1jtvojh"
+      className="inner_9gm5i8-o_O-inner_1jtvojh"
     >
       <div
-        class="track_1bopucd-o_O-track_31rx9n-o_O-track_ytl6g2"
+        className="track_1bopucd-o_O-track_31rx9n-o_O-track_ytl6g2"
       >
         <div
-          class="bar_1kpj1ed-o_O-bar_1ql2ook"
-          style="bottom:0;height:50%"
+          className="bar_1kpj1ed-o_O-bar_1ql2ook"
+          style={
+            Object {
+              "bottom": 0,
+              "height": "50%",
+            }
+          }
         />
       </div>
       <div
-        class="thumbWrapper_ay4wjb-o_O-thumbWrapper_drkmbm"
-        style="bottom:50%"
+        className="thumbWrapper_ay4wjb-o_O-thumbWrapper_drkmbm"
+        style={
+          Object {
+            "bottom": "50%",
+          }
+        }
       >
         <div
-          class="thumb_ozdqky-o_O-thumb_8gf5gg"
+          className="thumb_ozdqky-o_O-thumb_8gf5gg"
         />
       </div>
     </div>

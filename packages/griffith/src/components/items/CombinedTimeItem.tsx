@@ -1,15 +1,15 @@
 import React from 'react'
 import {css} from 'aphrodite/no-important'
+import formatDuration from '../../utils/formatDuration'
 import styles from '../Controller.styles'
-import Time from '../Time'
 
-const CombinedTimeItem = ({isFullScreen, currentTime, duration}: any) => (
+const CombinedTimeItem: React.FC<{
+  isFullScreen: boolean
+  currentTime: number
+  duration: number
+}> = ({isFullScreen, currentTime, duration}) => (
   <div className={css(styles.time, isFullScreen && styles.fullScreenedTime)}>
-    <div>
-      <Time value={currentTime} />
-      {' / '}
-      <Time value={duration} />
-    </div>
+    {`${formatDuration(currentTime)} / ${formatDuration(duration)}`}
   </div>
 )
 

@@ -22,7 +22,6 @@ import ObjectFitContext, {ObjectFit} from '../contexts/ObjectFitContext'
 import PositionProvider from '../contexts/PositionProvider'
 import ObjectFitProvider from '../contexts/ObjectFitProvider'
 import LocaleProvider from '../contexts/LocaleProvider'
-import Time from './Time'
 import Icon from './Icon'
 import * as icons from './icons/display/index'
 import Loader from './Loader'
@@ -31,6 +30,7 @@ import Controller, {ToggleType} from './Controller'
 import VolumeItem from './items/VolumeItem'
 import MinimalTimeline from './MinimalTimeline'
 import getBufferedTime from '../utils/getBufferedTime'
+import formatDuration from '../utils/formatDuration'
 import storage from '../utils/storage'
 import Pip from '../utils/pip'
 
@@ -629,7 +629,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
                 isMobile && styles.coverTimeMobile
               )}
             >
-              <Time value={duration} />
+              {formatDuration(duration)}
             </div>
           )}
           {/* 只有在第一次未播放时展示播放按钮，播放结束全部展示重播按钮 */}

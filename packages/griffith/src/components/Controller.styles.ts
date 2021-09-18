@@ -73,12 +73,12 @@ export default StyleSheet.create({
   },
 
   time: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: '0 0.5em',
     width: '100px',
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
     fontSize: '0.875em',
-    lineHeight: 2.5,
     color: 'rgba(255, 255, 255, 0.9)',
   },
 

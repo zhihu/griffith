@@ -340,7 +340,7 @@ class Controller extends Component<ControllerProps, State> {
             {hiddenTimeline && <div className={css(styles.timelineHolder)} />}
             {!hiddenTime && (
               <CombinedTimeItem
-                isFullScreen={isFullScreen}
+                isFullScreen={isFullScreen!}
                 currentTime={displayedCurrentTime}
                 duration={duration}
               />

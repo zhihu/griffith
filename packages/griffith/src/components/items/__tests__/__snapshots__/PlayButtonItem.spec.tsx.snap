@@ -2,8 +2,8 @@
 
 exports[`PlayButtonItem get PlayButtonItem component 1`] = `
 <div>
-  <div class="">
-    <button class="button_1j0k413">
+  <div>
+    <button class="button_1j0k413" type="button">
       <span class="root_s9vkyf"
         ><svg viewBox="0 0 24 24" class="svg_11u3rwe">
           <path

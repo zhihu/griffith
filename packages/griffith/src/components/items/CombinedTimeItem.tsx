@@ -5,7 +5,7 @@ import Time from '../Time'
 
 const CombinedTimeItem = ({isFullScreen, currentTime, duration}: any) => (
   <div className={css(styles.time, isFullScreen && styles.fullScreenedTime)}>
-    <div className={css((styles as any).timeText)}>
+    <div>
       <Time value={currentTime} />
       {' / '}
       <Time value={duration} />

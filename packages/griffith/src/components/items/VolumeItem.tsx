@@ -1,9 +1,9 @@
 import React from 'react'
 import {css} from 'aphrodite/no-important'
 import VolumeSlider from '../VolumeSlider'
-import Icon from '../Icon'
 import * as icons from '../icons/controller'
 import styles from '../Controller.styles'
+import ControllerButton from './ControllerButton'
 
 const VolumeItem = ({
   volume,
@@ -20,9 +20,10 @@ const VolumeItem = ({
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
   >
-    <button className={css(styles.button)} onClick={onToggleMuted}>
-      <Icon icon={volume === 0 ? icons.muted : icons.volume} />
-    </button>
+    <ControllerButton
+      icon={volume === 0 ? icons.muted : icons.volume}
+      onClick={onToggleMuted}
+    />
     <div className={css(styles.menu, menuShown && styles.menuShown)}>
       <VolumeSlider
         value={volume}

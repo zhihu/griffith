@@ -4,7 +4,7 @@ import {Quality} from '../../types'
 import VideoSourceContext from '../../contexts/VideoSourceContext'
 import reverseArray from '../../utils/reverseArray'
 import TranslatedText from '../TranslatedText'
-
+import ControllerButton from './ControllerButton'
 import styles from '../Controller.styles'
 
 const QUALITIES: Record<Quality, `quality-${Quality}`> = {
@@ -43,11 +43,9 @@ class QualityMenuItem extends React.PureComponent<QualityMenuItemProps, State> {
               onMouseEnter={this.handleQualityPointerEnter}
               onMouseLeave={this.handleQualityPointerLeave}
             >
-              <button className={css(styles.button, styles.qualityButton)}>
-                <span className={css(styles.qualityButtonText)}>
-                  <TranslatedText name={QUALITIES[currentQuality]} />
-                </span>
-              </button>
+              <ControllerButton
+                label={<TranslatedText name={QUALITIES[currentQuality]} />}
+              />
               <div
                 className={css(
                   styles.menu,

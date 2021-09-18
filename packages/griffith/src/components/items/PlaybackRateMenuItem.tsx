@@ -4,6 +4,7 @@ import VideoSourceContext from '../../contexts/VideoSourceContext'
 import reverseArray from '../../utils/reverseArray'
 import styles from '../Controller.styles'
 import TranslatedText from '../TranslatedText'
+import ControllerButton from './ControllerButton'
 
 type State = {
   isPlaybackRateHovered: boolean
@@ -36,15 +37,15 @@ class PlaybackRateMenuItem extends React.PureComponent<
               onMouseEnter={this.handlePlaybackRatePointerEnter}
               onMouseLeave={this.handlePlaybackRatePointerLeave}
             >
-              <button className={css(styles.button, styles.qualityButton)}>
-                <span className={css(styles.qualityButtonText)}>
-                  {currentPlaybackRate.value === 1.0 ? (
+              <ControllerButton
+                label={
+                  currentPlaybackRate.value === 1.0 ? (
                     <TranslatedText name={'playback-rate'} />
                   ) : (
                     `${currentPlaybackRate.text}`
-                  )}
-                </span>
-              </button>
+                  )
+                }
+              />
               <div
                 className={css(
                   styles.menu,

@@ -82,12 +82,12 @@ export default StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.9)',
   },
 
-  qualityButton: {
+  labelButton: {
     width: 'auto',
     lineHeight: 1.5,
   },
 
-  qualityButtonText: {
+  labelButtonText: {
     fontSize: '0.875em',
   },
 

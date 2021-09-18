@@ -2,22 +2,24 @@ import React from 'react'
 import {css} from 'aphrodite/no-important'
 import {ua} from 'griffith-utils'
 import styles from '../Controller.styles'
-import Icon from '../Icon'
 import * as icons from '../icons/controller'
 import Tooltip from '../Tooltip'
 import Hover from '../Hover'
+import ControllerButton from './ControllerButton'
 
 const {isMobile} = ua
 
-const PageFullScreenButtonItem = ({isFullScreen, onClick}: any) => (
+const PageFullScreenButtonItem: React.FC<{
+  isFullScreen: boolean
+  onClick: React.HTMLAttributes<HTMLButtonElement>['onClick']
+}> = ({isFullScreen, onClick}) => (
   <Hover className={css(styles.menuContainer)}>
     {(isFullScreenHovered) => (
-      <React.Fragment>
-        <button className={css(styles.button)} onClick={onClick}>
-          <Icon
-            icon={isFullScreen ? icons.exitPageScreen : icons.enterPageScreen}
-          />
-        </button>
+      <>
+        <ControllerButton
+          icon={isFullScreen ? icons.exitPageScreen : icons.enterPageScreen}
+          onClick={onClick}
+        />
         <div
           className={css(
             styles.fullScreenTooltip,
@@ -36,7 +38,7 @@ const PageFullScreenButtonItem = ({isFullScreen, onClick}: any) => (
             />
           )}
         </div>
-      </React.Fragment>
+      </>
     )}
   </Hover>
 )

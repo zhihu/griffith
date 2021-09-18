@@ -3,7 +3,7 @@
 exports[`FullScreenButtonItem get FullScreenButtonItem component 1`] = `
 <div>
   <div class="menuContainer_e296pg">
-    <button class="button_1j0k413">
+    <button class="button_1j0k413" type="button">
       <span class="root_s9vkyf"
         ><svg viewBox="0 0 24 24" class="svg_11u3rwe">
           <path

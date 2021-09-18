@@ -34,7 +34,7 @@ type ControllerProps = {
   onVolumeChange?: (volume: number) => void
   onToggleFullScreen?: () => void
   onTogglePageFullScreen: (...args: void[]) => void
-  onTogglePip?: (...args: void[]) => void
+  onTogglePip?: (...args: any[]) => void
   onProgressDotHover?: (...args: any[]) => any
   onProgressDotLeave?: (...args: any[]) => any
   show?: boolean
@@ -333,7 +333,7 @@ class Controller extends Component<ControllerProps, State> {
           <div className={css(styles.rootBottomLeft)}>
             {!hiddenPlayButton && (
               <PlayButtonItem
-                isPlaying={isPlaying}
+                isPlaying={isPlaying!}
                 onClick={() => this.handleToggle('button')}
               />
             )}
@@ -354,7 +354,7 @@ class Controller extends Component<ControllerProps, State> {
             {/* TODO: 网页全屏暂时删除 */}
             {!hiddenFullScreenButton && (
               <FullScreenButtonItem
-                isFullScreen={isFullScreen}
+                isFullScreen={isFullScreen!}
                 onClick={onToggleFullScreen}
               />
             )}

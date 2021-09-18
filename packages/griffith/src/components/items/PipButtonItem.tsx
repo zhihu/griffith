@@ -2,20 +2,24 @@ import React from 'react'
 import {css} from 'aphrodite/no-important'
 import {ua} from 'griffith-utils'
 import styles from '../Controller.styles'
-import Icon from '../Icon'
 import * as icons from '../icons/controller'
 import Tooltip from '../Tooltip'
 import Hover from '../Hover'
+import ControllerButton from './ControllerButton'
 
 const {isMobile} = ua
 
-const PipButtonItem = ({isPip, onClick}: any) => (
+const PipButtonItem: React.FC<{
+  isPip: boolean
+  onClick: React.HTMLAttributes<HTMLButtonElement>['onClick']
+}> = ({isPip, onClick}) => (
   <Hover className={css(styles.menuContainer)}>
     {(isPipHovered) => (
-      <React.Fragment>
-        <button className={css(styles.button)} onClick={onClick}>
-          <Icon icon={isPip ? icons.exitPip : icons.pip} />
-        </button>
+      <>
+        <ControllerButton
+          icon={isPip ? icons.exitPip : icons.pip}
+          onClick={onClick}
+        />
         <div
           className={css(
             styles.pipTooltip,
@@ -27,7 +31,7 @@ const PipButtonItem = ({isPip, onClick}: any) => (
             <Tooltip content={isPip ? 'action-exit-pip' : 'action-enter-pip'} />
           )}
         </div>
-      </React.Fragment>
+      </>
     )}
   </Hover>
 )

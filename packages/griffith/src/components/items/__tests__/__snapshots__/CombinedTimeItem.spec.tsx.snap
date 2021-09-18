@@ -3,7 +3,7 @@
 exports[`CombinedTimeItem get CombinedTimeItem component 1`] = `
 <div>
   <div class="time_kviad4-o_O-fullScreenedTime_1xxtrer">
-    <div class=""><span>00:06</span> / <span>03:02</span></div>
+    <div><span>00:06</span> / <span>03:02</span></div>
   </div>
 </div>
 

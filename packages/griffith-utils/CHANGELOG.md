@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.3](https://github.com/zhihu/griffith/compare/v1.18.2...v1.18.3) (2021-09-18)
+
+
+### Bug Fixes
+
+* remove useless reduce function ([c45b16c](https://github.com/zhihu/griffith/commit/c45b16c))
+
+
+
+
+
 # [1.18.0](https://github.com/zhihu/griffith/compare/v1.17.0...v1.18.0) (2021-09-16)
 
 **Note:** Version bump only for package griffith-utils

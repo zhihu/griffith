@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.3](https://github.com/zhihu/griffith/compare/v1.18.2...v1.18.3) (2021-09-18)
+
+
+### Bug Fixes
+
+* fix time alignment in controller ([4f6c0cd](https://github.com/zhihu/griffith/commit/4f6c0cd))
+* remove useless reduce function ([c45b16c](https://github.com/zhihu/griffith/commit/c45b16c))
+* use shared ControllerButton, prevent submitting form ([c490426](https://github.com/zhihu/griffith/commit/c490426))
+
+
+
+
+
 ## [1.18.2](https://github.com/zhihu/griffith/compare/v1.18.1...v1.18.2) (2021-09-17)
 
 **Note:** Version bump only for package griffith

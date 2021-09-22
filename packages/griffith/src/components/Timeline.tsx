@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {useCallback} from 'react'
 import {css} from 'aphrodite/no-important'
 import Slider, {SliderProps} from './Slider'
 import styles, {
@@ -6,117 +6,81 @@ import styles, {
   hoveredSlider as hoveredSliderStyles,
   dotHoveredSlider as dotHoveredSliderStyles,
 } from './Timeline.styles'
+import useBoolean from '../hooks/useBoolean'
+import useHandler from '../hooks/useHandler'
+import noop from 'lodash/noop'
 
 export type TimelineProps = {
-  onDragStart?: (...args: any[]) => any
-  onDragEnd?: (...args: any[]) => any
-  onChange?: (...args: any[]) => any
-  onSeek?: (...args: any[]) => any
-  onProgressDotHover?: (...args: any[]) => any
-  onProgressDotLeave?: (...args: any[]) => any
+  onSeek?: (value: number) => void
 } & Omit<SliderProps, 'styles'>
 
-export type TimelineState = {
-  isHovered: boolean
-  isFocused: boolean
-  isDragging: boolean
-  progressDotHovered: boolean
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const useConstCallbacks = (...fns: ((...args: any[]) => void)[]) =>
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useCallback((...args) => fns.forEach((f) => f(...args)), [])
 
-class Timeline extends Component<TimelineProps, TimelineState> {
-  state = {
-    isHovered: false,
-    isFocused: false,
-    isDragging: false,
-    progressDotHovered: false,
-  }
+const Timeline: React.FC<TimelineProps> = ({
+  value,
+  onDragStart,
+  onDragEnd,
+  onSeek,
+  onChange,
+  onProgressDotHover,
+  onProgressDotLeave,
+  ...props
+}) => {
+  const [isFocused, isFocusedSwitch] = useBoolean()
+  const [isHovered, isHoveredSwitch] = useBoolean()
+  const [isDragging, isDraggingSwitch] = useBoolean()
+  const [progressDotHovered, progressDotHoveredSwitch] = useBoolean()
 
-  // refs
-  root = null
-
-  handlePointerEnter = () => {
-    this.setState({isHovered: true})
-  }
-
-  handlePointerLeave = () => {
-    this.setState({isHovered: false, isFocused: false})
-  }
-
-  handleFocus = () => {
-    this.setState({isFocused: true})
-  }
-
-  handleBlur = () => {
-    this.setState({isFocused: false})
-  }
-
-  handleDragStart = () => {
-    this.setState({isDragging: true})
-
-    const {onDragStart} = this.props
-    if (onDragStart) {
-      onDragStart()
+  const handleChange = useHandler((newValue: number) => {
+    if (newValue !== value) {
+      onChange?.(newValue)
     }
-  }
-
-  handleDragEnd = () => {
-    this.setState({isDragging: false})
-
-    const {onDragEnd} = this.props
-    if (onDragEnd) {
-      onDragEnd()
+    if (!isDragging) {
+      onSeek?.(newValue)
     }
-  }
+  })
 
-  handleChange = (value: any) => {
-    const {onSeek, onChange} = this.props
-    if (onSeek && value !== (this.props as any).value) {
-      onChange?.(value)
-    }
-    if (this.state.isDragging) return
-    if (onSeek) {
-      onSeek(value)
-    }
-  }
-
-  handleProgressDotHover = (...args: any[]) => {
-    this.setState({progressDotHovered: true})
-    this.props.onProgressDotHover?.(...args)
-  }
-
-  handleProgressDotLeave = (...args: any[]) => {
-    this.setState({progressDotHovered: false})
-    this.props.onProgressDotLeave?.(...args)
-  }
-
-  render() {
-    const {isHovered, isFocused, isDragging, progressDotHovered} = this.state
-    return (
-      <div
-        className={css(styles.root)}
-        onMouseEnter={this.handlePointerEnter}
-        onMouseLeave={this.handlePointerLeave}
-      >
-        <Slider
-          {...this.props}
-          styles={
-            [
-              sliderStyles,
-              (isHovered || isFocused || isDragging) && hoveredSliderStyles,
-              progressDotHovered && dotHoveredSliderStyles,
-            ].filter(Boolean) as Record<string, unknown>[]
-          }
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          onDragStart={this.handleDragStart}
-          onDragEnd={this.handleDragEnd}
-          onChange={this.handleChange}
-          onProgressDotHover={this.handleProgressDotHover}
-          onProgressDotLeave={this.handleProgressDotLeave}
-        />
-      </div>
-    )
-  }
+  return (
+    <div
+      className={css(styles.root)}
+      onMouseEnter={isHoveredSwitch.on}
+      onMouseLeave={useConstCallbacks(isHoveredSwitch.off, isFocusedSwitch.off)}
+    >
+      <Slider
+        {...props}
+        styles={
+          [
+            sliderStyles,
+            (isHovered || isFocused || isDragging) && hoveredSliderStyles,
+            progressDotHovered && dotHoveredSliderStyles,
+          ].filter(Boolean) as Record<string, unknown>[]
+        }
+        value={value}
+        onChange={handleChange}
+        onFocus={isFocusedSwitch.on}
+        onBlur={isFocusedSwitch.off}
+        onDragStart={useConstCallbacks(
+          isDraggingSwitch.on,
+          useHandler(onDragStart || noop)
+        )}
+        onDragEnd={useConstCallbacks(
+          isDraggingSwitch.off,
+          useHandler(onDragEnd || noop)
+        )}
+        onProgressDotHover={useConstCallbacks(
+          progressDotHoveredSwitch.on,
+          useHandler(onProgressDotHover || noop)
+        )}
+        onProgressDotLeave={useConstCallbacks(
+          progressDotHoveredSwitch.off,
+          useHandler(onProgressDotLeave || noop)
+        )}
+      />
+    </div>
+  )
 }
 
 export default Timeline

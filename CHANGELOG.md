@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.18.4](https://github.com/zhihu/griffith/compare/v1.18.3...v1.18.4) (2021-09-22)
+
+
+### Bug Fixes
+
+* add replay to locales ([3b7ab40](https://github.com/zhihu/griffith/commit/3b7ab40))
+* fix playback-rate in en ([a8e2061](https://github.com/zhihu/griffith/commit/a8e2061))
+
+
+
+
+
 ## [1.18.3](https://github.com/zhihu/griffith/compare/v1.18.2...v1.18.3) (2021-09-18)
 
 

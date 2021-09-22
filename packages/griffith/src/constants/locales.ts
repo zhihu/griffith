@@ -12,6 +12,7 @@ const en = {
   'action-enter-pip': 'Picture in Picture',
   'action-exit-pip': 'Exit Picture in Picture',
   'playback-rate': 'PlaybackRate',
+  replay: 'Replay',
 }
 
 export type LocaleCode = 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
@@ -40,6 +41,7 @@ const locales: LocaleConfigMap = {
     'action-enter-pip': 'ピクチャーインピクチャー',
     'action-exit-pip': 'ピクチャーインピクチャー終了',
     'playback-rate': '再生速度',
+    replay: 'もう一回見る',
   },
   // covers zh-Hans-CN and zh-Hans-SG
   'zh-Hans': {
@@ -55,6 +57,7 @@ const locales: LocaleConfigMap = {
     'action-enter-pip': '画中画',
     'action-exit-pip': '退出画中画',
     'playback-rate': '倍速',
+    replay: '重新播放',
   },
   // covers zh-Hant-HK and zh-Hant-TW
   'zh-Hant': {
@@ -70,6 +73,7 @@ const locales: LocaleConfigMap = {
     'action-enter-pip': '子母畫面',
     'action-exit-pip': '關閉子母畫面',
     'playback-rate': '倍速',
+    replay: '重新播放',
   },
 }
 

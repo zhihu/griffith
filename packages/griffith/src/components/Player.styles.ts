@@ -235,6 +235,7 @@ export default StyleSheet.create({
     padding: '8px',
     boxSizing: 'border-box',
     textAlign: 'center',
+    whiteSpace: 'nowrap',
     transition: 'transform 200ms, opacity 200ms',
     willChange: 'transform',
   },

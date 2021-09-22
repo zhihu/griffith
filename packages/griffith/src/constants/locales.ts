@@ -11,7 +11,7 @@ const en = {
   'action-exit-page-fullscreen': 'Exit PageFullscreen',
   'action-enter-pip': 'Picture in Picture',
   'action-exit-pip': 'Exit Picture in Picture',
-  'playback-rate': 'PlaybackRate',
+  'playback-rate': 'Speed',
   replay: 'Replay',
 }
 

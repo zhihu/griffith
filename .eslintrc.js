@@ -29,13 +29,14 @@ module.exports = {
         // https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        // NOTE: To override other configs, Prettier must be the last extension
+        'plugin:prettier/recommended',
       ],
       rules: {
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/no-unsafe-assignment': 'warn',
         '@typescript-eslint/no-unsafe-member-access': 'warn',
-        '@typescript-eslint/no-extra-semi': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
       },
     },
@@ -51,17 +52,14 @@ module.exports = {
     'plugin:react-hooks/recommended',
     // https://github.com/benmosher/eslint-plugin-import
     'plugin:import/recommended',
+    // NOTE: To override other configs, Prettier must be the last extension
     // https://github.com/prettier/eslint-plugin-prettier
     'plugin:prettier/recommended',
-    // https://github.com/prettier/eslint-config-prettier
-    'prettier',
   ],
 
   plugins: ['react-hooks', '@typescript-eslint'],
 
   rules: {
-    'prettier/prettier': ['error', require('./.prettierrc')],
-
     // disable nice-to-have rules for migrate convenience
     'react/prop-types': 'off',
     'react/no-find-dom-node': 'off',

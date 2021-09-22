@@ -22,6 +22,7 @@ import ObjectFitContext, {ObjectFit} from '../contexts/ObjectFitContext'
 import PositionProvider from '../contexts/PositionProvider'
 import ObjectFitProvider from '../contexts/ObjectFitProvider'
 import LocaleProvider from '../contexts/LocaleProvider'
+import TranslatedText from './TranslatedText'
 import Icon from './Icon'
 import * as icons from './icons/display/index'
 import Loader from './Loader'
@@ -651,7 +652,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
                 )}
               >
                 <Icon icon={icons.replay} styles={styles.replayIcon} />
-                重新播放
+                <TranslatedText name="replay" />
               </div>
             </div>
           )}

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/zhihu/griffith/compare/v1.18.4...v1.19.0) (2021-09-23)
+
+
+### Features
+
+* 修复 UI 样式以及增加 shouldShowPageFullScreenButton prop  ([#219](https://github.com/zhihu/griffith/issues/219)) ([825197b](https://github.com/zhihu/griffith/commit/825197b))
+
+
+
+
+
 ## [1.18.4](https://github.com/zhihu/griffith/compare/v1.18.3...v1.18.4) (2021-09-22)
 
 **Note:** Version bump only for package example

@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "1.18.4",
+  "version": "1.19.0",
   "private": true,
   "scripts": {
     "build": "vite build",
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.8",
-    "griffith": "^1.18.4",
+    "griffith": "^1.19.0",
     "react": "^16.8",
     "react-dom": "^16.8",
     "react-router-dom": "^5.3.0"

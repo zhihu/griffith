@@ -11,7 +11,7 @@ const {isMobile} = ua
 
 const PageFullScreenButtonItem: React.FC<{
   isFullScreen: boolean
-  onClick: React.HTMLAttributes<HTMLButtonElement>['onClick']
+  onClick: React.HTMLAttributes<HTMLButtonElement>['onClick'] | (() => void)
 }> = ({isFullScreen, onClick}) => (
   <Hover className={css(styles.menuContainer)}>
     {(isFullScreenHovered) => (

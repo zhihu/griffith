@@ -12,6 +12,8 @@ import VolumeItem from './items/VolumeItem'
 import FullScreenButtonItem from './items/FullScreenButtonItem'
 import PipButtonItem from './items/PipButtonItem'
 import styles from './Controller.styles'
+import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
+import PageFullScreenButtonItem from './items/PageFullScreenButtonItem'
 
 export type ToggleType = 'button' | 'keyCode' | 'video' | null
 
@@ -33,7 +35,7 @@ type ControllerProps = {
   onQualityChange?: (...args: any[]) => any
   onVolumeChange?: (volume: number) => void
   onToggleFullScreen?: () => void
-  onTogglePageFullScreen: (...args: void[]) => void
+  onTogglePageFullScreen?: () => void
   onTogglePip?: (...args: any[]) => void
   onProgressDotHover?: (...args: any[]) => any
   onProgressDotLeave?: (...args: any[]) => any
@@ -47,6 +49,7 @@ type ControllerProps = {
   hiddenVolumeItem?: boolean
   hiddenFullScreenButton?: boolean
   hiddenPlaybackRateItem?: boolean
+  shouldShowPageFullScreenButton?: boolean
 }
 
 type State = {
@@ -66,6 +69,7 @@ class Controller extends Component<ControllerProps, State> {
     volume: 0.5,
     buffered: 0,
     isFullScreen: false,
+    isPageFullScreen: false,
     showPip: false,
     hiddenPlayButton: false,
     hiddenTimeline: false,
@@ -178,7 +182,15 @@ class Controller extends Component<ControllerProps, State> {
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
-    const {duration, currentTime, volume, show, onToggleFullScreen} = this.props
+    const {
+      duration,
+      currentTime,
+      volume,
+      show,
+      onToggleFullScreen,
+      onTogglePageFullScreen,
+      isPageFullScreen,
+    } = this.props
     let handled = true
     switch (event.keyCode) {
       case KeyCode.SPACE:
@@ -194,7 +206,11 @@ class Controller extends Component<ControllerProps, State> {
           onToggleFullScreen?.()
         }
         break
-
+      case KeyCode.ESC:
+        if (this.firstKey && isPageFullScreen) {
+          onTogglePageFullScreen?.()
+        }
+        break
       case KeyCode.LEFT:
         this.handleSeek(currentTime - 5)
         break
@@ -287,10 +303,12 @@ class Controller extends Component<ControllerProps, State> {
       currentTime,
       volume,
       isFullScreen,
+      isPageFullScreen,
       isPip,
       onDragStart,
       onDragEnd,
       onToggleFullScreen,
+      onTogglePageFullScreen,
       onTogglePip,
       showPip,
       progressDots,
@@ -299,7 +317,9 @@ class Controller extends Component<ControllerProps, State> {
       hiddenTime,
       hiddenQualityMenu,
       hiddenVolumeItem,
+      hiddenPlaybackRateItem,
       hiddenFullScreenButton,
+      shouldShowPageFullScreenButton,
       onProgressDotHover,
       onProgressDotLeave,
     } = this.props
@@ -347,11 +367,15 @@ class Controller extends Component<ControllerProps, State> {
             )}
           </div>
           <div className={css(styles.rootBottomRight)}>
-            {/* TODO: 倍速按钮暂时删除 */}
-            {/* {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />} */}
+            {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />}
             {!hiddenQualityMenu && <QualityMenuItem />}
             {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
-            {/* TODO: 网页全屏暂时删除 */}
+            {shouldShowPageFullScreenButton && (
+              <PageFullScreenButtonItem
+                isFullScreen={isPageFullScreen}
+                onClick={onTogglePageFullScreen}
+              />
+            )}
             {!hiddenFullScreenButton && (
               <FullScreenButtonItem
                 isFullScreen={isFullScreen!}

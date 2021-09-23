@@ -5,9 +5,7 @@ export default StyleSheet.create({
 })
 
 export const slider = StyleSheet.create({
-  root: {
-    height: 40,
-  },
+  root: {},
 
   track: {
     transition: 'transform 300ms',

@@ -73,13 +73,25 @@ const App = () => {
         {...props}
         localeConfig={{
           'zh-Hans': {
-            'quality-ld': '流畅 360P',
-            'quality-sd': '清晰 480P',
-            'quality-hd': '高清 720P',
-            'quality-fhd': '超清 1080P',
+            'quality-ld': {
+              text: '流畅 360P',
+              narrow: '流畅',
+            },
+            'quality-sd': {
+              text: '清晰 480P',
+              narrow: '清晰',
+            },
+            'quality-hd': {
+              text: '高清 720P',
+              narrow: '高清',
+            },
+            'quality-fhd': {
+              text: '超清 1080P',
+              narrow: '超清',
+            },
           },
         }}
-        locale={'ja'}
+        locale={'zh-Hans'}
         messageContextRef={messageContextRef}
         onEvent={logEvent}
       >

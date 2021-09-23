@@ -1,6 +1,7 @@
 export default {
   ENTER: 13,
   SPACE: 32,
+  ESC: 27,
   LEFT: 37,
   UP: 38,
   RIGHT: 39,

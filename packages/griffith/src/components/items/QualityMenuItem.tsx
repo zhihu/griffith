@@ -44,7 +44,12 @@ class QualityMenuItem extends React.PureComponent<QualityMenuItemProps, State> {
               onMouseLeave={this.handleQualityPointerLeave}
             >
               <ControllerButton
-                label={<TranslatedText name={QUALITIES[currentQuality]} />}
+                label={
+                  <TranslatedText
+                    style="narrow"
+                    name={QUALITIES[currentQuality]}
+                  />
+                }
               />
               <div
                 className={css(

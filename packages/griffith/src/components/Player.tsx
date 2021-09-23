@@ -36,7 +36,6 @@ import storage from '../utils/storage'
 import Pip from '../utils/pip'
 
 import styles, {hiddenOrShownStyle} from './Player.styles'
-
 const CONTROLLER_HIDE_DELAY = 3000
 const {isMobile} = ua
 
@@ -72,6 +71,7 @@ type InnerPlayerProps = ProviderOnlyProps & {
   hiddenVolume?: boolean
   hiddenFullScreenButton?: boolean
   hiddenPlaybackRateItem?: boolean
+  shouldShowPageFullScreenButton?: boolean
 }
 
 // 仅供 Provider 使用的属性
@@ -432,12 +432,16 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       const onExit = () => {
         return onEvent(EVENTS.EXIT_FULLSCREEN)
       }
-      BigScreen.toggle(this.playerRef.current!, onEnter, onExit)
+      BigScreen?.toggle(this.playerRef.current!, onEnter, onExit)
     }
   }
 
   handleTogglePageFullScreen = () => {
     const {onEvent} = this.props
+    // 如果当前正在全屏就先关闭全屏
+    if (Boolean(BigScreen.element) && !Pip.pictureInPictureElement) {
+      this.handleToggleFullScreen()
+    }
     if (this.state.isEnterPageFullScreen) {
       this.setState({isEnterPageFullScreen: false})
       onEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
@@ -448,6 +452,11 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   }
 
   handleTogglePip = () => {
+    const {onEvent} = this.props
+    if (this.state.isEnterPageFullScreen) {
+      this.setState({isEnterPageFullScreen: false})
+      onEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
+    }
     Pip.toggle()
   }
 
@@ -542,6 +551,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       hiddenQualityMenu,
       hiddenVolume,
       hiddenFullScreenButton,
+      shouldShowPageFullScreenButton,
       children,
       hiddenPlaybackRateItem,
     } = this.props
@@ -777,6 +787,9 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
                   hiddenVolumeItem={hiddenVolume}
                   hiddenPlaybackRateItem={hiddenPlaybackRateItem}
                   hiddenFullScreenButton={hiddenFullScreenButton}
+                  shouldShowPageFullScreenButton={
+                    shouldShowPageFullScreenButton
+                  }
                 />
               </div>
             )}
@@ -817,6 +830,7 @@ const Player: React.FC<PlayerProps> = ({
   initialObjectFit,
   locale = defaultLocale,
   localeConfig,
+  shouldShowPageFullScreenButton = false, // 默认不展示网页全屏，防止页面被嵌入到iframe时候无法达到效果
   defaultQuality,
   defaultPlaybackRate = DEFAULT_PLAYBACK_RATE,
   playbackRates = DEFAULT_PLAYBACK_RATES,
@@ -847,6 +861,9 @@ const Player: React.FC<PlayerProps> = ({
               >
                 <LocaleProvider locale={locale} localeConfig={localeConfig}>
                   <InnerPlayer
+                    shouldShowPageFullScreenButton={
+                      shouldShowPageFullScreenButton
+                    }
                     {...restProps}
                     useAutoQuality={useAutoQuality}
                     standalone={standalone}

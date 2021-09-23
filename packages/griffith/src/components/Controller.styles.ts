@@ -2,7 +2,6 @@ import {StyleSheet} from 'aphrodite/no-important'
 
 export default StyleSheet.create({
   root: {
-    height: '5em',
     padding: '0 0.5em',
   },
   rootTop: {

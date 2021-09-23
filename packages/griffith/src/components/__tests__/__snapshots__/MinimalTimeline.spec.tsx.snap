@@ -3,7 +3,7 @@
 exports[`MinimalTimeline get MinimalTimeline component 1`] = `
 <div>
   <div
-    class="root_17bkmwy-o_O-root_1u52a97-o_O-root_1pr59fm-o_O-root_qckecg"
+    class="root_17bkmwy-o_O-root_1u52a97-o_O-root_3hmsj-o_O-root_qckecg"
     role="slider"
   >
     <div class="inner_9gm5i8-o_O-inner_qb00m9">
@@ -26,7 +26,7 @@ exports[`MinimalTimeline get MinimalTimeline component 1`] = `
 exports[`MinimalTimeline get MinimalTimeline component 2`] = `
 <div>
   <div
-    class="root_17bkmwy-o_O-root_1u52a97-o_O-root_1pr59fm-o_O-root_qckecg"
+    class="root_17bkmwy-o_O-root_1u52a97-o_O-root_3hmsj-o_O-root_qckecg"
     role="slider"
   >
     <div class="inner_9gm5i8-o_O-inner_qb00m9">

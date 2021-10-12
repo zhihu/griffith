@@ -624,6 +624,11 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
             useAutoQuality={useAutoQuality}
           />
         </div>
+        {hideMobileControls && isPlaybackStarted && isLoading && (
+          <div className={css(styles.loader)}>
+            <Loader />
+          </div>
+        )}
         {!hideCover && (
           <div
             className={css(

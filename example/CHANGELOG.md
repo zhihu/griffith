@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://github.com/zhihu/griffith/compare/v1.19.0...v1.20.0) (2021-10-12)
+
+**Note:** Version bump only for package example
+
+
+
+
+
 # [1.19.0](https://github.com/zhihu/griffith/compare/v1.18.4...v1.19.0) (2021-09-23)
 
 

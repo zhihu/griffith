@@ -72,6 +72,8 @@ type InnerPlayerProps = ProviderOnlyProps & {
   hiddenFullScreenButton?: boolean
   hiddenPlaybackRateItem?: boolean
   shouldShowPageFullScreenButton?: boolean
+  hideMobileControls?: boolean
+  hideCover?: boolean
 }
 
 // 仅供 Provider 使用的属性
@@ -127,6 +129,8 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     muted: false,
     disablePictureInPicture: false,
     progressDots: [],
+    hideMobileControls: false,
+    hideCover: false,
   }
 
   state = {
@@ -554,6 +558,8 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       shouldShowPageFullScreenButton,
       children,
       hiddenPlaybackRateItem,
+      hideMobileControls,
+      hideCover,
     } = this.props
 
     const {
@@ -597,7 +603,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
         <div className={css(styles.video)}>
           <Video
             ref={this.videoRef}
-            controls={isMobile && isPlaybackStarted}
+            controls={isMobile && isPlaybackStarted && !hideMobileControls}
             paused={!isPlaying}
             volume={volume}
             loop={loop}
@@ -618,55 +624,60 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
             useAutoQuality={useAutoQuality}
           />
         </div>
-        <div
-          className={css(styles.cover, !isPlaybackStarted && styles.coverShown)}
-          onClick={() => this.handlePlay()}
-        >
-          {cover && (
-            <ObjectFitContext.Consumer>
-              {({objectFit}) => (
-                <img
-                  className={css(styles.coverImage)}
-                  src={cover}
-                  style={{objectFit}}
-                />
-              )}
-            </ObjectFitContext.Consumer>
-          )}
-          {duration && currentTime === 0 && (
-            <div
-              className={css(
-                styles.coverTime,
-                isMobile && styles.coverTimeMobile
-              )}
-            >
-              {formatDuration(duration)}
-            </div>
-          )}
-          {/* 只有在第一次未播放时展示播放按钮，播放结束全部展示重播按钮 */}
-          {isNeverPlayed && (
-            <div className={css(styles.coverAction)}>
-              <div className={css(styles.actionButton)}>
-                <Icon icon={icons.play} styles={styles.actionIcon} />
-              </div>
-            </div>
-          )}
-          {/* 重播按钮 */}
-          {!isNeverPlayed && currentTime !== 0 && (
-            <div className={css(styles.coverReplayAction)}>
+        {!hideCover && (
+          <div
+            className={css(
+              styles.cover,
+              !isPlaybackStarted && styles.coverShown
+            )}
+            onClick={() => this.handlePlay()}
+          >
+            {cover && (
+              <ObjectFitContext.Consumer>
+                {({objectFit}) => (
+                  <img
+                    className={css(styles.coverImage)}
+                    src={cover}
+                    style={{objectFit}}
+                  />
+                )}
+              </ObjectFitContext.Consumer>
+            )}
+            {duration && currentTime === 0 && (
               <div
                 className={css(
-                  styles.coverReplayButton,
-                  hovered && styles.coverReplayButtonHovered,
-                  pressed && styles.coverReplayButtonPressed
+                  styles.coverTime,
+                  isMobile && styles.coverTimeMobile
                 )}
               >
-                <Icon icon={icons.replay} styles={styles.replayIcon} />
-                <TranslatedText name="replay" />
+                {formatDuration(duration)}
               </div>
-            </div>
-          )}
-        </div>
+            )}
+            {/* 只有在第一次未播放时展示播放按钮，播放结束全部展示重播按钮 */}
+            {isNeverPlayed && (
+              <div className={css(styles.coverAction)}>
+                <div className={css(styles.actionButton)}>
+                  <Icon icon={icons.play} styles={styles.actionIcon} />
+                </div>
+              </div>
+            )}
+            {/* 重播按钮 */}
+            {!isNeverPlayed && currentTime !== 0 && (
+              <div className={css(styles.coverReplayAction)}>
+                <div
+                  className={css(
+                    styles.coverReplayButton,
+                    hovered && styles.coverReplayButtonHovered,
+                    pressed && styles.coverReplayButtonPressed
+                  )}
+                >
+                  <Icon icon={icons.replay} styles={styles.replayIcon} />
+                  <TranslatedText name="replay" />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
         {!isMobile && (
           <div
             className={css(styles.overlay, isNeverPlayed && styles.overlayMask)}

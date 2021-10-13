@@ -69,6 +69,7 @@ dispatchMessage(target: Window, name: ACTIONS, data?: object): void
 
 | `messageName`               | 说明                               | `data`                                           |
 | --------------------------- | ---------------------------------- | ------------------------------------------------ |
+| `EVENTS.CANPLAY`            | 可播放                             | 见下表                                           |
 | `EVENTS.PLAY`               | 播放                               | 见下表                                           |
 | `EVENTS.PLAYING`            | 从暂停或缓冲中恢复播放             | 见下表                                           |
 | `EVENTS.PAUSE`              | 暂停                               | 见下表                                           |

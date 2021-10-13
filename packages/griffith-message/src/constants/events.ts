@@ -8,6 +8,7 @@ enum DOM {
   TIMEUPDATE = 'event/dom/timeupdate',
   ERROR = 'event/dom/error',
   WAITING = 'event/dom/waiting',
+  CANPLAY = 'event/dom/canplay',
 }
 
 // custom events
@@ -68,6 +69,7 @@ export type EventParamsMap = {
   [EVENTS.PAUSE]: Listen<DOMEventParams>
   [EVENTS.ENDED]: Listen<DOMEventParams>
   [EVENTS.TIMEUPDATE]: Listen<DOMEventParams>
+  [EVENTS.CANPLAY]: Listen<DOMEventParams>
   [EVENTS.ERROR]: Listen<DOMEventParams>
   [EVENTS.WAITING]: Listen<DOMEventParams>
   [EVENTS.QUALITY_CHANGE]: Listen<{quality: Quality; prevQuality: Quality}>

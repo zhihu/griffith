@@ -69,6 +69,7 @@ Events received from the player
 
 | `messageName`               | Description                          | `data`                                           |
 | --------------------------- | ------------------------------------ | ------------------------------------------------ |
+| `EVENTS.CANPLAY`            | canplay                              | see DOM type data table                          |
 | `EVENTS.PLAY`               | Play                                 | see DOM type data table                          |
 | `EVENTS.PLAYING`            | Resume playback from pause or buffer | see DOM type data table                          |
 | `EVENTS.PAUSE`              | Pause                                | see DOM type data table                          |

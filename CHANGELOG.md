@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.1](https://github.com/zhihu/griffith/compare/v1.21.0...v1.21.1) (2021-10-15)
+
+
+### Bug Fixes
+
+* 隐藏移动端原生控件后，需添加自定义 loading ([2b70b23](https://github.com/zhihu/griffith/commit/2b70b23))
+
+
+
+
+
 # [1.21.0](https://github.com/zhihu/griffith/compare/v1.20.0...v1.21.0) (2021-10-13)
 
 

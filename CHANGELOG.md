@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.2](https://github.com/zhihu/griffith/compare/v1.21.1...v1.21.2) (2021-10-27)
+
+
+### Bug Fixes
+
+* 通过 hideMobileControls 控制 loading 状态时允许暂停视频 ([828426d](https://github.com/zhihu/griffith/commit/828426d))
+
+
+
+
+
 ## [1.21.1](https://github.com/zhihu/griffith/compare/v1.21.0...v1.21.1) (2021-10-15)
 
 

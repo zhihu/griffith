@@ -320,10 +320,11 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   }
 
   handlePause = (type: ToggleType = null) => {
+    const {hideMobileControls} = this.props
     this.props.onEvent(EVENTS.REQUEST_PAUSE)
     const {isLoading} = this.state
 
-    if (!isLoading) {
+    if (!isLoading || hideMobileControls) {
       this.setState({
         lastAction: 'pause',
         isPlaying: false,

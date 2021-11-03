@@ -37,7 +37,7 @@ class QualityMenuItem extends React.PureComponent<QualityMenuItemProps, State> {
     return (
       <VideoSourceContext.Consumer>
         {({qualities, setCurrentQuality, currentQuality}) =>
-          qualities.length > 1 && (
+          qualities?.length > 1 && (
             <div
               className={css(styles.menuContainer)}
               onMouseEnter={this.handleQualityPointerEnter}

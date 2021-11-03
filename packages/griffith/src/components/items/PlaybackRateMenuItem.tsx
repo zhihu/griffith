@@ -31,7 +31,7 @@ class PlaybackRateMenuItem extends React.PureComponent<
     return (
       <VideoSourceContext.Consumer>
         {({playbackRates, setCurrentPlaybackRate, currentPlaybackRate}) =>
-          playbackRates.length > 1 && (
+          playbackRates?.length > 1 && (
             <div
               className={css(styles.menuContainer)}
               onMouseEnter={this.handlePlaybackRatePointerEnter}

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.3](https://github.com/zhihu/griffith/compare/v1.21.2...v1.21.3) (2021-11-04)
+
+
+### Bug Fixes
+
+* 修复controller取不到值的问题 ([4beba5a](https://github.com/zhihu/griffith/commit/4beba5a))
+
+
+
+
+
 ## [1.21.2](https://github.com/zhihu/griffith/compare/v1.21.1...v1.21.2) (2021-10-27)
 
 

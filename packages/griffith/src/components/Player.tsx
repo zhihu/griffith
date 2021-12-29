@@ -74,6 +74,7 @@ type InnerPlayerProps = ProviderOnlyProps & {
   shouldShowPageFullScreenButton?: boolean
   hideMobileControls?: boolean
   hideCover?: boolean
+  noWriteDocTitle?: boolean
 }
 
 // 仅供 Provider 使用的属性
@@ -131,6 +132,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     progressDots: [],
     hideMobileControls: false,
     hideCover: false,
+    noWriteDocTitle: false,
   }
 
   state = {
@@ -251,9 +253,13 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   }
 
   setDocumentTitle = () => {
-    const {title, standalone} = this.props
-
-    if (standalone && typeof title === 'string' && title !== document.title) {
+    const {title, standalone, noWriteDocTitle} = this.props
+    if (
+      standalone &&
+      typeof title === 'string' &&
+      title !== document.title &&
+      !noWriteDocTitle
+    ) {
       document.title = title
     }
   }

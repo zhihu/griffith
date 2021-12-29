@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.21.3",
+  "version": "1.22.0",
   "private": true,
   "scripts": {
     "build": "gatsby build",
@@ -12,7 +12,7 @@
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-source-filesystem": "^2.0.32",
     "gatsby-transformer-remark": "^2.3.11",
-    "griffith": "^1.21.3",
+    "griffith": "^1.22.0",
     "normalize.css": "^8.0.1",
     "react": "^16.8",
     "react-dom": "^16.8",

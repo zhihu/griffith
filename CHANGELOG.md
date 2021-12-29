@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://github.com/zhihu/griffith/compare/v1.21.3...v1.22.0) (2021-12-29)
+
+
+### Features
+
+* 添加变量控制是否使用 title 覆盖 document.title ([ddff83c](https://github.com/zhihu/griffith/commit/ddff83c))
+
+
+
+
+
 ## [1.21.3](https://github.com/zhihu/griffith/compare/v1.21.2...v1.21.3) (2021-11-04)
 
 

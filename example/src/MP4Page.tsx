@@ -1,8 +1,13 @@
-import React, {useState, useEffect} from 'react'
-import Player, {useMessageContextRef, ACTIONS, EVENTS} from 'griffith'
-import {useLocation} from 'react-router-dom'
+import Player, {
+  ACTIONS,
+  EVENTS,
+  PlayerProps,
+  useMessageContextRef,
+} from 'griffith'
+import React, {useState} from 'react'
 import Logo from './Logo'
 import {logEvent} from './utils'
+import useQuery from './utils/useQuery'
 
 const duration = 182
 
@@ -27,7 +32,7 @@ const sources = {
   },
 }
 
-const props = {
+const props: PlayerProps = {
   id: 'zhihu2018',
   standalone: true,
   title: '2018 我们如何与世界相处？',
@@ -36,21 +41,6 @@ const props = {
   sources,
   autoplay: true,
   shouldObserveResize: true,
-  src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
-}
-
-const parseQuery = (search: string) =>
-  Object.fromEntries(
-    new URLSearchParams(search) as unknown as Iterable<[string, string]>
-  )
-
-const useQuery = () => {
-  const location = useLocation<null>()
-  const [query, setQuery] = useState(() => parseQuery(location.search))
-  useEffect(() => {
-    setQuery(parseQuery(location.search))
-  }, [location.search])
-  return query
 }
 
 const App = () => {

@@ -1,5 +1,5 @@
+import Player, {PlayerProps} from 'griffith'
 import React from 'react'
-import Player from 'griffith'
 import {logEvent} from './utils'
 
 const duration = 182
@@ -25,7 +25,7 @@ const sources = {
   },
 }
 
-const props = {
+const props: PlayerProps = {
   id: 'zhihu2018',
   standalone: true,
   title: '2018 我们如何与世界相处？',
@@ -33,8 +33,9 @@ const props = {
   duration,
   sources,
   shouldObserveResize: true,
-  src: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
   useMSE: true,
+  // FIXME: 有无 autoplay 都有 bug
+  autoplay: true,
   onEvent: logEvent,
 }
 

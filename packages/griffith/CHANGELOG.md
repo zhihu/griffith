@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.1](https://github.com/zhihu/griffith/compare/v1.22.0...v1.22.1) (2022-01-21)
+
+
+### Bug Fixes
+
+* fix loading state in Player ([c884140](https://github.com/zhihu/griffith/commit/c884140))
+
+
+
+
+
 # [1.22.0](https://github.com/zhihu/griffith/compare/v1.21.3...v1.22.0) (2021-12-29)
 
 

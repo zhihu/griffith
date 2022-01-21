@@ -32,14 +32,13 @@ type VideoProps = {
   volume: number
   currentQuality?: Quality
   sources?: PlaySource[]
+  onLoadingChange?: (isLoading: boolean) => void
   onPlay?: (...args: any[]) => any
   onPause?: (...args: any[]) => any
   onEnded?: (...args: any[]) => any
   onLoadedData?: (...args: any[]) => any
   onDurationChange?: (...args: any[]) => any
   onTimeUpdate?: (...args: any[]) => any
-  onWaiting: (...args: any[]) => any
-  onPlaying: (...args: any[]) => any
   onSeeking?: (...args: any[]) => any
   onSeeked?: (...args: any[]) => any
   onProgress?: (values: ProgressValue[]) => any
@@ -235,7 +234,7 @@ class Video extends Component<VideoProps> {
       this.setRate(this.props.currentPlaybackRate)
       this.props.onEvent(
         EVENTS.CHANGE_QUALITY_SUCCESS,
-        (this.props as any).currentQuality
+        this.props.currentQuality
       )
     }
   }
@@ -247,23 +246,29 @@ class Video extends Component<VideoProps> {
     }
   }
 
-  handleLoadedData = () => {
-    const {onLoadedData} = this.props
-    onLoadedData && onLoadedData()
-  }
-
-  handleWaiting = () => {
-    if (!this.loading) {
-      this.loading = true
+  prevLoadingEvent?: 'waiting' | 'canplay' | 'playing' | 'error' = undefined
+  handleNativeEvent = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    const type = e.type
+    if (
+      type === 'waiting' ||
+      type === 'canplay' ||
+      type === 'playing' ||
+      type === 'error'
+    ) {
+      if (type === 'waiting') {
+        this.loading = true
+        this.props.onLoadingChange?.(this.loading)
+      } else if (
+        // 修复 Safari 中可能不触发 playing 问题：https://github.com/zhihu/griffith/issues/234
+        (type === 'canplay' && this.prevLoadingEvent === 'waiting') ||
+        type === 'playing' ||
+        type === 'error'
+      ) {
+        this.loading = false
+        this.props.onLoadingChange?.(this.loading)
+      }
+      this.prevLoadingEvent = type
     }
-    this.props.onWaiting()
-  }
-
-  handlePlaying = () => {
-    if (this.loading) {
-      this.loading = false
-    }
-    this.props.onPlaying()
   }
 
   handleTimeUpdate = (arg: any) => {
@@ -375,8 +380,7 @@ class Video extends Component<VideoProps> {
         onDurationChange={this.handleDurationChange}
         onTimeUpdate={this.handleTimeUpdate}
         onProgress={this.handleProgress}
-        onWaiting={this.handleWaiting}
-        onPlaying={this.handlePlaying}
+        onNativeEvent={this.handleNativeEvent}
         paused={paused}
         sources={sources}
         currentQuality={currentQuality}

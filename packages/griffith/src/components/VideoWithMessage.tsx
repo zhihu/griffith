@@ -38,6 +38,7 @@ function getMediaEventPayload(event: VideoEvent) {
 export type VideoComponentType = React.ComponentType<NativeVideoProps>
 
 type VideoWithMessageProps = NativeVideoProps & {
+  onNativeEvent?: (event: VideoEvent) => void
   Video: VideoComponentType
 }
 
@@ -56,11 +57,12 @@ const VideoWithMessage = React.forwardRef<
   }, [props])
 
   const newProps = useMemo(() => {
-    const newProps: Partial<NativeVideoProps> = {}
+    const newProps: Partial<VideoWithMessageProps> = {}
     eventMap.forEach(([eventName, key]) => {
       newProps[key] = (event: VideoEvent, ...args: any[]) => {
         emitEvent(eventName, getMediaEventPayload(event))
         const handler = propsRef.current[key] as AnyFunction
+        propsRef.current.onNativeEvent?.(event)
         return handler?.(event, ...args)
       }
     })
@@ -80,7 +82,12 @@ const VideoWithMessage = React.forwardRef<
     [updateVideoSize]
   )
 
-  const {Video, ...otherProps} = props
+  const {
+    Video,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onNativeEvent,
+    ...otherProps
+  } = props
 
   return (
     <Video

@@ -76,10 +76,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: '0 0.5em',
-    width: '100px',
+    minWidth: '100px',
     fontSize: '0.875em',
     color: 'rgba(255, 255, 255, 0.9)',
-    boxSizing: content-box,
+    boxSizing: 'content-box',
   },
 
   labelButton: {

@@ -370,22 +370,21 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   handleVideoError = () => {
     this.setState({
       isPlaying: false,
-      isLoading: false,
     })
   }
 
-  handleVideoDurationChange = (duration: any) => {
+  handleVideoDurationChange = (duration: number) => {
     this.setState({duration})
   }
 
-  handleVideoTimeUpdate = (currentTime: any) => {
+  handleVideoTimeUpdate = (currentTime: number) => {
     const {isLoading} = this.state
     if (isLoading || this.isSeeking) return
     if (this.isSeeking) return
     this.setState({currentTime})
   }
 
-  handleVideoVolumeChange = (volume: any) => {
+  handleVideoVolumeChange = (volume: number) => {
     volume = Math.round(volume * 100) / 100
     this.setState({volume})
     storage.set('@griffith/history-volume', volume)
@@ -407,19 +406,8 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     }
   }
 
-  handleVideoWaiting = () => {
-    if (this.showLoaderTimeout !== null) return
-    this.showLoaderTimeout = setTimeout(() => {
-      this.setState({isLoading: true})
-    }, 1000)
-  }
-
-  handleVideoPlaying = () => {
-    if (this.showLoaderTimeout !== null) {
-      clearTimeout(this.showLoaderTimeout)
-      this.showLoaderTimeout = null
-    }
-    this.setState({isLoading: false})
+  handleLoadingChange = (isLoading: boolean) => {
+    this.setState({isLoading})
   }
 
   handleVideoSeeking = () => {
@@ -621,8 +609,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
             onError={this.handleVideoError}
             onDurationChange={this.handleVideoDurationChange}
             onTimeUpdate={this.handleVideoTimeUpdate}
-            onWaiting={this.handleVideoWaiting}
-            onPlaying={this.handleVideoPlaying}
+            onLoadingChange={this.handleLoadingChange}
             onSeeking={this.handleVideoSeeking}
             onSeeked={this.handleVideoSeeked}
             onProgress={this.handleVideoProgress}

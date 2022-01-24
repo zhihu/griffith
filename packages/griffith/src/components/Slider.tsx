@@ -4,7 +4,6 @@ import clamp from 'lodash/clamp'
 import {ProgressDot as ProgressDotType} from '../types'
 import ProgressDot, {ProgressDotsProps} from './ProgressDot'
 import formatPercent from '../utils/formatPercent'
-import KeyCode from '../constants/KeyCode'
 
 import styles, {
   horizontal as horizontalStyles,
@@ -145,10 +144,10 @@ class Slider extends Component<SliderProps, State> {
     const {reverse, value, total, step} = this.props
 
     let direction = 0
-    if (event.keyCode === KeyCode.LEFT || event.keyCode === KeyCode.DOWN) {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
       direction = -1
     }
-    if (event.keyCode === KeyCode.RIGHT || event.keyCode === KeyCode.UP) {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
       direction = 1
     }
     if (reverse) {

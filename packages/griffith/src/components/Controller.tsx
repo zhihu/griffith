@@ -3,7 +3,6 @@ import {css} from 'aphrodite/no-important'
 import debounce from 'lodash/debounce'
 import clamp from 'lodash/clamp'
 import {ProgressDot} from '../types'
-import KeyCode from '../constants/KeyCode'
 import PlayButtonItem from './items/PlayButtonItem'
 import TimelineItem from './items/TimelineItem'
 import CombinedTimeItem from './items/CombinedTimeItem'
@@ -192,66 +191,67 @@ class Controller extends Component<ControllerProps, State> {
       isPageFullScreen,
     } = this.props
     let handled = true
-    switch (event.keyCode) {
-      case KeyCode.SPACE:
-      case KeyCode.K:
+
+    switch (event.key) {
+      case ' ':
+      case 'k':
         if (this.firstKey) {
           this.handleToggle('keyCode')
         }
         break
 
-      case KeyCode.ENTER:
-      case KeyCode.F:
+      case 'Enter':
+      case 'f':
         if (this.firstKey) {
           onToggleFullScreen?.()
         }
         break
-      case KeyCode.ESC:
+      case 'Escape':
         if (this.firstKey && isPageFullScreen) {
           onTogglePageFullScreen?.()
         }
         break
-      case KeyCode.LEFT:
+      case 'ArrowLeft':
         this.handleSeek(currentTime - 5)
         break
 
-      case KeyCode.RIGHT:
+      case 'ArrowRight':
         this.handleSeek(currentTime + 5)
         break
 
-      case KeyCode.J:
+      case 'j':
         if (this.firstKey) {
           this.handleSeek(currentTime - 10)
         }
         break
 
-      case KeyCode.L:
+      case 'l':
         if (this.firstKey) {
           this.handleSeek(currentTime + 10)
         }
         break
-      case KeyCode.ZERO:
-      case KeyCode.ONE:
-      case KeyCode.TWO:
-      case KeyCode.THREE:
-      case KeyCode.FOUR:
-      case KeyCode.FIVE:
-      case KeyCode.SIX:
-      case KeyCode.SEVEN:
-      case KeyCode.EIGHT:
-      case KeyCode.NINE:
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
         if (show && this.firstKey) {
-          const nextTime = (duration / 10) * (event.keyCode - KeyCode.ZERO)
+          const nextTime = (duration / 10) * Number(event.key)
           this.handleSeek(nextTime)
         }
         break
 
-      case KeyCode.M:
+      case 'm':
         if (this.firstKey) {
           this.handleToggleMuted()
         }
         break
-      case KeyCode.UP:
+      case 'ArrowUp':
         if (this.firstKey && volume) {
           this.prevVolume = volume
         }
@@ -261,7 +261,7 @@ class Controller extends Component<ControllerProps, State> {
         this.handleVolumeChange(volume + 0.05)
         break
 
-      case KeyCode.DOWN:
+      case 'ArrowDown':
         if (this.firstKey && volume) {
           this.prevVolume = volume
         }
@@ -278,12 +278,12 @@ class Controller extends Component<ControllerProps, State> {
     this.firstKey = false
   }
 
-  handleKeyUp = (event: any) => {
+  handleKeyUp = (event: KeyboardEvent) => {
     this.firstKey = true
 
-    switch (event.keyCode) {
-      case KeyCode.UP:
-      case KeyCode.DOWN:
+    switch (event.key) {
+      case 'ArrowUp':
+      case 'ArrowDown':
         this.handleVolumeKeyboard()
         break
     }

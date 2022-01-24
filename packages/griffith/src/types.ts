@@ -34,3 +34,8 @@ export interface PlaybackRate {
 export type ProgressDot = {
   startTime: number
 }
+
+export type ProgressValue = {
+  start: number
+  end: number
+}

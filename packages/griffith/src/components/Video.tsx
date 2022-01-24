@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {css} from 'aphrodite/no-important'
 import {EVENTS} from 'griffith-message'
 import {logger, ua} from 'griffith-utils'
-import {PlaybackRate, Quality, PlaySource} from '../types'
+import {PlaybackRate, Quality, PlaySource, ProgressValue} from '../types'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 import VideoWithMessage, {VideoComponentType} from './VideoWithMessage'
 import selectVideo from './selectVideo'
@@ -17,31 +17,20 @@ const isAbortError = (error: MediaError) =>
 const isNotAllowedError = (error: MediaError) =>
   error && (error as unknown as Error).name === 'NotAllowedError'
 
-type ProgressValue = {
-  start: number
-  end: number
-}
+type NativeVideoProps = Omit<React.HTMLProps<HTMLVideoElement>, 'ref'>
 
-type VideoProps = {
-  src: string
+type VideoProps = NativeVideoProps & {
   format: string
-  controls?: boolean
-  loop?: boolean
   paused?: boolean
   useMSE?: boolean
   volume: number
   currentQuality?: Quality
   sources?: PlaySource[]
+  // 自定义事件（注意与原生不同，附加了自定义参数）
   onLoadingChange?: (isLoading: boolean) => void
-  onPlay?: (...args: any[]) => any
-  onPause?: (...args: any[]) => any
-  onEnded?: (...args: any[]) => any
-  onLoadedData?: (...args: any[]) => any
-  onDurationChange?: (...args: any[]) => any
-  onTimeUpdate?: (...args: any[]) => any
-  onSeeking?: (...args: any[]) => any
-  onSeeked?: (...args: any[]) => any
-  onProgress?: (values: ProgressValue[]) => any
+  onDurationUpdate: (duration: number) => void
+  onProgressUpdate: (value: ProgressValue[]) => void
+  onCurrentTimeUpdate: (time: number, isRaf: boolean) => void
   onError: (...args: any[]) => any
   onEvent: (name: EVENTS, data?: unknown) => void
   currentPlaybackRate: PlaybackRate
@@ -54,7 +43,7 @@ class Video extends Component<VideoProps> {
     volume: 0.5,
   }
 
-  _playTimer: any
+  _timeUpdateRafId?: number
   handleClick: any
   playPromise?: Promise<void>
 
@@ -240,9 +229,9 @@ class Video extends Component<VideoProps> {
   }
 
   handleDurationChange = () => {
-    const {onDurationChange} = this.props
-    if (onDurationChange) {
-      onDurationChange(this.root!.duration)
+    const {onDurationUpdate} = this.props
+    if (onDurationUpdate) {
+      onDurationUpdate(this.root!.duration)
     }
   }
 
@@ -271,27 +260,35 @@ class Video extends Component<VideoProps> {
     }
   }
 
-  handleTimeUpdate = (arg: any) => {
-    const {onTimeUpdate, paused} = this.props
+  handleTimeUpdate = () => {
+    this.notifyTimeUpdate(false)
+  }
 
-    this.disposeTimer()
+  // NOTE: 原生 `timeupdate` 事件更新频率不固定（4Hz~66Hz，由系统决定），这里以 rAF 提高了 UI 更新频率
+  // 但进度条更新仍然是不平滑的，需要考虑使用进度动画（TODO）
+  notifyTimeUpdate = (isRaf: boolean) => {
+    const {onCurrentTimeUpdate, paused} = this.props
+
+    if (this._timeUpdateRafId !== undefined) {
+      window.cancelAnimationFrame(this._timeUpdateRafId)
+    }
     if (paused || this.loading) {
       return
     }
-    const {currentTime} = this.root || {}
-
-    if (onTimeUpdate && currentTime) {
-      const isRaf = typeof arg === 'number' // raf 调用 arg 是 时间戳，事件监听调用 arg 是 event
-      onTimeUpdate(currentTime, isRaf)
+    const currentTime = this.root?.currentTime
+    if (onCurrentTimeUpdate && currentTime) {
+      onCurrentTimeUpdate(currentTime, isRaf)
       if (!isMobile) {
         // 移动端使用原生进度条，不需要频繁更新，减少性能压力
-        this._playTimer = window.requestAnimationFrame(this.handleTimeUpdate)
+        this._timeUpdateRafId = window.requestAnimationFrame(() =>
+          this.notifyTimeUpdate(true)
+        )
       }
     }
   }
 
   handleProgress = () => {
-    const {onProgress} = this.props
+    const {onProgressUpdate} = this.props
     const buffered = this.root!.buffered
     const result: ProgressValue[] = []
     for (let i = 0; i < buffered.length; i++) {
@@ -300,13 +297,9 @@ class Video extends Component<VideoProps> {
         end: buffered.end(i),
       })
     }
-    if (onProgress) {
-      onProgress(result)
+    if (onProgressUpdate) {
+      onProgressUpdate(result)
     }
-  }
-
-  disposeTimer() {
-    window.cancelAnimationFrame(this._playTimer)
   }
 
   handleError = () => {

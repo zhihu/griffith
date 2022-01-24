@@ -3,7 +3,13 @@ import {css} from 'aphrodite/no-important'
 import BigScreen from 'isomorphic-bigscreen'
 import {EVENTS, ACTIONS} from 'griffith-message'
 import {ua} from 'griffith-utils'
-import {ProgressDot, PlaybackRate, PlaySourceMap, RealQuality} from '../types'
+import {
+  ProgressDot,
+  ProgressValue,
+  PlaybackRate,
+  PlaySourceMap,
+  RealQuality,
+} from '../types'
 import {
   defaultLocale,
   LocaleCode,
@@ -111,7 +117,7 @@ type State = {
   duration: number
   currentTime: number
   volume: number
-  buffered: {start: number; end: number}[][]
+  buffered: ProgressValue[]
   isControllerShown: boolean
   isControllerHovered: boolean
   isControllerDragging: boolean
@@ -418,7 +424,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     this.isSeeking = false
   }
 
-  handleVideoProgress = (buffered: any) => {
+  handleVideoProgress = (buffered: ProgressValue[]) => {
     this.setState({buffered})
   }
 
@@ -607,12 +613,12 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
             onEnded={this.handleVideoEnded}
             onLoadedData={this.handleVideoLoadedData}
             onError={this.handleVideoError}
-            onDurationChange={this.handleVideoDurationChange}
-            onTimeUpdate={this.handleVideoTimeUpdate}
             onLoadingChange={this.handleLoadingChange}
+            onDurationUpdate={this.handleVideoDurationChange}
+            onCurrentTimeUpdate={this.handleVideoTimeUpdate}
             onSeeking={this.handleVideoSeeking}
             onSeeked={this.handleVideoSeeked}
-            onProgress={this.handleVideoProgress}
+            onProgressUpdate={this.handleVideoProgress}
             onEvent={onEvent}
             useMSE={useMSE}
             useAutoQuality={useAutoQuality}

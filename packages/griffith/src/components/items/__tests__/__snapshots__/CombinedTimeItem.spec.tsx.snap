@@ -2,7 +2,7 @@
 
 exports[`CombinedTimeItem get CombinedTimeItem component 1`] = `
 <div>
-  <div class="time_1f7ddn0-o_O-fullScreenedTime_1xxtrer">00:06 / 03:02</div>
+  <div class="time_i860ms-o_O-fullScreenedTime_1xxtrer">00:06 / 03:02</div>
 </div>
 
 `;

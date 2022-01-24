@@ -87,7 +87,6 @@ class Controller extends Component<ControllerProps, State> {
     isVolumeKeyboard: false,
   }
   prevVolume = 1
-  firstKey = true
   slideTime = null
 
   componentDidMount() {
@@ -190,24 +189,24 @@ class Controller extends Component<ControllerProps, State> {
       onTogglePageFullScreen,
       isPageFullScreen,
     } = this.props
+    // 防止冲突，有修饰键按下时不触发自定义热键
+    if (event.altKey || event.ctrlKey || event.metaKey) {
+      return
+    }
     let handled = true
 
     switch (event.key) {
       case ' ':
       case 'k':
-        if (this.firstKey) {
-          this.handleToggle('keyCode')
-        }
+        this.handleToggle('keyCode')
         break
 
       case 'Enter':
       case 'f':
-        if (this.firstKey) {
-          onToggleFullScreen?.()
-        }
+        onToggleFullScreen?.()
         break
       case 'Escape':
-        if (this.firstKey && isPageFullScreen) {
+        if (isPageFullScreen) {
           onTogglePageFullScreen?.()
         }
         break
@@ -220,15 +219,11 @@ class Controller extends Component<ControllerProps, State> {
         break
 
       case 'j':
-        if (this.firstKey) {
-          this.handleSeek(currentTime - 10)
-        }
+        this.handleSeek(currentTime - 10)
         break
 
       case 'l':
-        if (this.firstKey) {
-          this.handleSeek(currentTime + 10)
-        }
+        this.handleSeek(currentTime + 10)
         break
       case '0':
       case '1':
@@ -240,19 +235,17 @@ class Controller extends Component<ControllerProps, State> {
       case '7':
       case '8':
       case '9':
-        if (show && this.firstKey) {
+        if (show) {
           const nextTime = (duration / 10) * Number(event.key)
           this.handleSeek(nextTime)
         }
         break
 
       case 'm':
-        if (this.firstKey) {
-          this.handleToggleMuted()
-        }
+        this.handleToggleMuted()
         break
       case 'ArrowUp':
-        if (this.firstKey && volume) {
+        if (volume) {
           this.prevVolume = volume
         }
         this.setState({
@@ -262,7 +255,7 @@ class Controller extends Component<ControllerProps, State> {
         break
 
       case 'ArrowDown':
-        if (this.firstKey && volume) {
+        if (volume) {
           this.prevVolume = volume
         }
         this.handleVolumeChange(volume - 0.05)
@@ -275,12 +268,9 @@ class Controller extends Component<ControllerProps, State> {
     if (handled) {
       event.preventDefault()
     }
-    this.firstKey = false
   }
 
   handleKeyUp = (event: KeyboardEvent) => {
-    this.firstKey = true
-
     switch (event.key) {
       case 'ArrowUp':
       case 'ArrowDown':

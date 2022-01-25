@@ -14,7 +14,7 @@ const FullScreenButtonItem: React.FC<{
   onClick: React.HTMLAttributes<HTMLButtonElement>['onClick']
 }> = ({isFullScreen, onClick}) => (
   <Hover className={css(styles.menuContainer)}>
-    {(isFullScreenHovered: any) => (
+    {(isFullScreenHovered) => (
       <>
         <ControllerButton
           icon={isFullScreen ? icons.smallscreen : icons.fullscreen}

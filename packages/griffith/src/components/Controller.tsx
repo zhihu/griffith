@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {css} from 'aphrodite/no-important'
 import debounce from 'lodash/debounce'
 import clamp from 'lodash/clamp'
@@ -13,6 +13,8 @@ import PipButtonItem from './items/PipButtonItem'
 import styles from './Controller.styles'
 import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
 import PageFullScreenButtonItem from './items/PageFullScreenButtonItem'
+import useHandler from '../hooks/useHandler'
+import useBoolean from '../hooks/useBoolean'
 
 export type ToggleType = 'button' | 'keyCode' | 'video' | null
 
@@ -51,144 +53,112 @@ type ControllerProps = {
   shouldShowPageFullScreenButton?: boolean
 }
 
-type State = {
-  slideTime?: number | null
-  isVolumeHovered: boolean
-  isVolumeDragging: boolean
-  isVolumeKeyboard: boolean
+Controller.defaultProps = {
+  show: false,
+  standalone: false,
+  duration: 0,
+  currentTime: 0,
+  volume: 0.5,
+  buffered: 0,
+  isPageFullScreen: false,
+  showPip: false,
+  hiddenPlayButton: false,
+  hiddenTimeline: false,
+  hiddenTime: false,
+  hiddenQualityMenu: false,
+  hiddenPlaybackRateItem: false,
+  hiddenVolumeItem: false,
+  hiddenFullScreenButton: false,
+  progressDots: [] as ProgressDot[],
 }
 
-class Controller extends Component<ControllerProps, State> {
-  static defaultProps = {
-    show: false,
-    standalone: false,
-    isPlaying: false,
-    duration: 0,
-    currentTime: 0,
-    volume: 0.5,
-    buffered: 0,
-    isFullScreen: false,
-    isPageFullScreen: false,
-    showPip: false,
-    hiddenPlayButton: false,
-    hiddenTimeline: false,
-    hiddenTime: false,
-    hiddenQualityMenu: false,
-    hiddenPlaybackRateItem: false,
-    hiddenVolumeItem: false,
-    hiddenFullScreenButton: false,
-    progressDots: [] as ProgressDot[],
-  }
+function Controller(props: ControllerProps) {
+  const {
+    show,
+    isPlaying = false,
+    buffered,
+    duration,
+    currentTime,
+    volume,
+    isFullScreen = false,
+    isPageFullScreen,
+    isPip,
+    onDragStart,
+    onDragEnd,
+    onToggleFullScreen,
+    onTogglePageFullScreen,
+    onTogglePip,
+    showPip,
+    standalone,
+    progressDots,
+    hiddenPlayButton,
+    hiddenTimeline,
+    hiddenTime,
+    hiddenQualityMenu,
+    hiddenVolumeItem,
+    hiddenPlaybackRateItem,
+    hiddenFullScreenButton,
+    shouldShowPageFullScreenButton,
+    onProgressDotHover,
+    onProgressDotLeave,
+    onPause,
+    onPlay,
+    onSeek,
+    onVolumeChange,
+  } = props
+  const [isVolumeHovered, isVolumeHoveredSwitch] = useBoolean()
+  const [isVolumeDragging, isVolumeDraggingSwitch] = useBoolean()
+  const [isVolumeKeyboard, isVolumeKeyboardSwitch] = useBoolean()
+  const [slideTime, setSlideTime] = useState<number>()
+  const prevVolumeRef = useRef(1)
 
-  state = {
-    slideTime: undefined,
-    isVolumeHovered: false,
-    isVolumeDragging: false,
-    isVolumeKeyboard: false,
-  }
-  prevVolume = 1
-  slideTime = null
+  const handleDragMove = useHandler((slideTime: number) => {
+    setSlideTime(clamp(slideTime, 0, duration))
+  })
 
-  componentDidMount() {
-    if (this.props.standalone) {
-      document.addEventListener('keydown', this.handleKeyDown)
-      document.addEventListener('keyup', this.handleKeyUp)
+  const handleTogglePlay = (type: ToggleType) => {
+    if (isPlaying) {
+      onPause?.(type)
+    } else {
+      onPlay?.(type)
     }
   }
 
-  shouldComponentUpdate(nextProps: ControllerProps) {
-    return this.props.show! || nextProps.show!
-  }
-
-  componentWillUnmount() {
-    if (this.props.standalone) {
-      document.removeEventListener('keydown', this.handleKeyDown)
-      document.removeEventListener('keyup', this.handleKeyUp)
-    }
-  }
-
-  onDragMove = (slideTime: number) => {
-    const {duration} = this.props
-    slideTime = clamp(slideTime, 0, duration)
-    this.setState({slideTime})
-  }
-
-  handleToggle = (type: ToggleType) => {
-    const {isPlaying, onPlay, onPause} = this.props
-    if (!isPlaying && onPlay) {
-      onPlay(type)
-    }
-    if (isPlaying && onPause) {
-      onPause(type)
-    }
-  }
-
-  handleSeek = (currentTime: number) => {
-    const {duration, onSeek} = this.props
+  const handleSeek = useHandler((currentTime: number) => {
     currentTime = clamp(currentTime, 0, duration)
     if (onSeek) {
       onSeek(currentTime)
-      this.setState({slideTime: null})
+      setSlideTime(void 0)
     }
-  }
+  })
 
-  handleVolumeChange = (volume: number) => {
+  const handleVolumeChange = useHandler((volume: number) => {
     volume = clamp(volume, 0, 1)
-    const {onVolumeChange} = this.props
-    if (onVolumeChange) {
-      onVolumeChange(volume)
-    }
-  }
+    onVolumeChange?.(volume)
+  })
 
-  handleToggleMuted = () => {
-    const {volume} = this.props
+  const handleToggleMuted = useHandler(() => {
     if (volume) {
-      this.prevVolume = volume
+      prevVolumeRef.current = volume
     }
-    this.handleVolumeChange(volume ? 0 : this.prevVolume)
-  }
+    handleVolumeChange(volume ? 0 : prevVolumeRef.current)
+  })
 
-  handleVolumePointerEnter = () => {
-    this.setState({isVolumeHovered: true})
-  }
-
-  handleVolumePointerLeave = () => {
-    this.setState({isVolumeHovered: false})
-  }
-
-  handleVolumeDragStart = () => {
-    const {volume} = this.props
+  const handleVolumeDragStart = useHandler(() => {
     if (volume) {
-      this.prevVolume = volume
+      prevVolumeRef.current = volume
     }
 
-    this.setState({isVolumeDragging: true})
+    isVolumeDraggingSwitch.on()
+    onDragStart?.()
+  })
 
-    const {onDragStart} = this.props
-    if (onDragStart) {
-      onDragStart()
-    }
-  }
+  const handleVolumeDragEnd = useHandler(() => {
+    isVolumeDraggingSwitch.off()
+    onDragEnd?.()
+  })
 
-  handleVolumeDragEnd = () => {
-    this.setState({isVolumeDragging: false})
-
-    const {onDragEnd} = this.props
-    if (onDragEnd) {
-      onDragEnd()
-    }
-  }
-
-  handleKeyDown = (event: KeyboardEvent) => {
-    const {
-      duration,
-      currentTime,
-      volume,
-      show,
-      onToggleFullScreen,
-      onTogglePageFullScreen,
-      isPageFullScreen,
-    } = this.props
+  const handleKeyDown = useHandler((event: KeyboardEvent) => {
     // 防止冲突，有修饰键按下时不触发自定义热键
     if (event.altKey || event.ctrlKey || event.metaKey) {
       return
@@ -198,7 +168,7 @@ class Controller extends Component<ControllerProps, State> {
     switch (event.key) {
       case ' ':
       case 'k':
-        this.handleToggle('keyCode')
+        handleTogglePlay('keyCode')
         break
 
       case 'Enter':
@@ -211,19 +181,19 @@ class Controller extends Component<ControllerProps, State> {
         }
         break
       case 'ArrowLeft':
-        this.handleSeek(currentTime - 5)
+        handleSeek(currentTime - 5)
         break
 
       case 'ArrowRight':
-        this.handleSeek(currentTime + 5)
+        handleSeek(currentTime + 5)
         break
 
       case 'j':
-        this.handleSeek(currentTime - 10)
+        handleSeek(currentTime - 10)
         break
 
       case 'l':
-        this.handleSeek(currentTime + 10)
+        handleSeek(currentTime + 10)
         break
       case '0':
       case '1':
@@ -237,28 +207,26 @@ class Controller extends Component<ControllerProps, State> {
       case '9':
         if (show) {
           const nextTime = (duration / 10) * Number(event.key)
-          this.handleSeek(nextTime)
+          handleSeek(nextTime)
         }
         break
 
       case 'm':
-        this.handleToggleMuted()
+        handleToggleMuted()
         break
       case 'ArrowUp':
         if (volume) {
-          this.prevVolume = volume
+          prevVolumeRef.current = volume
         }
-        this.setState({
-          isVolumeKeyboard: true,
-        })
-        this.handleVolumeChange(volume + 0.05)
+        isVolumeKeyboardSwitch.on()
+        handleVolumeChange(volume + 0.05)
         break
 
       case 'ArrowDown':
         if (volume) {
-          this.prevVolume = volume
+          prevVolumeRef.current = volume
         }
-        this.handleVolumeChange(volume - 0.05)
+        handleVolumeChange(volume - 0.05)
         break
 
       default:
@@ -268,129 +236,105 @@ class Controller extends Component<ControllerProps, State> {
     if (handled) {
       event.preventDefault()
     }
-  }
+  })
 
-  handleKeyUp = (event: KeyboardEvent) => {
+  const handleKeyUp = useHandler((event: KeyboardEvent) => {
     switch (event.key) {
       case 'ArrowUp':
       case 'ArrowDown':
-        this.handleVolumeKeyboard()
+        handleVolumeKeyboard()
         break
     }
-  }
+  })
 
-  handleVolumeKeyboard = debounce(() => {
-    this.setState({
-      isVolumeKeyboard: false,
-    })
-  }, 1000)
+  const handleVolumeKeyboard = useMemo(
+    () =>
+      debounce(() => {
+        isVolumeKeyboardSwitch.off()
+      }, 1000),
+    [isVolumeKeyboardSwitch]
+  )
 
-  render() {
-    const {
-      isPlaying,
-      buffered,
-      duration,
-      currentTime,
-      volume,
-      isFullScreen,
-      isPageFullScreen,
-      isPip,
-      onDragStart,
-      onDragEnd,
-      onToggleFullScreen,
-      onTogglePageFullScreen,
-      onTogglePip,
-      showPip,
-      progressDots,
-      hiddenPlayButton,
-      hiddenTimeline,
-      hiddenTime,
-      hiddenQualityMenu,
-      hiddenVolumeItem,
-      hiddenPlaybackRateItem,
-      hiddenFullScreenButton,
-      shouldShowPageFullScreenButton,
-      onProgressDotHover,
-      onProgressDotLeave,
-    } = this.props
-    const {isVolumeHovered, isVolumeDragging, isVolumeKeyboard, slideTime} =
-      this.state
+  useEffect(() => {
+    if (standalone) {
+      document.addEventListener('keydown', handleKeyDown)
+      document.addEventListener('keyup', handleKeyUp)
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown)
+        document.removeEventListener('keyup', handleKeyUp)
+      }
+    }
+  }, [handleKeyDown, handleKeyUp, standalone])
 
-    const displayedCurrentTime = slideTime || currentTime
+  const displayedCurrentTime = slideTime || currentTime
 
-    return (
-      <div
-        className={css(
-          styles.root,
-          isFullScreen && (styles as any).fullScreened
-        )}
-      >
-        {!hiddenTimeline && (
-          <TimelineItem
-            value={currentTime}
-            total={duration}
-            buffered={buffered}
-            progressDots={progressDots}
-            onDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-            onChange={this.onDragMove}
-            onSeek={this.handleSeek}
-            onProgressDotHover={onProgressDotHover}
-            onProgressDotLeave={onProgressDotLeave}
-          />
-        )}
-        <div className={css(styles.rootBottom)}>
-          <div className={css(styles.rootBottomLeft)}>
-            {!hiddenPlayButton && (
-              <PlayButtonItem
-                isPlaying={isPlaying!}
-                onClick={() => this.handleToggle('button')}
-              />
-            )}
-            {hiddenTimeline && <div className={css(styles.timelineHolder)} />}
-            {!hiddenTime && (
-              <CombinedTimeItem
-                isFullScreen={isFullScreen!}
-                currentTime={displayedCurrentTime}
-                duration={duration}
-              />
-            )}
-          </div>
-          <div className={css(styles.rootBottomRight)}>
-            {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />}
-            {!hiddenQualityMenu && <QualityMenuItem />}
-            {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
-            {shouldShowPageFullScreenButton && (
-              <PageFullScreenButtonItem
-                isFullScreen={isPageFullScreen}
-                onClick={onTogglePageFullScreen}
-              />
-            )}
-            {!hiddenFullScreenButton && (
-              <FullScreenButtonItem
-                isFullScreen={isFullScreen!}
-                onClick={onToggleFullScreen}
-              />
-            )}
-            {!hiddenVolumeItem && (
-              <VolumeItem
-                volume={volume}
-                menuShown={
-                  isVolumeHovered || isVolumeDragging || isVolumeKeyboard
-                }
-                onMouseEnter={this.handleVolumePointerEnter}
-                onMouseLeave={this.handleVolumePointerLeave}
-                onToggleMuted={this.handleToggleMuted}
-                onDragStart={this.handleVolumeDragStart}
-                onDragEnd={this.handleVolumeDragEnd}
-                onChange={this.handleVolumeChange}
-              />
-            )}
-          </div>
+  return (
+    <div className={css(styles.root)}>
+      {!hiddenTimeline && (
+        <TimelineItem
+          value={currentTime}
+          total={duration}
+          buffered={buffered}
+          progressDots={progressDots}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onChange={handleDragMove}
+          onSeek={handleSeek}
+          onProgressDotHover={onProgressDotHover}
+          onProgressDotLeave={onProgressDotLeave}
+        />
+      )}
+      <div className={css(styles.rootBottom)}>
+        <div className={css(styles.rootBottomLeft)}>
+          {!hiddenPlayButton && (
+            <PlayButtonItem
+              isPlaying={isPlaying}
+              onClick={() => handleTogglePlay('button')}
+            />
+          )}
+          {hiddenTimeline && <div className={css(styles.timelineHolder)} />}
+          {!hiddenTime && (
+            <CombinedTimeItem
+              isFullScreen={isFullScreen}
+              currentTime={displayedCurrentTime}
+              duration={duration}
+            />
+          )}
+        </div>
+        <div className={css(styles.rootBottomRight)}>
+          {!hiddenPlaybackRateItem && <PlaybackRateMenuItem />}
+          {!hiddenQualityMenu && <QualityMenuItem />}
+          {showPip && <PipButtonItem isPip={isPip} onClick={onTogglePip} />}
+          {shouldShowPageFullScreenButton && (
+            <PageFullScreenButtonItem
+              isFullScreen={isPageFullScreen}
+              onClick={onTogglePageFullScreen}
+            />
+          )}
+          {!hiddenFullScreenButton && (
+            <FullScreenButtonItem
+              isFullScreen={isFullScreen}
+              onClick={onToggleFullScreen}
+            />
+          )}
+          {!hiddenVolumeItem && (
+            <VolumeItem
+              volume={volume}
+              menuShown={
+                isVolumeHovered || isVolumeDragging || isVolumeKeyboard
+              }
+              onMouseEnter={isVolumeHoveredSwitch.on}
+              onMouseLeave={isVolumeHoveredSwitch.off}
+              onToggleMuted={handleToggleMuted}
+              onDragStart={handleVolumeDragStart}
+              onDragEnd={handleVolumeDragEnd}
+              onChange={handleVolumeChange}
+            />
+          )}
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-export default Controller
+export default React.memo(Controller)

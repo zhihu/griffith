@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useState, useRef} from 'react'
 
 /**
  * Create a boolean value and switches for changing it
@@ -13,11 +13,11 @@ import {useCallback, useState} from 'react'
  */
 const useBoolean = (initialState: boolean | (() => boolean) = false) => {
   const [value, setValue] = useState(initialState)
-  const valueSwitch = {
+  const valueSwitch = useRef({
     on: useCallback(() => setValue(true), []),
     off: useCallback(() => setValue(false), []),
     toggle: useCallback(() => setValue((v) => !v), []),
-  } as const
+  }).current
   return [value, valueSwitch] as const
 }
 

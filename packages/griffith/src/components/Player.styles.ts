@@ -17,6 +17,15 @@ const actionAnimation = {
   },
 }
 
+const actionLabelAnimation = {
+  '90%': {
+    opacity: 1,
+  },
+  '100%': {
+    opacity: 0,
+  },
+}
+
 const fadeinAnimation = {
   '0%': {
     opacity: 0,
@@ -60,12 +69,19 @@ export default StyleSheet.create({
   },
 
   actionButton: {
+    color: '#fff',
     width: '4.5em',
     height: '4.5em',
   },
 
   actionButtonAnimated: {
     animationName: actionAnimation,
+    animationDuration: '600ms',
+    animationFillMode: 'both',
+  },
+
+  actionLabelAnimation: {
+    animationName: actionLabelAnimation,
     animationDuration: '600ms',
     animationFillMode: 'both',
   },
@@ -77,6 +93,14 @@ export default StyleSheet.create({
     [breakTo('mobile')]: {
       transform: 'scale(0.75)',
     },
+  },
+
+  actionLabel: {
+    padding: '.3em .5em',
+    textAlign: 'center',
+    color: '#fff',
+    background: 'rgba(0,0,0,0.5)',
+    borderRadius: 5,
   },
 
   video: {

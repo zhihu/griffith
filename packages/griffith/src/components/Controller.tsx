@@ -1,7 +1,8 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {css} from 'aphrodite/no-important'
-import debounce from 'lodash/debounce'
 import clamp from 'lodash/clamp'
+import * as displayIcons from './icons/display/index'
+import * as controllerIcons from './icons/controller/index'
 import {ProgressDot} from '../types'
 import PlayButtonItem from './items/PlayButtonItem'
 import TimelineItem from './items/TimelineItem'
@@ -15,8 +16,7 @@ import PlaybackRateMenuItem from './items/PlaybackRateMenuItem'
 import PageFullScreenButtonItem from './items/PageFullScreenButtonItem'
 import useHandler from '../hooks/useHandler'
 import useBoolean from '../hooks/useBoolean'
-
-export type ToggleType = 'button' | 'keyCode' | 'video' | null
+import {useActionToastDispatch} from './ActionToast'
 
 type ControllerProps = {
   standalone?: boolean
@@ -30,8 +30,8 @@ type ControllerProps = {
   isPip: boolean
   onDragStart?: () => void
   onDragEnd?: () => void
-  onPlay?: (type: ToggleType) => void
-  onPause?: (type: ToggleType) => void
+  onPlay?: () => void
+  onPause?: () => void
   onSeek?: (currentTime: number) => void
   onQualityChange?: (...args: any[]) => any
   onVolumeChange?: (volume: number) => void
@@ -74,7 +74,6 @@ Controller.defaultProps = {
 
 function Controller(props: ControllerProps) {
   const {
-    show,
     isPlaying = false,
     buffered,
     duration,
@@ -106,9 +105,8 @@ function Controller(props: ControllerProps) {
     onSeek,
     onVolumeChange,
   } = props
+  const actionToastDispatch = useActionToastDispatch()
   const [isVolumeHovered, isVolumeHoveredSwitch] = useBoolean()
-  const [isVolumeDragging, isVolumeDraggingSwitch] = useBoolean()
-  const [isVolumeKeyboard, isVolumeKeyboardSwitch] = useBoolean()
   const [slideTime, setSlideTime] = useState<number>()
   const prevVolumeRef = useRef(1)
 
@@ -116,11 +114,11 @@ function Controller(props: ControllerProps) {
     setSlideTime(clamp(slideTime, 0, duration))
   })
 
-  const handleTogglePlay = (type: ToggleType) => {
+  const handleTogglePlay = () => {
     if (isPlaying) {
-      onPause?.(type)
+      onPause?.()
     } else {
-      onPlay?.(type)
+      onPlay?.()
     }
   }
 
@@ -132,30 +130,22 @@ function Controller(props: ControllerProps) {
     }
   })
 
-  const handleVolumeChange = useHandler((volume: number) => {
-    volume = clamp(volume, 0, 1)
-    onVolumeChange?.(volume)
+  const handleVolumeChange = useHandler((value: number, showToast = false) => {
+    value = clamp(value, 0, 1)
+    if (showToast) {
+      actionToastDispatch({
+        icon: value ? controllerIcons.volume : controllerIcons.muted,
+        label: `${(value * 100).toFixed(0)}%`,
+      })
+    }
+    onVolumeChange?.(value)
   })
 
-  const handleToggleMuted = useHandler(() => {
+  const handleToggleMuted = useHandler((showToast = false) => {
     if (volume) {
       prevVolumeRef.current = volume
     }
-    handleVolumeChange(volume ? 0 : prevVolumeRef.current)
-  })
-
-  const handleVolumeDragStart = useHandler(() => {
-    if (volume) {
-      prevVolumeRef.current = volume
-    }
-
-    isVolumeDraggingSwitch.on()
-    onDragStart?.()
-  })
-
-  const handleVolumeDragEnd = useHandler(() => {
-    isVolumeDraggingSwitch.off()
-    onDragEnd?.()
+    handleVolumeChange(volume ? 0 : prevVolumeRef.current, showToast)
   })
 
   const handleKeyDown = useHandler((event: KeyboardEvent) => {
@@ -168,11 +158,16 @@ function Controller(props: ControllerProps) {
     switch (event.key) {
       case ' ':
       case 'k':
-        handleTogglePlay('keyCode')
+      case 'K':
+        actionToastDispatch({
+          icon: isPlaying ? displayIcons.pause : displayIcons.play,
+        })
+        handleTogglePlay()
         break
 
       case 'Enter':
       case 'f':
+      case 'F':
         onToggleFullScreen?.()
         break
       case 'Escape':
@@ -189,10 +184,12 @@ function Controller(props: ControllerProps) {
         break
 
       case 'j':
+      case 'J':
         handleSeek(currentTime - 10)
         break
 
       case 'l':
+      case 'L':
         handleSeek(currentTime + 10)
         break
       case '0':
@@ -205,28 +202,21 @@ function Controller(props: ControllerProps) {
       case '7':
       case '8':
       case '9':
-        if (show) {
-          const nextTime = (duration / 10) * Number(event.key)
-          handleSeek(nextTime)
-        }
+        handleSeek((duration / 10) * Number(event.key))
         break
 
       case 'm':
-        handleToggleMuted()
+      case 'M':
+        handleToggleMuted(true)
         break
+
       case 'ArrowUp':
-        if (volume) {
-          prevVolumeRef.current = volume
-        }
-        isVolumeKeyboardSwitch.on()
-        handleVolumeChange(volume + 0.05)
+        // 静音状态下调整可能不切换为非静音更好（设置一成临时的，切换后再应用临时状态）
+        handleVolumeChange(volume + 0.05, true)
         break
 
       case 'ArrowDown':
-        if (volume) {
-          prevVolumeRef.current = volume
-        }
-        handleVolumeChange(volume - 0.05)
+        handleVolumeChange(volume - 0.05, true)
         break
 
       default:
@@ -238,33 +228,14 @@ function Controller(props: ControllerProps) {
     }
   })
 
-  const handleKeyUp = useHandler((event: KeyboardEvent) => {
-    switch (event.key) {
-      case 'ArrowUp':
-      case 'ArrowDown':
-        handleVolumeKeyboard()
-        break
-    }
-  })
-
-  const handleVolumeKeyboard = useMemo(
-    () =>
-      debounce(() => {
-        isVolumeKeyboardSwitch.off()
-      }, 1000),
-    [isVolumeKeyboardSwitch]
-  )
-
   useEffect(() => {
     if (standalone) {
       document.addEventListener('keydown', handleKeyDown)
-      document.addEventListener('keyup', handleKeyUp)
       return () => {
         document.removeEventListener('keydown', handleKeyDown)
-        document.removeEventListener('keyup', handleKeyUp)
       }
     }
-  }, [handleKeyDown, handleKeyUp, standalone])
+  }, [handleKeyDown, standalone])
 
   const displayedCurrentTime = slideTime || currentTime
 
@@ -289,7 +260,7 @@ function Controller(props: ControllerProps) {
           {!hiddenPlayButton && (
             <PlayButtonItem
               isPlaying={isPlaying}
-              onClick={() => handleTogglePlay('button')}
+              onClick={() => handleTogglePlay()}
             />
           )}
           {hiddenTimeline && <div className={css(styles.timelineHolder)} />}
@@ -320,14 +291,10 @@ function Controller(props: ControllerProps) {
           {!hiddenVolumeItem && (
             <VolumeItem
               volume={volume}
-              menuShown={
-                isVolumeHovered || isVolumeDragging || isVolumeKeyboard
-              }
+              menuShown={isVolumeHovered}
               onMouseEnter={isVolumeHoveredSwitch.on}
               onMouseLeave={isVolumeHoveredSwitch.off}
               onToggleMuted={handleToggleMuted}
-              onDragStart={handleVolumeDragStart}
-              onDragEnd={handleVolumeDragEnd}
               onChange={handleVolumeChange}
             />
           )}

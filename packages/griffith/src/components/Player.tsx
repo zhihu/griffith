@@ -33,14 +33,19 @@ import Icon from './Icon'
 import * as icons from './icons/display/index'
 import Loader from './Loader'
 import Video from './Video'
-import Controller, {ToggleType} from './Controller'
+import Controller from './Controller'
 import VolumeItem from './items/VolumeItem'
 import MinimalTimeline from './MinimalTimeline'
 import getBufferedTime from '../utils/getBufferedTime'
 import formatDuration from '../utils/formatDuration'
 import storage from '../utils/storage'
 import Pip from '../utils/pip'
-
+import {
+  ActionToastDispatch,
+  ActionToastDispatchContext,
+  ActionToastOutlet,
+  ActionToastProvider,
+} from './ActionToast'
 import styles, {hiddenOrShownStyle} from './Player.styles'
 const CONTROLLER_HIDE_DELAY = 3000
 const {isMobile} = ua
@@ -50,6 +55,7 @@ type ProviderOnlyProps = {
   // TODO：这个应该改名成 emitEvent
   onEvent: (name: EVENTS, data?: unknown) => void
   subscribeAction: InternalMessageContextValue['subscribeAction']
+  actionToastDispatch: ActionToastDispatch
 }
 
 // 被 Provider 包装后的属性
@@ -110,7 +116,6 @@ export type PlayerProps = Omit<InnerPlayerProps, keyof ProviderOnlyProps> &
 type State = {
   isPlaybackStarted: boolean
   isNeverPlayed: boolean
-  lastAction?: 'play' | 'pause' | null
   isDataLoaded: boolean
   isPlaying: boolean
   isLoading: boolean
@@ -121,7 +126,6 @@ type State = {
   isControllerShown: boolean
   isControllerHovered: boolean
   isControllerDragging: boolean
-  type: ToggleType
   hovered: boolean
   pressed: boolean
   isEnterPageFullScreen: boolean
@@ -216,7 +220,7 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
         this.handleVideoVolumeChange(0)
       }
       if (this.props.autoplay) {
-        this.handlePlay('video')
+        this.handlePlay()
       }
     }
   }
@@ -293,18 +297,23 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
 
     if (dontApplyOnFullScreen && Boolean(BigScreen.element)) return
 
-    this.handlePause('button') // 通过这种方式暂停不会显示中间的图标
+    this.handlePause()
   }
 
-  handleToggle = () => {
-    if (this.state.isPlaying) {
-      this.handlePause('video')
+  handleClickToTogglePlay = () => {
+    const {isPlaying} = this.state
+    // 仅点击覆盖层触发提示（控制条上的按钮点击不需要）
+    this.props.actionToastDispatch({
+      icon: isPlaying ? icons.pause : icons.play,
+    })
+    if (isPlaying) {
+      this.handlePause()
     } else {
-      this.handlePlay('video')
+      this.handlePlay()
     }
   }
 
-  handlePlay = (type: ToggleType = null) => {
+  handlePlay = () => {
     const {onEvent, onBeforePlay} = this.props
     const {currentSrc} = this.context
     onEvent(EVENTS.REQUEST_PLAY)
@@ -320,10 +329,8 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
           if (this.state.currentTime !== 0) {
             this.handleSeek(0)
           }
-        } else {
-          this.setState({lastAction: 'play'})
         }
-        this.setState({isPlaying: true, type, isNeverPlayed: false})
+        this.setState({isPlaying: true, isNeverPlayed: false})
       })
       .catch(() => {
         onEvent(EVENTS.PLAY_REJECTED)
@@ -331,16 +338,14 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       })
   }
 
-  handlePause = (type: ToggleType = null) => {
+  handlePause = () => {
     const {hideMobileControls} = this.props
     this.props.onEvent(EVENTS.REQUEST_PAUSE)
     const {isLoading} = this.state
 
     if (!isLoading || hideMobileControls) {
       this.setState({
-        lastAction: 'pause',
         isPlaying: false,
-        type,
       })
     }
   }
@@ -360,7 +365,6 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
   handleVideoEnded = () => {
     this.setState({
       isPlaybackStarted: false,
-      lastAction: null,
       isPlaying: false,
       isLoading: false,
     })
@@ -565,7 +569,6 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
 
     const {
       isPlaybackStarted,
-      lastAction,
       isPlaying,
       isLoading,
       duration,
@@ -573,7 +576,6 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
       isNeverPlayed,
       volume,
       buffered,
-      type,
       hovered,
       pressed,
       isEnterPageFullScreen,
@@ -692,29 +694,14 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
                 <Loader />
               </div>
             )}
-            {/*直接点击底部播放/暂停按钮时不展示动画*/}
-            {lastAction && type !== 'button' && (
-              <div className={css(styles.action)} key={lastAction}>
-                <div
-                  className={css(
-                    styles.actionButton,
-                    styles.actionButtonAnimated
-                  )}
-                >
-                  <Icon
-                    icon={lastAction === 'play' ? icons.play : icons.pause}
-                    styles={styles.actionIcon}
-                  />
-                </div>
-              </div>
-            )}
+            <ActionToastOutlet />
             <div
               className={css(styles.backdrop)}
               onTouchStart={(event) => {
                 // prevent touch to toggle
                 event.preventDefault()
               }}
-              onClick={this.handleToggle}
+              onClick={this.handleClickToTogglePlay}
             />
             {title && isFullScreen && (
               <div
@@ -874,16 +861,23 @@ const Player: React.FC<PlayerProps> = ({
                 playbackRates={playbackRates}
               >
                 <LocaleProvider locale={locale} localeConfig={localeConfig}>
-                  <InnerPlayer
-                    shouldShowPageFullScreenButton={
-                      shouldShowPageFullScreenButton
-                    }
-                    {...restProps}
-                    useAutoQuality={useAutoQuality}
-                    standalone={standalone}
-                    onEvent={emitEvent as PlayerProps['onEvent']}
-                    subscribeAction={subscribeAction}
-                  />
+                  <ActionToastProvider>
+                    <ActionToastDispatchContext.Consumer>
+                      {(actionToastDispatch) => (
+                        <InnerPlayer
+                          actionToastDispatch={actionToastDispatch}
+                          shouldShowPageFullScreenButton={
+                            shouldShowPageFullScreenButton
+                          }
+                          {...restProps}
+                          useAutoQuality={useAutoQuality}
+                          standalone={standalone}
+                          onEvent={emitEvent as PlayerProps['onEvent']}
+                          subscribeAction={subscribeAction}
+                        />
+                      )}
+                    </ActionToastDispatchContext.Consumer>
+                  </ActionToastProvider>
                 </LocaleProvider>
               </VideoSourceProvider>
             )}

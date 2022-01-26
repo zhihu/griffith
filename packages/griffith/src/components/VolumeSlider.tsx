@@ -4,10 +4,9 @@ import Slider, {SliderProps} from './Slider'
 import styles, {slider as sliderStyles} from './VolumeSlider.styles'
 
 type DefinedProps = Pick<SliderProps, 'styles' | 'orientation' | 'step'>
+export type VolumeSliderProps = Omit<SliderProps, keyof DefinedProps>
 
-const VolumeSlider: React.FC<Omit<SliderProps, keyof DefinedProps>> = (
-  props
-) => {
+const VolumeSlider: React.FC<VolumeSliderProps> = (props) => {
   return (
     <div className={css(styles.root)}>
       <Slider

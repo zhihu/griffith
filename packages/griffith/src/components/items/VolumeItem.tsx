@@ -1,9 +1,19 @@
 import React from 'react'
 import {css} from 'aphrodite/no-important'
-import VolumeSlider from '../VolumeSlider'
+import VolumeSlider, {VolumeSliderProps} from '../VolumeSlider'
 import * as icons from '../icons/controller'
 import styles from '../Controller.styles'
 import ControllerButton from './ControllerButton'
+
+type VolumeItemProps = Pick<
+  React.HTMLProps<HTMLDivElement>,
+  'onMouseEnter' | 'onMouseLeave'
+> &
+  Pick<VolumeSliderProps, 'onChange' | 'onDragStart' | 'onDragEnd'> & {
+    volume: number
+    menuShown?: boolean
+    onToggleMuted?(): void
+  }
 
 const VolumeItem = ({
   volume,
@@ -14,7 +24,7 @@ const VolumeItem = ({
   onDragEnd,
   onChange,
   onToggleMuted,
-}: any) => (
+}: VolumeItemProps) => (
   <div
     className={css(styles.menuContainer)}
     onMouseEnter={onMouseEnter}
@@ -22,7 +32,7 @@ const VolumeItem = ({
   >
     <ControllerButton
       icon={volume === 0 ? icons.muted : icons.volume}
-      onClick={onToggleMuted}
+      onClick={() => onToggleMuted?.()}
     />
     <div className={css(styles.menu, menuShown && styles.menuShown)}>
       <VolumeSlider

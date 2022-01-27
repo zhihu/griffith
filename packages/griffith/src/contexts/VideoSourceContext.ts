@@ -7,11 +7,11 @@ export type VideoSourceContextValue = {
   sources: PlaySource[]
   // 视频质量
   qualities: Quality[]
-  setCurrentQuality(x: Quality): void
+  setCurrentQuality: (x: Quality) => void
   currentQuality: Quality
   // 播放速度
   playbackRates: PlaybackRate[]
-  setCurrentPlaybackRate(x: PlaybackRate): void
+  setCurrentPlaybackRate: (x: PlaybackRate) => void
   currentPlaybackRate: PlaybackRate
 }
 

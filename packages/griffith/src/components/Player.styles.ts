@@ -96,6 +96,7 @@ export default StyleSheet.create({
   },
 
   actionLabel: {
+    marginTop: '.5em',
     padding: '.3em .5em',
     textAlign: 'center',
     color: '#fff',

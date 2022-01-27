@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import {css} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
 import * as displayIcons from './icons/display/index'
@@ -17,6 +17,7 @@ import PageFullScreenButtonItem from './items/PageFullScreenButtonItem'
 import useHandler from '../hooks/useHandler'
 import useBoolean from '../hooks/useBoolean'
 import {useActionToastDispatch} from './ActionToast'
+import VideoSourceContext from '../contexts/VideoSourceContext'
 
 type ControllerProps = {
   standalone?: boolean
@@ -105,10 +106,25 @@ function Controller(props: ControllerProps) {
     onSeek,
     onVolumeChange,
   } = props
+  const {playbackRates, currentPlaybackRate, setCurrentPlaybackRate} =
+    useContext(VideoSourceContext)
   const actionToastDispatch = useActionToastDispatch()
   const [isVolumeHovered, isVolumeHoveredSwitch] = useBoolean()
   const [slideTime, setSlideTime] = useState<number>()
   const prevVolumeRef = useRef(1)
+
+  const rotatePlaybackRate = (dir: 'next' | 'prev') => {
+    const index = playbackRates?.findIndex(
+      (x) => x.value === currentPlaybackRate.value
+    )
+    if (index >= 0) {
+      const next = playbackRates[index + (dir === 'next' ? 1 : -1)]
+      if (next) {
+        actionToastDispatch({icon: displayIcons.play, label: next.text})
+        setCurrentPlaybackRate(next)
+      }
+    }
+  }
 
   const handleDragMove = useHandler((slideTime: number) => {
     setSlideTime(clamp(slideTime, 0, duration))
@@ -217,6 +233,14 @@ function Controller(props: ControllerProps) {
 
       case 'ArrowDown':
         handleVolumeChange(volume - 0.05, true)
+        break
+
+      case '<':
+        rotatePlaybackRate('prev')
+        break
+
+      case '>':
+        rotatePlaybackRate('next')
         break
 
       default:

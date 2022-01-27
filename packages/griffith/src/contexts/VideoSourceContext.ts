@@ -2,7 +2,6 @@ import React from 'react'
 import {PlaySource, Quality, PlaybackRate} from '../types'
 
 export type VideoSourceContextValue = {
-  dataKey?: string
   currentSrc: string
   format: string
   sources: PlaySource[]

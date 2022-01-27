@@ -8,6 +8,7 @@ import React, {useState} from 'react'
 import Logo from './Logo'
 import {logEvent} from './utils'
 import useQuery from './utils/useQuery'
+import {sources as hlsSources} from './HLSPage'
 
 const duration = 182
 
@@ -61,6 +62,7 @@ const App = () => {
     <>
       <Player
         {...props}
+        sources={'hls' in query ? hlsSources : props.sources}
         localeConfig={{
           'zh-Hans': {
             'quality-ld': {

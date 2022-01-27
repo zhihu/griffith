@@ -866,10 +866,8 @@ const Player: React.FC<PlayerProps> = ({
           <InternalMessageContext.Consumer>
             {({emitEvent, subscribeAction}) => (
               <VideoSourceProvider
-                // TODO：改名 emitEvent
-                onEvent={emitEvent as any}
+                emitEvent={emitEvent}
                 sources={sources}
-                id={id}
                 defaultQuality={defaultQuality}
                 useAutoQuality={useAutoQuality}
                 defaultPlaybackRate={defaultPlaybackRate}

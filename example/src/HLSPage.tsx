@@ -3,7 +3,7 @@ import React from 'react'
 import {logEvent} from './utils'
 import useQuery from './utils/useQuery'
 
-const sources = {
+export const sources = {
   // 注意，这里手动提供了 auto 品质的 source，因此会无视 useAutoQuality 的配置
   auto: {
     format: 'm3u8',

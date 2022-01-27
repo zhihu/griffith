@@ -1,70 +1,43 @@
-import React from 'react'
-import {
-  PlaySourceMap,
-  FormattedPlaySource,
-  PlaybackRate,
-  RealQuality,
-} from '../types'
-import VideoSourceContext, {VideoSourceContextValue} from './VideoSourceContext'
+import React, {useEffect, useMemo, useState} from 'react'
+import {PlaySourceMap, PlaybackRate, RealQuality} from '../types'
+import VideoSourceContext from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
 import {ua} from 'griffith-utils'
+import useHandler from '../hooks/useHandler'
+import useChanged from '../hooks/useChanged'
+import {InternalMessageContextValue} from './MessageContext'
+import usePrevious from '../hooks/usePrevious'
 
 const {isMobile} = ua
 
-const getQuery = (url: string, key: string) => {
-  const [, value] = new RegExp(`\\b${key}=([^&]+)`).exec(url) || []
-  return value
-}
-
 type VideoSourceProviderProps = {
-  onEvent: (name: EVENTS, data?: unknown) => void
+  emitEvent: InternalMessageContextValue['emitEvent']
   sources: PlaySourceMap
-  id: string
   defaultQuality?: RealQuality
   useAutoQuality?: boolean
   playbackRates: PlaybackRate[]
   defaultPlaybackRate?: PlaybackRate
 }
 
-type VideoSourceProviderState = Partial<VideoSourceContextValue> & {
-  expiration: number
-}
-
-export default class VideoSourceProvider extends React.Component<
-  VideoSourceProviderProps,
-  VideoSourceProviderState
-> {
-  state = {
-    qualities: [],
-    currentQuality: undefined,
-    format: undefined,
-    sources: [] as FormattedPlaySource[],
-    expiration: 0,
-    dataKey: undefined,
-    currentPlaybackRate: undefined,
-  }
-
-  static getDerivedStateFromProps = (
-    {
-      sources: videoSources,
-      id,
-      defaultQuality,
-      useAutoQuality,
-      defaultPlaybackRate,
-    }: VideoSourceProviderProps,
-    state: VideoSourceProviderState
-  ): VideoSourceProviderState | null => {
-    if (!videoSources) return null
-    const {format, play_url} = Object.values(videoSources)[0]!
-    const expiration = getQuery(play_url, 'expiration')
-    const dataKey = `${id}-${expiration}` // expiration 和 id 组合可以唯一标识一次请求的数据
-
-    if (dataKey == state.dataKey) return null
-
-    const qualities = getQualities(videoSources, isMobile)
-
-    const sources = getSources(qualities, videoSources)
+const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
+  sources: sourceMap,
+  useAutoQuality,
+  emitEvent,
+  playbackRates,
+  defaultPlaybackRate,
+  defaultQuality,
+  children,
+}) => {
+  const lastSourceMap = useChanged(sourceMap)
+  const {qualities, sources, format} = useMemo(() => {
+    // 其实视频源应当是必需参数
+    if (!lastSourceMap) {
+      return {qualities: [], sources: []}
+    }
+    const {format} = Object.values(lastSourceMap)[0]!
+    const qualities = getQualities(lastSourceMap, isMobile)
+    const sources = getSources(qualities, lastSourceMap)
 
     // 目前只有直播流实现了手动拼接 auto 清晰度的功能
     if (
@@ -76,47 +49,44 @@ export default class VideoSourceProvider extends React.Component<
       qualities.unshift('auto')
     }
 
-    const defaultCurrentQuality = defaultQuality || qualities[0]
-    const currentQuality = state.currentQuality || defaultCurrentQuality
-    const currentPlaybackRate = state.currentPlaybackRate || defaultPlaybackRate
-    return {
-      currentQuality,
-      currentPlaybackRate,
-      qualities,
-      sources,
-      format,
-      expiration: Number(expiration),
-      dataKey,
-    }
-  }
+    return {qualities, sources, format}
+  }, [useAutoQuality, lastSourceMap])
 
-  setCurrentQuality = (quality: RealQuality) => {
-    const prevQuality = this.state.currentQuality
-    if (prevQuality !== quality) {
-      this.setState({currentQuality: quality})
-      this.props.onEvent(EVENTS.QUALITY_CHANGE, {
-        prevQuality,
+  const [currentQuality, setCurrentQualityRaw] = useState(
+    defaultQuality || qualities[0]
+  )
+  const [playbackRate, setPlaybackRate] = useState(defaultPlaybackRate)
+
+  const setCurrentQuality = useHandler((quality: RealQuality) => {
+    if (currentQuality !== quality) {
+      setCurrentQualityRaw(quality)
+      emitEvent(EVENTS.QUALITY_CHANGE, {
+        prevQuality: currentQuality,
         quality,
       })
     }
-  }
+  })
 
-  setCurrentPlaybackRate = (rate: PlaybackRate) => {
-    const prevRate = this.state.currentPlaybackRate
-    if (prevRate !== rate) {
-      this.setState({currentPlaybackRate: rate})
-      this.props.onEvent(EVENTS.PLAYBACK_RATE_CHANGE, {
-        prevRate,
+  // 当 sources 改变重置 `currentQuality`
+  const prevQualities = usePrevious(qualities)
+  useEffect(() => {
+    if (prevQualities && prevQualities !== qualities) {
+      setCurrentQuality((defaultQuality || qualities[0]) as RealQuality)
+    }
+  }, [prevQualities, qualities, defaultQuality, setCurrentQuality])
+
+  const setCurrentPlaybackRate = useHandler((rate: PlaybackRate) => {
+    if (playbackRate !== rate) {
+      setPlaybackRate(rate)
+      emitEvent(EVENTS.PLAYBACK_RATE_CHANGE, {
+        prevRate: playbackRate!,
         rate,
       })
     }
-  }
+  })
 
-  /**
-   * 获得当前 src, 根据当前清晰度返回对应的 src
-   */
-  getCurrentSrc = () => {
-    const {currentQuality, sources} = this.state
+  // 根据当前清晰度返回对应的 src
+  const currentSrc = useMemo(() => {
     if (sources.length === 0) {
       return
     }
@@ -124,35 +94,38 @@ export default class VideoSourceProvider extends React.Component<
     const source =
       sources.find((item) => item.quality === currentQuality) || sources[0]
     return source.source
-  }
+  }, [currentQuality, sources])
 
-  render() {
-    const {
+  const contextValue = useMemo(
+    () => ({
       qualities,
-      currentQuality,
-      format,
-      dataKey,
+      playbackRates,
+      format: format!,
       sources,
-      currentPlaybackRate,
-    } = this.state
-    const {playbackRates} = this.props
-    return (
-      <VideoSourceContext.Provider
-        value={{
-          dataKey,
-          qualities,
-          playbackRates,
-          format: format!,
-          sources,
-          currentQuality: currentQuality!,
-          currentPlaybackRate: currentPlaybackRate!,
-          currentSrc: this.getCurrentSrc()!,
-          setCurrentQuality: this.setCurrentQuality,
-          setCurrentPlaybackRate: this.setCurrentPlaybackRate,
-        }}
-      >
-        {this.props.children}
-      </VideoSourceContext.Provider>
-    )
-  }
+      currentQuality,
+      currentPlaybackRate: playbackRate!,
+      currentSrc: currentSrc!,
+      setCurrentQuality,
+      setCurrentPlaybackRate,
+    }),
+    [
+      playbackRate,
+      currentQuality,
+      currentSrc,
+      format,
+      playbackRates,
+      qualities,
+      setCurrentPlaybackRate,
+      setCurrentQuality,
+      sources,
+    ]
+  )
+
+  return (
+    <VideoSourceContext.Provider value={contextValue}>
+      {children}
+    </VideoSourceContext.Provider>
+  )
 }
+
+export default VideoSourceProvider

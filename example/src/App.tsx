@@ -19,6 +19,7 @@ const NavLinks = () => {
           <br />
           <Link to="/mp4?loop">/mp4?loop</Link>
           <br />
+          <Link to="/mp4?hls">/mp4?hls</Link>
         </li>
         <li>
           <Link to="/mp4-mse">/mp4-mse</Link>

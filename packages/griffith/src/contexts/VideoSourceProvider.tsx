@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react'
-import {PlaySourceMap, PlaybackRate, RealQuality} from '../types'
+import {PlaySourceMap, PlaybackRate, RealQuality, Quality} from '../types'
 import VideoSourceContext from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
@@ -57,7 +57,7 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
   )
   const [playbackRate, setPlaybackRate] = useState(defaultPlaybackRate)
 
-  const setCurrentQuality = useHandler((quality: RealQuality) => {
+  const setCurrentQuality = useHandler((quality: Quality) => {
     if (currentQuality !== quality) {
       setCurrentQualityRaw(quality)
       emitEvent(EVENTS.QUALITY_CHANGE, {
@@ -71,7 +71,7 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
   const prevQualities = usePrevious(qualities)
   useEffect(() => {
     if (prevQualities && prevQualities !== qualities) {
-      setCurrentQuality((defaultQuality || qualities[0]) as RealQuality)
+      setCurrentQuality(defaultQuality || qualities[0])
     }
   }, [prevQualities, qualities, defaultQuality, setCurrentQuality])
 

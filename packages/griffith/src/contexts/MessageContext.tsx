@@ -28,10 +28,12 @@ export interface MessageContextValue {
 
 export interface InternalMessageContextValue {
   emitEvent<T extends keyof EventParamsMap>(
+    this: void,
     eventName: T,
     ...data: Parameters<EventParamsMap[T]>
   ): void
   subscribeAction<T extends keyof ActionParamsMap>(
+    this: void,
     actionName: T,
     listener: ActionParamsMap[T]
   ): Subscription

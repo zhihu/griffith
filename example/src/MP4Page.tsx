@@ -4,7 +4,7 @@ import Player, {
   PlayerProps,
   useMessageContextRef,
 } from 'griffith'
-import React, {useState} from 'react'
+import React, {useState, useMemo} from 'react'
 import Logo from './Logo'
 import {logEvent} from './utils'
 import useQuery from './utils/useQuery'
@@ -40,7 +40,6 @@ const props: PlayerProps = {
   cover: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018.jpg',
   duration,
   sources,
-  autoplay: true,
   shouldObserveResize: true,
 }
 
@@ -57,11 +56,16 @@ const App = () => {
       messageContextRef.dispatchAction(ACTIONS.PLAY)
     }
   })
+  const children = useMemo(
+    () => 'logo' in query && isLogoVisible && <Logo />,
+    [isLogoVisible, query]
+  )
 
   return (
     <>
       <Player
         {...props}
+        autoplay={query.autoplay !== '0'}
         sources={'hls' in query ? hlsSources : props.sources}
         localeConfig={{
           'zh-Hans': {
@@ -87,7 +91,7 @@ const App = () => {
         messageContextRef={messageContextRef}
         onEvent={logEvent}
       >
-        {'logo' in query && isLogoVisible && <Logo />}
+        {children}
       </Player>
       <button
         onClick={() => {

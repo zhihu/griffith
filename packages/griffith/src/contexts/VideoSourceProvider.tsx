@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useContext, useEffect, useMemo, useState} from 'react'
 import {PlaySourceMap, PlaybackRate, RealQuality, Quality} from '../types'
 import VideoSourceContext from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
@@ -6,13 +6,12 @@ import {EVENTS} from 'griffith-message'
 import {ua} from 'griffith-utils'
 import useHandler from '../hooks/useHandler'
 import useChanged from '../hooks/useChanged'
-import {InternalMessageContextValue} from './MessageContext'
+import {InternalMessageContext} from './MessageContext'
 import usePrevious from '../hooks/usePrevious'
 
 const {isMobile} = ua
 
 type VideoSourceProviderProps = {
-  emitEvent: InternalMessageContextValue['emitEvent']
   sources: PlaySourceMap
   defaultQuality?: RealQuality
   useAutoQuality?: boolean
@@ -23,12 +22,12 @@ type VideoSourceProviderProps = {
 const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
   sources: sourceMap,
   useAutoQuality,
-  emitEvent,
   playbackRates,
   defaultPlaybackRate,
   defaultQuality,
   children,
 }) => {
+  const {emitEvent} = useContext(InternalMessageContext)
   const lastSourceMap = useChanged(sourceMap)
   const {qualities, sources, format} = useMemo(() => {
     // 其实视频源应当是必需参数

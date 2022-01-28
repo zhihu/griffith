@@ -341,14 +341,9 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   }
 
   const handleSeek = (value: number) => {
-    const isPlayEnded =
-      !isPlaybackStarted && !isNeverPlayed && currentTime !== 0 // 播放结束，显示「重新播放」状态
     setCurrentTime(value)
     // TODO 想办法去掉这个实例方法调用
     videoRef.current?.seek(value)
-    if (isPlayEnded) {
-      handlePlay()
-    }
   }
 
   const handleLoadingChange = (value: boolean) => {

@@ -21,7 +21,7 @@ const NavLinks = () => {
           <br />
           <Link to="/mp4?hls">/mp4?hls</Link>
           <br />
-          <Link to="/mp4?autoplay=0">/mp4?autoplay=0</Link>
+          <Link to="/mp4?key=0&autoplay=0">/mp4?key=0&autoplay=0</Link>
         </li>
         <li>
           <Link to="/mp4-mse">/mp4-mse</Link>

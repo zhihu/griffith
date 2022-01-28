@@ -65,6 +65,8 @@ const App = () => {
     <>
       <Player
         {...props}
+        // trigger re-mount
+        key={query.key}
         autoplay={query.autoplay !== '0'}
         sources={'hls' in query ? hlsSources : props.sources}
         localeConfig={{

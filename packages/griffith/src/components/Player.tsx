@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {useRef, useEffect, useState, useContext, useMemo} from 'react'
 import {css} from 'aphrodite/no-important'
 import BigScreen from 'isomorphic-bigscreen'
 import {EVENTS, ACTIONS} from 'griffith-message'
@@ -20,8 +20,6 @@ import {
   MessageProvider,
   MessageContextValue,
   InternalMessageContext,
-  InternalMessageContextValue,
-  Subscription,
 } from '../contexts/MessageContext'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 import ObjectFitContext, {ObjectFit} from '../contexts/ObjectFitContext'
@@ -41,25 +39,19 @@ import formatDuration from '../utils/formatDuration'
 import storage from '../utils/storage'
 import Pip from '../utils/pip'
 import {
-  ActionToastDispatch,
-  ActionToastDispatchContext,
   ActionToastOutlet,
   ActionToastProvider,
+  useActionToastDispatch,
 } from './ActionToast'
 import styles, {hiddenOrShownStyle} from './Player.styles'
+import useBoolean from '../hooks/useBoolean'
+import useMount from '../hooks/useMount'
 const CONTROLLER_HIDE_DELAY = 3000
 const {isMobile} = ua
 
-// 临时属性，由 Provider 注入（TODO：替换成 hooks 后可以删除）
-type ProviderOnlyProps = {
-  // TODO：这个应该改名成 emitEvent
-  onEvent: (name: EVENTS, data?: unknown) => void
-  subscribeAction: InternalMessageContextValue['subscribeAction']
-  actionToastDispatch: ActionToastDispatch
-}
-
 // 被 Provider 包装后的属性
-type InnerPlayerProps = ProviderOnlyProps & {
+type InnerPlayerProps = {
+  children?: React.ReactNode
   standalone?: boolean
   error?: {
     message?: string
@@ -110,145 +102,104 @@ type OuterPlayerProps = {
 }
 
 // export 给外部用的
-export type PlayerProps = Omit<InnerPlayerProps, keyof ProviderOnlyProps> &
-  OuterPlayerProps
+export type PlayerProps = InnerPlayerProps & OuterPlayerProps
 
-type State = {
-  isPlaybackStarted: boolean
-  isNeverPlayed: boolean
-  isDataLoaded: boolean
-  isPlaying: boolean
-  isLoading: boolean
-  duration: number
-  currentTime: number
-  volume: number
-  buffered: ProgressValue[]
-  isControllerShown: boolean
-  isControllerHovered: boolean
-  isControllerDragging: boolean
-  hovered: boolean
-  pressed: boolean
-  isEnterPageFullScreen: boolean
-}
+// 非基本类型默认值（对象或数组），防止引用变化
+const defaultProgressDots: ProgressDot[] = []
 
-class InnerPlayer extends Component<InnerPlayerProps, State> {
-  static contextType = VideoSourceContext
-  static defaultProps: Partial<InnerPlayerProps> = {
-    standalone: false,
-    duration: 0,
-    autoplay: false,
-    muted: false,
-    disablePictureInPicture: false,
-    progressDots: [],
-    hideMobileControls: false,
-    hideCover: false,
-    noWriteDocTitle: false,
-  }
-
-  state = {
-    isPlaybackStarted: false, // 开始播放的时候设置为 true，播放中途暂停仍然为 true，直到播放到最后停止的时候才会变成 false，
-    isNeverPlayed: true, // 用户第一次播放之后设置为 false，并且之后永远为 false
-    lastAction: undefined,
-    isDataLoaded: false,
-    isPlaying: false,
-    isLoading: false,
-    duration: 0,
-    currentTime: 0,
-    volume: 0.5,
-    buffered: [],
-    isControllerShown: false,
-    isControllerHovered: false,
-    isControllerDragging: false,
-    type: null,
-    hovered: false,
-    pressed: false,
-    isEnterPageFullScreen: false,
-  }
-
-  isSeeking = false
-  showLoaderTimeout: ReturnType<typeof setTimeout> | null = null
-  hideControllerTimeout: ReturnType<typeof setTimeout> | null = null
-
-  // refs
-  playerRef = React.createRef<HTMLDivElement>()
-  videoRef = React.createRef<{
+const InnerPlayer: React.FC<InnerPlayerProps> = ({
+  autoplay,
+  muted,
+  error,
+  title,
+  cover,
+  standalone,
+  loop,
+  duration: durationProp = 0,
+  onBeforePlay,
+  useMSE,
+  useAutoQuality,
+  alwaysShowVolumeButton,
+  disablePictureInPicture,
+  progressDots = defaultProgressDots,
+  hiddenPlayButton,
+  hiddenTimeline,
+  hiddenTime,
+  hiddenQualityMenu,
+  hiddenVolume,
+  hiddenFullScreenButton,
+  shouldShowPageFullScreenButton,
+  children,
+  hiddenPlaybackRateItem,
+  hideMobileControls,
+  hideCover,
+  noWriteDocTitle,
+}) => {
+  const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
+  const {currentSrc} = useContext(VideoSourceContext)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<{
     root: HTMLVideoElement
     seek(currentTime: number): void
   }>()
+  const actionToastDispatch = useActionToastDispatch()
+  const [buffered, setBuffered] = useState<ProgressValue[]>([])
+  const [volume, setVolume] = useState(0.5)
+  const [duration, setDuration] = useState(durationProp)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [isDataLoaded, isDataLoadedSwitch] = useBoolean()
+  const [isPlaying, isPlayingSwitch] = useBoolean()
+  // 开始播放的时候设置为 true，播放中途暂停仍然为 true，直到播放到最后停止的时候才会变成 false
+  const [isPlaybackStarted, isPlaybackStartedSwitch] = useBoolean()
+  // 用户第一次播放之后设置为 false，并且之后永远为 false
+  const [isNeverPlayed, isNeverPlayedSwitch] = useBoolean(true)
+  const [isControllerShown, isControllerShownSwitch] = useBoolean()
+  const [isControllerHovered, isControllerHoveredSwitch] = useBoolean()
+  const [isControllerDragging, isControllerDraggingSwitch] = useBoolean()
+  const [hovered, hoveredSwitch] = useBoolean()
+  const [pressed, pressedSwitch] = useBoolean()
+  const [isEnterPageFullScreen, isEnterPageFullScreenSwitch] = useBoolean()
+  const [isLoading, isLoadingSwitch] = useBoolean()
 
-  static getDerivedStateFromProps = (props: InnerPlayerProps, state: any) => {
-    const {duration} = props
-
-    const shouldUpdateDuration = duration && !state.duration
-    const newDurationState = shouldUpdateDuration ? {duration} : null
-
-    return {...newDurationState}
-  }
-
-  actionSubscriptions_: Subscription[] = []
-
-  componentDidMount() {
-    this.setDocumentTitle()
-    this.initPip()
-
-    if (this.getShowController(this.state)) {
-      this.props.onEvent(EVENTS.SHOW_CONTROLLER)
+  useEffect(() => {
+    if (durationProp && !duration) {
+      setDuration(durationProp)
     }
+  }, [duration, durationProp])
 
+  useMount(() => {
     const historyVolume = storage.get('@griffith/history-volume')
     if (historyVolume) {
-      this.setState({volume: historyVolume as number})
+      setVolume(historyVolume as number)
     }
 
-    this.actionSubscriptions_ = [
-      this.props.subscribeAction(ACTIONS.PLAY, () => this.handlePlay()),
-      this.props.subscribeAction(ACTIONS.PAUSE, this.handlePauseAction),
-      this.props.subscribeAction(ACTIONS.TIME_UPDATE, ({currentTime}) =>
-        this.handleSeek(currentTime)
+    const actionSubscriptions_ = [
+      subscribeAction(ACTIONS.PLAY, () => handlePlay()),
+      subscribeAction(ACTIONS.PAUSE, handlePauseAction),
+      subscribeAction(ACTIONS.TIME_UPDATE, ({currentTime}) =>
+        handleSeek(currentTime)
       ),
-      this.props.subscribeAction(
-        ACTIONS.SHOW_CONTROLLER,
-        this.handleShowController
-      ),
-      this.props.subscribeAction(ACTIONS.SET_VOLUME, ({volume}) =>
-        this.handleVideoVolumeChange(volume)
+      subscribeAction(ACTIONS.SHOW_CONTROLLER, handleShowController),
+      subscribeAction(ACTIONS.SET_VOLUME, ({volume}) =>
+        handleVideoVolumeChange(volume)
       ),
     ]
 
-    if (this.videoRef.current!.root) {
-      if (this.props.muted) {
-        this.handleVideoVolumeChange(0)
+    if (videoRef.current!.root) {
+      if (muted) {
+        handleVideoVolumeChange(0)
       }
-      if (this.props.autoplay) {
-        this.handlePlay()
-      }
-    }
-  }
-
-  componentDidUpdate(preProps: InnerPlayerProps, preState: State) {
-    this.setDocumentTitle()
-    this.initPip()
-
-    const preShowController = this.getShowController(preState)
-    const showController = this.getShowController(this.state)
-
-    if (preShowController !== showController) {
-      if (showController) {
-        this.props.onEvent(EVENTS.SHOW_CONTROLLER)
-      } else {
-        this.props.onEvent(EVENTS.HIDE_CONTROLLER)
+      if (autoplay) {
+        handlePlay()
       }
     }
-  }
 
-  getShowController = ({
-    isPlaybackStarted,
-    isPlaying,
-    isControllerShown,
-    isControllerHovered,
-    isControllerDragging,
-    currentTime,
-  }: Partial<State>) => {
+    return () => {
+      actionSubscriptions_.forEach((s) => s.unsubscribe())
+    }
+  })
+
+  const showController = (() => {
     // 播放中：暂停 或 Controller shown/hovered/dragging 时展示 Controller
     if (isPlaybackStarted) {
       return (
@@ -260,10 +211,18 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     }
     // 非播放中：播放结束时展示 Controller（未播放时不展示）
     return currentTime !== 0
-  }
+  })()
 
-  setDocumentTitle = () => {
-    const {title, standalone, noWriteDocTitle} = this.props
+  useEffect(() => {
+    if (showController) {
+      emitEvent(EVENTS.SHOW_CONTROLLER)
+    } else {
+      emitEvent(EVENTS.HIDE_CONTROLLER)
+    }
+  }, [emitEvent, showController])
+
+  // sync document title
+  useEffect(() => {
     if (
       standalone &&
       typeof title === 'string' &&
@@ -272,544 +231,450 @@ class InnerPlayer extends Component<InnerPlayerProps, State> {
     ) {
       document.title = title
     }
-  }
+  }, [noWriteDocTitle, standalone, title])
 
-  initPip = () => {
-    if (
-      !this.props.disablePictureInPicture &&
-      this.videoRef.current!.root &&
-      !Pip.inited
-    ) {
+  // setup pip
+  useEffect(() => {
+    if (!disablePictureInPicture && videoRef.current!.root && !Pip.inited) {
       Pip.init(
-        this.videoRef.current!.root,
-        () => this.props.onEvent(EVENTS.ENTER_PIP),
-        () => this.props.onEvent(EVENTS.EXIT_PIP)
+        videoRef.current!.root,
+        () => emitEvent(EVENTS.ENTER_PIP),
+        () => emitEvent(EVENTS.EXIT_PIP)
       )
     }
-  }
+  }, [disablePictureInPicture, emitEvent])
 
-  componentWillUnmount() {
-    this.actionSubscriptions_.forEach((s) => s.unsubscribe())
-  }
-
-  handlePauseAction = ({dontApplyOnFullScreen}: any = {}) => {
-    if (!this.state.isPlaying) return
+  const handlePauseAction = ({dontApplyOnFullScreen}: any = {}) => {
+    if (!isPlaying) return
 
     if (dontApplyOnFullScreen && Boolean(BigScreen.element)) return
 
-    this.handlePause()
+    handlePause()
   }
 
-  handleClickToTogglePlay = () => {
-    const {isPlaying} = this.state
+  const handleClickToTogglePlay = () => {
     // 仅点击覆盖层触发提示（控制条上的按钮点击不需要）
-    this.props.actionToastDispatch({
+    actionToastDispatch({
       icon: isPlaying ? icons.pause : icons.play,
     })
     if (isPlaying) {
-      this.handlePause()
+      handlePause()
     } else {
-      this.handlePlay()
+      handlePlay()
     }
   }
 
-  handlePlay = () => {
-    const {onEvent, onBeforePlay} = this.props
-    const {currentSrc} = this.context
-    onEvent(EVENTS.REQUEST_PLAY)
+  const handlePlay = () => {
+    emitEvent(EVENTS.REQUEST_PLAY)
     Promise.resolve(onBeforePlay?.(currentSrc))
       .then(() => {
-        if (!this.state.isPlaybackStarted) {
-          onEvent(EVENTS.PLAY_COUNT)
-          this.setState({isPlaybackStarted: true})
-          if (!this.state.isDataLoaded) {
-            this.setState({isLoading: true})
+        if (!isPlaybackStarted) {
+          emitEvent(EVENTS.PLAY_COUNT)
+          isPlaybackStartedSwitch.on()
+          if (!isDataLoaded) {
+            isLoadingSwitch.on()
           }
           // workaround a bug in IE about replaying a video.
-          if (this.state.currentTime !== 0) {
-            this.handleSeek(0)
+          if (currentTime !== 0) {
+            handleSeek(0)
           }
         }
-        this.setState({isPlaying: true, isNeverPlayed: false})
+        isPlayingSwitch.on()
+        isNeverPlayedSwitch.off()
       })
       .catch(() => {
-        onEvent(EVENTS.PLAY_REJECTED)
+        emitEvent(EVENTS.PLAY_REJECTED)
         // 播放被取消
       })
   }
 
-  handlePause = () => {
-    const {hideMobileControls} = this.props
-    this.props.onEvent(EVENTS.REQUEST_PAUSE)
-    const {isLoading} = this.state
+  const handlePause = () => {
+    emitEvent(EVENTS.REQUEST_PAUSE)
 
     if (!isLoading || hideMobileControls) {
-      this.setState({
-        isPlaying: false,
-      })
+      isPlayingSwitch.off()
     }
   }
 
-  handleVideoPlay = () => {
-    if (!this.state.isPlaying) {
-      this.setState({isPlaying: true})
+  const handleVideoPlay = () => {
+    if (!isPlaying) {
+      isPlayingSwitch.on()
     }
   }
 
-  handleVideoPause = () => {
-    if (this.state.isPlaying) {
-      this.setState({isPlaying: false})
+  const handleVideoPause = () => {
+    if (isPlaying) {
+      isPlayingSwitch.off()
     }
   }
 
-  handleVideoEnded = () => {
-    this.setState({
-      isPlaybackStarted: false,
-      isPlaying: false,
-      isLoading: false,
-    })
+  const handleVideoEnded = () => {
+    isPlaybackStartedSwitch.off()
+    isPlayingSwitch.off()
+    isLoadingSwitch.off()
   }
 
-  handleVideoLoadedData = () => {
-    this.setState({
-      isDataLoaded: true,
-      isLoading: false,
-    })
+  const handleVideoLoadedData = () => {
+    isDataLoadedSwitch.on()
+    isLoadingSwitch.off()
   }
 
-  handleVideoError = () => {
-    this.setState({
-      isPlaying: false,
-    })
+  const handleVideoError = () => {
+    isPlayingSwitch.off()
   }
 
-  handleVideoDurationChange = (duration: number) => {
-    this.setState({duration})
+  const handleVideoDurationChange = (duration: number) => {
+    setDuration(duration)
   }
 
-  handleVideoTimeUpdate = (currentTime: number) => {
-    const {isLoading} = this.state
-    if (isLoading || this.isSeeking) return
-    if (this.isSeeking) return
-    this.setState({currentTime})
+  const handleVideoTimeUpdate = (currentTime: number) => {
+    if (isLoading || isSeekingRef.current) {
+      return
+    }
+    setCurrentTime(currentTime)
   }
 
-  handleVideoVolumeChange = (volume: number) => {
+  const handleVideoVolumeChange = (volume: number) => {
     volume = Math.round(volume * 100) / 100
-    this.setState({volume})
+    setVolume(volume)
     storage.set('@griffith/history-volume', volume)
   }
 
-  handleSeek = (currentTime: number) => {
-    const {
-      isPlaybackStarted,
-      isNeverPlayed,
-      currentTime: stateCurrentTime,
-    } = this.state
+  const handleSeek = (value: number) => {
     const isPlayEnded =
-      !isPlaybackStarted && !isNeverPlayed && stateCurrentTime !== 0 // 播放结束，显示「重新播放」状态
-    this.setState({currentTime})
+      !isPlaybackStarted && !isNeverPlayed && currentTime !== 0 // 播放结束，显示「重新播放」状态
+    setCurrentTime(value)
     // TODO 想办法去掉这个实例方法调用
-    this.videoRef.current?.seek(currentTime)
+    videoRef.current?.seek(value)
     if (isPlayEnded) {
-      this.handlePlay()
+      handlePlay()
     }
   }
 
-  handleLoadingChange = (isLoading: boolean) => {
-    this.setState({isLoading})
+  const handleLoadingChange = (value: boolean) => {
+    value ? isLoadingSwitch.on() : isLoadingSwitch.off()
   }
 
-  handleVideoSeeking = () => {
-    this.isSeeking = true
+  const isSeekingRef = useRef(false)
+  const handleVideoSeeking = () => {
+    isSeekingRef.current = true
   }
 
-  handleVideoSeeked = () => {
-    this.isSeeking = false
+  const handleVideoSeeked = () => {
+    isSeekingRef.current = false
   }
 
-  handleVideoProgress = (buffered: ProgressValue[]) => {
-    this.setState({buffered})
+  const handleVideoProgress = (value: ProgressValue[]) => {
+    setBuffered(value)
   }
 
-  handleToggleFullScreen = () => {
+  const handleToggleFullScreen = () => {
     if (BigScreen.enabled) {
-      const {onEvent} = this.props
       const onEnter = () => {
-        return onEvent(EVENTS.ENTER_FULLSCREEN)
+        return emitEvent(EVENTS.ENTER_FULLSCREEN)
       }
       const onExit = () => {
-        return onEvent(EVENTS.EXIT_FULLSCREEN)
+        return emitEvent(EVENTS.EXIT_FULLSCREEN)
       }
-      BigScreen?.toggle(this.playerRef.current!, onEnter, onExit)
+      BigScreen?.toggle(rootRef.current!, onEnter, onExit)
     }
   }
 
-  handleTogglePageFullScreen = () => {
-    const {onEvent} = this.props
+  const handleTogglePageFullScreen = () => {
     // 如果当前正在全屏就先关闭全屏
     if (Boolean(BigScreen.element) && !Pip.pictureInPictureElement) {
-      this.handleToggleFullScreen()
+      handleToggleFullScreen()
     }
-    if (this.state.isEnterPageFullScreen) {
-      this.setState({isEnterPageFullScreen: false})
-      onEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
+    if (isEnterPageFullScreen) {
+      isEnterPageFullScreenSwitch.off()
+      emitEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
     } else {
-      this.setState({isEnterPageFullScreen: true})
-      onEvent(EVENTS.ENTER_PAGE_FULLSCREEN)
+      isEnterPageFullScreenSwitch.on()
+      emitEvent(EVENTS.ENTER_PAGE_FULLSCREEN)
     }
   }
 
-  handleTogglePip = () => {
-    const {onEvent} = this.props
-    if (this.state.isEnterPageFullScreen) {
-      this.setState({isEnterPageFullScreen: false})
-      onEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
+  const handleTogglePip = () => {
+    if (isEnterPageFullScreen) {
+      isEnterPageFullScreenSwitch.off()
+      emitEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
     }
     Pip.toggle()
   }
 
-  handleShowController = () => {
-    if (!this.state.isControllerShown) {
-      this.setState({isControllerShown: true})
+  const hideControllerTimerRef = useRef(
+    null
+  ) as React.MutableRefObject<ReturnType<typeof setTimeout> | null>
+  const handleShowController = () => {
+    if (!isControllerShown) {
+      isControllerShownSwitch.on()
     }
-    if (this.hideControllerTimeout !== null) {
-      clearTimeout(this.hideControllerTimeout)
+    if (hideControllerTimerRef.current !== null) {
+      clearTimeout(hideControllerTimerRef.current)
     }
-    this.hideControllerTimeout = setTimeout(() => {
-      this.hideControllerTimeout = null
-      this.setState({isControllerShown: false})
+    hideControllerTimerRef.current = setTimeout(() => {
+      hideControllerTimerRef.current = null
+      isControllerShownSwitch.off()
     }, CONTROLLER_HIDE_DELAY)
   }
 
-  handleHideController = () => {
-    if (this.hideControllerTimeout !== null) {
-      clearTimeout(this.hideControllerTimeout)
-      this.hideControllerTimeout = null
+  const handleHideController = () => {
+    if (hideControllerTimerRef.current !== null) {
+      clearTimeout(hideControllerTimerRef.current)
+      hideControllerTimerRef.current = null
     }
-    this.setState({isControllerShown: false})
+    isControllerShownSwitch.off()
   }
 
-  handleControllerPointerEnter = () => {
-    this.setState({isControllerHovered: true})
+  const handleMouseEnter = () => {
+    hoveredSwitch.on()
+    handleShowController()
   }
 
-  handleControllerPointerLeave = () => {
-    this.setState({isControllerHovered: false})
+  const handleMouseLeave = () => {
+    hoveredSwitch.off()
+    handleHideController()
   }
 
-  handleControllerDragStart = () => {
-    this.setState({isControllerDragging: true})
+  const handleMouseDown = () => {
+    pressedSwitch.on()
+    handleShowController()
   }
 
-  handleControllerDragEnd = () => {
-    this.setState({isControllerDragging: false})
+  const handleMouseUp = () => {
+    pressedSwitch.off()
+    handleShowController()
   }
 
-  handleMouseEnter = () => {
-    this.setState({hovered: true})
-    this.handleShowController()
+  const handleProgressDotHover = (info: any) => {
+    emitEvent(EVENTS.HOVER_PROGRESS_DOT, info)
   }
 
-  handleMouseLeave = () => {
-    this.setState({hovered: false})
-    this.handleHideController()
+  const handleProgressDotLeave = () => {
+    emitEvent(EVENTS.LEAVE_PROGRESS_DOT)
   }
 
-  handleMouseDown = () => {
-    this.setState({pressed: true})
-    this.handleShowController()
-  }
+  const isPip = Boolean(Pip.pictureInPictureElement)
+  // Safari 会将 pip 状态视为全屏
+  const isFullScreen = Boolean(BigScreen.element) && !isPip
+  const bufferedTime = useMemo(
+    () => getBufferedTime(currentTime, buffered),
+    [buffered, currentTime]
+  )
+  const videoDataLoaded = !isLoading || currentTime !== 0
+  const renderController = videoDataLoaded && isPlaybackStarted
 
-  handleMouseUp = () => {
-    this.setState({pressed: false})
-    this.handleShowController()
-  }
-
-  handleMouseMove = () => {
-    if (!this.state.hovered) {
-      this.setState({hovered: true})
-    }
-    this.handleShowController()
-  }
-
-  handleProgressDotHover = (info: any) => {
-    this.props.onEvent(EVENTS.HOVER_PROGRESS_DOT, info)
-  }
-
-  handleProgressDotLeave = () => {
-    this.props.onEvent(EVENTS.LEAVE_PROGRESS_DOT)
-  }
-
-  render() {
-    const {
-      error,
-      title,
-      cover,
-      standalone,
-      loop,
-      onEvent,
-      useMSE,
-      useAutoQuality,
-      alwaysShowVolumeButton,
-      disablePictureInPicture,
-      progressDots,
-      hiddenPlayButton,
-      hiddenTimeline,
-      hiddenTime,
-      hiddenQualityMenu,
-      hiddenVolume,
-      hiddenFullScreenButton,
-      shouldShowPageFullScreenButton,
-      children,
-      hiddenPlaybackRateItem,
-      hideMobileControls,
-      hideCover,
-    } = this.props
-
-    const {
-      isPlaybackStarted,
-      isPlaying,
-      isLoading,
-      duration,
-      currentTime,
-      isNeverPlayed,
-      volume,
-      buffered,
-      hovered,
-      pressed,
-      isEnterPageFullScreen,
-    } = this.state
-
-    const isPip = Boolean(Pip.pictureInPictureElement)
-    // Safari 会将 pip 状态视为全屏
-    const isFullScreen = Boolean(BigScreen.element) && !isPip
-    const showController = this.getShowController(this.state)
-    const bufferedTime = getBufferedTime(currentTime, buffered)
-    const videoDataLoaded = !isLoading || currentTime !== 0
-    const renderController = videoDataLoaded && isPlaybackStarted
-
-    return (
+  const controlsOverlay = !isMobile && (
+    <div className={css(styles.overlay, isNeverPlayed && styles.overlayMask)}>
+      {isPlaybackStarted && isLoading && (
+        <div className={css(styles.loader)}>
+          <Loader />
+        </div>
+      )}
+      <ActionToastOutlet />
       <div
-        className={css(
-          styles.root,
-          isFullScreen && styles.fullScreened,
-          isEnterPageFullScreen && styles.pageFullScreen
-        )}
-        onMouseLeave={this.handleMouseLeave}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseDown={this.handleMouseDown}
-        onMouseUp={this.handleMouseUp}
-        onMouseMove={this.handleShowController}
-        ref={this.playerRef}
-      >
-        <div className={css(styles.video)}>
-          <Video
-            ref={this.videoRef}
-            controls={isMobile && isPlaybackStarted && !hideMobileControls}
-            paused={!isPlaying}
-            volume={volume}
-            loop={loop}
-            onPlay={this.handleVideoPlay}
-            onPause={this.handleVideoPause}
-            onEnded={this.handleVideoEnded}
-            onLoadedData={this.handleVideoLoadedData}
-            onError={this.handleVideoError}
-            onLoadingChange={this.handleLoadingChange}
-            onDurationUpdate={this.handleVideoDurationChange}
-            onCurrentTimeUpdate={this.handleVideoTimeUpdate}
-            onSeeking={this.handleVideoSeeking}
-            onSeeked={this.handleVideoSeeked}
-            onProgressUpdate={this.handleVideoProgress}
-            onEvent={onEvent}
-            useMSE={useMSE}
-            useAutoQuality={useAutoQuality}
+        className={css(styles.backdrop)}
+        onTouchStart={(event) => {
+          // prevent touch to toggle
+          event.preventDefault()
+        }}
+        onClick={handleClickToTogglePlay}
+      />
+      {title && isFullScreen && (
+        <div className={css(styles.title, showController && styles.titleShown)}>
+          {title}
+        </div>
+      )}
+      {/*首帧已加载完成时展示 MinimalTimeline 组件*/}
+      {!hiddenTimeline && isPlaying && videoDataLoaded && (
+        <div
+          className={css(
+            hiddenOrShownStyle.base,
+            showController
+              ? hiddenOrShownStyle.hidden
+              : hiddenOrShownStyle.shown
+          )}
+        >
+          <MinimalTimeline
+            progressDots={progressDots}
+            buffered={bufferedTime}
+            duration={duration}
+            currentTime={currentTime}
+            show={!showController}
           />
         </div>
-        {hideMobileControls && isPlaybackStarted && isLoading && (
-          <div className={css(styles.loader)}>
-            <Loader />
-          </div>
-        )}
-        {!hideCover && (
-          <div
-            className={css(
-              styles.cover,
-              !isPlaybackStarted && styles.coverShown
-            )}
-            onClick={() => this.handlePlay()}
-          >
-            {cover && (
-              <ObjectFitContext.Consumer>
-                {({objectFit}) => (
-                  <img
-                    className={css(styles.coverImage)}
-                    src={cover}
-                    style={{objectFit}}
-                  />
-                )}
-              </ObjectFitContext.Consumer>
-            )}
-            {duration && currentTime === 0 && (
-              <div
-                className={css(
-                  styles.coverTime,
-                  isMobile && styles.coverTimeMobile
-                )}
-              >
-                {formatDuration(duration)}
-              </div>
-            )}
-            {/* 只有在第一次未播放时展示播放按钮，播放结束全部展示重播按钮 */}
-            {isNeverPlayed && (
-              <div className={css(styles.coverAction)}>
-                <div className={css(styles.actionButton)}>
-                  <Icon icon={icons.play} styles={styles.actionIcon} />
-                </div>
-              </div>
-            )}
-            {/* 重播按钮 */}
-            {!isNeverPlayed && currentTime !== 0 && (
-              <div className={css(styles.coverReplayAction)}>
-                <div
-                  className={css(
-                    styles.coverReplayButton,
-                    hovered && styles.coverReplayButtonHovered,
-                    pressed && styles.coverReplayButtonPressed
-                  )}
-                >
-                  <Icon icon={icons.replay} styles={styles.replayIcon} />
-                  <TranslatedText name="replay" />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {!isMobile && (
-          <div
-            className={css(styles.overlay, isNeverPlayed && styles.overlayMask)}
-          >
-            {isPlaybackStarted && isLoading && (
-              <div className={css(styles.loader)}>
-                <Loader />
-              </div>
-            )}
-            <ActionToastOutlet />
-            <div
-              className={css(styles.backdrop)}
-              onTouchStart={(event) => {
-                // prevent touch to toggle
-                event.preventDefault()
-              }}
-              onClick={this.handleClickToTogglePlay}
-            />
-            {title && isFullScreen && (
-              <div
-                className={css(
-                  styles.title,
-                  showController && styles.titleShown
-                )}
-              >
-                {title}
-              </div>
-            )}
-            {/*首帧已加载完成时展示 MinimalTimeline 组件*/}
-            {!hiddenTimeline && isPlaying && videoDataLoaded && (
-              <div
-                className={css(
-                  hiddenOrShownStyle.base,
-                  showController
-                    ? hiddenOrShownStyle.hidden
-                    : hiddenOrShownStyle.shown
-                )}
-              >
-                <MinimalTimeline
-                  progressDots={progressDots}
-                  buffered={bufferedTime}
-                  duration={duration}
-                  currentTime={currentTime}
-                  show={!showController}
-                />
-              </div>
-            )}
-            {/* 右下角外显常驻音量按钮控件，与 Controller 互斥展示 */}
-            {alwaysShowVolumeButton && renderController && (
-              <div
-                className={css(
-                  styles.volumeButton,
-                  hiddenOrShownStyle.base,
-                  showController
-                    ? hiddenOrShownStyle.hidden
-                    : hiddenOrShownStyle.shown
-                )}
-              >
-                <VolumeItem volume={volume} />
-              </div>
-            )}
-            {/*首帧已加载完成时展示 Controller 组件*/}
-            {renderController && (
-              <div
-                className={css(
-                  styles.controller,
-                  hiddenOrShownStyle.base,
-                  showController
-                    ? hiddenOrShownStyle.shown
-                    : hiddenOrShownStyle.hidden
-                )}
-                onMouseEnter={this.handleControllerPointerEnter}
-                onMouseLeave={this.handleControllerPointerLeave}
-              >
-                <Controller
-                  standalone={standalone}
-                  isPlaying={isPlaying}
-                  duration={duration}
-                  currentTime={currentTime}
-                  volume={volume}
-                  progressDots={progressDots}
-                  buffered={bufferedTime}
-                  isFullScreen={isFullScreen}
-                  isPageFullScreen={isEnterPageFullScreen}
-                  isPip={isPip}
-                  onDragStart={this.handleControllerDragStart}
-                  onDragEnd={this.handleControllerDragEnd}
-                  onPlay={this.handlePlay}
-                  onPause={this.handlePause}
-                  onSeek={this.handleSeek}
-                  onVolumeChange={this.handleVideoVolumeChange}
-                  onToggleFullScreen={this.handleToggleFullScreen}
-                  onTogglePageFullScreen={this.handleTogglePageFullScreen}
-                  onTogglePip={this.handleTogglePip}
-                  onProgressDotHover={this.handleProgressDotHover}
-                  onProgressDotLeave={this.handleProgressDotLeave}
-                  show={showController}
-                  showPip={Pip.supported && !disablePictureInPicture}
-                  hiddenPlayButton={hiddenPlayButton}
-                  hiddenTimeline={hiddenTimeline}
-                  hiddenTime={hiddenTime}
-                  hiddenQualityMenu={hiddenQualityMenu}
-                  hiddenVolumeItem={hiddenVolume}
-                  hiddenPlaybackRateItem={hiddenPlaybackRateItem}
-                  hiddenFullScreenButton={hiddenFullScreenButton}
-                  shouldShowPageFullScreenButton={
-                    shouldShowPageFullScreenButton
-                  }
-                />
-              </div>
-            )}
-          </div>
-        )}
-        {error && (
-          <div className={css(styles.error)}>
-            <Icon icon={icons.alert} styles={styles.errorIcon} />
-            {error.message && (
-              <div className={css(styles.errorMessage)}>{error.message}</div>
-            )}
-          </div>
-        )}
-        {children}
+      )}
+      {/* 右下角外显常驻音量按钮控件，与 Controller 互斥展示 */}
+      {alwaysShowVolumeButton && renderController && (
+        <div
+          className={css(
+            styles.volumeButton,
+            hiddenOrShownStyle.base,
+            showController
+              ? hiddenOrShownStyle.hidden
+              : hiddenOrShownStyle.shown
+          )}
+        >
+          <VolumeItem volume={volume} />
+        </div>
+      )}
+      {/*首帧已加载完成时展示 Controller 组件*/}
+      {renderController && (
+        <div
+          className={css(
+            styles.controller,
+            hiddenOrShownStyle.base,
+            showController
+              ? hiddenOrShownStyle.shown
+              : hiddenOrShownStyle.hidden
+          )}
+          onMouseEnter={isControllerHoveredSwitch.on}
+          onMouseLeave={isControllerHoveredSwitch.off}
+        >
+          <Controller
+            standalone={standalone}
+            isPlaying={isPlaying}
+            duration={duration}
+            currentTime={currentTime}
+            volume={volume}
+            progressDots={progressDots}
+            buffered={bufferedTime}
+            isFullScreen={isFullScreen}
+            isPageFullScreen={isEnterPageFullScreen}
+            isPip={isPip}
+            onDragStart={isControllerDraggingSwitch.on}
+            onDragEnd={isControllerDraggingSwitch.off}
+            onPlay={handlePlay}
+            onPause={handlePause}
+            onSeek={handleSeek}
+            onVolumeChange={handleVideoVolumeChange}
+            onToggleFullScreen={handleToggleFullScreen}
+            onTogglePageFullScreen={handleTogglePageFullScreen}
+            onTogglePip={handleTogglePip}
+            onProgressDotHover={handleProgressDotHover}
+            onProgressDotLeave={handleProgressDotLeave}
+            show={showController}
+            showPip={Pip.supported && !disablePictureInPicture}
+            hiddenPlayButton={hiddenPlayButton}
+            hiddenTimeline={hiddenTimeline}
+            hiddenTime={hiddenTime}
+            hiddenQualityMenu={hiddenQualityMenu}
+            hiddenVolumeItem={hiddenVolume}
+            hiddenPlaybackRateItem={hiddenPlaybackRateItem}
+            hiddenFullScreenButton={hiddenFullScreenButton}
+            shouldShowPageFullScreenButton={shouldShowPageFullScreenButton}
+          />
+        </div>
+      )}
+    </div>
+  )
+
+  return (
+    <div
+      className={css(
+        styles.root,
+        isFullScreen && styles.fullScreened,
+        isEnterPageFullScreen && styles.pageFullScreen
+      )}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleShowController}
+      ref={rootRef}
+    >
+      <div className={css(styles.video)}>
+        <Video
+          ref={videoRef}
+          controls={isMobile && isPlaybackStarted && !hideMobileControls}
+          paused={!isPlaying}
+          volume={volume}
+          loop={loop}
+          onPlay={handleVideoPlay}
+          onPause={handleVideoPause}
+          onEnded={handleVideoEnded}
+          onLoadedData={handleVideoLoadedData}
+          onError={handleVideoError}
+          onLoadingChange={handleLoadingChange}
+          onDurationUpdate={handleVideoDurationChange}
+          onCurrentTimeUpdate={handleVideoTimeUpdate}
+          onSeeking={handleVideoSeeking}
+          onSeeked={handleVideoSeeked}
+          onProgressUpdate={handleVideoProgress}
+          // TODO: 变更 prop 名称
+          onEvent={emitEvent as any}
+          useMSE={useMSE}
+          useAutoQuality={useAutoQuality}
+        />
       </div>
-    )
-  }
+      {hideMobileControls && isPlaybackStarted && isLoading && (
+        <div className={css(styles.loader)}>
+          <Loader />
+        </div>
+      )}
+      {!hideCover && (
+        <div
+          className={css(styles.cover, !isPlaybackStarted && styles.coverShown)}
+          onClick={() => handlePlay()}
+        >
+          {cover && (
+            <ObjectFitContext.Consumer>
+              {({objectFit}) => (
+                <img
+                  className={css(styles.coverImage)}
+                  src={cover}
+                  style={{objectFit}}
+                />
+              )}
+            </ObjectFitContext.Consumer>
+          )}
+          {duration && currentTime === 0 && (
+            <div
+              className={css(
+                styles.coverTime,
+                isMobile && styles.coverTimeMobile
+              )}
+            >
+              {formatDuration(duration)}
+            </div>
+          )}
+          {/* 只有在第一次未播放时展示播放按钮，播放结束全部展示重播按钮 */}
+          {isNeverPlayed && (
+            <div className={css(styles.coverAction)}>
+              <div className={css(styles.actionButton)}>
+                <Icon icon={icons.play} styles={styles.actionIcon} />
+              </div>
+            </div>
+          )}
+          {/* 重播按钮 */}
+          {!isNeverPlayed && currentTime !== 0 && (
+            <div className={css(styles.coverReplayAction)}>
+              <div
+                className={css(
+                  styles.coverReplayButton,
+                  hovered && styles.coverReplayButtonHovered,
+                  pressed && styles.coverReplayButtonPressed
+                )}
+              >
+                <Icon icon={icons.replay} styles={styles.replayIcon} />
+                <TranslatedText name="replay" />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      {controlsOverlay}
+      {error && (
+        <div className={css(styles.error)}>
+          <Icon icon={icons.alert} styles={styles.errorIcon} />
+          {error.message && (
+            <div className={css(styles.errorMessage)}>{error.message}</div>
+          )}
+        </div>
+      )}
+      {children}
+    </div>
+  )
 }
 
 const DEFAULT_PLAYBACK_RATE: PlaybackRate = {value: 1.0, text: '1.0x'}
@@ -833,11 +698,11 @@ const Player: React.FC<PlayerProps> = ({
   initialObjectFit,
   locale = defaultLocale,
   localeConfig,
-  shouldShowPageFullScreenButton = false, // 默认不展示网页全屏，防止页面被嵌入到iframe时候无法达到效果
   defaultQuality,
   defaultPlaybackRate = DEFAULT_PLAYBACK_RATE,
   playbackRates = DEFAULT_PLAYBACK_RATES,
   useAutoQuality = false,
+  // 仅解构 provider 需要的 props，其余都透传
   ...restProps
 }) => {
   return (
@@ -850,42 +715,27 @@ const Player: React.FC<PlayerProps> = ({
           dispatchRef={dispatchRef}
           messageContextRef={messageContextRef}
         >
-          <InternalMessageContext.Consumer>
-            {({emitEvent, subscribeAction}) => (
-              <VideoSourceProvider
-                emitEvent={emitEvent}
-                sources={sources}
-                defaultQuality={defaultQuality}
-                useAutoQuality={useAutoQuality}
-                defaultPlaybackRate={defaultPlaybackRate}
-                playbackRates={playbackRates}
-              >
-                <LocaleProvider locale={locale} localeConfig={localeConfig}>
-                  <ActionToastProvider>
-                    <ActionToastDispatchContext.Consumer>
-                      {(actionToastDispatch) => (
-                        <InnerPlayer
-                          actionToastDispatch={actionToastDispatch}
-                          shouldShowPageFullScreenButton={
-                            shouldShowPageFullScreenButton
-                          }
-                          {...restProps}
-                          useAutoQuality={useAutoQuality}
-                          standalone={standalone}
-                          onEvent={emitEvent as PlayerProps['onEvent']}
-                          subscribeAction={subscribeAction}
-                        />
-                      )}
-                    </ActionToastDispatchContext.Consumer>
-                  </ActionToastProvider>
-                </LocaleProvider>
-              </VideoSourceProvider>
-            )}
-          </InternalMessageContext.Consumer>
+          <VideoSourceProvider
+            sources={sources}
+            defaultQuality={defaultQuality}
+            useAutoQuality={useAutoQuality}
+            defaultPlaybackRate={defaultPlaybackRate}
+            playbackRates={playbackRates}
+          >
+            <LocaleProvider locale={locale} localeConfig={localeConfig}>
+              <ActionToastProvider>
+                <InnerPlayer
+                  {...restProps}
+                  useAutoQuality={useAutoQuality}
+                  standalone={standalone}
+                />
+              </ActionToastProvider>
+            </LocaleProvider>
+          </VideoSourceProvider>
         </MessageProvider>
       </PositionProvider>
     </ObjectFitProvider>
   )
 }
 
-export default Player
+export default React.memo(Player)

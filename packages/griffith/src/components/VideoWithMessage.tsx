@@ -49,7 +49,6 @@ const VideoWithMessage = React.forwardRef<
 >((props, ref) => {
   const {updateVideoSize} = useContext(PositionContext)
   const {objectFit} = useContext(ObjectFitContext)
-  // eslint-disable-next-line @typescript-eslint/unbound-method
   const {emitEvent} = useContext(InternalMessageContext)
   const propsRef = useRef(props)
   useEffect(() => {

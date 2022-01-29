@@ -7,12 +7,14 @@ const en = {
   'quality-fhd': 'FHD',
   'action-enter-fullscreen': 'Fullscreen',
   'action-exit-fullscreen': 'Exit Fullscreen',
-  'action-enter-page-fullscreen': 'PageFullscreen',
-  'action-exit-page-fullscreen': 'Exit PageFullscreen',
+  'action-enter-page-fullscreen': 'Page Fullscreen',
+  'action-exit-page-fullscreen': 'Exit Page Fullscreen',
   'action-enter-pip': 'Picture in Picture',
   'action-exit-pip': 'Exit Picture in Picture',
   'playback-rate': 'Speed',
   replay: 'Replay',
+  play: 'Play',
+  pause: 'Pause',
 }
 export type LocaleCode = 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
 export type LocaleConfig = {
@@ -43,6 +45,8 @@ const locales: LocaleConfigMap = {
     'action-exit-pip': 'ピクチャーインピクチャー終了',
     'playback-rate': '再生速度',
     replay: 'もう一回見る',
+    play: '再生',
+    pause: '一時停止',
   },
   // covers zh-Hans-CN and zh-Hans-SG
   'zh-Hans': {
@@ -59,6 +63,8 @@ const locales: LocaleConfigMap = {
     'action-exit-pip': '退出画中画',
     'playback-rate': '倍速',
     replay: '重新播放',
+    play: '播放',
+    pause: '暂停',
   },
   // covers zh-Hant-HK and zh-Hant-TW
   'zh-Hant': {
@@ -75,6 +81,8 @@ const locales: LocaleConfigMap = {
     'action-exit-pip': '關閉子母畫面',
     'playback-rate': '倍速',
     replay: '重新播放',
+    play: '播放',
+    pause: '暫停',
   },
 }
 

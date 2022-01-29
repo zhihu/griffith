@@ -125,19 +125,15 @@ export default StyleSheet.create({
     color: '#fff',
   },
 
-  fullScreenTooltip: {
-    pointerEvents: 'none',
-  },
-
   fullScreenedTime: {
     width: '150px',
   },
 
-  fullScreenTooltipWide: {
-    left: '30%',
-  },
-
-  pipTooltip: {
+  tooltipContent: {
     pointerEvents: 'none',
+    padding: '0.25em 0.5em',
+    fontSize: '0.875em',
+    whiteSpace: 'nowrap',
+    color: '#fff',
   },
 })

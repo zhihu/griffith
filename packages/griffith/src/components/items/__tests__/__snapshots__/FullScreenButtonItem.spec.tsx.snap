@@ -11,13 +11,7 @@ exports[`FullScreenButtonItem get FullScreenButtonItem component 1`] = `
           ></path></svg
       ></span>
     </button>
-    <div
-      class="
-        fullScreenTooltip_1dwq0yf-o_O-menu_1a7s4a3-o_O-fullScreenTooltipWide_10ybo3o
-      "
-    >
-      <div class="root_r31oyg">Exit Fullscreen</div>
-    </div>
+    <div class="menu_1a7s4a3-o_O-tooltipContent_me14v4">Exit Fullscreen</div>
   </div>
 </div>
 

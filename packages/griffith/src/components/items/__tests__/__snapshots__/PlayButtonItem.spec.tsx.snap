@@ -2,7 +2,7 @@
 
 exports[`PlayButtonItem get PlayButtonItem component 1`] = `
 <div>
-  <div>
+  <div class="menuContainer_e296pg">
     <button class="button_1j0k413" type="button">
       <span class="root_s9vkyf"
         ><svg viewBox="0 0 24 24" class="svg_11u3rwe">
@@ -11,6 +11,7 @@ exports[`PlayButtonItem get PlayButtonItem component 1`] = `
           ></path></svg
       ></span>
     </button>
+    <div class="menu_1a7s4a3-o_O-tooltipContent_me14v4">Pause</div>
   </div>
 </div>
 

@@ -7,6 +7,7 @@ import {useActionToastDispatch} from './ActionToast'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 
 type Options = {
+  root: HTMLDivElement | null
   prevVolumeRef: React.MutableRefObject<number>
   isPlaying: boolean
   isPageFullScreen: boolean
@@ -22,6 +23,7 @@ type Options = {
 }
 
 const usePlayerShortcuts = ({
+  root,
   prevVolumeRef,
   isPlaying,
   isPageFullScreen,
@@ -156,13 +158,14 @@ const usePlayerShortcuts = ({
   })
 
   useEffect(() => {
-    if (standalone) {
-      document.addEventListener('keydown', handleKeyDown)
+    const el = standalone ? document.body : root
+    if (el) {
+      el.addEventListener('keydown', handleKeyDown)
       return () => {
-        document.removeEventListener('keydown', handleKeyDown)
+        el.removeEventListener('keydown', handleKeyDown)
       }
     }
-  }, [handleKeyDown, standalone])
+  }, [handleKeyDown, root, standalone])
 }
 
 export default usePlayerShortcuts

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tooltip get Tooltip component 1`] = `
+<div
+  className="menuContainer_e296pg"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="menu_1a7s4a3-o_O-tooltipContent_me14v4"
+  >
+    HD
+  </div>
+</div>
+`;

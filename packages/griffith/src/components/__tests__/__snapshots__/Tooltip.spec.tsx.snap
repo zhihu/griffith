@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Tooltip get Tooltip component 1`] = `
-<div
-  className="root_r31oyg"
->
-  HD
-</div>
-`;

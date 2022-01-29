@@ -1,11 +1,11 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Tooltip from '../Tooltip'
+import ControllerTooltip from '../ControllerTooltip'
 
 describe('Tooltip', () => {
   it('get Tooltip component', () => {
     expect(
-      Renderer.create(<Tooltip content="quality-hd" />).toJSON()
+      Renderer.create(<ControllerTooltip content="quality-hd" />).toJSON()
     ).toMatchSnapshot()
   })
 })

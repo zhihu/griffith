@@ -8,7 +8,7 @@ const FullScreenButtonItem: React.FC<{
   onClick: React.HTMLAttributes<HTMLButtonElement>['onClick']
 }> = ({isFullScreen, onClick}) => (
   <ControllerTooltip
-    content={
+    localeKey={
       isFullScreen ? 'action-exit-fullscreen' : 'action-enter-fullscreen'
     }
   >

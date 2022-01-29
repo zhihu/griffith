@@ -1,18 +1,25 @@
-import React from 'react'
+import React, {cloneElement} from 'react'
 import {css} from 'aphrodite/no-important'
 import {LocaleConfigKey} from '../../constants/locales'
+import {useLocaleText} from '../../contexts/LocaleContext'
 import useBoolean from '../../hooks/useBoolean'
-import TranslatedText from '../TranslatedText'
 import styles from '../Controller.styles'
 
 type Props = {
-  content: LocaleConfigKey
+  localeKey: LocaleConfigKey
+  children: React.ReactElement
 }
 
 const canUseTouch =
   typeof document !== 'undefined' && 'ontouchstart' in document.body
 
-const ControllerTooltip: React.FC<Props> = ({content, children}) => {
+/**
+ * ControllerButton
+ *
+ * `localeKey` 取本地文本，显示为 tooltip，同时设定为 children 的 `aria-label`
+ */
+const ControllerTooltip: React.FC<Props> = ({localeKey, children}) => {
+  const text = useLocaleText(localeKey)
   const [isHovered, isHoveredSwitch] = useBoolean()
 
   return (
@@ -21,7 +28,7 @@ const ControllerTooltip: React.FC<Props> = ({content, children}) => {
       onMouseEnter={isHoveredSwitch.on}
       onMouseLeave={isHoveredSwitch.off}
     >
-      {children}
+      {cloneElement(children, {'aria-label': text})}
       {!canUseTouch && (
         <div
           className={css(
@@ -30,7 +37,7 @@ const ControllerTooltip: React.FC<Props> = ({content, children}) => {
             styles.tooltipContent
           )}
         >
-          <TranslatedText name={content} />
+          {text}
         </div>
       )}
     </div>

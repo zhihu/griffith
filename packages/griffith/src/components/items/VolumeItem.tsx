@@ -4,6 +4,7 @@ import VolumeSlider, {VolumeSliderProps} from '../VolumeSlider'
 import * as icons from '../icons/controller'
 import styles from '../Controller.styles'
 import ControllerButton from './ControllerButton'
+import {useLocaleText} from '../../contexts/LocaleContext'
 
 type VolumeItemProps = Pick<
   React.HTMLProps<HTMLDivElement>,
@@ -31,6 +32,7 @@ const VolumeItem = ({
     onMouseLeave={onMouseLeave}
   >
     <ControllerButton
+      aria-label={useLocaleText(volume === 0 ? 'unmute' : 'mute')}
       icon={volume === 0 ? icons.muted : icons.volume}
       onClick={() => onToggleMuted?.()}
     />

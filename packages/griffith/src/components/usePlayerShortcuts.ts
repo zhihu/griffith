@@ -86,7 +86,6 @@ const usePlayerShortcuts = ({
         onTogglePlay()
         break
 
-      case 'Enter':
       case 'f':
       case 'F':
         onToggleFullScreen()

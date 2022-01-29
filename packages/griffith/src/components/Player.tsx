@@ -28,7 +28,7 @@ import ObjectFitProvider from '../contexts/ObjectFitProvider'
 import LocaleProvider from '../contexts/LocaleProvider'
 import TranslatedText from './TranslatedText'
 import Icon from './Icon'
-import * as icons from './icons/display/index'
+import * as displayIcons from './icons/display/index'
 import Loader from './Loader'
 import Video from './Video'
 import Controller from './Controller'
@@ -46,6 +46,8 @@ import {
 import styles, {hiddenOrShownStyle} from './Player.styles'
 import useBoolean from '../hooks/useBoolean'
 import useMount from '../hooks/useMount'
+import useHandler from '../hooks/useHandler'
+import usePlayerShortcuts from './usePlayerShortcuts'
 const CONTROLLER_HIDE_DELAY = 3000
 const {isMobile} = ua
 
@@ -158,7 +160,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   const [isControllerDragging, isControllerDraggingSwitch] = useBoolean()
   const [hovered, hoveredSwitch] = useBoolean()
   const [pressed, pressedSwitch] = useBoolean()
-  const [isEnterPageFullScreen, isEnterPageFullScreenSwitch] = useBoolean()
+  const [isPageFullScreen, isPageFullScreenSwitch] = useBoolean()
   const [isLoading, isLoadingSwitch] = useBoolean()
 
   useEffect(() => {
@@ -255,13 +257,9 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   const handleClickToTogglePlay = () => {
     // 仅点击覆盖层触发提示（控制条上的按钮点击不需要）
     actionToastDispatch({
-      icon: isPlaying ? icons.pause : icons.play,
+      icon: isPlaying ? displayIcons.pause : displayIcons.play,
     })
-    if (isPlaying) {
-      handlePause()
-    } else {
-      handlePlay()
-    }
+    handleTogglePlay()
   }
 
   const handlePlay = () => {
@@ -334,17 +332,17 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     setCurrentTime(currentTime)
   }
 
-  const handleVideoVolumeChange = (volume: number) => {
+  const handleVideoVolumeChange = useHandler((volume: number) => {
     volume = Math.round(volume * 100) / 100
     setVolume(volume)
     storage.set('@griffith/history-volume', volume)
-  }
+  })
 
-  const handleSeek = (value: number) => {
+  const handleSeek = useHandler((value: number) => {
     setCurrentTime(value)
     // TODO 想办法去掉这个实例方法调用
     videoRef.current?.seek(value)
-  }
+  })
 
   const handleLoadingChange = (value: boolean) => {
     value ? isLoadingSwitch.on() : isLoadingSwitch.off()
@@ -363,7 +361,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     setBuffered(value)
   }
 
-  const handleToggleFullScreen = () => {
+  const handleToggleFullScreen = useHandler(() => {
     if (BigScreen.enabled) {
       const onEnter = () => {
         return emitEvent(EVENTS.ENTER_FULLSCREEN)
@@ -373,29 +371,29 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       }
       BigScreen?.toggle(rootRef.current!, onEnter, onExit)
     }
-  }
+  })
 
-  const handleTogglePageFullScreen = () => {
+  const handleTogglePageFullScreen = useHandler(() => {
     // 如果当前正在全屏就先关闭全屏
     if (Boolean(BigScreen.element) && !Pip.pictureInPictureElement) {
       handleToggleFullScreen()
     }
-    if (isEnterPageFullScreen) {
-      isEnterPageFullScreenSwitch.off()
+    if (isPageFullScreen) {
+      isPageFullScreenSwitch.off()
       emitEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
     } else {
-      isEnterPageFullScreenSwitch.on()
+      isPageFullScreenSwitch.on()
       emitEvent(EVENTS.ENTER_PAGE_FULLSCREEN)
     }
-  }
+  })
 
-  const handleTogglePip = () => {
-    if (isEnterPageFullScreen) {
-      isEnterPageFullScreenSwitch.off()
+  const handleTogglePip = useHandler(() => {
+    if (isPageFullScreen) {
+      isPageFullScreenSwitch.off()
       emitEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
     }
     Pip.toggle()
-  }
+  })
 
   const hideControllerTimerRef = useRef(
     null
@@ -449,6 +447,37 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     emitEvent(EVENTS.LEAVE_PROGRESS_DOT)
   }
 
+  const handleTogglePlay = useHandler(() => {
+    if (isPlaying) {
+      handlePause()
+    } else {
+      handlePlay()
+    }
+  })
+
+  const prevVolumeRef = useRef(volume)
+  const handleToggleMuted = useHandler(() => {
+    if (volume) {
+      prevVolumeRef.current = volume
+    }
+    handleVideoVolumeChange(volume ? 0 : prevVolumeRef.current)
+  })
+
+  usePlayerShortcuts({
+    prevVolumeRef,
+    isPlaying,
+    volume,
+    currentTime,
+    duration,
+    standalone,
+    isPageFullScreen,
+    onTogglePlay: handleTogglePlay,
+    onToggleFullScreen: handleToggleFullScreen,
+    onTogglePageFullScreen: handleTogglePageFullScreen,
+    onVolumeChange: handleVideoVolumeChange,
+    onSeek: handleSeek,
+  })
+
   const isPip = Boolean(Pip.pictureInPictureElement)
   // Safari 会将 pip 状态视为全屏
   const isFullScreen = Boolean(BigScreen.element) && !isPip
@@ -466,7 +495,6 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
           <Loader />
         </div>
       )}
-      <ActionToastOutlet />
       <div
         className={css(styles.backdrop)}
         onTouchStart={(event) => {
@@ -535,12 +563,12 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
             progressDots={progressDots}
             buffered={bufferedTime}
             isFullScreen={isFullScreen}
-            isPageFullScreen={isEnterPageFullScreen}
+            isPageFullScreen={isPageFullScreen}
             isPip={isPip}
             onDragStart={isControllerDraggingSwitch.on}
             onDragEnd={isControllerDraggingSwitch.off}
-            onPlay={handlePlay}
-            onPause={handlePause}
+            onTogglePlay={handleTogglePlay}
+            onToggleMuted={handleToggleMuted}
             onSeek={handleSeek}
             onVolumeChange={handleVideoVolumeChange}
             onToggleFullScreen={handleToggleFullScreen}
@@ -569,7 +597,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       className={css(
         styles.root,
         isFullScreen && styles.fullScreened,
-        isEnterPageFullScreen && styles.pageFullScreen
+        isPageFullScreen && styles.pageFullScreen
       )}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
@@ -637,7 +665,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
           {isNeverPlayed && (
             <div className={css(styles.coverAction)}>
               <div className={css(styles.actionButton)}>
-                <Icon icon={icons.play} styles={styles.actionIcon} />
+                <Icon icon={displayIcons.play} styles={styles.actionIcon} />
               </div>
             </div>
           )}
@@ -651,7 +679,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
                   pressed && styles.coverReplayButtonPressed
                 )}
               >
-                <Icon icon={icons.replay} styles={styles.replayIcon} />
+                <Icon icon={displayIcons.replay} styles={styles.replayIcon} />
                 <TranslatedText name="replay" />
               </div>
             </div>
@@ -659,9 +687,10 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
         </div>
       )}
       {controlsOverlay}
+      <ActionToastOutlet />
       {error && (
         <div className={css(styles.error)}>
-          <Icon icon={icons.alert} styles={styles.errorIcon} />
+          <Icon icon={displayIcons.alert} styles={styles.errorIcon} />
           {error.message && (
             <div className={css(styles.errorMessage)}>{error.message}</div>
           )}

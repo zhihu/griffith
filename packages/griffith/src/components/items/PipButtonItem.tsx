@@ -7,7 +7,7 @@ const PipButtonItem: React.FC<{
   isPip: boolean
   onClick: React.HTMLAttributes<HTMLButtonElement>['onClick']
 }> = ({isPip, onClick}) => (
-  <ControllerTooltip content={isPip ? 'action-exit-pip' : 'action-enter-pip'}>
+  <ControllerTooltip localeKey={isPip ? 'action-exit-pip' : 'action-enter-pip'}>
     <ControllerButton
       icon={isPip ? icons.exitPip : icons.pip}
       onClick={onClick}

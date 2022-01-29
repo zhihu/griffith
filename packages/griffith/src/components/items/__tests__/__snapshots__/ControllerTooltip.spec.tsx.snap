@@ -6,6 +6,9 @@ exports[`Tooltip get Tooltip component 1`] = `
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
+  <button
+    aria-label="HD"
+  />
   <div
     className="menu_1a7s4a3-o_O-tooltipContent_me14v4"
   >

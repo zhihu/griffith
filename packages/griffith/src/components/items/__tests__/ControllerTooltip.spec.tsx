@@ -5,7 +5,11 @@ import ControllerTooltip from '../ControllerTooltip'
 describe('Tooltip', () => {
   it('get Tooltip component', () => {
     expect(
-      Renderer.create(<ControllerTooltip content="quality-hd" />).toJSON()
+      Renderer.create(
+        <ControllerTooltip localeKey="quality-hd">
+          <button />
+        </ControllerTooltip>
+      ).toJSON()
     ).toMatchSnapshot()
   })
 })

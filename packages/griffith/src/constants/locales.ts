@@ -15,6 +15,8 @@ const en = {
   replay: 'Replay',
   play: 'Play',
   pause: 'Pause',
+  mute: 'Mute',
+  unmute: 'Unmute',
 }
 export type LocaleCode = 'en' | 'ja' | 'zh-Hans' | 'zh-Hant'
 export type LocaleConfig = {
@@ -47,6 +49,8 @@ const locales: LocaleConfigMap = {
     replay: 'もう一回見る',
     play: '再生',
     pause: '一時停止',
+    mute: 'ミュート（消音）',
+    unmute: 'ミュート解除',
   },
   // covers zh-Hans-CN and zh-Hans-SG
   'zh-Hans': {
@@ -65,6 +69,8 @@ const locales: LocaleConfigMap = {
     replay: '重新播放',
     play: '播放',
     pause: '暂停',
+    mute: '静音',
+    unmute: '取消静音',
   },
   // covers zh-Hant-HK and zh-Hant-TW
   'zh-Hant': {
@@ -83,6 +89,8 @@ const locales: LocaleConfigMap = {
     replay: '重新播放',
     play: '播放',
     pause: '暫停',
+    mute: '静音',
+    unmute: '解除静音',
   },
 }
 

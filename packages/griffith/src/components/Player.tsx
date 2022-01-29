@@ -49,7 +49,6 @@ import useMount from '../hooks/useMount'
 import useHandler from '../hooks/useHandler'
 import usePlayerShortcuts from './usePlayerShortcuts'
 const CONTROLLER_HIDE_DELAY = 3000
-const {isMobile} = ua
 
 // 被 Provider 包装后的属性
 type InnerPlayerProps = {
@@ -273,7 +272,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
             isLoadingSwitch.on()
           }
           // workaround a bug in IE about replaying a video.
-          if (currentTime !== 0) {
+          if (ua.isIE && currentTime !== 0) {
             handleSeek(0)
           }
         }
@@ -488,7 +487,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   const videoDataLoaded = !isLoading || currentTime !== 0
   const renderController = videoDataLoaded && isPlaybackStarted
 
-  const controlsOverlay = !isMobile && (
+  const controlsOverlay = !ua.isMobile && (
     <div className={css(styles.overlay, isNeverPlayed && styles.overlayMask)}>
       {isPlaybackStarted && isLoading && (
         <div className={css(styles.loader)}>
@@ -609,7 +608,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       <div className={css(styles.video)}>
         <Video
           ref={videoRef}
-          controls={isMobile && isPlaybackStarted && !hideMobileControls}
+          controls={ua.isMobile && isPlaybackStarted && !hideMobileControls}
           paused={!isPlaying}
           volume={volume}
           loop={loop}
@@ -655,7 +654,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
             <div
               className={css(
                 styles.coverTime,
-                isMobile && styles.coverTimeMobile
+                ua.isMobile && styles.coverTimeMobile
               )}
             >
               {formatDuration(duration)}

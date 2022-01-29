@@ -48,6 +48,7 @@ import useBoolean from '../hooks/useBoolean'
 import useMount from '../hooks/useMount'
 import useHandler from '../hooks/useHandler'
 import usePlayerShortcuts from './usePlayerShortcuts'
+
 const CONTROLLER_HIDE_DELAY = 3000
 
 // 被 Provider 包装后的属性
@@ -138,7 +139,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
 }) => {
   const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
   const {currentSrc} = useContext(VideoSourceContext)
-  const rootRef = useRef<HTMLDivElement>(null)
+  const [root, setRoot] = useState<HTMLDivElement | null>(null)
   const videoRef = useRef<{
     root: HTMLVideoElement
     seek(currentTime: number): void
@@ -368,7 +369,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       const onExit = () => {
         return emitEvent(EVENTS.EXIT_FULLSCREEN)
       }
-      BigScreen?.toggle(rootRef.current!, onEnter, onExit)
+      BigScreen?.toggle(root!, onEnter, onExit)
     }
   })
 
@@ -463,6 +464,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   })
 
   usePlayerShortcuts({
+    root,
     prevVolumeRef,
     isPlaying,
     volume,
@@ -603,7 +605,9 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleShowController}
-      ref={rootRef}
+      ref={setRoot}
+      tabIndex={-1}
+      aria-label={title}
     >
       <div className={css(styles.video)}>
         <Video

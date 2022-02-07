@@ -137,6 +137,10 @@ export default StyleSheet.create({
     transform: 'translate(-50%, -50%)',
   },
 
+  actionToast: {
+    pointerEvents: 'none',
+  },
+
   backdrop: {
     position: 'absolute',
     left: 0,

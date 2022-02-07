@@ -58,7 +58,7 @@ export const ActionToastOutlet = React.memo(() => {
   const {key, icon, label} = state
 
   return (
-    <div className={css(styles.action)} key={key}>
+    <div className={css(styles.action, styles.actionToast)} key={key}>
       <div className={css(styles.actionButton, styles.actionButtonAnimated)}>
         {icon && <Icon icon={icon} styles={styles.actionIcon} />}
       </div>

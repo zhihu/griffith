@@ -76,6 +76,11 @@ const usePlayerShortcuts = ({
   })
 
   const handleKeyDown = useHandler((event: KeyboardEvent) => {
+    // 防止事件已经在别处被处理过（如 Slider 中）
+    if (event.defaultPrevented) {
+      return
+    }
+
     // 防止冲突，有修饰键按下时不触发自定义热键
     if (event.altKey || event.ctrlKey || event.metaKey) {
       return
@@ -105,12 +110,22 @@ const usePlayerShortcuts = ({
           onTogglePageFullScreen()
         }
         break
+
       case 'ArrowLeft':
         handleSeek(currentTime - 5)
         break
 
       case 'ArrowRight':
         handleSeek(currentTime + 5)
+        break
+
+      case 'ArrowUp':
+        // 可能静音状态调整时不切换为非静音会更好（设置临时状态，恢复音量时应用临时状态）
+        handleVolumeChange(volume + 0.05, true)
+        break
+
+      case 'ArrowDown':
+        handleVolumeChange(volume - 0.05, true)
         break
 
       case 'j':
@@ -140,15 +155,6 @@ const usePlayerShortcuts = ({
         handleVolumeChange(volume ? 0 : prevVolumeRef.current, true)
         break
 
-      case 'ArrowUp':
-        // 静音状态下调整可能不切换为非静音更好（设置一成临时的，切换后再应用临时状态）
-        handleVolumeChange(volume + 0.05, true)
-        break
-
-      case 'ArrowDown':
-        handleVolumeChange(volume - 0.05, true)
-        break
-
       case '<':
         rotatePlaybackRate('prev')
         break
@@ -167,11 +173,16 @@ const usePlayerShortcuts = ({
   })
 
   useEffect(() => {
-    const el = standalone ? document.body : root
-    if (el) {
-      el.addEventListener('keydown', handleKeyDown)
+    // 对于 React 16，需要使用 document 来处理冒泡（17 之后任何上层元素都能正常冒泡）
+    if (standalone) {
+      document.addEventListener('keydown', handleKeyDown)
       return () => {
-        el.removeEventListener('keydown', handleKeyDown)
+        document.removeEventListener('keydown', handleKeyDown)
+      }
+    } else if (root) {
+      root.addEventListener('keydown', handleKeyDown)
+      return () => {
+        root.removeEventListener('keydown', handleKeyDown)
       }
     }
   }, [handleKeyDown, root, standalone])

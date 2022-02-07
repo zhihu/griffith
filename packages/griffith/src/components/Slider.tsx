@@ -144,20 +144,23 @@ class Slider extends Component<SliderProps, State> {
     const {reverse, value, total, step} = this.props
 
     let direction = 0
+    let handled = false
     if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+      handled = true
       direction = -1
-    }
-    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+    } else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+      handled = true
       direction = 1
     }
-    if (reverse) {
-      direction = -direction
-    }
-
-    const result = clamp(value! + step! * direction, 0, total!)
-    if (result !== value) {
+    if (handled) {
       event.preventDefault()
-      this.handleChange(result)
+      if (reverse) {
+        direction = -direction
+      }
+      const result = clamp(value! + step! * direction, 0, total!)
+      if (result !== value) {
+        this.handleChange(result)
+      }
     }
   }
 

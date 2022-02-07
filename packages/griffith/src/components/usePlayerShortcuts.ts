@@ -50,8 +50,11 @@ const usePlayerShortcuts = ({
     )
     if (index >= 0) {
       const next = playbackRates[index + (dir === 'next' ? 1 : -1)]
+      actionToastDispatch({
+        icon: displayIcons.play,
+        label: (next || currentPlaybackRate).text,
+      })
       if (next) {
-        actionToastDispatch({icon: displayIcons.play, label: next.text})
         setCurrentPlaybackRate(next)
       }
     }

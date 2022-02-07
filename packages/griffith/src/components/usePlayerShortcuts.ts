@@ -22,6 +22,9 @@ type Options = {
   onSeek: (currentTime: number) => void
 }
 
+const isInput = (el: HTMLElement) =>
+  /^(input|textarea|select)$/i.test(el.tagName) || el.isContentEditable
+
 const usePlayerShortcuts = ({
   root,
   prevVolumeRef,
@@ -72,6 +75,10 @@ const usePlayerShortcuts = ({
   const handleKeyDown = useHandler((event: KeyboardEvent) => {
     // 防止冲突，有修饰键按下时不触发自定义热键
     if (event.altKey || event.ctrlKey || event.metaKey) {
+      return
+    }
+
+    if (event.target && isInput(event.target as HTMLElement)) {
       return
     }
 

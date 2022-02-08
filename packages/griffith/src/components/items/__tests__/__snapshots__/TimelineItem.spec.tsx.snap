@@ -15,16 +15,28 @@ exports[`TimelineItem get TimelineItem component 1`] = `
               class="
                 bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw-o_O-buffered_gsgvhl
               "
-              style="left: 0px; width: 6.417112299465241%"
+              style="
+                width: 100%;
+                transform: scaleX(0.06417112299465241);
+                transform-origin: left;
+              "
             ></div>
             <div
               class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
-              style="left: 0px; width: 3.7433155080213902%"
+              style="
+                width: 100%;
+                transform: scaleX(0.0374331550802139);
+                transform-origin: left;
+              "
             ></div>
           </div>
           <div
             class="thumbWrapper_ay4wjb-o_O-thumbWrapper_6t4rjm"
-            style="left: 3.7433155080213902%"
+            style="
+              width: 100%;
+              transform: translateX(3.7433155080213902%);
+              transform-origin: left;
+            "
           >
             <div class="thumb_ozdqky-o_O-thumb_1omjhz8"></div>
           </div>

@@ -265,7 +265,7 @@ class Video extends Component<VideoProps> {
   }
 
   // NOTE: 原生 `timeupdate` 事件更新频率不固定（4Hz~66Hz，由系统决定），这里以 rAF 提高了 UI 更新频率
-  // 但进度条更新仍然是不平滑的，需要考虑使用进度动画（TODO）
+  // TODO: 考虑使用回调直接操作 DOM，减少 React rendering
   notifyTimeUpdate = (isRaf: boolean) => {
     const {onCurrentTimeUpdate, paused} = this.props
 

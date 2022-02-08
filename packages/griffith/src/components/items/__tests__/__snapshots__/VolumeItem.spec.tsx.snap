@@ -22,12 +22,20 @@ exports[`VolumeItem get VolumeItem component 1`] = `
             <div class="track_1bopucd-o_O-track_31rx9n-o_O-track_ytl6g2">
               <div
                 class="bar_1kpj1ed-o_O-bar_1ql2ook"
-                style="bottom: 0px; height: 90%"
+                style="
+                  height: 100%;
+                  transform: scaleY(0.9);
+                  transform-origin: bottom;
+                "
               ></div>
             </div>
             <div
               class="thumbWrapper_ay4wjb-o_O-thumbWrapper_drkmbm"
-              style="bottom: 90%"
+              style="
+                height: 100%;
+                transform: translateY(9.999999999999998%);
+                transform-origin: bottom;
+              "
             >
               <div class="thumb_ozdqky-o_O-thumb_8gf5gg"></div>
             </div>

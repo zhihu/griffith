@@ -3,7 +3,6 @@ import {css, StyleDeclarationMap} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
 import {ProgressDot as ProgressDotType} from '../types'
 import ProgressDot, {ProgressDotsProps} from './ProgressDot'
-import formatPercent from '../utils/formatPercent'
 
 import styles, {
   horizontal as horizontalStyles,
@@ -39,6 +38,11 @@ type State = {
   isSliding: boolean
   slidingValue: null | number
 }
+
+const getRatio = (value: number, total?: number) =>
+  total ? clamp(value / total, 0, 1) : 0
+
+const toPercentage = (value: number) => `${value * 100}%`
 
 export type SliderProps = OwnProps //& typeof Slider.defaultProps
 
@@ -109,15 +113,38 @@ class Slider extends Component<SliderProps, State> {
     return orientation === 'horizontal' ? 'width' : 'height'
   }
 
-  getPercentage() {
+  getPercentageValue() {
     const {value, total} = this.props
     const {isSlideActive, slidingValue} = this.state
-    return formatPercent(isSlideActive ? slidingValue! : value!, total)
+    return getRatio(isSlideActive ? slidingValue! : value!, total)
   }
 
-  getBufferedPercentage() {
+  getProgressStyle(value: number) {
+    const {orientation} = this.props
+    const scaleAxis = orientation === 'horizontal' ? 'scaleX' : 'scaleY'
+    return {
+      [this.getSizeKey()]: '100%',
+      transform: `${scaleAxis}(${value})`,
+      transformOrigin: this.getAlignKey(),
+    }
+  }
+
+  getProgressThumbStyle(value: number) {
+    const {orientation} = this.props
+    const horizontal = orientation === 'horizontal'
+    const translateAxis = horizontal ? 'translateX' : 'translateY'
+    return {
+      [this.getSizeKey()]: '100%',
+      transform: `${translateAxis}(${toPercentage(
+        horizontal ? value : 1 - value
+      )})`,
+      transformOrigin: this.getAlignKey(),
+    }
+  }
+
+  getBufferedPercentageValue() {
     const {buffered, total} = this.props
-    return formatPercent(buffered!, total)
+    return getRatio(buffered!, total)
   }
 
   getSlidingValue(event: globalThis.MouseEvent) {
@@ -239,6 +266,7 @@ class Slider extends Component<SliderProps, State> {
           onKeyDown: this.handleKeyDown,
           onMouseDown: this.handleDragStart,
         }
+    const ratio = this.getPercentageValue()
     return (
       <div
         className={this.getClassName('root')}
@@ -250,18 +278,12 @@ class Slider extends Component<SliderProps, State> {
             {Boolean(buffered) && (
               <div
                 className={this.getClassName('bar', 'buffered')}
-                style={{
-                  [this.getAlignKey()]: 0,
-                  [this.getSizeKey()]: this.getBufferedPercentage(),
-                }}
+                style={this.getProgressStyle(this.getBufferedPercentageValue())}
               />
             )}
             <div
               className={this.getClassName('bar')}
-              style={{
-                [this.getAlignKey()]: 0,
-                [this.getSizeKey()]: this.getPercentage(),
-              }}
+              style={this.getProgressStyle(ratio)}
             />
             {Boolean(progressDots?.length) && (
               <ProgressDot
@@ -273,9 +295,10 @@ class Slider extends Component<SliderProps, State> {
             )}
           </div>
           {!noInteraction && (
+            // the position indicator (visible when hovering)
             <div
               className={this.getClassName('thumbWrapper')}
-              style={{[this.getAlignKey()]: this.getPercentage()}}
+              style={this.getProgressThumbStyle(ratio)}
             >
               <div
                 className={this.getClassName(

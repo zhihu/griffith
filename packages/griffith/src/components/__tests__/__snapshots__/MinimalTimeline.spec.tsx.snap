@@ -14,7 +14,7 @@ exports[`MinimalTimeline get MinimalTimeline component 1`] = `
       >
         <div
           class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
-          style="left: 0px; width: 0%"
+          style="width: 100%; transform: scaleX(0); transform-origin: left"
         ></div>
       </div>
     </div>
@@ -37,7 +37,11 @@ exports[`MinimalTimeline get MinimalTimeline component 2`] = `
       >
         <div
           class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
-          style="left: 0px; width: 32.92470120833653%"
+          style="
+            width: 100%;
+            transform: scaleX(0.3292470120833653);
+            transform-origin: left;
+          "
         ></div>
       </div>
     </div>

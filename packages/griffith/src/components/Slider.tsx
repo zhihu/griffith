@@ -1,13 +1,14 @@
-import React, {Component} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {css, StyleDeclarationMap} from 'aphrodite/no-important'
 import clamp from 'lodash/clamp'
 import {ProgressDot as ProgressDotType} from '../types'
 import ProgressDot, {ProgressDotsProps} from './ProgressDot'
-
 import styles, {
   horizontal as horizontalStyles,
   vertical as verticalStyles,
 } from './Slider.styles'
+import useHandler from '../hooks/useHandler'
+import useSetState from '../hooks/useSetState'
 
 type SlideStyle = typeof horizontalStyles & typeof verticalStyles // & {thumbSliding: unknown}
 type OwnStyleKey = keyof SlideStyle
@@ -20,8 +21,8 @@ type OwnProps = {
   buffered?: number
   total?: number
   step?: number
-  onFocus?: (...args: any[]) => any
-  onBlur?: (...args: any[]) => any
+  onFocus?: React.FocusEventHandler<HTMLDivElement>
+  onBlur?: React.FocusEventHandler<HTMLDivElement>
   onDragStart?: () => void
   onDragEnd?: () => void
   onChange?: (value: number) => void
@@ -33,12 +34,6 @@ type OwnProps = {
   // styles: StyleDeclaration<SlideStyle>[] | Partial<StyleDeclaration<SlideStyle>>
 }
 
-type State = {
-  isSlideActive: boolean
-  isSliding: boolean
-  slidingValue: null | number
-}
-
 const getRatio = (value: number, total?: number) =>
   total ? clamp(value / total, 0, 1) : 0
 
@@ -46,43 +41,42 @@ const toPercentage = (value: number) => `${value * 100}%`
 
 export type SliderProps = OwnProps //& typeof Slider.defaultProps
 
-class Slider extends Component<SliderProps, State> {
-  static defaultProps = {
-    orientation: 'horizontal',
-    reverse: false,
-    value: 0,
-    buffered: 0,
-    total: 0,
-    step: 1,
-    progressDots: [] as ProgressDotType[],
-  }
+Slider.defaultProps = {
+  orientation: 'horizontal',
+  reverse: false,
+  progressDots: [] as ProgressDotType[],
+}
 
-  state = {
+function Slider(props: SliderProps) {
+  const {
+    orientation,
+    reverse,
+    onFocus,
+    onBlur,
+    onChange,
+    onDragStart,
+    onDragEnd,
+    noInteraction,
+    progressDots,
+    value = 0,
+    buffered = 0,
+    total = 0,
+    step = 1,
+    onProgressDotHover,
+    onProgressDotLeave,
+  } = props
+  const [{isSlideActive, isSliding, slidingValue}, setState] = useSetState({
     isSlideActive: false,
     isSliding: false,
-    slidingValue: null,
-  }
+    slidingValue: null as null | number,
+  })
 
-  // refs
-  trackRef = React.createRef<HTMLDivElement>()
+  const isHorizontal = orientation === 'horizontal'
+  const trackRef = useRef<HTMLDivElement>(null)
 
-  registerEvents() {
-    document.addEventListener('mousemove', this.handleDragMove)
-    document.addEventListener('mouseup', this.handleDragEnd)
-  }
-
-  unregisterEvents() {
-    document.removeEventListener('mousemove', this.handleDragMove)
-    document.removeEventListener('mouseup', this.handleDragEnd)
-  }
-
-  getVariantStyleSheet() {
-    const {orientation} = this.props
-    return orientation === 'horizontal' ? horizontalStyles : verticalStyles
-  }
-
-  getStyles(name: StyleKey) {
-    let customStyles = this.props.styles
+  const getStyles = (name: StyleKey) => {
+    const variantStyles = isHorizontal ? horizontalStyles : verticalStyles
+    let customStyles = props.styles
     if (!Array.isArray(customStyles)) {
       customStyles = [customStyles]
     }
@@ -90,71 +84,52 @@ class Slider extends Component<SliderProps, State> {
 
     return [
       styles[name as OwnStyleKey],
-      this.getVariantStyleSheet()[name as OwnStyleKey],
+      variantStyles[name as OwnStyleKey],
       ...customStyles.map((item) => item[name]),
     ] as StyleDeclarationMap[]
   }
 
-  getClassName(...names: StyleKey[]) {
-    return css(...names.map((name) => this.getStyles(name)))
+  const getClassName = (...names: StyleKey[]) => {
+    return css(...names.map((name) => getStyles(name)))
   }
 
-  getAlignKey() {
-    const {orientation, reverse} = this.props
-    if (orientation === 'horizontal') {
+  const alignKey = (() => {
+    if (isHorizontal) {
       return reverse ? 'right' : 'left'
     } else {
       return reverse ? 'top' : 'bottom'
     }
-  }
+  })()
 
-  getSizeKey() {
-    const {orientation} = this.props
-    return orientation === 'horizontal' ? 'width' : 'height'
-  }
+  const sizeKey = isHorizontal ? 'width' : 'height'
 
-  getPercentageValue() {
-    const {value, total} = this.props
-    const {isSlideActive, slidingValue} = this.state
-    return getRatio(isSlideActive ? slidingValue! : value!, total)
-  }
-
-  getProgressStyle(value: number) {
-    const {orientation} = this.props
-    const scaleAxis = orientation === 'horizontal' ? 'scaleX' : 'scaleY'
+  const getProgressStyle = (value: number) => {
+    const scaleAxis = isHorizontal ? 'scaleX' : 'scaleY'
     return {
-      [this.getSizeKey()]: '100%',
+      [sizeKey]: '100%',
       transform: `${scaleAxis}(${value})`,
-      transformOrigin: this.getAlignKey(),
+      transformOrigin: alignKey,
     }
   }
 
-  getProgressThumbStyle(value: number) {
-    const {orientation} = this.props
-    const horizontal = orientation === 'horizontal'
-    const translateAxis = horizontal ? 'translateX' : 'translateY'
+  const getProgressThumbStyle = (value: number) => {
+    const translateAxis = isHorizontal ? 'translateX' : 'translateY'
     return {
-      [this.getSizeKey()]: '100%',
+      [sizeKey]: '100%',
       transform: `${translateAxis}(${toPercentage(
-        horizontal ? value : 1 - value
+        isHorizontal ? value : 1 - value
       )})`,
-      transformOrigin: this.getAlignKey(),
+      transformOrigin: alignKey,
     }
   }
 
-  getBufferedPercentageValue() {
-    const {buffered, total} = this.props
-    return getRatio(buffered!, total)
-  }
-
-  getSlidingValue(event: globalThis.MouseEvent) {
-    const {orientation, reverse, total} = this.props
-    const track = this.trackRef.current
+  const getSlidingValue = (event: MouseEvent) => {
+    const track = trackRef.current
     if (!track) return 0
     const rect = track.getBoundingClientRect()
 
     let value
-    if (orientation === 'horizontal') {
+    if (isHorizontal) {
       value = (event.clientX - rect.left) / rect.width
     } else {
       value = (rect.bottom - event.clientY) / rect.height
@@ -164,12 +139,10 @@ class Slider extends Component<SliderProps, State> {
       value = 1 - value
     }
 
-    return value * total!
+    return value * total
   }
 
-  handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    const {reverse, value, total, step} = this.props
-
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     let direction = 0
     let handled = false
     if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
@@ -184,137 +157,113 @@ class Slider extends Component<SliderProps, State> {
       if (reverse) {
         direction = -direction
       }
-      const result = clamp(value! + step! * direction, 0, total!)
+      const result = clamp(value + step * direction, 0, total)
       if (result !== value) {
-        this.handleChange(result)
+        handleChange(result)
       }
     }
   }
 
-  handleDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.button !== 0) return
-
-    const value = this.getSlidingValue(
-      event as unknown as globalThis.MouseEvent
-    )
-    this.setState({
+    const value = getSlidingValue(event as unknown as MouseEvent)
+    setState({
       isSlideActive: true,
       slidingValue: value,
     })
-
-    const {onDragStart} = this.props
-    if (onDragStart) {
-      onDragStart()
-    }
-    this.handleChange(value)
-
-    this.registerEvents()
+    onDragStart?.()
+    handleChange(value)
   }
 
-  handleDragMove = (event: globalThis.MouseEvent) => {
-    const value = this.getSlidingValue(event)
-    this.setState({
+  const handleDragMove = useHandler((event: MouseEvent) => {
+    const value = getSlidingValue(event)
+    setState({
       slidingValue: value,
       isSliding: true,
     })
+    handleChange(value)
+  })
 
-    this.handleChange(value)
-  }
-
-  handleDragEnd = (event: globalThis.MouseEvent): void => {
-    this.unregisterEvents()
-
-    const {onDragEnd} = this.props
-    if (onDragEnd) {
-      onDragEnd()
-    }
-
-    if (this.state.isSliding) {
+  const handleDragEnd = useHandler((event: MouseEvent): void => {
+    onDragEnd?.()
+    if (isSliding) {
       // 点击动作不需要重复触发 change event
-      this.handleChange(this.getSlidingValue(event))
+      handleChange(getSlidingValue(event))
     }
-
-    this.setState({
+    setState({
       isSlideActive: false,
       slidingValue: null,
       isSliding: false,
     })
-  }
+  })
 
-  handleChange = (value: number) => {
-    const {onChange} = this.props
-    if (onChange) {
-      onChange(value)
+  useEffect(() => {
+    if (isSlideActive) {
+      document.addEventListener('mousemove', handleDragMove)
+      document.addEventListener('mouseup', handleDragEnd)
+      return () => {
+        document.removeEventListener('mousemove', handleDragMove)
+        document.removeEventListener('mouseup', handleDragEnd)
+      }
     }
+  }, [handleDragEnd, handleDragMove, isSlideActive])
+
+  const handleChange = (value: number) => {
+    onChange?.(value)
   }
 
-  render() {
-    const {
-      buffered,
-      onFocus,
-      onBlur,
-      noInteraction,
-      progressDots,
-      total,
-      onProgressDotHover,
-      onProgressDotLeave,
-    } = this.props
-    const {isSlideActive} = this.state
-    const interactionProps = noInteraction
-      ? {}
-      : {
-          tabIndex: 0,
-          onFocus,
-          onBlur,
-          onKeyDown: this.handleKeyDown,
-          onMouseDown: this.handleDragStart,
-        }
-    const ratio = this.getPercentageValue()
-    return (
-      <div
-        className={this.getClassName('root')}
-        {...interactionProps}
-        role="slider"
-      >
-        <div className={this.getClassName('inner')}>
-          <div ref={this.trackRef} className={this.getClassName('track')}>
-            {Boolean(buffered) && (
-              <div
-                className={this.getClassName('bar', 'buffered')}
-                style={this.getProgressStyle(this.getBufferedPercentageValue())}
-              />
-            )}
+  const interactionProps = noInteraction
+    ? {}
+    : {
+        tabIndex: 0,
+        onFocus,
+        onBlur,
+        onKeyDown: handleKeyDown,
+        onMouseDown: handleDragStart,
+      }
+  const ratio = getRatio(isSlideActive ? slidingValue! : value, total)
+  const bufferedRatio = getRatio(buffered, total)
+
+  return (
+    <div className={getClassName('root')} {...interactionProps} role="slider">
+      <div className={getClassName('inner')}>
+        <div ref={trackRef} className={getClassName('track')}>
+          {Boolean(buffered) && (
             <div
-              className={this.getClassName('bar')}
-              style={this.getProgressStyle(ratio)}
+              className={getClassName('bar', 'buffered')}
+              style={getProgressStyle(bufferedRatio)}
             />
-            {Boolean(progressDots?.length) && (
-              <ProgressDot
-                progressDots={progressDots!}
-                total={total!}
-                onProgressDotHover={onProgressDotHover}
-                onProgressDotLeave={onProgressDotLeave}
-              />
-            )}
-          </div>
-          {!noInteraction && (
-            // the position indicator (visible when hovering)
-            <div
-              className={this.getClassName('thumbWrapper')}
-              style={this.getProgressThumbStyle(ratio)}
-            >
-              <div
-                className={this.getClassName(
-                  'thumb',
-                  (isSlideActive && 'thumbSliding') as OwnStyleKey
-                )}
-              />
-            </div>
+          )}
+          <div
+            className={getClassName('bar')}
+            style={getProgressStyle(ratio)}
+          />
+          {Boolean(progressDots?.length) && (
+            <ProgressDot
+              progressDots={progressDots!}
+              total={total}
+              onProgressDotHover={onProgressDotHover}
+              onProgressDotLeave={onProgressDotLeave}
+            />
           )}
         </div>
+        {!noInteraction && (
+          // the position indicator (visible when hovering)
+          <div
+            className={getClassName('thumbWrapper')}
+            style={getProgressThumbStyle(ratio)}
+          >
+            <div
+              className={getClassName(
+                'thumb',
+                (isSlideActive && 'thumbSliding') as OwnStyleKey
+              )}
+            />
+          </div>
+        )}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default Slider

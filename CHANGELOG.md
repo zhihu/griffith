@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://github.com/zhihu/griffith/compare/v1.22.1...v1.23.0) (2022-02-09)
+
+
+### Bug Fixes
+
+* add isIE in ua ([d7a6924](https://github.com/zhihu/griffith/commit/d7a6924)), closes [#18](https://github.com/zhihu/griffith/issues/18) [#158](https://github.com/zhihu/griffith/issues/158)
+* do not process shortcut in input fields ([87faf57](https://github.com/zhihu/griffith/commit/87faf57))
+* do not process shortcut when event is default prevented ([d08ba7a](https://github.com/zhihu/griffith/commit/d08ba7a))
+* fix box-sizing style of time in Controller ([2b92454](https://github.com/zhihu/griffith/commit/2b92454))
+* ignore modifier state in shortcut keys ([07534b9](https://github.com/zhihu/griffith/commit/07534b9))
+* remove `Enter` shortcut ([be5f556](https://github.com/zhihu/griffith/commit/be5f556))
+* use smooth progress transition ([f68c1ac](https://github.com/zhihu/griffith/commit/f68c1ac))
+
+
+### Features
+
+* add ActionToast for shortcut keys ([d76c811](https://github.com/zhihu/griffith/commit/d76c811))
+* add aria label to controller buttons ([d6b889c](https://github.com/zhihu/griffith/commit/d6b889c))
+* add shortcut keys for playback rate ([8c319dc](https://github.com/zhihu/griffith/commit/8c319dc))
+* allow change sources on the fly, refactor VideoSourceProvider ([044f220](https://github.com/zhihu/griffith/commit/044f220))
+* allow use shortcut keys without controller ([deeb310](https://github.com/zhihu/griffith/commit/deeb310))
+* listen shortcut keys on root element ([63f554a](https://github.com/zhihu/griffith/commit/63f554a))
+
+
+
+
+
 ## [1.22.1](https://github.com/zhihu/griffith/compare/v1.22.0...v1.22.1) (2022-01-21)
 
 

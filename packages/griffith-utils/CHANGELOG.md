@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://github.com/zhihu/griffith/compare/v1.22.1...v1.23.0) (2022-02-09)
+
+
+### Bug Fixes
+
+* add isIE in ua ([d7a6924](https://github.com/zhihu/griffith/commit/d7a6924)), closes [#18](https://github.com/zhihu/griffith/issues/18) [#158](https://github.com/zhihu/griffith/issues/158)
+
+
+
+
+
 ## [1.18.3](https://github.com/zhihu/griffith/compare/v1.18.2...v1.18.3) (2021-09-18)
 
 

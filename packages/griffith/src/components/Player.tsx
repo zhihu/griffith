@@ -82,7 +82,7 @@ type InnerPlayerProps = {
   hideMobileControls?: boolean
   hideCover?: boolean
   noWriteDocTitle?: boolean
-  PositioningComponent?: React.ReactElement
+  layerContent?: React.ReactNode
 }
 
 // 仅供 Provider 使用的属性
@@ -138,7 +138,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   hideMobileControls,
   hideCover,
   noWriteDocTitle,
-  PositioningComponent,
+  layerContent,
 }) => {
   const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
   const {currentSrc} = useContext(VideoSourceContext)
@@ -694,7 +694,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       )}
       {controlsOverlay}
       <ActionToastOutlet />
-      <Layer>{PositioningComponent}</Layer>
+      {layerContent && <Layer>{layerContent}</Layer>}
       {error && (
         <div className={css(styles.error)}>
           <Icon icon={displayIcons.alert} styles={styles.errorIcon} />

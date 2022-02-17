@@ -34,6 +34,7 @@ import Video from './Video'
 import Controller from './Controller'
 import VolumeItem from './items/VolumeItem'
 import MinimalTimeline from './MinimalTimeline'
+import Layer from './Layer'
 import getBufferedTime from '../utils/getBufferedTime'
 import formatDuration from '../utils/formatDuration'
 import storage from '../utils/storage'
@@ -81,6 +82,7 @@ type InnerPlayerProps = {
   hideMobileControls?: boolean
   hideCover?: boolean
   noWriteDocTitle?: boolean
+  PositioningComponent?: React.ReactElement
 }
 
 // 仅供 Provider 使用的属性
@@ -136,6 +138,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   hideMobileControls,
   hideCover,
   noWriteDocTitle,
+  PositioningComponent,
 }) => {
   const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
   const {currentSrc} = useContext(VideoSourceContext)
@@ -691,6 +694,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       )}
       {controlsOverlay}
       <ActionToastOutlet />
+      <Layer>{PositioningComponent}</Layer>
       {error && (
         <div className={css(styles.error)}>
           <Icon icon={displayIcons.alert} styles={styles.errorIcon} />

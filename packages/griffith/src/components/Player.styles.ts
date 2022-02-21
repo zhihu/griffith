@@ -192,7 +192,6 @@ export default StyleSheet.create({
     top: 0,
     bottom: 0,
     overflow: 'hidden',
-    backgroundColor: '#000',
     cursor: 'pointer',
     visibility: 'hidden',
     opacity: 0,

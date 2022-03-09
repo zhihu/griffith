@@ -15,6 +15,8 @@ const NavLinks = () => {
         <li>
           <Link to="/mp4">/mp4</Link>
           <br />
+          <Link to="/mp4?sd">/mp4?sd</Link>
+          <br />
           <Link to="/mp4?logo">/mp4?logo</Link>
           <br />
           <Link to="/mp4?loop">/mp4?loop</Link>

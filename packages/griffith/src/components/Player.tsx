@@ -49,6 +49,7 @@ import useBoolean from '../hooks/useBoolean'
 import useMount from '../hooks/useMount'
 import useHandler from '../hooks/useHandler'
 import usePlayerShortcuts from './usePlayerShortcuts'
+import usePrevious from '../hooks/usePrevious'
 
 const CONTROLLER_HIDE_DELAY = 3000
 
@@ -226,9 +227,12 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     }
   }, [emitEvent, showController])
 
+  const preSources = usePrevious(sources)
   useEffect(() => {
-    videoRef.current?.seek(0)
-    setDuration(0)
+    if (preSources && preSources !== sources) {
+      handleSeek(0)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sources])
 
   // sync document title

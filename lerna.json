@@ -4,7 +4,7 @@
     "example",
     "website"
   ],
-  "version": "1.24.0",
+  "version": "1.24.1",
   "conventionalCommits": true,
   "npmClient": "yarn",
   "useWorkspaces": true

@@ -227,14 +227,6 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     }
   }, [emitEvent, showController])
 
-  const preSources = usePrevious(sources)
-  useEffect(() => {
-    if (preSources && preSources !== sources) {
-      handleSeek(0)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sources])
-
   // sync document title
   useEffect(() => {
     if (
@@ -490,6 +482,13 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     onVolumeChange: handleVideoVolumeChange,
     onSeek: handleSeek,
   })
+
+  const prevSources = usePrevious(sources)
+  useEffect(() => {
+    if (prevSources && prevSources !== sources) {
+      handleSeek(0)
+    }
+  }, [handleSeek, prevSources, sources])
 
   const isPip = Boolean(Pip.pictureInPictureElement)
   // Safari 会将 pip 状态视为全屏

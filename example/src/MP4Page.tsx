@@ -2,7 +2,6 @@ import Player, {
   ACTIONS,
   EVENTS,
   PlayerProps,
-  PlaySourceMap,
   useMessageContextRef,
 } from 'griffith'
 import React, {useState, useMemo} from 'react'
@@ -41,6 +40,7 @@ const props: Omit<PlayerProps, 'sources'> = {
   cover: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018.jpg',
   duration,
   shouldObserveResize: true,
+  defaultQuality: 'hd',
 }
 
 const App = () => {
@@ -60,7 +60,7 @@ const App = () => {
     () => 'logo' in query && isLogoVisible && <Logo />,
     [isLogoVisible, query]
   )
-  const [sources, setSources] = useState<PlaySourceMap>(_sources)
+  const sources = 'sd' in query ? {sd: _sources.sd} : _sources
 
   return (
     <>
@@ -109,18 +109,6 @@ const App = () => {
         }}
       >
         Pause
-      </button>
-      <button
-        onClick={() => {
-          setSources({
-            sd: {
-              play_url:
-                'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018_sd.mp4',
-            },
-          })
-        }}
-      >
-        Change Url
       </button>
     </>
   )

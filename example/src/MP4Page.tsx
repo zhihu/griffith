@@ -12,7 +12,7 @@ import {sources as hlsSources} from './HLSPage'
 
 const duration = 182
 
-const sources = {
+const _sources = {
   hd: {
     bitrate: 2005,
     size: 46723282,
@@ -33,14 +33,14 @@ const sources = {
   },
 }
 
-const props: PlayerProps = {
+const props: Omit<PlayerProps, 'sources'> = {
   id: 'zhihu2018',
   standalone: true,
   title: '2018 我们如何与世界相处？',
   cover: 'https://zhstatic.zhihu.com/cfe/griffith/zhihu2018.jpg',
   duration,
-  sources,
   shouldObserveResize: true,
+  defaultQuality: 'hd',
 }
 
 const App = () => {
@@ -60,6 +60,7 @@ const App = () => {
     () => 'logo' in query && isLogoVisible && <Logo />,
     [isLogoVisible, query]
   )
+  const sources = 'sd' in query ? {sd: _sources.sd} : _sources
 
   return (
     <>
@@ -68,7 +69,7 @@ const App = () => {
         // trigger re-mount
         key={query.key}
         autoplay={query.autoplay !== '0'}
-        sources={'hls' in query ? hlsSources : props.sources}
+        sources={'hls' in query ? hlsSources : sources}
         localeConfig={{
           'zh-Hans': {
             'quality-ld': {

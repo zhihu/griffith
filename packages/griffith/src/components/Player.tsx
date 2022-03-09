@@ -49,6 +49,7 @@ import useBoolean from '../hooks/useBoolean'
 import useMount from '../hooks/useMount'
 import useHandler from '../hooks/useHandler'
 import usePlayerShortcuts from './usePlayerShortcuts'
+import usePrevious from '../hooks/usePrevious'
 
 const CONTROLLER_HIDE_DELAY = 3000
 
@@ -141,7 +142,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   layerContent,
 }) => {
   const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
-  const {currentSrc} = useContext(VideoSourceContext)
+  const {currentSrc, sources} = useContext(VideoSourceContext)
   const [root, setRoot] = useState<HTMLDivElement | null>(null)
   const videoRef = useRef<{
     root: HTMLVideoElement
@@ -179,7 +180,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     }
 
     const actionSubscriptions_ = [
-      subscribeAction(ACTIONS.PLAY, () => handlePlay()),
+      subscribeAction(ACTIONS.PLAY, handlePlay),
       subscribeAction(ACTIONS.PAUSE, handlePauseAction),
       subscribeAction(ACTIONS.TIME_UPDATE, ({currentTime}) =>
         handleSeek(currentTime)
@@ -226,6 +227,14 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     }
   }, [emitEvent, showController])
 
+  const preSources = usePrevious(sources)
+  useEffect(() => {
+    if (preSources && preSources !== sources) {
+      handleSeek(0)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sources])
+
   // sync document title
   useEffect(() => {
     if (
@@ -249,13 +258,13 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     }
   }, [disablePictureInPicture, emitEvent])
 
-  const handlePauseAction = ({dontApplyOnFullScreen}: any = {}) => {
+  const handlePauseAction = useHandler(({dontApplyOnFullScreen}: any = {}) => {
     if (!isPlaying) return
 
     if (dontApplyOnFullScreen && Boolean(BigScreen.element)) return
 
     handlePause()
-  }
+  })
 
   const handleClickToTogglePlay = () => {
     // 仅点击覆盖层触发提示（控制条上的按钮点击不需要）
@@ -265,7 +274,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     handleTogglePlay()
   }
 
-  const handlePlay = () => {
+  const handlePlay = useHandler(() => {
     emitEvent(EVENTS.REQUEST_PLAY)
     Promise.resolve(onBeforePlay?.(currentSrc))
       .then(() => {
@@ -287,7 +296,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
         emitEvent(EVENTS.PLAY_REJECTED)
         // 播放被取消
       })
-  }
+  })
 
   const handlePause = () => {
     emitEvent(EVENTS.REQUEST_PAUSE)
@@ -401,7 +410,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   const hideControllerTimerRef = useRef(
     null
   ) as React.MutableRefObject<ReturnType<typeof setTimeout> | null>
-  const handleShowController = () => {
+  const handleShowController = useHandler(() => {
     if (!isControllerShown) {
       isControllerShownSwitch.on()
     }
@@ -412,7 +421,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       hideControllerTimerRef.current = null
       isControllerShownSwitch.off()
     }, CONTROLLER_HIDE_DELAY)
-  }
+  })
 
   const handleHideController = () => {
     if (hideControllerTimerRef.current !== null) {

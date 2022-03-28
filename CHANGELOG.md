@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.2](https://github.com/zhihu/griffith/compare/v1.24.1...v1.24.2) (2022-03-28)
+
+
+### Bug Fixes
+
+* use fixed size for time numbers ([#263](https://github.com/zhihu/griffith/issues/263)) ([301c660](https://github.com/zhihu/griffith/commit/301c660))
+
+
+
+
+
 ## [1.24.1](https://github.com/zhihu/griffith/compare/v1.24.0...v1.24.1) (2022-03-09)
 
 

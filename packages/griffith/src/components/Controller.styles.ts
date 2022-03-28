@@ -80,6 +80,7 @@ export default StyleSheet.create({
     fontSize: '0.875em',
     color: 'rgba(255, 255, 255, 0.9)',
     boxSizing: 'content-box',
+    fontVariantNumeric: 'tabular-nums',
   },
 
   labelButton: {

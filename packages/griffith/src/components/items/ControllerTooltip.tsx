@@ -11,7 +11,7 @@ type Props = {
 }
 
 const canUseTouch =
-  typeof document !== 'undefined' && 'ontouchstart' in document.body
+  typeof document !== 'undefined' && 'ontouchstart' in document.documentElement
 
 /**
  * ControllerButton

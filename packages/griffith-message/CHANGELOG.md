@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://github.com/zhihu/griffith/compare/v1.24.3...v1.25.0) (2022-04-07)
+
+
+### Features
+
+* add loadeddata event ([#266](https://github.com/zhihu/griffith/issues/266)) ([797fc6f](https://github.com/zhihu/griffith/commit/797fc6f))
+
+
+
+
+
 # [1.21.0](https://github.com/zhihu/griffith/compare/v1.20.0...v1.21.0) (2021-10-13)
 
 

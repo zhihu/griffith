@@ -9,6 +9,7 @@ enum DOM {
   ERROR = 'event/dom/error',
   WAITING = 'event/dom/waiting',
   CANPLAY = 'event/dom/canplay',
+  LOADEDDATA = 'event/dom/loadeddata',
 }
 
 // custom events
@@ -100,4 +101,5 @@ export type EventParamsMap = {
   }>
   [EVENTS.LEAVE_PROGRESS_DOT]: Listen<void>
   [EVENTS.SUBSCRIPTION_READY]: Listen<void>
+  [EVENTS.LOADEDDATA]: Listen<void>
 }

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.1](https://github.com/zhihu/griffith/compare/v1.25.0...v1.25.1) (2022-04-20)
+
+
+### Bug Fixes
+
+* 修复loading状态下不能暂停的问题 ([14099bf](https://github.com/zhihu/griffith/commit/14099bf))
+
+
+
+
+
 # [1.25.0](https://github.com/zhihu/griffith/compare/v1.24.3...v1.25.0) (2022-04-07)
 
 

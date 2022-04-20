@@ -292,10 +292,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
 
   const handlePause = () => {
     emitEvent(EVENTS.REQUEST_PAUSE)
-
-    if (!isLoading || hideMobileControls) {
-      isPlayingSwitch.off()
-    }
+    isPlayingSwitch.off()
   }
 
   const handleVideoPlay = () => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import * as icons from '../icons/controller'
-import ControllerTooltip from './ControllerTooltip'
 import ControllerButton from './ControllerButton'
+import ControllerTooltip from './ControllerTooltip'
 
 const PageFullScreenButtonItem: React.FC<{
   isFullScreen: boolean
@@ -13,6 +13,7 @@ const PageFullScreenButtonItem: React.FC<{
         ? 'action-exit-page-fullscreen'
         : 'action-enter-page-fullscreen'
     }
+    hotkey="t"
   >
     <ControllerButton
       icon={isFullScreen ? icons.exitPageScreen : icons.enterPageScreen}

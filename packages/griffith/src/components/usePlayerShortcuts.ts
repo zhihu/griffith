@@ -1,10 +1,10 @@
-import * as displayIcons from './icons/display/index'
-import * as controllerIcons from './icons/controller/index'
-import {useEffect, useContext} from 'react'
 import clamp from 'lodash/clamp'
+import {useContext, useEffect} from 'react'
+import VideoSourceContext from '../contexts/VideoSourceContext'
 import useHandler from '../hooks/useHandler'
 import {useActionToastDispatch} from './ActionToast'
-import VideoSourceContext from '../contexts/VideoSourceContext'
+import * as controllerIcons from './icons/controller/index'
+import * as displayIcons from './icons/display/index'
 
 type Options = {
   root: HTMLDivElement | null
@@ -17,6 +17,7 @@ type Options = {
   standalone?: boolean
   onVolumeChange: (value: number) => void
   onTogglePlay: () => void
+  onTogglePip: () => void
   onToggleFullScreen: () => void
   onTogglePageFullScreen: () => void
   onSeek: (currentTime: number) => void
@@ -36,6 +37,7 @@ const usePlayerShortcuts = ({
   standalone,
   onVolumeChange,
   onTogglePlay,
+  onTogglePip,
   onToggleFullScreen,
   onTogglePageFullScreen,
   onSeek,
@@ -99,6 +101,16 @@ const usePlayerShortcuts = ({
           icon: isPlaying ? displayIcons.pause : displayIcons.play,
         })
         onTogglePlay()
+        break
+
+      case 'p':
+      case 'P':
+        onTogglePip()
+        break
+
+      case 't':
+      case 'T':
+        onTogglePageFullScreen()
         break
 
       case 'f':

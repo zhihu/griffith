@@ -7,7 +7,7 @@ const PlayButtonItem: React.FC<{
   isPlaying: boolean
   onClick: React.HTMLAttributes<HTMLButtonElement>['onClick']
 }> = ({isPlaying, onClick}) => (
-  <ControllerTooltip localeKey={isPlaying ? 'pause' : 'play'}>
+  <ControllerTooltip localeKey={isPlaying ? 'pause' : 'play'} hotkey="k">
     <ControllerButton
       icon={isPlaying ? icons.pause : icons.play}
       onClick={onClick}

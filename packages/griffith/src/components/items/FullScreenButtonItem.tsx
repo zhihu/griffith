@@ -1,7 +1,7 @@
 import React from 'react'
 import * as icons from '../icons/controller'
-import ControllerTooltip from './ControllerTooltip'
 import ControllerButton from './ControllerButton'
+import ControllerTooltip from './ControllerTooltip'
 
 const FullScreenButtonItem: React.FC<{
   isFullScreen: boolean
@@ -11,6 +11,7 @@ const FullScreenButtonItem: React.FC<{
     localeKey={
       isFullScreen ? 'action-exit-fullscreen' : 'action-enter-fullscreen'
     }
+    hotkey="f"
   >
     <ControllerButton
       icon={isFullScreen ? icons.smallscreen : icons.fullscreen}

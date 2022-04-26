@@ -1,55 +1,55 @@
-import React, {useRef, useEffect, useState, useContext, useMemo} from 'react'
 import {css} from 'aphrodite/no-important'
-import BigScreen from 'isomorphic-bigscreen'
-import {EVENTS, ACTIONS} from 'griffith-message'
+import {ACTIONS, EVENTS} from 'griffith-message'
 import {ua} from 'griffith-utils'
-import {
-  ProgressDot,
-  ProgressValue,
-  PlaybackRate,
-  PlaySourceMap,
-  RealQuality,
-} from '../types'
+import BigScreen from 'isomorphic-bigscreen'
+import React, {useContext, useEffect, useMemo, useRef, useState} from 'react'
 import {
   defaultLocale,
   LocaleCode,
   PartialLocaleConfigMap,
 } from '../constants/locales'
-import VideoSourceProvider from '../contexts/VideoSourceProvider'
-import {
-  MessageProvider,
-  MessageContextValue,
-  InternalMessageContext,
-} from '../contexts/MessageContext'
-import VideoSourceContext from '../contexts/VideoSourceContext'
-import ObjectFitContext, {ObjectFit} from '../contexts/ObjectFitContext'
-import PositionProvider from '../contexts/PositionProvider'
-import ObjectFitProvider from '../contexts/ObjectFitProvider'
 import LocaleProvider from '../contexts/LocaleProvider'
-import TranslatedText from './TranslatedText'
-import Icon from './Icon'
-import * as displayIcons from './icons/display/index'
-import Loader from './Loader'
-import Video from './Video'
-import Controller from './Controller'
-import VolumeItem from './items/VolumeItem'
-import MinimalTimeline from './MinimalTimeline'
-import Layer from './Layer'
-import getBufferedTime from '../utils/getBufferedTime'
+import {
+  InternalMessageContext,
+  MessageContextValue,
+  MessageProvider,
+} from '../contexts/MessageContext'
+import ObjectFitContext, {ObjectFit} from '../contexts/ObjectFitContext'
+import ObjectFitProvider from '../contexts/ObjectFitProvider'
+import PositionProvider from '../contexts/PositionProvider'
+import VideoSourceContext from '../contexts/VideoSourceContext'
+import VideoSourceProvider from '../contexts/VideoSourceProvider'
+import useBoolean from '../hooks/useBoolean'
+import useHandler from '../hooks/useHandler'
+import useMount from '../hooks/useMount'
+import usePrevious from '../hooks/usePrevious'
+import {
+  PlaybackRate,
+  PlaySourceMap,
+  ProgressDot,
+  ProgressValue,
+  RealQuality,
+} from '../types'
 import formatDuration from '../utils/formatDuration'
-import storage from '../utils/storage'
+import getBufferedTime from '../utils/getBufferedTime'
 import Pip from '../utils/pip'
+import storage from '../utils/storage'
 import {
   ActionToastOutlet,
   ActionToastProvider,
   useActionToastDispatch,
 } from './ActionToast'
+import Controller from './Controller'
+import Icon from './Icon'
+import * as displayIcons from './icons/display/index'
+import VolumeItem from './items/VolumeItem'
+import Layer from './Layer'
+import Loader from './Loader'
+import MinimalTimeline from './MinimalTimeline'
 import styles, {hiddenOrShownStyle} from './Player.styles'
-import useBoolean from '../hooks/useBoolean'
-import useMount from '../hooks/useMount'
-import useHandler from '../hooks/useHandler'
+import TranslatedText from './TranslatedText'
 import usePlayerShortcuts from './usePlayerShortcuts'
-import usePrevious from '../hooks/usePrevious'
+import Video from './Video'
 
 const CONTROLLER_HIDE_DELAY = 3000
 
@@ -476,6 +476,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     onTogglePlay: handleTogglePlay,
     onToggleFullScreen: handleToggleFullScreen,
     onTogglePageFullScreen: handleTogglePageFullScreen,
+    onTogglePip: handleTogglePip,
     onVolumeChange: handleVideoVolumeChange,
     onSeek: handleSeek,
   })

@@ -48,7 +48,7 @@ export default class VideoComponent extends Component<VideoProps> {
       return
     }
 
-    if (currentQuality !== prevProps.currentQuality) {
+    if (currentQuality !== prevProps.currentQuality || prevProps.src !== src) {
       // 切换清晰度
       const source = sources.find((s) => s.quality === currentQuality)
       if (source) {

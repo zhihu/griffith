@@ -42,7 +42,7 @@ export default class VideoComponent extends Component<VideoProps> {
   }
 
   componentDidUpdate(prevProps: VideoProps) {
-    const {currentQuality, sources, paused} = this.props
+    const {currentQuality, sources, paused, src} = this.props
 
     if (!this.hls) {
       return

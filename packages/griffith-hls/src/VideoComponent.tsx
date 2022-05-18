@@ -42,13 +42,13 @@ export default class VideoComponent extends Component<VideoProps> {
   }
 
   componentDidUpdate(prevProps: VideoProps) {
-    const {currentQuality, sources, paused} = this.props
+    const {currentQuality, sources, paused, src} = this.props
 
     if (!this.hls) {
       return
     }
 
-    if (currentQuality !== prevProps.currentQuality) {
+    if (currentQuality !== prevProps.currentQuality || prevProps.src !== src) {
       // 切换清晰度
       const source = sources.find((s) => s.quality === currentQuality)
       if (source) {

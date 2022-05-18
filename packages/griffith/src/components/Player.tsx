@@ -484,9 +484,13 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   const prevSources = usePrevious(sources)
   useEffect(() => {
     if (prevSources && prevSources !== sources) {
-      handleSeek(0)
+      handleSeek(0) //TODO: Event
+      handlePause()
+      if (autoplay) {
+        handlePlay()
+      }
     }
-  }, [handleSeek, prevSources, sources])
+  }, [autoplay, handlePlay, handleSeek, handlePause, prevSources, sources])
 
   const isPip = Boolean(Pip.pictureInPictureElement)
   // Safari 会将 pip 状态视为全屏

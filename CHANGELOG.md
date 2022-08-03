@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.1](https://github.com/zhihu/griffith/compare/v1.26.0...v1.26.1) (2022-08-03)
+
+
+### Bug Fixes
+
+* Failed switch hls video ([#276](https://github.com/zhihu/griffith/issues/276)) ([b58fcc1](https://github.com/zhihu/griffith/commit/b58fcc1))
+* fix the hotkey tooltip of pip ([#278](https://github.com/zhihu/griffith/issues/278)) ([d9070aa](https://github.com/zhihu/griffith/commit/d9070aa))
+
+
+
+
+
 # [1.26.0](https://github.com/zhihu/griffith/compare/v1.25.1...v1.26.0) (2022-04-26)
 
 

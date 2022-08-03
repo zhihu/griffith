@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.1](https://github.com/zhihu/griffith/compare/v1.26.0...v1.26.1) (2022-08-03)
+
+
+### Bug Fixes
+
+* Failed switch hls video ([#276](https://github.com/zhihu/griffith/issues/276)) ([b58fcc1](https://github.com/zhihu/griffith/commit/b58fcc1))
+
+
+
+
+
 ## [1.18.1](https://github.com/zhihu/griffith/compare/v1.18.0...v1.18.1) (2021-09-17)
 
 **Note:** Version bump only for package griffith-hls

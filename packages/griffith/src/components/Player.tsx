@@ -99,6 +99,7 @@ type OuterPlayerProps = {
   messageContextRef?: React.MutableRefObject<MessageContextValue | void>
   initialObjectFit?: ObjectFit
   defaultQuality?: RealQuality
+  decQualities?: boolean
   playbackRates?: PlaybackRate[]
   defaultPlaybackRate?: PlaybackRate
   shouldObserveResize?: boolean
@@ -740,6 +741,7 @@ const Player: React.FC<PlayerProps> = ({
   locale = defaultLocale,
   localeConfig,
   defaultQuality,
+  decQualities = false,
   defaultPlaybackRate = DEFAULT_PLAYBACK_RATE,
   playbackRates = DEFAULT_PLAYBACK_RATES,
   useAutoQuality = false,
@@ -761,6 +763,7 @@ const Player: React.FC<PlayerProps> = ({
             defaultQuality={defaultQuality}
             useAutoQuality={useAutoQuality}
             defaultPlaybackRate={defaultPlaybackRate}
+            decQualities={decQualities}
             playbackRates={playbackRates}
           >
             <LocaleProvider locale={locale} localeConfig={localeConfig}>

@@ -4,6 +4,7 @@ import VideoSourceContext from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
 import {ua} from 'griffith-utils'
+import reverseArray from '../utils/reverseArray'
 import useHandler from '../hooks/useHandler'
 import useChanged from '../hooks/useChanged'
 import {InternalMessageContext} from './MessageContext'
@@ -14,6 +15,7 @@ const {isMobile} = ua
 type VideoSourceProviderProps = {
   sources: PlaySourceMap
   defaultQuality?: RealQuality
+  decQualities?: boolean
   useAutoQuality?: boolean
   playbackRates: PlaybackRate[]
   defaultPlaybackRate?: PlaybackRate
@@ -25,6 +27,7 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
   playbackRates,
   defaultPlaybackRate,
   defaultQuality,
+  decQualities,
   children,
 }) => {
   const {emitEvent} = useContext(InternalMessageContext)
@@ -35,7 +38,11 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
       return {qualities: [], sources: []}
     }
     const {format} = Object.values(lastSourceMap)[0]!
-    const qualities = getQualities(lastSourceMap, isMobile)
+    const qualities = getQualities(
+      lastSourceMap,
+      isMobile,
+      decQualities as boolean
+    )
     const sources = getSources(qualities, lastSourceMap)
 
     // 目前只有直播流实现了手动拼接 auto 清晰度的功能
@@ -49,10 +56,10 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
     }
 
     return {qualities, sources, format}
-  }, [useAutoQuality, lastSourceMap])
+  }, [useAutoQuality, lastSourceMap, decQualities])
 
   const [currentQuality, setCurrentQualityRaw] = useState(
-    defaultQuality && (qualities as Quality[]).indexOf(defaultQuality) !== -1
+    defaultQuality && (qualities as Quality[]).includes(defaultQuality)
       ? defaultQuality
       : qualities[0]
   )
@@ -99,7 +106,7 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
 
   const contextValue = useMemo(
     () => ({
-      qualities,
+      qualities: decQualities ? qualities : reverseArray(qualities),
       playbackRates,
       format: format!,
       sources,
@@ -116,6 +123,7 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
       format,
       playbackRates,
       qualities,
+      decQualities,
       setCurrentPlaybackRate,
       setCurrentQuality,
       sources,

@@ -1,9 +1,15 @@
 import {Quality, FormattedPlaySource, PlaySourceMap} from '../types'
 const QUALITY_ORDER: Quality[] = ['auto', 'ld', 'sd', 'hd', 'fhd']
 
-export const getQualities = (sources: PlaySourceMap, isMobile: any) => {
-  const qualities = (Object.keys(sources) as Quality[]).sort(
-    (a, b) => QUALITY_ORDER.indexOf(a) - QUALITY_ORDER.indexOf(b)
+export const getQualities = (
+  sources: PlaySourceMap,
+  isMobile: any,
+  decQualities: boolean
+) => {
+  const qualities = (Object.keys(sources) as Quality[]).sort((a, b) =>
+    decQualities
+      ? QUALITY_ORDER.indexOf(b) - QUALITY_ORDER.indexOf(a)
+      : QUALITY_ORDER.indexOf(a) - QUALITY_ORDER.indexOf(b)
   )
 
   if (qualities.length > 1) {

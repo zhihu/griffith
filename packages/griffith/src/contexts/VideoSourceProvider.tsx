@@ -52,7 +52,9 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
   }, [useAutoQuality, lastSourceMap])
 
   const [currentQuality, setCurrentQualityRaw] = useState(
-    defaultQuality || qualities[0]
+    defaultQuality && (qualities as Quality[]).indexOf(defaultQuality) !== -1
+      ? defaultQuality
+      : qualities[0]
   )
   const [playbackRate, setPlaybackRate] = useState(defaultPlaybackRate)
 

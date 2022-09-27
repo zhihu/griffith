@@ -1,5 +1,11 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react'
-import {PlaySourceMap, PlaybackRate, RealQuality, Quality} from '../types'
+import {
+  PlaySourceMap,
+  PlaybackRate,
+  RealQuality,
+  Quality,
+  QualityOrder,
+} from '../types'
 import VideoSourceContext from './VideoSourceContext'
 import {getQualities, getSources} from './parsePlaylist'
 import {EVENTS} from 'griffith-message'
@@ -15,7 +21,7 @@ const {isMobile} = ua
 type VideoSourceProviderProps = {
   sources: PlaySourceMap
   defaultQuality?: RealQuality
-  decQualities?: boolean
+  defaultQualityOrder?: QualityOrder
   useAutoQuality?: boolean
   playbackRates: PlaybackRate[]
   defaultPlaybackRate?: PlaybackRate
@@ -27,22 +33,19 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
   playbackRates,
   defaultPlaybackRate,
   defaultQuality,
-  decQualities,
+  defaultQualityOrder,
   children,
 }) => {
   const {emitEvent} = useContext(InternalMessageContext)
   const lastSourceMap = useChanged(sourceMap)
-  const {qualities, sources, format} = useMemo(() => {
+  const {qualities, sources, format, isDescOrder} = useMemo(() => {
     // 其实视频源应当是必需参数
     if (!lastSourceMap) {
       return {qualities: [], sources: []}
     }
     const {format} = Object.values(lastSourceMap)[0]!
-    const qualities = getQualities(
-      lastSourceMap,
-      isMobile,
-      decQualities as boolean
-    )
+    const isDescOrder = defaultQualityOrder === 'desc'
+    const qualities = getQualities(lastSourceMap, isMobile, isDescOrder)
     const sources = getSources(qualities, lastSourceMap)
 
     // 目前只有直播流实现了手动拼接 auto 清晰度的功能
@@ -55,8 +58,8 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
       qualities.unshift('auto')
     }
 
-    return {qualities, sources, format}
-  }, [useAutoQuality, lastSourceMap, decQualities])
+    return {qualities, sources, format, isDescOrder}
+  }, [useAutoQuality, lastSourceMap, defaultQualityOrder])
 
   const [currentQuality, setCurrentQualityRaw] = useState(
     defaultQuality && (qualities as Quality[]).includes(defaultQuality)
@@ -106,7 +109,7 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
 
   const contextValue = useMemo(
     () => ({
-      qualities: decQualities ? qualities : reverseArray(qualities),
+      qualities: isDescOrder ? qualities : reverseArray(qualities),
       playbackRates,
       format: format!,
       sources,
@@ -123,7 +126,7 @@ const VideoSourceProvider: React.FC<VideoSourceProviderProps> = ({
       format,
       playbackRates,
       qualities,
-      decQualities,
+      isDescOrder,
       setCurrentPlaybackRate,
       setCurrentQuality,
       sources,

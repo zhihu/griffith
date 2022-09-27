@@ -4,10 +4,10 @@ const QUALITY_ORDER: Quality[] = ['auto', 'ld', 'sd', 'hd', 'fhd']
 export const getQualities = (
   sources: PlaySourceMap,
   isMobile: any,
-  decQualities: boolean
+  isDescOrder: boolean
 ) => {
   const qualities = (Object.keys(sources) as Quality[]).sort((a, b) =>
-    decQualities
+    isDescOrder
       ? QUALITY_ORDER.indexOf(b) - QUALITY_ORDER.indexOf(a)
       : QUALITY_ORDER.indexOf(a) - QUALITY_ORDER.indexOf(b)
   )

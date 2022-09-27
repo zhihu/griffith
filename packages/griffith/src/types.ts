@@ -6,6 +6,7 @@
 
 export type RealQuality = 'ld' | 'sd' | 'hd' | 'fhd'
 export type Quality = 'auto' | RealQuality
+export type QualityOrder = 'asc' | 'desc'
 
 export interface PlaySource {
   bitrate?: number

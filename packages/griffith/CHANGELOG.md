@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://github.com/zhihu/griffith/compare/v1.26.2...v1.27.0) (2022-09-27)
+
+
+### Features
+
+* add defaultQualityOrder prop ([#283](https://github.com/zhihu/griffith/issues/283)) ([2c306be](https://github.com/zhihu/griffith/commit/2c306be))
+
+
+
+
+
 ## [1.26.2](https://github.com/zhihu/griffith/compare/v1.26.1...v1.26.2) (2022-09-26)
 
 

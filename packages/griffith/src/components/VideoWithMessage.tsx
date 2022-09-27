@@ -19,6 +19,7 @@ const eventMap: EventPair[] = [
   [EVENTS.WAITING, 'onWaiting'],
   [EVENTS.CANPLAY, 'onCanPlay'],
   [EVENTS.LOADEDDATA, 'onLoadedData'],
+  [EVENTS.PROGRESS, 'onProgress'],
 ]
 
 function serializeDOMException(exception?: MediaError | null) {

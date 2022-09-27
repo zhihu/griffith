@@ -2,7 +2,6 @@ import React from 'react'
 import {css} from 'aphrodite/no-important'
 import {Quality} from '../../types'
 import VideoSourceContext from '../../contexts/VideoSourceContext'
-import reverseArray from '../../utils/reverseArray'
 import TranslatedText from '../TranslatedText'
 import ControllerButton from './ControllerButton'
 import styles from '../Controller.styles'
@@ -58,7 +57,7 @@ class QualityMenuItem extends React.PureComponent<QualityMenuItemProps, State> {
                 )}
               >
                 <div className={css(styles.qualityMenu)}>
-                  {reverseArray(qualities).map((q) => (
+                  {qualities.map((q) => (
                     <button
                       key={q}
                       className={css(

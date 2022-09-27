@@ -29,6 +29,7 @@ import {
   ProgressDot,
   ProgressValue,
   RealQuality,
+  QualityOrder,
 } from '../types'
 import formatDuration from '../utils/formatDuration'
 import getBufferedTime from '../utils/getBufferedTime'
@@ -99,6 +100,7 @@ type OuterPlayerProps = {
   messageContextRef?: React.MutableRefObject<MessageContextValue | void>
   initialObjectFit?: ObjectFit
   defaultQuality?: RealQuality
+  defaultQualityOrder?: QualityOrder
   playbackRates?: PlaybackRate[]
   defaultPlaybackRate?: PlaybackRate
   shouldObserveResize?: boolean
@@ -740,6 +742,7 @@ const Player: React.FC<PlayerProps> = ({
   locale = defaultLocale,
   localeConfig,
   defaultQuality,
+  defaultQualityOrder = 'asc',
   defaultPlaybackRate = DEFAULT_PLAYBACK_RATE,
   playbackRates = DEFAULT_PLAYBACK_RATES,
   useAutoQuality = false,
@@ -761,6 +764,7 @@ const Player: React.FC<PlayerProps> = ({
             defaultQuality={defaultQuality}
             useAutoQuality={useAutoQuality}
             defaultPlaybackRate={defaultPlaybackRate}
+            defaultQualityOrder={defaultQualityOrder}
             playbackRates={playbackRates}
           >
             <LocaleProvider locale={locale} localeConfig={localeConfig}>

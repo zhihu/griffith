@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.27.2](https://github.com/zhihu/griffith/compare/v1.27.1...v1.27.2) (2022-09-30)
+
+
+### Bug Fixes
+
+* 多个播放器使用同一个 Pip 实例问题修复 ([6d8de0d](https://github.com/zhihu/griffith/commit/6d8de0d))
+
+
+
+
+
 ## [1.27.1](https://github.com/zhihu/griffith/compare/v1.27.0...v1.27.1) (2022-09-27)
 
 **Note:** Version bump only for package griffith

@@ -168,6 +168,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   const [pressed, pressedSwitch] = useBoolean()
   const [isPageFullScreen, isPageFullScreenSwitch] = useBoolean()
   const [isLoading, isLoadingSwitch] = useBoolean()
+  const pipRef = useRef<InstanceType<typeof Pip>>()
 
   useEffect(() => {
     if (durationProp && !duration) {
@@ -243,8 +244,9 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
 
   // setup pip
   useEffect(() => {
-    if (!disablePictureInPicture && videoRef.current!.root && !Pip.inited) {
-      Pip.init(
+    if (!disablePictureInPicture && videoRef.current!.root && !pipRef.current) {
+      pipRef.current = new Pip()
+      pipRef.current.init(
         videoRef.current!.root,
         () => emitEvent(EVENTS.ENTER_PIP),
         () => emitEvent(EVENTS.EXIT_PIP)
@@ -292,10 +294,10 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       })
   })
 
-  const handlePause = () => {
+  const handlePause = useHandler(() => {
     emitEvent(EVENTS.REQUEST_PAUSE)
     isPlayingSwitch.off()
-  }
+  })
 
   const handleVideoPlay = () => {
     if (!isPlaying) {
@@ -378,7 +380,10 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
 
   const handleTogglePageFullScreen = useHandler(() => {
     // 如果当前正在全屏就先关闭全屏
-    if (Boolean(BigScreen.element) && !Pip.pictureInPictureElement) {
+    if (
+      Boolean(BigScreen.element) &&
+      !pipRef.current?.pictureInPictureElement
+    ) {
       handleToggleFullScreen()
     }
     if (isPageFullScreen) {
@@ -395,7 +400,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       isPageFullScreenSwitch.off()
       emitEvent(EVENTS.EXIT_PAGE_FULLSCREEN)
     }
-    Pip.toggle()
+    pipRef.current?.toggle()
   })
 
   const hideControllerTimerRef = useRef(
@@ -494,7 +499,8 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
     }
   }, [autoplay, handlePlay, handleSeek, handlePause, prevSources, sources])
 
-  const isPip = Boolean(Pip.pictureInPictureElement)
+  const isPip = Boolean(pipRef.current?.pictureInPictureElement)
+
   // Safari 会将 pip 状态视为全屏
   const isFullScreen = Boolean(BigScreen.element) && !isPip
   const bufferedTime = useMemo(
@@ -593,7 +599,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
             onProgressDotHover={handleProgressDotHover}
             onProgressDotLeave={handleProgressDotLeave}
             show={showController}
-            showPip={Pip.supported && !disablePictureInPicture}
+            showPip={!disablePictureInPicture && pipRef.current?.supported}
             hiddenPlayButton={hiddenPlayButton}
             hiddenTimeline={hiddenTimeline}
             hiddenTime={hiddenTime}

@@ -62,4 +62,4 @@ class Pip {
   }
 }
 
-export default new Pip()
+export default Pip

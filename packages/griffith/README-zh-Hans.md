@@ -17,34 +17,35 @@ render(<Player {...props} />)
 
 ### `props`
 
-| 字段                      | 类型                                              | 默认值    | 说明                                                |
-| ------------------------- | ------------------------------------------------- | --------- | --------------------------------------------------- |
-| `id`                      | `string`                                          |           | 播放器实例唯一标识                                  |
-| `title`                   | `string`                                          |           | 视频标题                                            |
-| `cover`                   | `string`                                          |           | 视频封面图片 URL                                    |
-| `duration`                | `number`                                          |           | 初始视频时长。在视频元数据载入后使用实际值          |
-| `sources`                 | `sources`                                         |           | 视频播放数据。具体见下,                             |
-| `defaultQuality`          | `ld \| sd \| hd \| fhd`                           |           | 视频默认播放清晰度                                  |
-| `defaultQualityOrder`     | `asc \| desc`                                     | `asc`     | 视频默认选择清晰度的顺序                            |
-| `useAutoQuality`          | `boolean`                                         | `false`   | 是否启用自动清晰度功能                              |
-| `standalone`              | `boolean`                                         | `false`   | 是否启用 standalone 模式                            |
-| `onBeforePlay`            | `function`                                        | `void`    | 视频播放之前回调函数                                |
-| `onEvent`                 | `(type: string) => void`                          | `void`    | 公共事件的回调函数                                  |
-| `shouldObserveResize`     | `boolean`                                         | `false`   | 是否监听窗口 resize                                 |
-| `initialObjectFit`        | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                                     |
-| `useMSE`                  | `boolean`                                         | `false`   | 是否启用 MSE                                        |
-| `locale`                  | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                            |
-| `autoplay`                | `boolean`                                         | `false`   | 自动播放                                            |
-| `muted`                   | `boolean`                                         | `false`   | 静音                                                |
-| `disablePictureInPicture` | `boolean`                                         | `false`   | 禁用画中画功能                                      |
-| `hiddenPlayButton`        | `boolean`                                         | `false`   | 隐藏播放按钮                                        |
-| `hiddenTimeline`          | `boolean`                                         | `false`   | 隐藏进度条                                          |
-| `hiddenTime`              | `boolean`                                         | `false`   | 隐藏播放时间                                        |
-| `hiddenQualityMenu`       | `boolean`                                         | `false`   | 隐藏质量选择菜单（如果展示的话）                    |
-| `hiddenVolume`            | `boolean`                                         | `false`   | 隐藏音量调节                                        |
-| `hiddenFullScreenButton`  | `boolean`                                         | `false`   | 隐藏全屏按钮                                        |
-| `progressDots`            | `ProgressDotItem[]`                               | `[]`      | 进度条节点信息                                      |
-| `noWriteDocTitle`         | `boolean`                                         | `false`   | standalone 模式，是否使用 title 覆盖 document.title |
+| 字段                       | 类型                                              | 默认值    | 说明                                                                                               |
+| -------------------------- | ------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------- |
+| `id`                       | `string`                                          |           | 播放器实例唯一标识                                                                                 |
+| `title`                    | `string`                                          |           | 视频标题                                                                                           |
+| `cover`                    | `string`                                          |           | 视频封面图片 URL                                                                                   |
+| `duration`                 | `number`                                          |           | 初始视频时长。在视频元数据载入后使用实际值                                                         |
+| `sources`                  | `sources`                                         |           | 视频播放数据。具体见下,                                                                            |
+| `defaultQuality`           | `ld \| sd \| hd \| fhd`                           |           | 视频默认播放清晰度                                                                                 |
+| `defaultQualityOrder`      | `asc \| desc`                                     | `asc`     | 视频默认选择清晰度的顺序                                                                           |
+| `useAutoQuality`           | `boolean`                                         | `false`   | 是否启用自动清晰度功能                                                                             |
+| `standalone`               | `boolean`                                         | `false`   | 是否启用 standalone 模式                                                                           |
+| `enableCrossWindowMessage` | `boolean`                                         | `false`   | 是否会向父级页面发送 message,iframe 所在的页面可以监听这些事件，与播放器进行通信。具备最高优先级。 |
+| `onBeforePlay`             | `function`                                        | `void`    | 视频播放之前回调函数                                                                               |
+| `onEvent`                  | `(type: string) => void`                          | `void`    | 公共事件的回调函数                                                                                 |
+| `shouldObserveResize`      | `boolean`                                         | `false`   | 是否监听窗口 resize                                                                                |
+| `initialObjectFit`         | `fill \| \contain \| cover \| none \| scale-down` | `contain` | object-fit 参数                                                                                    |
+| `useMSE`                   | `boolean`                                         | `false`   | 是否启用 MSE                                                                                       |
+| `locale`                   | `en \| ja \| zh-Hans \| zh-Hant`                  | `en`      | 界面语言                                                                                           |
+| `autoplay`                 | `boolean`                                         | `false`   | 自动播放                                                                                           |
+| `muted`                    | `boolean`                                         | `false`   | 静音                                                                                               |
+| `disablePictureInPicture`  | `boolean`                                         | `false`   | 禁用画中画功能                                                                                     |
+| `hiddenPlayButton`         | `boolean`                                         | `false`   | 隐藏播放按钮                                                                                       |
+| `hiddenTimeline`           | `boolean`                                         | `false`   | 隐藏进度条                                                                                         |
+| `hiddenTime`               | `boolean`                                         | `false`   | 隐藏播放时间                                                                                       |
+| `hiddenQualityMenu`        | `boolean`                                         | `false`   | 隐藏质量选择菜单（如果展示的话）                                                                   |
+| `hiddenVolume`             | `boolean`                                         | `false`   | 隐藏音量调节                                                                                       |
+| `hiddenFullScreenButton`   | `boolean`                                         | `false`   | 隐藏全屏按钮                                                                                       |
+| `progressDots`             | `ProgressDotItem[]`                               | `[]`      | 进度条节点信息                                                                                     |
+| `noWriteDocTitle`          | `boolean`                                         | `false`   | standalone 模式，是否使用 title 覆盖 document.title                                                |
 
 `sources` 字段：
 

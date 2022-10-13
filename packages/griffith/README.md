@@ -18,33 +18,34 @@ render(<Player {...props} />)
 
 ### `Props`
 
-| Name                      | Type                                             | Default   | Description                                                              |
-| ------------------------- | ------------------------------------------------ | --------- | ------------------------------------------------------------------------ |
-| `id`                      | `string`                                         |           | Unique identifier of the player instance                                 |
-| `title`                   | `string`                                         |           | Video title                                                              |
-| `cover`                   | `string`                                         |           | Video cover image                                                        |
-| `duration`                | `number`                                         |           | Initial video duration. Use actual values after video metadata is loaded |
-| `sources`                 | `sources`                                        |           | Video playback data                                                      |
-| `defaultQuality`          | `ld \| sd \| hd \| fhd`                          |           | Video default quality                                                    |
-| `defaultQualityOrder`     | `asc \| desc`                                    | `asc`     | the order for selecting default quality                                  |
-| `useAutoQuality`          | `boolean`                                        | `false`   | Enable auto quality                                                      |
-| `standalone`              | `boolean`                                        | `false`   | Enable standalone mode                                                   |
-| `onBeforePlay`            | `function`                                       | `void`    | Callback function before video playback                                  |
-| `onEvent`                 | `(type: string) => void`                         | `void`    | Callback function when common event is triggered                         |
-| `shouldObserveResize`     | `boolean`                                        | `false`   | Listen to the window resize                                              |
-| `initialObjectFit`        | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                               |
-| `useMSE`                  | `boolean`                                        | `false`   | Enable Media Source Extensions™                                          |
-| `locale`                  | `en \| ja \| zh-Hans \| zh-Hant`                 | `en`      | UI Locale                                                                |
-| `autoplay`                | `boolean`                                        | `false`   | Autoplay                                                                 |
-| `muted`                   | `boolean`                                        | `false`   | Muted                                                                    |
-| `disablePictureInPicture` | `boolean`                                        | `false`   | Disable Picture in Picture feature                                       |
-| `hiddenPlayButton`        | `boolean`                                        | `false`   | Hide play button                                                         |
-| `hiddenTimeline`          | `boolean`                                        | `false`   | Hide progress bar                                                        |
-| `hiddenTime`              | `boolean`                                        | `false`   | Hide duration and total time                                             |
-| `hiddenQualityMenu`       | `boolean`                                        | `false`   | Hide quality menu (if it is shown)                                       |
-| `hiddenVolume`            | `boolean`                                        | `false`   | Hide volume                                                              |
-| `hiddenFullScreenButton`  | `boolean`                                        | `false`   | Hide full screen button                                                  |
-| `progressDots`            | `ProgressDotItem[]`                              | `[]`      | Node information on the progress bar                                     |
+| Name                       | Type                                             | Default   | Description                                                                                                             |
+| -------------------------- | ------------------------------------------------ | --------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `id`                       | `string`                                         |           | Unique identifier of the player instance                                                                                |
+| `title`                    | `string`                                         |           | Video title                                                                                                             |
+| `cover`                    | `string`                                         |           | Video cover image                                                                                                       |
+| `duration`                 | `number`                                         |           | Initial video duration. Use actual values after video metadata is loaded                                                |
+| `sources`                  | `sources`                                        |           | Video playback data                                                                                                     |
+| `defaultQuality`           | `ld \| sd \| hd \| fhd`                          |           | Video default quality                                                                                                   |
+| `defaultQualityOrder`      | `asc \| desc`                                    | `asc`     | the order for selecting default quality                                                                                 |
+| `useAutoQuality`           | `boolean`                                        | `false`   | Enable auto quality                                                                                                     |
+| `standalone`               | `boolean`                                        | `false`   | Enable standalone mode                                                                                                  |
+| `enableCrossWindowMessage` | `boolean`                                        | `false`   | Enable send messages cross window, the parent page can communicate with player in iframe.Has the highest priority-first |
+| `onBeforePlay`             | `function`                                       | `void`    | Callback function before video playback                                                                                 |
+| `onEvent`                  | `(type: string) => void`                         | `void`    | Callback function when common event is triggered                                                                        |
+| `shouldObserveResize`      | `boolean`                                        | `false`   | Listen to the window resize                                                                                             |
+| `initialObjectFit`         | `fill \| contain \| cover \| none \| scale-down` | `contain` | object-fit                                                                                                              |
+| `useMSE`                   | `boolean`                                        | `false`   | Enable Media Source Extensions™                                                                                         |
+| `locale`                   | `en \| ja \| zh-Hans \| zh-Hant`                 | `en`      | UI Locale                                                                                                               |
+| `autoplay`                 | `boolean`                                        | `false`   | Autoplay                                                                                                                |
+| `muted`                    | `boolean`                                        | `false`   | Muted                                                                                                                   |
+| `disablePictureInPicture`  | `boolean`                                        | `false`   | Disable Picture in Picture feature                                                                                      |
+| `hiddenPlayButton`         | `boolean`                                        | `false`   | Hide play button                                                                                                        |
+| `hiddenTimeline`           | `boolean`                                        | `false`   | Hide progress bar                                                                                                       |
+| `hiddenTime`               | `boolean`                                        | `false`   | Hide duration and total time                                                                                            |
+| `hiddenQualityMenu`        | `boolean`                                        | `false`   | Hide quality menu (if it is shown)                                                                                      |
+| `hiddenVolume`             | `boolean`                                        | `false`   | Hide volume                                                                                                             |
+| `hiddenFullScreenButton`   | `boolean`                                        | `false`   | Hide full screen button                                                                                                 |
+| `progressDots`             | `ProgressDotItem[]`                              | `[]`      | Node information on the progress bar                                                                                    |
 
 `sources`:
 

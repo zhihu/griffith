@@ -58,6 +58,7 @@ const CONTROLLER_HIDE_DELAY = 3000
 type InnerPlayerProps = {
   children?: React.ReactNode
   standalone?: boolean
+  enableCrossWindowMessage?: boolean
   error?: {
     message?: string
   }
@@ -742,6 +743,7 @@ const Player: React.FC<PlayerProps> = ({
   sources,
   onEvent,
   dispatchRef,
+  enableCrossWindowMessage,
   messageContextRef,
   shouldObserveResize,
   initialObjectFit,
@@ -760,7 +762,11 @@ const Player: React.FC<PlayerProps> = ({
       <PositionProvider shouldObserveResize={shouldObserveResize}>
         <MessageProvider
           id={id}
-          enableCrossWindow={standalone}
+          enableCrossWindow={
+            typeof enableCrossWindowMessage !== 'undefined'
+              ? enableCrossWindowMessage
+              : standalone
+          }
           onEvent={onEvent}
           dispatchRef={dispatchRef}
           messageContextRef={messageContextRef}

@@ -49,7 +49,7 @@ export const EVENTS = {
 
 export type EVENTS = DOM | PLAYER
 
-type DOMEventParams = {
+export type DOMEventParams = {
   currentTime: number
   duration: number
   videoWidth: number

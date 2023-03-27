@@ -52,6 +52,8 @@ export type EVENTS = DOM | PLAYER
 type DOMEventParams = {
   currentTime: number
   duration: number
+  videoWidth: number
+  videoHeight: number
   error: {code: number; message: string; name: string} | null
 }
 

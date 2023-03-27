@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0](https://github.com/zhihu/griffith/compare/v1.29.0...v1.30.0) (2023-03-27)
+
+
+### Features
+
+* add video size for events payload ([#299](https://github.com/zhihu/griffith/issues/299)) ([93506b9](https://github.com/zhihu/griffith/commit/93506b9))
+
+
+
+
+
 # [1.29.0](https://github.com/zhihu/griffith/compare/v1.28.0...v1.29.0) (2022-10-20)
 
 

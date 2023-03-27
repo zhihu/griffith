@@ -97,6 +97,8 @@ dispatchMessage(target: Window, name: ACTIONS, data?: object): void
 | ------------- | --------------------------------------------------------- | -------------------------------------------------- |
 | `currentTime` | `number`                                                  | 当前时间                                           |
 | `duration`    | `number`                                                  | 视频总时长                                         |
+| `videoWidth`  | `number`                                                  | 视频宽度                                           |
+| `videoHeight` | `number`                                                  | 视频高度                                           |
 | `error`       | `{code: number, message: string, name: stirng}` 或 `null` | [`HTMLMediaElement.error`][htmlmediaelement-error] |
 
 [htmlmediaelement-error]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/error 'HTMLMediaElement.error'

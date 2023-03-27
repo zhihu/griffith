@@ -1,5 +1,6 @@
 import React, {useCallback, useContext, useEffect, useMemo, useRef} from 'react'
 import {EVENTS} from 'griffith-message'
+import type {DOMEventParams} from 'griffith-message'
 import {InternalMessageContext} from '../contexts/MessageContext'
 import ObjectFitContext from '../contexts/ObjectFitContext'
 import PositionContext from '../contexts/PositionContext'
@@ -28,11 +29,14 @@ function serializeDOMException(exception?: MediaError | null) {
   return {code, message, name: (exception as any).name}
 }
 
-function getMediaEventPayload(event: VideoEvent) {
-  const {currentTime, duration, error} = event.currentTarget as HTMLVideoElement
+function getMediaEventPayload(event: VideoEvent): DOMEventParams {
+  const {currentTime, duration, error, videoWidth, videoHeight} =
+    event.currentTarget as HTMLVideoElement
   return {
     currentTime,
     duration,
+    videoWidth,
+    videoHeight,
     error: serializeDOMException(error),
   }
 }

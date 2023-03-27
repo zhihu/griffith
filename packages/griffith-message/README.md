@@ -97,6 +97,8 @@ Events received from the player
 | ------------- | --------------------------------------------------------- | -------------------------------------------------- |
 | `currentTime` | `number`                                                  | Current time                                       |
 | `duration`    | `number`                                                  | Total video duration                               |
+| `videoWidth`  | `number`                                                  | Video Width                                        |
+| `videoHeight` | `number`                                                  | Video Height                                       |
 | `error`       | `{code: number, message: string, name: stirng}` or `null` | [`HTMLMediaElement.error`][htmlmediaelement-error] |
 
 [htmlmediaelement-error]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/error 'HTMLMediaElement.error'

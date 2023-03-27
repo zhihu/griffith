@@ -29,10 +29,13 @@ function serializeDOMException(exception?: MediaError | null) {
 }
 
 function getMediaEventPayload(event: VideoEvent) {
-  const {currentTime, duration, error} = event.currentTarget as HTMLVideoElement
+  const {currentTime, duration, error, videoWidth, videoHeight} =
+    event.currentTarget as HTMLVideoElement
   return {
     currentTime,
     duration,
+    videoWidth,
+    videoHeight,
     error: serializeDOMException(error),
   }
 }

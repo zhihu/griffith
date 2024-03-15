@@ -342,6 +342,7 @@ class Video extends Component<VideoProps> {
       useMSE,
       sources,
       currentQuality,
+      crossOrigin,
     } = this.props
 
     const {VideoComponent} = selectVideo(format, useMSE)
@@ -355,6 +356,7 @@ class Video extends Component<VideoProps> {
         className={css(styles.root)}
         preload="metadata"
         playsInline
+        crossOrigin={crossOrigin}
         webkit-playsinline=""
         x-webkit-airplay="deny"
         muted={!volume}

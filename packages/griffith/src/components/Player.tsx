@@ -86,6 +86,7 @@ type InnerPlayerProps = {
   hideCover?: boolean
   noWriteDocTitle?: boolean
   layerContent?: React.ReactNode
+  crossOrigin?: string | undefined
 }
 
 // 仅供 Provider 使用的属性
@@ -143,6 +144,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   hideCover,
   noWriteDocTitle,
   layerContent,
+  crossOrigin,
 }) => {
   const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
   const {currentSrc, sources} = useContext(VideoSourceContext)
@@ -634,6 +636,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       <div className={css(styles.video)}>
         <Video
           ref={videoRef}
+          crossOrigin={crossOrigin}
           controls={ua.isMobile && isPlaybackStarted && !hideMobileControls}
           paused={!isPlaying}
           volume={volume}

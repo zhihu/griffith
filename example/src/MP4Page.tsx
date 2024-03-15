@@ -70,6 +70,7 @@ const App = () => {
         key={query.key}
         autoplay={query.autoplay !== '0'}
         sources={'hls' in query ? hlsSources : sources}
+        crossOrigin="anonymous"
         localeConfig={{
           'zh-Hans': {
             'quality-ld': {

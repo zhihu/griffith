@@ -11,9 +11,15 @@ package-lock.json
 *.log
 .DS_Store
 
-# Editor
-.vscode
-
 # gatsby
 .cache
 website/public
+
+# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

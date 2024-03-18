@@ -1,3 +1,5 @@
+/* eslint-disable import/namespace */
+/* eslint-disable import/default */
 import path from 'path'
 import findCacheDir from 'find-cache-dir'
 import typescript from 'rollup-plugin-typescript2'
@@ -5,7 +7,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import commonjs from '@rollup/plugin-commonjs'
 import alias from '@rollup/plugin-alias'
-import {terser} from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 
 const resolveCwd = path.resolve.bind(null, process.cwd())
 const pkg = require(resolveCwd('package.json'))

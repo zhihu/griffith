@@ -24,6 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: test
         run: |
+          corepack enable
           yarn
           yarn build
           yarn jest --coverage

@@ -36,10 +36,10 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --notify",
-    "build:lib": "lerna run build --scope griffith* -- --bundleConfigAsCjs",
+    "build:lib": "lerna run build --scope 'griffith*' -- --bundleConfigAsCjs",
     "deploy:website": "lerna run --scope website deploy",
     "build": "yarn build:lib",
-    "build:watch": "lerna run build --parallel --scope griffith* --ignore griffith-standalone -- --watch",
+    "build:watch": "lerna run build --parallel --scope 'griffith*' --ignore griffith-standalone -- --watch",
     "release": "yarn build && lerna publish",
     "start-server": "yarn workspace example run start",
     "start": "yarn start-server"
@@ -96,5 +96,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }

@@ -7,8 +7,8 @@ import Player, {
 import React, {useState, useMemo} from 'react'
 import Logo from './Logo'
 import {logEvent} from './utils'
-import useQuery from './utils/useQuery'
 import {sources as hlsSources} from './HLSPage'
+import {useSearchParams} from 'react-router-dom'
 
 const duration = 182
 
@@ -44,7 +44,9 @@ const props: Omit<PlayerProps, 'sources'> = {
 }
 
 const App = () => {
-  const query = useQuery()
+  const [searchParams] = useSearchParams()
+  const loop = searchParams.has('loop')
+  const hasLogo = searchParams.has('logo')
   const messageContextRef = useMessageContextRef()
   const [isLogoVisible, setIsLogoVisible] = useState(false)
 
@@ -52,24 +54,24 @@ const App = () => {
     setIsLogoVisible(true)
   })
   messageContextRef.useEvent(EVENTS.ENDED, () => {
-    if ('loop' in query) {
+    if (loop) {
       messageContextRef.dispatchAction(ACTIONS.PLAY)
     }
   })
   const children = useMemo(
-    () => 'logo' in query && isLogoVisible && <Logo />,
-    [isLogoVisible, query]
+    () => hasLogo && isLogoVisible && <Logo />,
+    [isLogoVisible, hasLogo]
   )
-  const sources = 'sd' in query ? {sd: _sources.sd} : _sources
+  const sources = searchParams.has('sd') ? {sd: _sources.sd} : _sources
 
   return (
     <>
       <Player
         {...props}
         // trigger re-mount
-        key={query.key}
-        autoplay={query.autoplay !== '0'}
-        sources={'hls' in query ? hlsSources : sources}
+        key={searchParams.get('key')}
+        autoplay={searchParams.get('autoplay') !== '0'}
+        sources={searchParams.has('hls') ? hlsSources : sources}
         crossOrigin="anonymous"
         localeConfig={{
           'zh-Hans': {

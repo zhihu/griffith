@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom'
 import FMP4Page from './FMP4Page'
 import HLSPage from './HLSPage'
 import IframePage from './IframePage'
@@ -49,23 +49,13 @@ function App() {
     <Router>
       {!nonav && <NavLinks />}
 
-      <Switch>
-        <Route path="/mp4">
-          <MP4Page />
-        </Route>
-        <Route path="/mp4-mse">
-          <FMP4Page />
-        </Route>
-        <Route path="/hls">
-          <HLSPage />
-        </Route>
-        <Route path="/inline">
-          <InlinePage />
-        </Route>
-        <Route path="/iframe">
-          <IframePage />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/mp4" element={<MP4Page />} />
+        <Route path="/mp4-mse" element={<FMP4Page />} />
+        <Route path="/hls" element={<HLSPage />} />
+        <Route path="/inline" element={<InlinePage />} />
+        <Route path="/iframe" element={<IframePage />} />
+      </Routes>
     </Router>
   )
 }

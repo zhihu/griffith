@@ -1,7 +1,7 @@
 import Player, {PlayerProps} from 'griffith'
 import React from 'react'
 import {logEvent} from './utils'
-import useQuery from './utils/useQuery'
+import {useSearchParams} from 'react-router-dom'
 
 export const sources = {
   // 注意，这里手动提供了 auto 品质的 source，因此会无视 useAutoQuality 的配置
@@ -29,8 +29,8 @@ const props: PlayerProps = {
 }
 
 const App = () => {
-  const query = useQuery()
-  const autoplay = 'autoplay' in query
+  const [searchParams] = useSearchParams()
+  const autoplay = searchParams.has('autoplay')
 
   return (
     <Player

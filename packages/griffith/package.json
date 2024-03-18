@@ -18,8 +18,7 @@
     "build": "rollup -c ../../rollup.config.js"
   },
   "peerDependencies": {
-    "react": "^16.8 || ^17",
-    "react-dom": "^16.8 || ^17"
+    "react": "^16.8 || ^17 || ^18"
   },
   "dependencies": {
     "@types/lodash": "^4.14.172",

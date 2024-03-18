@@ -1,5 +1,5 @@
 import {loadConfig, createMatchPath} from 'tsconfig-paths'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import react from '@vitejs/plugin-react'
 
 const result = loadConfig()
 const matchPath = createMatchPath(result.absoluteBaseUrl, result.paths)
@@ -20,5 +20,5 @@ export default {
       ...packagesAliases,
     },
   },
-  plugins: [reactRefresh()],
+  plugins: [react()],
 }

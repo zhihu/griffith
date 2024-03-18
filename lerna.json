@@ -4,6 +4,12 @@
     "example",
     "website"
   ],
+  "ignoreChanges": [
+    "**/__tests__/**",
+    "**/__snapshots__/**",
+    "**/*.mdx",
+    "**/*.md"
+  ],
   "version": "1.31.0",
   "conventionalCommits": true,
   "npmClient": "yarn",

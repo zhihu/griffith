@@ -1,24 +1,5 @@
 {
   "name": "website",
   "version": "1.31.0",
-  "private": true,
-  "scripts": {
-    "build": "gatsby build",
-    "start": "gatsby develop",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
-  },
-  "dependencies": {
-    "gatsby": "^2.3.27",
-    "gatsby-plugin-react-helmet": "^3.0.12",
-    "gatsby-source-filesystem": "^2.0.32",
-    "gatsby-transformer-remark": "^2.3.11",
-    "griffith": "^1.31.0",
-    "normalize.css": "^8.0.1",
-    "react": "^16.8",
-    "react-dom": "^16.8",
-    "react-helmet": "^5.2.0"
-  },
-  "devDependencies": {
-    "gh-pages": "^2.0.1"
-  }
+  "private": true
 }

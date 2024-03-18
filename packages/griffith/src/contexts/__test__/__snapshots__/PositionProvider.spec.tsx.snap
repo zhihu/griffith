@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PositionProvider 1`] = `
+{
+  "helperImageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'></svg>",
+  "isFullWidth": false,
+  "updateVideoSize": [Function],
+}
+`;
+
+exports[`PositionProvider 2`] = `
+{
+  "helperImageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'></svg>",
+  "isFullWidth": true,
+  "updateVideoSize": [Function],
+}
+`;

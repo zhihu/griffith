@@ -1,760 +1,760 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`stco box should get the stco box tree 1`] = `
-Object {
+{
   "flags": 0,
-  "samples": Array [
-    Object {
+  "samples": [
+    {
       "chunkOffset": 9271,
     },
-    Object {
+    {
       "chunkOffset": 17100,
     },
-    Object {
+    {
       "chunkOffset": 18907,
     },
-    Object {
+    {
       "chunkOffset": 19687,
     },
-    Object {
+    {
       "chunkOffset": 20620,
     },
-    Object {
+    {
       "chunkOffset": 21497,
     },
-    Object {
+    {
       "chunkOffset": 22053,
     },
-    Object {
+    {
       "chunkOffset": 24886,
     },
-    Object {
+    {
       "chunkOffset": 26431,
     },
-    Object {
+    {
       "chunkOffset": 28820,
     },
-    Object {
+    {
       "chunkOffset": 30035,
     },
-    Object {
+    {
       "chunkOffset": 30844,
     },
-    Object {
+    {
       "chunkOffset": 33143,
     },
-    Object {
+    {
       "chunkOffset": 34350,
     },
-    Object {
+    {
       "chunkOffset": 36920,
     },
-    Object {
+    {
       "chunkOffset": 39062,
     },
-    Object {
+    {
       "chunkOffset": 41286,
     },
-    Object {
+    {
       "chunkOffset": 42037,
     },
-    Object {
+    {
       "chunkOffset": 44603,
     },
-    Object {
+    {
       "chunkOffset": 45924,
     },
-    Object {
+    {
       "chunkOffset": 48376,
     },
-    Object {
+    {
       "chunkOffset": 49143,
     },
-    Object {
+    {
       "chunkOffset": 51148,
     },
-    Object {
+    {
       "chunkOffset": 53374,
     },
-    Object {
+    {
       "chunkOffset": 54076,
     },
-    Object {
+    {
       "chunkOffset": 57669,
     },
-    Object {
+    {
       "chunkOffset": 58843,
     },
-    Object {
+    {
       "chunkOffset": 62664,
     },
-    Object {
+    {
       "chunkOffset": 63767,
     },
-    Object {
+    {
       "chunkOffset": 67470,
     },
-    Object {
+    {
       "chunkOffset": 69128,
     },
-    Object {
+    {
       "chunkOffset": 72383,
     },
-    Object {
+    {
       "chunkOffset": 73555,
     },
-    Object {
+    {
       "chunkOffset": 77178,
     },
-    Object {
+    {
       "chunkOffset": 78767,
     },
-    Object {
+    {
       "chunkOffset": 81464,
     },
-    Object {
+    {
       "chunkOffset": 82310,
     },
-    Object {
+    {
       "chunkOffset": 86310,
     },
-    Object {
+    {
       "chunkOffset": 87740,
     },
-    Object {
+    {
       "chunkOffset": 91399,
     },
-    Object {
+    {
       "chunkOffset": 94972,
     },
-    Object {
+    {
       "chunkOffset": 96682,
     },
-    Object {
+    {
       "chunkOffset": 97407,
     },
-    Object {
+    {
       "chunkOffset": 98718,
     },
-    Object {
+    {
       "chunkOffset": 101880,
     },
-    Object {
+    {
       "chunkOffset": 103175,
     },
-    Object {
+    {
       "chunkOffset": 104039,
     },
-    Object {
+    {
       "chunkOffset": 107934,
     },
-    Object {
+    {
       "chunkOffset": 110766,
     },
-    Object {
+    {
       "chunkOffset": 113238,
     },
-    Object {
+    {
       "chunkOffset": 116079,
     },
-    Object {
+    {
       "chunkOffset": 119097,
     },
-    Object {
+    {
       "chunkOffset": 123741,
     },
-    Object {
+    {
       "chunkOffset": 125035,
     },
-    Object {
+    {
       "chunkOffset": 129874,
     },
-    Object {
+    {
       "chunkOffset": 131570,
     },
-    Object {
+    {
       "chunkOffset": 135846,
     },
-    Object {
+    {
       "chunkOffset": 136993,
     },
-    Object {
+    {
       "chunkOffset": 138148,
     },
-    Object {
+    {
       "chunkOffset": 142437,
     },
-    Object {
+    {
       "chunkOffset": 144185,
     },
-    Object {
+    {
       "chunkOffset": 145524,
     },
-    Object {
+    {
       "chunkOffset": 146251,
     },
-    Object {
+    {
       "chunkOffset": 151152,
     },
-    Object {
+    {
       "chunkOffset": 152436,
     },
-    Object {
+    {
       "chunkOffset": 155417,
     },
-    Object {
+    {
       "chunkOffset": 156614,
     },
-    Object {
+    {
       "chunkOffset": 159192,
     },
-    Object {
+    {
       "chunkOffset": 163646,
     },
-    Object {
+    {
       "chunkOffset": 167265,
     },
-    Object {
+    {
       "chunkOffset": 171828,
     },
-    Object {
+    {
       "chunkOffset": 173210,
     },
-    Object {
+    {
       "chunkOffset": 177546,
     },
-    Object {
+    {
       "chunkOffset": 180920,
     },
-    Object {
+    {
       "chunkOffset": 182628,
     },
-    Object {
+    {
       "chunkOffset": 183641,
     },
-    Object {
+    {
       "chunkOffset": 186507,
     },
-    Object {
+    {
       "chunkOffset": 191728,
     },
-    Object {
+    {
       "chunkOffset": 193198,
     },
-    Object {
+    {
       "chunkOffset": 198175,
     },
-    Object {
+    {
       "chunkOffset": 200415,
     },
-    Object {
+    {
       "chunkOffset": 204704,
     },
-    Object {
+    {
       "chunkOffset": 206103,
     },
-    Object {
+    {
       "chunkOffset": 212481,
     },
-    Object {
+    {
       "chunkOffset": 215138,
     },
-    Object {
+    {
       "chunkOffset": 219409,
     },
-    Object {
+    {
       "chunkOffset": 220296,
     },
-    Object {
+    {
       "chunkOffset": 225139,
     },
-    Object {
+    {
       "chunkOffset": 226942,
     },
-    Object {
+    {
       "chunkOffset": 231789,
     },
-    Object {
+    {
       "chunkOffset": 233748,
     },
-    Object {
+    {
       "chunkOffset": 237361,
     },
-    Object {
+    {
       "chunkOffset": 238898,
     },
-    Object {
+    {
       "chunkOffset": 242423,
     },
-    Object {
+    {
       "chunkOffset": 244295,
     },
-    Object {
+    {
       "chunkOffset": 247541,
     },
-    Object {
+    {
       "chunkOffset": 248856,
     },
-    Object {
+    {
       "chunkOffset": 252792,
     },
-    Object {
+    {
       "chunkOffset": 255048,
     },
-    Object {
+    {
       "chunkOffset": 258933,
     },
-    Object {
+    {
       "chunkOffset": 260893,
     },
-    Object {
+    {
       "chunkOffset": 267047,
     },
-    Object {
+    {
       "chunkOffset": 269484,
     },
-    Object {
+    {
       "chunkOffset": 272597,
     },
-    Object {
+    {
       "chunkOffset": 274025,
     },
-    Object {
+    {
       "chunkOffset": 277896,
     },
-    Object {
+    {
       "chunkOffset": 282225,
     },
-    Object {
+    {
       "chunkOffset": 283890,
     },
-    Object {
+    {
       "chunkOffset": 288546,
     },
-    Object {
+    {
       "chunkOffset": 290765,
     },
-    Object {
+    {
       "chunkOffset": 294517,
     },
-    Object {
+    {
       "chunkOffset": 294987,
     },
-    Object {
+    {
       "chunkOffset": 299156,
     },
-    Object {
+    {
       "chunkOffset": 301145,
     },
-    Object {
+    {
       "chunkOffset": 305272,
     },
-    Object {
+    {
       "chunkOffset": 309369,
     },
-    Object {
+    {
       "chunkOffset": 311396,
     },
-    Object {
+    {
       "chunkOffset": 314237,
     },
-    Object {
+    {
       "chunkOffset": 318098,
     },
-    Object {
+    {
       "chunkOffset": 321808,
     },
-    Object {
+    {
       "chunkOffset": 323579,
     },
-    Object {
+    {
       "chunkOffset": 325920,
     },
-    Object {
+    {
       "chunkOffset": 329803,
     },
-    Object {
+    {
       "chunkOffset": 332399,
     },
-    Object {
+    {
       "chunkOffset": 335086,
     },
-    Object {
+    {
       "chunkOffset": 338326,
     },
-    Object {
+    {
       "chunkOffset": 344374,
     },
-    Object {
+    {
       "chunkOffset": 348858,
     },
-    Object {
+    {
       "chunkOffset": 351117,
     },
-    Object {
+    {
       "chunkOffset": 355643,
     },
-    Object {
+    {
       "chunkOffset": 360771,
     },
-    Object {
+    {
       "chunkOffset": 365399,
     },
-    Object {
+    {
       "chunkOffset": 366483,
     },
-    Object {
+    {
       "chunkOffset": 369364,
     },
-    Object {
+    {
       "chunkOffset": 372299,
     },
-    Object {
+    {
       "chunkOffset": 376625,
     },
-    Object {
+    {
       "chunkOffset": 377128,
     },
-    Object {
+    {
       "chunkOffset": 379608,
     },
-    Object {
+    {
       "chunkOffset": 382214,
     },
-    Object {
+    {
       "chunkOffset": 385329,
     },
-    Object {
+    {
       "chunkOffset": 386204,
     },
-    Object {
+    {
       "chunkOffset": 389007,
     },
-    Object {
+    {
       "chunkOffset": 392357,
     },
-    Object {
+    {
       "chunkOffset": 397418,
     },
-    Object {
+    {
       "chunkOffset": 398851,
     },
-    Object {
+    {
       "chunkOffset": 401752,
     },
-    Object {
+    {
       "chunkOffset": 402933,
     },
-    Object {
+    {
       "chunkOffset": 407047,
     },
-    Object {
+    {
       "chunkOffset": 408522,
     },
-    Object {
+    {
       "chunkOffset": 412061,
     },
-    Object {
+    {
       "chunkOffset": 412808,
     },
-    Object {
+    {
       "chunkOffset": 418797,
     },
-    Object {
+    {
       "chunkOffset": 419941,
     },
-    Object {
+    {
       "chunkOffset": 425195,
     },
-    Object {
+    {
       "chunkOffset": 425926,
     },
-    Object {
+    {
       "chunkOffset": 427006,
     },
-    Object {
+    {
       "chunkOffset": 430215,
     },
-    Object {
+    {
       "chunkOffset": 431297,
     },
-    Object {
+    {
       "chunkOffset": 431852,
     },
-    Object {
+    {
       "chunkOffset": 432865,
     },
-    Object {
+    {
       "chunkOffset": 435385,
     },
-    Object {
+    {
       "chunkOffset": 436061,
     },
-    Object {
+    {
       "chunkOffset": 436858,
     },
-    Object {
+    {
       "chunkOffset": 437801,
     },
-    Object {
+    {
       "chunkOffset": 440280,
     },
-    Object {
+    {
       "chunkOffset": 440943,
     },
-    Object {
+    {
       "chunkOffset": 441877,
     },
-    Object {
+    {
       "chunkOffset": 442761,
     },
-    Object {
+    {
       "chunkOffset": 444353,
     },
-    Object {
+    {
       "chunkOffset": 445213,
     },
-    Object {
+    {
       "chunkOffset": 446036,
     },
-    Object {
+    {
       "chunkOffset": 446813,
     },
-    Object {
+    {
       "chunkOffset": 448047,
     },
-    Object {
+    {
       "chunkOffset": 449008,
     },
-    Object {
+    {
       "chunkOffset": 449825,
     },
-    Object {
+    {
       "chunkOffset": 450702,
     },
-    Object {
+    {
       "chunkOffset": 454340,
     },
-    Object {
+    {
       "chunkOffset": 455282,
     },
-    Object {
+    {
       "chunkOffset": 456059,
     },
-    Object {
+    {
       "chunkOffset": 457324,
     },
-    Object {
+    {
       "chunkOffset": 458253,
     },
-    Object {
+    {
       "chunkOffset": 459152,
     },
-    Object {
+    {
       "chunkOffset": 459903,
     },
-    Object {
+    {
       "chunkOffset": 463332,
     },
-    Object {
+    {
       "chunkOffset": 464332,
     },
-    Object {
+    {
       "chunkOffset": 465673,
     },
-    Object {
+    {
       "chunkOffset": 466123,
     },
-    Object {
+    {
       "chunkOffset": 469498,
     },
-    Object {
+    {
       "chunkOffset": 472327,
     },
-    Object {
+    {
       "chunkOffset": 475873,
     },
-    Object {
+    {
       "chunkOffset": 479264,
     },
-    Object {
+    {
       "chunkOffset": 480863,
     },
-    Object {
+    {
       "chunkOffset": 486136,
     },
-    Object {
+    {
       "chunkOffset": 488285,
     },
-    Object {
+    {
       "chunkOffset": 491423,
     },
-    Object {
+    {
       "chunkOffset": 495893,
     },
-    Object {
+    {
       "chunkOffset": 497959,
     },
-    Object {
+    {
       "chunkOffset": 502496,
     },
-    Object {
+    {
       "chunkOffset": 505999,
     },
-    Object {
+    {
       "chunkOffset": 511073,
     },
-    Object {
+    {
       "chunkOffset": 512871,
     },
-    Object {
+    {
       "chunkOffset": 518404,
     },
-    Object {
+    {
       "chunkOffset": 520423,
     },
-    Object {
+    {
       "chunkOffset": 523105,
     },
-    Object {
+    {
       "chunkOffset": 525843,
     },
-    Object {
+    {
       "chunkOffset": 530233,
     },
-    Object {
+    {
       "chunkOffset": 534015,
     },
-    Object {
+    {
       "chunkOffset": 535484,
     },
-    Object {
+    {
       "chunkOffset": 539268,
     },
-    Object {
+    {
       "chunkOffset": 544803,
     },
-    Object {
+    {
       "chunkOffset": 546678,
     },
-    Object {
+    {
       "chunkOffset": 547458,
     },
-    Object {
+    {
       "chunkOffset": 550142,
     },
-    Object {
+    {
       "chunkOffset": 551422,
     },
-    Object {
+    {
       "chunkOffset": 555620,
     },
-    Object {
+    {
       "chunkOffset": 556965,
     },
-    Object {
+    {
       "chunkOffset": 560726,
     },
-    Object {
+    {
       "chunkOffset": 562068,
     },
-    Object {
+    {
       "chunkOffset": 565796,
     },
-    Object {
+    {
       "chunkOffset": 567178,
     },
-    Object {
+    {
       "chunkOffset": 568615,
     },
-    Object {
+    {
       "chunkOffset": 569804,
     },
-    Object {
+    {
       "chunkOffset": 572525,
     },
-    Object {
+    {
       "chunkOffset": 574490,
     },
-    Object {
+    {
       "chunkOffset": 575961,
     },
-    Object {
+    {
       "chunkOffset": 577326,
     },
-    Object {
+    {
       "chunkOffset": 580900,
     },
-    Object {
+    {
       "chunkOffset": 582958,
     },
-    Object {
+    {
       "chunkOffset": 586546,
     },
-    Object {
+    {
       "chunkOffset": 588544,
     },
-    Object {
+    {
       "chunkOffset": 594591,
     },
-    Object {
+    {
       "chunkOffset": 598802,
     },
-    Object {
+    {
       "chunkOffset": 600227,
     },
-    Object {
+    {
       "chunkOffset": 602025,
     },
-    Object {
+    {
       "chunkOffset": 605768,
     },
-    Object {
+    {
       "chunkOffset": 608801,
     },
-    Object {
+    {
       "chunkOffset": 609623,
     },
-    Object {
+    {
       "chunkOffset": 611934,
     },
-    Object {
+    {
       "chunkOffset": 614445,
     },
-    Object {
+    {
       "chunkOffset": 617710,
     },
-    Object {
+    {
       "chunkOffset": 619613,
     },
-    Object {
+    {
       "chunkOffset": 622059,
     },
-    Object {
+    {
       "chunkOffset": 624238,
     },
-    Object {
+    {
       "chunkOffset": 627212,
     },
-    Object {
+    {
       "chunkOffset": 629600,
     },
-    Object {
+    {
       "chunkOffset": 632357,
     },
-    Object {
+    {
       "chunkOffset": 634906,
     },
-    Object {
+    {
       "chunkOffset": 637508,
     },
-    Object {
+    {
       "chunkOffset": 639561,
     },
-    Object {
+    {
       "chunkOffset": 642031,
     },
-    Object {
+    {
       "chunkOffset": 644058,
     },
   ],

@@ -31,22 +31,10 @@ test('PositionProvider', async () => {
       </PositionProvider>
     )
   })
-  expect(ctx).toMatchInlineSnapshot(`
-Object {
-  "helperImageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'></svg>",
-  "isFullWidth": false,
-  "updateVideoSize": [Function],
-}
-`)
+  expect(ctx).toMatchSnapshot()
   await act(async () => {
     // Provider 内使用了 raf 延迟更新状态
     await waitRAF()
   })
-  expect(ctx).toMatchInlineSnapshot(`
-  Object {
-    "helperImageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'></svg>",
-    "isFullWidth": true,
-    "updateVideoSize": [Function],
-  }
-  `)
+  expect(ctx).toMatchSnapshot()
 })

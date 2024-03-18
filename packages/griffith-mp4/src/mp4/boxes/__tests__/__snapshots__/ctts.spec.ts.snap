@@ -1,790 +1,790 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ctts box should get the ctts box tree 1`] = `
-Object {
+{
   "flags": 0,
-  "samples": Array [
-    Object {
+  "samples": [
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 5,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 3,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 6,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 6,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 4,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 3,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2048,
     },
-    Object {
+    {
       "sampleCount": 2,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 2560,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 0,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1024,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 1536,
     },
-    Object {
+    {
       "sampleCount": 1,
       "sampleOffset": 512,
     },
-    Object {
+    {
       "sampleCount": 19,
       "sampleOffset": 1024,
     },

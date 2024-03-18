@@ -1,761 +1,761 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`stsz box should get the stsz box tree 1`] = `
-Object {
+{
   "flags": 0,
   "sampleSize": 0,
-  "samples": Array [
-    Object {
+  "samples": [
+    {
       "entrySize": 7458,
     },
-    Object {
+    {
       "entrySize": 1435,
     },
-    Object {
+    {
       "entrySize": 37,
     },
-    Object {
+    {
       "entrySize": 18,
     },
-    Object {
+    {
       "entrySize": 38,
     },
-    Object {
+    {
       "entrySize": 137,
     },
-    Object {
+    {
       "entrySize": 2085,
     },
-    Object {
+    {
       "entrySize": 794,
     },
-    Object {
+    {
       "entrySize": 1665,
     },
-    Object {
+    {
       "entrySize": 833,
     },
-    Object {
+    {
       "entrySize": 47,
     },
-    Object {
+    {
       "entrySize": 1563,
     },
-    Object {
+    {
       "entrySize": 820,
     },
-    Object {
+    {
       "entrySize": 1779,
     },
-    Object {
+    {
       "entrySize": 1404,
     },
-    Object {
+    {
       "entrySize": 1528,
     },
-    Object {
+    {
       "entrySize": 415,
     },
-    Object {
+    {
       "entrySize": 1839,
     },
-    Object {
+    {
       "entrySize": 449,
     },
-    Object {
+    {
       "entrySize": 1685,
     },
-    Object {
+    {
       "entrySize": 419,
     },
-    Object {
+    {
       "entrySize": 1292,
     },
-    Object {
+    {
       "entrySize": 1510,
     },
-    Object {
+    {
       "entrySize": 343,
     },
-    Object {
+    {
       "entrySize": 2872,
     },
-    Object {
+    {
       "entrySize": 491,
     },
-    Object {
+    {
       "entrySize": 3111,
     },
-    Object {
+    {
       "entrySize": 757,
     },
-    Object {
+    {
       "entrySize": 2990,
     },
-    Object {
+    {
       "entrySize": 956,
     },
-    Object {
+    {
       "entrySize": 2909,
     },
-    Object {
+    {
       "entrySize": 483,
     },
-    Object {
+    {
       "entrySize": 2936,
     },
-    Object {
+    {
       "entrySize": 849,
     },
-    Object {
+    {
       "entrySize": 2326,
     },
-    Object {
+    {
       "entrySize": 93,
     },
-    Object {
+    {
       "entrySize": 3267,
     },
-    Object {
+    {
       "entrySize": 670,
     },
-    Object {
+    {
       "entrySize": 3304,
     },
-    Object {
+    {
       "entrySize": 2830,
     },
-    Object {
+    {
       "entrySize": 967,
     },
-    Object {
+    {
       "entrySize": 354,
     },
-    Object {
+    {
       "entrySize": 568,
     },
-    Object {
+    {
       "entrySize": 2419,
     },
-    Object {
+    {
       "entrySize": 552,
     },
-    Object {
+    {
       "entrySize": 492,
     },
-    Object {
+    {
       "entrySize": 3152,
     },
-    Object {
+    {
       "entrySize": 2089,
     },
-    Object {
+    {
       "entrySize": 2069,
     },
-    Object {
+    {
       "entrySize": 2078,
     },
-    Object {
+    {
       "entrySize": 2326,
     },
-    Object {
+    {
       "entrySize": 3901,
     },
-    Object {
+    {
       "entrySize": 913,
     },
-    Object {
+    {
       "entrySize": 4106,
     },
-    Object {
+    {
       "entrySize": 953,
     },
-    Object {
+    {
       "entrySize": 3400,
     },
-    Object {
+    {
       "entrySize": 663,
     },
-    Object {
+    {
       "entrySize": 418,
     },
-    Object {
+    {
       "entrySize": 3623,
     },
-    Object {
+    {
       "entrySize": 1361,
     },
-    Object {
+    {
       "entrySize": 667,
     },
-    Object {
+    {
       "entrySize": 82,
     },
-    Object {
+    {
       "entrySize": 4166,
     },
-    Object {
+    {
       "entrySize": 913,
     },
-    Object {
+    {
       "entrySize": 2238,
     },
-    Object {
+    {
       "entrySize": 454,
     },
-    Object {
+    {
       "entrySize": 2206,
     },
-    Object {
+    {
       "entrySize": 3711,
     },
-    Object {
+    {
       "entrySize": 2876,
     },
-    Object {
+    {
       "entrySize": 3807,
     },
-    Object {
+    {
       "entrySize": 1024,
     },
-    Object {
+    {
       "entrySize": 3593,
     },
-    Object {
+    {
       "entrySize": 2610,
     },
-    Object {
+    {
       "entrySize": 986,
     },
-    Object {
+    {
       "entrySize": 641,
     },
-    Object {
+    {
       "entrySize": 2123,
     },
-    Object {
+    {
       "entrySize": 4478,
     },
-    Object {
+    {
       "entrySize": 1098,
     },
-    Object {
+    {
       "entrySize": 4234,
     },
-    Object {
+    {
       "entrySize": 1497,
     },
-    Object {
+    {
       "entrySize": 3546,
     },
-    Object {
+    {
       "entrySize": 1028,
     },
-    Object {
+    {
       "entrySize": 5635,
     },
-    Object {
+    {
       "entrySize": 1914,
     },
-    Object {
+    {
       "entrySize": 3899,
     },
-    Object {
+    {
       "entrySize": 144,
     },
-    Object {
+    {
       "entrySize": 4076,
     },
-    Object {
+    {
       "entrySize": 1084,
     },
-    Object {
+    {
       "entrySize": 4476,
     },
-    Object {
+    {
       "entrySize": 1216,
     },
-    Object {
+    {
       "entrySize": 2843,
     },
-    Object {
+    {
       "entrySize": 788,
     },
-    Object {
+    {
       "entrySize": 3162,
     },
-    Object {
+    {
       "entrySize": 1153,
     },
-    Object {
+    {
       "entrySize": 2503,
     },
-    Object {
+    {
       "entrySize": 895,
     },
-    Object {
+    {
       "entrySize": 3231,
     },
-    Object {
+    {
       "entrySize": 1523,
     },
-    Object {
+    {
       "entrySize": 3142,
     },
-    Object {
+    {
       "entrySize": 1589,
     },
-    Object {
+    {
       "entrySize": 5360,
     },
-    Object {
+    {
       "entrySize": 1745,
     },
-    Object {
+    {
       "entrySize": 2741,
     },
-    Object {
+    {
       "entrySize": 661,
     },
-    Object {
+    {
       "entrySize": 3152,
     },
-    Object {
+    {
       "entrySize": 3586,
     },
-    Object {
+    {
       "entrySize": 1281,
     },
-    Object {
+    {
       "entrySize": 3872,
     },
-    Object {
+    {
       "entrySize": 1493,
     },
-    Object {
+    {
       "entrySize": 3045,
     },
-    Object {
+    {
       "entrySize": 99,
     },
-    Object {
+    {
       "entrySize": 3426,
     },
-    Object {
+    {
       "entrySize": 1246,
     },
-    Object {
+    {
       "entrySize": 3755,
     },
-    Object {
+    {
       "entrySize": 3351,
     },
-    Object {
+    {
       "entrySize": 1287,
     },
-    Object {
+    {
       "entrySize": 2098,
     },
-    Object {
+    {
       "entrySize": 3490,
     },
-    Object {
+    {
       "entrySize": 2956,
     },
-    Object {
+    {
       "entrySize": 1039,
     },
-    Object {
+    {
       "entrySize": 1969,
     },
-    Object {
+    {
       "entrySize": 3127,
     },
-    Object {
+    {
       "entrySize": 1830,
     },
-    Object {
+    {
       "entrySize": 1980,
     },
-    Object {
+    {
       "entrySize": 2868,
     },
-    Object {
+    {
       "entrySize": 5305,
     },
-    Object {
+    {
       "entrySize": 3740,
     },
-    Object {
+    {
       "entrySize": 1517,
     },
-    Object {
+    {
       "entrySize": 4145,
     },
-    Object {
+    {
       "entrySize": 4395,
     },
-    Object {
+    {
       "entrySize": 3885,
     },
-    Object {
+    {
       "entrySize": 702,
     },
-    Object {
+    {
       "entrySize": 2148,
     },
-    Object {
+    {
       "entrySize": 2192,
     },
-    Object {
+    {
       "entrySize": 3583,
     },
-    Object {
+    {
       "entrySize": 132,
     },
-    Object {
+    {
       "entrySize": 1736,
     },
-    Object {
+    {
       "entrySize": 1863,
     },
-    Object {
+    {
       "entrySize": 2372,
     },
-    Object {
+    {
       "entrySize": 504,
     },
-    Object {
+    {
       "entrySize": 2060,
     },
-    Object {
+    {
       "entrySize": 2607,
     },
-    Object {
+    {
       "entrySize": 4642,
     },
-    Object {
+    {
       "entrySize": 737,
     },
-    Object {
+    {
       "entrySize": 2158,
     },
-    Object {
+    {
       "entrySize": 425,
     },
-    Object {
+    {
       "entrySize": 3756,
     },
-    Object {
+    {
       "entrySize": 732,
     },
-    Object {
+    {
       "entrySize": 2786,
     },
-    Object {
+    {
       "entrySize": 385,
     },
-    Object {
+    {
       "entrySize": 5246,
     },
-    Object {
+    {
       "entrySize": 382,
     },
-    Object {
+    {
       "entrySize": 4530,
     },
-    Object {
+    {
       "entrySize": 359,
     },
-    Object {
+    {
       "entrySize": 337,
     },
-    Object {
+    {
       "entrySize": 2444,
     },
-    Object {
+    {
       "entrySize": 361,
     },
-    Object {
+    {
       "entrySize": 184,
     },
-    Object {
+    {
       "entrySize": 263,
     },
-    Object {
+    {
       "entrySize": 1784,
     },
-    Object {
+    {
       "entrySize": 304,
     },
-    Object {
+    {
       "entrySize": 54,
     },
-    Object {
+    {
       "entrySize": 200,
     },
-    Object {
+    {
       "entrySize": 1736,
     },
-    Object {
+    {
       "entrySize": 264,
     },
-    Object {
+    {
       "entrySize": 219,
     },
-    Object {
+    {
       "entrySize": 131,
     },
-    Object {
+    {
       "entrySize": 1167,
     },
-    Object {
+    {
       "entrySize": 180,
     },
-    Object {
+    {
       "entrySize": 80,
     },
-    Object {
+    {
       "entrySize": 34,
     },
-    Object {
+    {
       "entrySize": 862,
     },
-    Object {
+    {
       "entrySize": 218,
     },
-    Object {
+    {
       "entrySize": 74,
     },
-    Object {
+    {
       "entrySize": 134,
     },
-    Object {
+    {
       "entrySize": 3267,
     },
-    Object {
+    {
       "entrySize": 199,
     },
-    Object {
+    {
       "entrySize": 34,
     },
-    Object {
+    {
       "entrySize": 893,
     },
-    Object {
+    {
       "entrySize": 186,
     },
-    Object {
+    {
       "entrySize": 109,
     },
-    Object {
+    {
       "entrySize": 24,
     },
-    Object {
+    {
       "entrySize": 3088,
     },
-    Object {
+    {
       "entrySize": 257,
     },
-    Object {
+    {
       "entrySize": 594,
     },
-    Object {
+    {
       "entrySize": 83,
     },
-    Object {
+    {
       "entrySize": 2628,
     },
-    Object {
+    {
       "entrySize": 2090,
     },
-    Object {
+    {
       "entrySize": 2803,
     },
-    Object {
+    {
       "entrySize": 3019,
     },
-    Object {
+    {
       "entrySize": 856,
     },
-    Object {
+    {
       "entrySize": 4530,
     },
-    Object {
+    {
       "entrySize": 1406,
     },
-    Object {
+    {
       "entrySize": 2767,
     },
-    Object {
+    {
       "entrySize": 3713,
     },
-    Object {
+    {
       "entrySize": 1337,
     },
-    Object {
+    {
       "entrySize": 4165,
     },
-    Object {
+    {
       "entrySize": 2760,
     },
-    Object {
+    {
       "entrySize": 4296,
     },
-    Object {
+    {
       "entrySize": 1090,
     },
-    Object {
+    {
       "entrySize": 5148,
     },
-    Object {
+    {
       "entrySize": 1289,
     },
-    Object {
+    {
       "entrySize": 1939,
     },
-    Object {
+    {
       "entrySize": 2367,
     },
-    Object {
+    {
       "entrySize": 3647,
     },
-    Object {
+    {
       "entrySize": 3039,
     },
-    Object {
+    {
       "entrySize": 726,
     },
-    Object {
+    {
       "entrySize": 3412,
     },
-    Object {
+    {
       "entrySize": 4792,
     },
-    Object {
+    {
       "entrySize": 1132,
     },
-    Object {
+    {
       "entrySize": 37,
     },
-    Object {
+    {
       "entrySize": 2312,
     },
-    Object {
+    {
       "entrySize": 537,
     },
-    Object {
+    {
       "entrySize": 3455,
     },
-    Object {
+    {
       "entrySize": 974,
     },
-    Object {
+    {
       "entrySize": 2997,
     },
-    Object {
+    {
       "entrySize": 620,
     },
-    Object {
+    {
       "entrySize": 2985,
     },
-    Object {
+    {
       "entrySize": 1010,
     },
-    Object {
+    {
       "entrySize": 694,
     },
-    Object {
+    {
       "entrySize": 446,
     },
-    Object {
+    {
       "entrySize": 2350,
     },
-    Object {
+    {
       "entrySize": 1222,
     },
-    Object {
+    {
       "entrySize": 718,
     },
-    Object {
+    {
       "entrySize": 632,
     },
-    Object {
+    {
       "entrySize": 3202,
     },
-    Object {
+    {
       "entrySize": 1315,
     },
-    Object {
+    {
       "entrySize": 2845,
     },
-    Object {
+    {
       "entrySize": 1182,
     },
-    Object {
+    {
       "entrySize": 5748,
     },
-    Object {
+    {
       "entrySize": 3468,
     },
-    Object {
+    {
       "entrySize": 682,
     },
-    Object {
+    {
       "entrySize": 1427,
     },
-    Object {
+    {
       "entrySize": 3000,
     },
-    Object {
+    {
       "entrySize": 2290,
     },
-    Object {
+    {
       "entrySize": 79,
     },
-    Object {
+    {
       "entrySize": 1939,
     },
-    Object {
+    {
       "entrySize": 1768,
     },
-    Object {
+    {
       "entrySize": 2522,
     },
-    Object {
+    {
       "entrySize": 1532,
     },
-    Object {
+    {
       "entrySize": 1703,
     },
-    Object {
+    {
       "entrySize": 1435,
     },
-    Object {
+    {
       "entrySize": 2231,
     },
-    Object {
+    {
       "entrySize": 2017,
     },
-    Object {
+    {
       "entrySize": 2014,
     },
-    Object {
+    {
       "entrySize": 1758,
     },
-    Object {
+    {
       "entrySize": 1907,
     },
-    Object {
+    {
       "entrySize": 1681,
     },
-    Object {
+    {
       "entrySize": 1727,
     },
-    Object {
+    {
       "entrySize": 1284,
     },
-    Object {
+    {
       "entrySize": 1270,
     },
   ],

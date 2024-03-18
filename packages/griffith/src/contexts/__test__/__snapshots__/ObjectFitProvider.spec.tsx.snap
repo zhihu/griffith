@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectFitProvider 1`] = `
+[
+  "contain",
+  "fill",
+  "cover",
+]
+`;

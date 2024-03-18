@@ -6,21 +6,20 @@ exports[`MinimalTimeline get MinimalTimeline component 1`] = `
     class="root_17bkmwy-o_O-root_1u52a97-o_O-root_3hmsj-o_O-root_qckecg"
     role="slider"
   >
-    <div class="inner_9gm5i8-o_O-inner_qb00m9">
+    <div
+      class="inner_9gm5i8-o_O-inner_qb00m9"
+    >
       <div
-        class="
-          track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7-o_O-track_1h7ofbx
-        "
+        class="track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7-o_O-track_1h7ofbx"
       >
         <div
           class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
-          style="width: 100%; transform: scaleX(0); transform-origin: left"
-        ></div>
+          style="width: 100%; transform: scaleX(0); transform-origin: left;"
+        />
       </div>
     </div>
   </div>
 </div>
-
 `;
 
 exports[`MinimalTimeline get MinimalTimeline component 2`] = `
@@ -29,23 +28,18 @@ exports[`MinimalTimeline get MinimalTimeline component 2`] = `
     class="root_17bkmwy-o_O-root_1u52a97-o_O-root_3hmsj-o_O-root_qckecg"
     role="slider"
   >
-    <div class="inner_9gm5i8-o_O-inner_qb00m9">
+    <div
+      class="inner_9gm5i8-o_O-inner_qb00m9"
+    >
       <div
-        class="
-          track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7-o_O-track_1h7ofbx
-        "
+        class="track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7-o_O-track_1h7ofbx"
       >
         <div
           class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
-          style="
-            width: 100%;
-            transform: scaleX(0.3292470120833653);
-            transform-origin: left;
-          "
-        ></div>
+          style="width: 100%; transform: scaleX(0.3292470120833653); transform-origin: left;"
+        />
       </div>
     </div>
   </div>
 </div>
-
 `;

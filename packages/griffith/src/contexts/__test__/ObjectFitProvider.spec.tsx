@@ -38,11 +38,5 @@ test('ObjectFitProvider', () => {
     )
   })
 
-  expect(values).toMatchInlineSnapshot(`
-  Array [
-    "contain",
-    "fill",
-    "cover",
-  ]
-  `)
+  expect(values).toMatchSnapshot()
 })

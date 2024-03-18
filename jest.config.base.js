@@ -10,5 +10,4 @@ module.exports = {
     '!src/**/types.ts',
   ],
   testPathIgnorePatterns: ['/__mocks__/'],
-  snapshotSerializers: [require.resolve('./jest/prettier-dom.js')],
 }

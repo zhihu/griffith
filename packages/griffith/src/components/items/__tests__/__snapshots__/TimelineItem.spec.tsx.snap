@@ -2,48 +2,43 @@
 
 exports[`TimelineItem get TimelineItem component 1`] = `
 <div>
-  <div class="timeline_bc4egv">
-    <div class="root_3hmsj">
+  <div
+    class="timeline_bc4egv"
+  >
+    <div
+      class="root_3hmsj"
+    >
       <div
         class="root_17bkmwy-o_O-root_1u52a97-o_O-root_3hmsj"
-        tabindex="0"
         role="slider"
+        tabindex="0"
       >
-        <div class="inner_9gm5i8-o_O-inner_qb00m9">
-          <div class="track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7">
+        <div
+          class="inner_9gm5i8-o_O-inner_qb00m9"
+        >
+          <div
+            class="track_1bopucd-o_O-track_2wh41e-o_O-track_1q3h7g7"
+          >
             <div
-              class="
-                bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw-o_O-buffered_gsgvhl
-              "
-              style="
-                width: 100%;
-                transform: scaleX(0.06417112299465241);
-                transform-origin: left;
-              "
-            ></div>
+              class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw-o_O-buffered_gsgvhl"
+              style="width: 100%; transform: scaleX(0.06417112299465241); transform-origin: left;"
+            />
             <div
               class="bar_1kpj1ed-o_O-bar_g2nzkb-o_O-bar_1kvrquw"
-              style="
-                width: 100%;
-                transform: scaleX(0.0374331550802139);
-                transform-origin: left;
-              "
-            ></div>
+              style="width: 100%; transform: scaleX(0.0374331550802139); transform-origin: left;"
+            />
           </div>
           <div
             class="thumbWrapper_ay4wjb-o_O-thumbWrapper_6t4rjm"
-            style="
-              width: 100%;
-              transform: translateX(3.7433155080213902%);
-              transform-origin: left;
-            "
+            style="width: 100%; transform: translateX(3.7433155080213902%); transform-origin: left;"
           >
-            <div class="thumb_ozdqky-o_O-thumb_1omjhz8"></div>
+            <div
+              class="thumb_ozdqky-o_O-thumb_1omjhz8"
+            />
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 `;

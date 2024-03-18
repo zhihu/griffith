@@ -20,7 +20,7 @@ exports[`VolumeSlider get VolumeSlider component 1`] = `
         <div
           className="bar_1kpj1ed-o_O-bar_1ql2ook"
           style={
-            Object {
+            {
               "height": "100%",
               "transform": "scaleY(0.5)",
               "transformOrigin": "bottom",
@@ -31,7 +31,7 @@ exports[`VolumeSlider get VolumeSlider component 1`] = `
       <div
         className="thumbWrapper_ay4wjb-o_O-thumbWrapper_drkmbm"
         style={
-          Object {
+          {
             "height": "100%",
             "transform": "translateY(50%)",
             "transformOrigin": "bottom",

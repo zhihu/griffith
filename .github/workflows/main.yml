@@ -27,7 +27,7 @@ jobs:
           corepack enable
           yarn
           yarn build
-          yarn jest --coverage
+          yarn test:coverage
       - name: report
         uses: coverallsapp/github-action@v2
         with:

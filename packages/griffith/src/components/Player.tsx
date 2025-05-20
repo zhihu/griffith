@@ -679,7 +679,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
               )}
             </ObjectFitContext.Consumer>
           )}
-          {duration && currentTime === 0 && (
+          {duration !== 0 && currentTime === 0 && (
             <div
               className={css(
                 styles.coverTime,

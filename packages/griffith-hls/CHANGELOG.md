@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://github.com/zhihu/griffith/compare/v1.31.0...v1.32.0) (2025-05-20)
+
+
+### Features
+
+* add react 18 to version range ([eb6a23e](https://github.com/zhihu/griffith/commit/eb6a23eda6d4c7e66e68c14daebfadd92edf5eb3))
+
+
+
+
+
 ## [1.26.1](https://github.com/zhihu/griffith/compare/v1.26.0...v1.26.1) (2022-08-03)
 
 

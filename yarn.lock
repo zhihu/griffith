@@ -5118,7 +5118,7 @@ __metadata:
   resolution: "example@workspace:example"
   dependencies:
     "@vitejs/plugin-react": "npm:^4.2.1"
-    griffith: "npm:^1.31.0"
+    griffith: "npm:^1.32.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-router-dom: "npm:^6.22.3"
@@ -5855,7 +5855,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"griffith-hls@npm:^1.26.1, griffith-hls@workspace:packages/griffith-hls":
+"griffith-hls@npm:^1.32.0, griffith-hls@workspace:packages/griffith-hls":
   version: 0.0.0-use.local
   resolution: "griffith-hls@workspace:packages/griffith-hls"
   dependencies:
@@ -5872,7 +5872,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"griffith-mp4@npm:^1.23.0, griffith-mp4@workspace:packages/griffith-mp4":
+"griffith-mp4@npm:^1.32.0, griffith-mp4@workspace:packages/griffith-mp4":
   version: 0.0.0-use.local
   resolution: "griffith-mp4@workspace:packages/griffith-mp4"
   dependencies:
@@ -5888,7 +5888,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "griffith-standalone@workspace:packages/griffith-standalone"
   dependencies:
-    griffith: "npm:^1.31.0"
+    griffith: "npm:^1.32.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
   languageName: unknown
@@ -5900,7 +5900,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"griffith@npm:^1.31.0, griffith@workspace:packages/griffith":
+"griffith@npm:^1.32.0, griffith@workspace:packages/griffith":
   version: 0.0.0-use.local
   resolution: "griffith@workspace:packages/griffith"
   dependencies:
@@ -5908,9 +5908,9 @@ __metadata:
     "@types/react": "npm:^17.0.21"
     aphrodite: "npm:^2.4.0"
     eventemitter3: "npm:^3.1.0"
-    griffith-hls: "npm:^1.26.1"
+    griffith-hls: "npm:^1.32.0"
     griffith-message: "npm:^1.30.0"
-    griffith-mp4: "npm:^1.23.0"
+    griffith-mp4: "npm:^1.32.0"
     griffith-utils: "npm:^1.23.0"
     isomorphic-bigscreen: "npm:2.0.5"
     jest-localstorage-mock: "npm:^2.4.0"

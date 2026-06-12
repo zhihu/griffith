@@ -30,6 +30,7 @@ import {
   ProgressValue,
   RealQuality,
   QualityOrder,
+  VideoPlugin,
 } from '../types'
 import formatDuration from '../utils/formatDuration'
 import getBufferedTime from '../utils/getBufferedTime'
@@ -88,6 +89,8 @@ type InnerPlayerProps = {
   layerContent?: React.ReactNode
   crossOrigin?: string | undefined
   customHeaders?: Record<string, string>
+  /** 自定义 MP4 MSE 播放插件，结构同 griffith-mp4 默认导出 */
+  customPlayer?: VideoPlugin
 }
 
 // 仅供 Provider 使用的属性
@@ -147,6 +150,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   layerContent,
   crossOrigin,
   customHeaders,
+  customPlayer,
 }) => {
   const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
   const {currentSrc, sources} = useContext(VideoSourceContext)
@@ -668,6 +672,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
           useMSE={useMSE}
           useAutoQuality={useAutoQuality}
           customHeaders={customHeaders}
+          customPlayer={customPlayer}
         />
       </div>
       {hideMobileControls && isPlaybackStarted && isLoading && (

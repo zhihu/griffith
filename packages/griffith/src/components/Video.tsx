@@ -2,7 +2,13 @@ import React, {Component} from 'react'
 import {css} from 'aphrodite/no-important'
 import {EVENTS} from 'griffith-message'
 import {logger, ua} from 'griffith-utils'
-import {PlaybackRate, Quality, PlaySource, ProgressValue} from '../types'
+import {
+  PlaybackRate,
+  Quality,
+  PlaySource,
+  ProgressValue,
+  VideoPlugin,
+} from '../types'
 import VideoSourceContext from '../contexts/VideoSourceContext'
 import VideoWithMessage, {VideoComponentType} from './VideoWithMessage'
 import selectVideo from './selectVideo'
@@ -36,6 +42,7 @@ type VideoProps = NativeVideoProps & {
   currentPlaybackRate: PlaybackRate
   useAutoQuality?: boolean
   customHeaders?: Record<string, string>
+  customPlayer?: VideoPlugin
 }
 
 class Video extends Component<VideoProps> {
@@ -76,6 +83,7 @@ class Video extends Component<VideoProps> {
       currentPlaybackRate,
       currentQuality,
       onEvent,
+      customPlayer,
     } = this.props
 
     /**
@@ -85,7 +93,7 @@ class Video extends Component<VideoProps> {
     if (prevProps.src && src !== prevProps.src) {
       this.isSwitchDefinition = true
       onEvent(EVENTS.CHANGE_QUALITY_START, currentQuality)
-      const {willHandleSrcChange} = selectVideo(format, useMSE)
+      const {willHandleSrcChange} = selectVideo(format, useMSE, customPlayer)
       // TODO 这一块逻辑需要 Video 自己处理
       if (!willHandleSrcChange) {
         this.safeExecute(() => {
@@ -345,9 +353,10 @@ class Video extends Component<VideoProps> {
       currentQuality,
       crossOrigin,
       customHeaders,
+      customPlayer,
     } = this.props
 
-    const {VideoComponent} = selectVideo(format, useMSE)
+    const {VideoComponent} = selectVideo(format, useMSE, customPlayer)
 
     return (
       <VideoWithMessage

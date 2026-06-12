@@ -35,6 +35,7 @@ type VideoProps = NativeVideoProps & {
   onEvent: (name: EVENTS, data?: unknown) => void
   currentPlaybackRate: PlaybackRate
   useAutoQuality?: boolean
+  customHeaders?: Record<string, string>
 }
 
 class Video extends Component<VideoProps> {
@@ -343,6 +344,7 @@ class Video extends Component<VideoProps> {
       sources,
       currentQuality,
       crossOrigin,
+      customHeaders,
     } = this.props
 
     const {VideoComponent} = selectVideo(format, useMSE)
@@ -357,6 +359,7 @@ class Video extends Component<VideoProps> {
         preload="metadata"
         playsInline
         crossOrigin={crossOrigin}
+        customHeaders={customHeaders}
         webkit-playsinline=""
         x-webkit-airplay="deny"
         muted={!volume}

@@ -41,7 +41,9 @@ function getMediaEventPayload(event: VideoEvent): DOMEventParams {
   }
 }
 
-export type VideoComponentType = React.ComponentType<NativeVideoProps>
+export type VideoComponentType = React.ComponentType<
+  NativeVideoProps & {customHeaders?: Record<string, string>}
+>
 
 type VideoWithMessageProps = NativeVideoProps & {
   onNativeEvent?: (event: VideoEvent) => void

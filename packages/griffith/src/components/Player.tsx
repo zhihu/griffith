@@ -87,6 +87,7 @@ type InnerPlayerProps = {
   noWriteDocTitle?: boolean
   layerContent?: React.ReactNode
   crossOrigin?: string | undefined
+  customHeaders?: Record<string, string>
 }
 
 // 仅供 Provider 使用的属性
@@ -145,6 +146,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   noWriteDocTitle,
   layerContent,
   crossOrigin,
+  customHeaders,
 }) => {
   const {emitEvent, subscribeAction} = useContext(InternalMessageContext)
   const {currentSrc, sources} = useContext(VideoSourceContext)
@@ -171,6 +173,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
   const [pressed, pressedSwitch] = useBoolean()
   const [isPageFullScreen, isPageFullScreenSwitch] = useBoolean()
   const [isLoading, isLoadingSwitch] = useBoolean()
+  const [isCoverLoaded, isCoverLoadedSwitch] = useBoolean(!cover)
   const pipRef = useRef<InstanceType<typeof Pip>>()
 
   useEffect(() => {
@@ -178,6 +181,14 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       setDuration(durationProp)
     }
   }, [duration, durationProp])
+
+  useEffect(() => {
+    if (cover) {
+      isCoverLoadedSwitch.off()
+    } else {
+      isCoverLoadedSwitch.on()
+    }
+  }, [cover])
 
   useMount(() => {
     const historyVolume = storage.get('@griffith/history-volume')
@@ -656,6 +667,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
           onEvent={emitEvent as any}
           useMSE={useMSE}
           useAutoQuality={useAutoQuality}
+          customHeaders={customHeaders}
         />
       </div>
       {hideMobileControls && isPlaybackStarted && isLoading && (
@@ -666,7 +678,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
       {!hideCover && (
         <div
           className={css(styles.cover, !isPlaybackStarted && styles.coverShown)}
-          onClick={() => handlePlay()}
+          onClick={() => isCoverLoaded && handlePlay()}
         >
           {cover && (
             <ObjectFitContext.Consumer>
@@ -675,9 +687,21 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
                   className={css(styles.coverImage)}
                   src={cover}
                   style={{objectFit}}
+                  onLoad={() => isCoverLoadedSwitch.on()}
+                  onError={() => isCoverLoadedSwitch.on()}
+                  ref={(node) => {
+                    if (node && node.complete && node.naturalWidth > 0) {
+                      isCoverLoadedSwitch.on()
+                    }
+                  }}
                 />
               )}
             </ObjectFitContext.Consumer>
+          )}
+          {cover && !isCoverLoaded && (
+            <div className={css(styles.loader)}>
+              <Loader />
+            </div>
           )}
           {duration !== 0 && currentTime === 0 && (
             <div
@@ -690,7 +714,7 @@ const InnerPlayer: React.FC<InnerPlayerProps> = ({
             </div>
           )}
           {/* 只有在第一次未播放时展示播放按钮，播放结束全部展示重播按钮 */}
-          {isNeverPlayed && (
+          {isNeverPlayed && isCoverLoaded && (
             <div className={css(styles.coverAction)}>
               <div className={css(styles.actionButton)}>
                 <Icon icon={displayIcons.play} styles={styles.actionIcon} />
